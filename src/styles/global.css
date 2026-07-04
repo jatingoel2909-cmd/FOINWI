@@ -39,9 +39,17 @@ body {
   z-index: 10;
 }
 
+.shrix-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .shrix-brand img {
-  width: 230px;
-  height: 110px;
+  display: block;
+  height: 92px;
+  width: auto;
+  max-width: min(280px, 36vw);
   object-fit: contain;
   object-position: left center;
 }
@@ -310,8 +318,8 @@ body {
   }
 
   .shrix-brand img {
-    width: 150px;
-    height: 76px;
+    height: 72px;
+    max-width: 200px;
   }
 
   .shrix-nav-links,
@@ -353,7 +361,8 @@ body {
   }
 
   .shrix-brand img {
-    width: 120px;
+    height: 60px;
+    max-width: 160px;
   }
 }
 

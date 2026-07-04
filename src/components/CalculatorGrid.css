@@ -61,6 +61,23 @@
   cursor: pointer;
 }
 
+.shrix-card-link {
+  display: inline-block;
+  margin-top: 14px;
+  background: none;
+  border: none;
+  color: #d4af37;
+  font-weight: 900;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.shrix-card-link:hover {
+  color: #f5c542;
+}
+
 @media (max-width: 1000px) {
   .calculator-grid {
     grid-template-columns: repeat(2, 1fr);
