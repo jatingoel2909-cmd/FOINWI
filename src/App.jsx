@@ -14,6 +14,9 @@ import EpfCalculatorPage from "./pages/EpfCalculatorPage";
 import NpsCalculatorPage from "./pages/NpsCalculatorPage";
 import GoalPlannerCalculatorPage from "./pages/GoalPlannerCalculatorPage";
 import CalculatorsPage from "./pages/CalculatorsPage";
+import LearnPage from "./pages/LearnPage";
+import AiToolsPage from "./pages/AiToolsPage";
+import AboutPage from "./pages/AboutPage";
 import RetirementCalculatorPage from "./pages/RetirementCalculatorPage";
 
 function App() {
@@ -22,6 +25,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/calculators" element={<CalculatorsPage />} />
+        <Route path="/learn" element={<LearnPage />} />
+        <Route path="/ai-tools" element={<AiToolsPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/sip-calculator" element={<SipCalculatorPage />} />
         <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
         <Route path="/fd-calculator" element={<FdCalculatorPage />} />

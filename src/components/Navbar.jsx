@@ -1,5 +1,5 @@
 import logo from "../assets/shrix-logo.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navigateToHomeSection } from "../utils/homeNavigation";
 import "./Navbar.css";
 
@@ -7,9 +7,9 @@ function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const handleSectionClick = (event, id) => {
+  const handleContactClick = (event) => {
     event.preventDefault();
-    navigateToHomeSection(navigate, pathname, id);
+    navigateToHomeSection(navigate, pathname, "contact");
   };
 
   return (
@@ -19,15 +19,11 @@ function Navbar() {
       </div>
 
       <nav className="shrix-nav-links">
-        <a href="#calculators" onClick={(e) => handleSectionClick(e, "calculators")}>
-          Calculators
-        </a>
-        <a href="#">Learn</a>
-        <a href="#">AI Tools</a>
-        <a href="#about" onClick={(e) => handleSectionClick(e, "about")}>
-          About
-        </a>
-        <a href="#contact" onClick={(e) => handleSectionClick(e, "contact")}>
+        <Link to="/calculators">Calculators</Link>
+        <Link to="/learn">Learn</Link>
+        <Link to="/ai-tools">AI Tools</Link>
+        <Link to="/about">About</Link>
+        <a href="#contact" onClick={handleContactClick}>
           Contact
         </a>
       </nav>

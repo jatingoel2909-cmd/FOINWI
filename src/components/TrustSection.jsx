@@ -1,6 +1,6 @@
 function TrustSection() {
   const data = [
-    ["20+", "Financial Tools"],
+    ["Top 20", "Financial Tools"],
     ["100%", "Free to Use"],
     ["Instant", "Results"],
     ["India", "Focused"],

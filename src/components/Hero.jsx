@@ -24,9 +24,6 @@ function Hero() {
           <button type="button" className="shrix-primary" onClick={scrollToCalculators}>
             Explore Calculators
           </button>
-          <button type="button" className="shrix-secondary" onClick={scrollToCalculators}>
-            View Tools
-          </button>
         </div>
       </div>
 

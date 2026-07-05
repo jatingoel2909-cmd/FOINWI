@@ -38,6 +38,7 @@
   font-size: 17px;
   cursor: pointer;
   transition: 0.25s ease;
+  text-decoration: none;
 }
 
 .shrix-nav-links a:hover {
