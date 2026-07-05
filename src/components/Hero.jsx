@@ -1,4 +1,10 @@
+import { scrollToSection } from "../utils/homeNavigation";
+
 function Hero() {
+  const scrollToCalculators = () => {
+    scrollToSection("calculators");
+  };
+
   return (
     <section className="shrix-hero">
       <div className="shrix-hero-left">
@@ -15,8 +21,12 @@ function Hero() {
         </p>
 
         <div className="shrix-hero-actions">
-          <button className="shrix-primary">Explore Calculators</button>
-          <button className="shrix-secondary">View Tools</button>
+          <button type="button" className="shrix-primary" onClick={scrollToCalculators}>
+            Explore Calculators
+          </button>
+          <button type="button" className="shrix-secondary" onClick={scrollToCalculators}>
+            View Tools
+          </button>
         </div>
       </div>
 

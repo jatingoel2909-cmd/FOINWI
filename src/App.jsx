@@ -13,6 +13,7 @@ import GratuityCalculatorPage from "./pages/GratuityCalculatorPage";
 import EpfCalculatorPage from "./pages/EpfCalculatorPage";
 import NpsCalculatorPage from "./pages/NpsCalculatorPage";
 import GoalPlannerCalculatorPage from "./pages/GoalPlannerCalculatorPage";
+import CalculatorsPage from "./pages/CalculatorsPage";
 import RetirementCalculatorPage from "./pages/RetirementCalculatorPage";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/calculators" element={<CalculatorsPage />} />
         <Route path="/sip-calculator" element={<SipCalculatorPage />} />
         <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
         <Route path="/fd-calculator" element={<FdCalculatorPage />} />
