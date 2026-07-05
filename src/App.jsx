@@ -8,6 +8,12 @@ import CagrCalculatorPage from "./pages/CagrCalculatorPage";
 import LumpsumCalculatorPage from "./pages/LumpsumCalculatorPage";
 import SwpCalculatorPage from "./pages/SwpCalculatorPage";
 import RdCalculatorPage from "./pages/RdCalculatorPage";
+import InflationCalculatorPage from "./pages/InflationCalculatorPage";
+import GratuityCalculatorPage from "./pages/GratuityCalculatorPage";
+import EpfCalculatorPage from "./pages/EpfCalculatorPage";
+import NpsCalculatorPage from "./pages/NpsCalculatorPage";
+import GoalPlannerCalculatorPage from "./pages/GoalPlannerCalculatorPage";
+import RetirementCalculatorPage from "./pages/RetirementCalculatorPage";
 
 function App() {
   return (
@@ -22,6 +28,12 @@ function App() {
         <Route path="/lumpsum-calculator" element={<LumpsumCalculatorPage />} />
         <Route path="/swp-calculator" element={<SwpCalculatorPage />} />
         <Route path="/rd-calculator" element={<RdCalculatorPage />} />
+        <Route path="/inflation-calculator" element={<InflationCalculatorPage />} />
+        <Route path="/gratuity-calculator" element={<GratuityCalculatorPage />} />
+        <Route path="/epf-calculator" element={<EpfCalculatorPage />} />
+        <Route path="/nps-calculator" element={<NpsCalculatorPage />} />
+        <Route path="/goal-planner" element={<GoalPlannerCalculatorPage />} />
+        <Route path="/retirement-calculator" element={<RetirementCalculatorPage />} />
       </Routes>
     </BrowserRouter>
   );

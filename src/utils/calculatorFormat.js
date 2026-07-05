@@ -18,6 +18,9 @@ export function formatDisplayValue(value, format) {
   if (format === "years") {
     return `${value} ${value === 1 ? "year" : "years"}`;
   }
+  if (format === "number") {
+    return new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(value);
+  }
   return String(value);
 }
 

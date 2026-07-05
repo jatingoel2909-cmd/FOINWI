@@ -178,6 +178,37 @@
   font-size: 28px;
 }
 
+.calc-formula {
+  background: #111;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 20px;
+  padding: 22px 24px;
+}
+
+.calc-formula__title {
+  color: #d4af37;
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 12px;
+}
+
+.calc-formula__text {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 10px;
+  font-family: inherit;
+}
+
+.calc-formula__note {
+  color: #b8b8b8;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
 @keyframes calcFadeUp {
   from {
     opacity: 0;

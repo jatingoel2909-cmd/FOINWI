@@ -9,6 +9,7 @@ function CalculatorLayout({
   className = "",
   form,
   results,
+  formula,
 }) {
   return (
     <section
@@ -25,6 +26,7 @@ function CalculatorLayout({
       <div className="calc-layout__body">
         <div className="calc-layout__form">{form}</div>
         <div className="calc-layout__results">{results}</div>
+        {formula}
       </div>
     </section>
   );
