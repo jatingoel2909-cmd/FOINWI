@@ -1,4 +1,4 @@
-import logo from "../assets/shrix-icon.png";
+import logo from "../assets/shrix-logo.png";
 
 const socialLinks = [
   {
