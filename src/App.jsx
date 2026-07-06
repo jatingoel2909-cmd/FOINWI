@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./pages/Home";
 import SipCalculatorPage from "./pages/SipCalculatorPage";
 import EmiCalculatorPage from "./pages/EmiCalculatorPage";
@@ -28,6 +29,7 @@ import CompoundInterestCalculatorPage from "./pages/CompoundInterestCalculatorPa
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/calculators" element={<CalculatorsPage />} />
