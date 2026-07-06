@@ -27,8 +27,6 @@ function Navbar() {
           Contact
         </a>
       </nav>
-
-      <button className="shrix-nav-btn">Get Started</button>
     </header>
   );
 }

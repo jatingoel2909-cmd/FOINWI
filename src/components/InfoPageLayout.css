@@ -1,11 +1,11 @@
 .shrix-info-page {
   padding: 90px max(32px, calc((100vw - 1280px) / 2)) 100px;
-  background: #080808;
-  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  background: var(--fw-bg-page);
+  border-top: 1px solid var(--fw-border);
 }
 
 .shrix-info-page--alt {
-  background: #050505;
+  background: var(--fw-bg-page-alt);
 }
 
 .shrix-info-page h1 {
@@ -13,10 +13,11 @@
   margin: 10px 0 18px;
   line-height: 1.1;
   letter-spacing: -1px;
+  color: var(--fw-text-primary);
 }
 
 .shrix-info-page__subtitle {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   font-size: 18px;
   line-height: 1.7;
   max-width: 760px;
@@ -34,14 +35,14 @@
 }
 
 .shrix-info-section__title {
-  color: #ffffff;
+  color: var(--fw-text-primary);
   font-size: clamp(24px, 3vw, 32px);
   margin: 0;
   letter-spacing: -0.5px;
 }
 
 .shrix-info-section__intro {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   font-size: 17px;
   line-height: 1.65;
   max-width: 720px;
@@ -49,10 +50,12 @@
 }
 
 .shrix-info-card {
-  background: #111;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: var(--fw-bg-surface);
+  border: 1px solid var(--fw-border-strong);
   border-radius: 20px;
   padding: 24px 26px;
+  box-shadow: var(--fw-shadow-card);
+  backdrop-filter: blur(6px);
 }
 
 .shrix-info-card--wide {
@@ -60,18 +63,19 @@
 }
 
 .shrix-info-card--highlight {
-  border-color: rgba(212, 175, 55, 0.55);
-  background: linear-gradient(145deg, #121212 0%, #0d0d0d 100%);
+  border-color: var(--fw-accent-bright);
+  background: var(--fw-highlight-bg);
+  box-shadow: var(--fw-shadow-soft);
 }
 
 .shrix-info-card h3 {
-  color: #d4af37;
+  color: var(--fw-accent);
   font-size: 20px;
   margin: 0 0 10px;
 }
 
 .shrix-info-card p {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   line-height: 1.65;
   margin: 0;
 }
@@ -85,28 +89,29 @@
   margin-top: 12px;
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  color: #d4af37;
+  border: 1px solid var(--fw-border);
+  color: var(--fw-accent);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  background: rgba(212, 175, 55, 0.08);
 }
 
 .shrix-info-disclaimer {
-  color: #d4af37;
+  color: var(--fw-accent);
   font-size: 16px;
   line-height: 1.65;
   max-width: 820px;
   margin: 0;
   padding: 18px 22px;
   border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid var(--fw-border-strong);
+  background: rgba(212, 175, 55, 0.08);
 }
 
 .shrix-info-copy {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   font-size: 18px;
   line-height: 1.75;
   max-width: 820px;
@@ -139,15 +144,15 @@
 .shrix-info-tags li {
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  color: #d4af37;
+  border: 1px solid var(--fw-border);
+  color: var(--fw-accent);
   font-size: 13px;
   font-weight: 700;
-  background: rgba(212, 175, 55, 0.06);
+  background: rgba(212, 175, 55, 0.08);
 }
 
 .shrix-info-list {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   line-height: 1.75;
   margin: 12px 0 0;
   padding-left: 20px;

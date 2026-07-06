@@ -1,5 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap");
 
+:root {
+  --fw-bg-page: #f3ebe1;
+  --fw-bg-page-alt: #ebe1d4;
+  --fw-bg-surface: rgba(255, 252, 247, 0.92);
+  --fw-bg-surface-alt: #fffaf5;
+  --fw-bg-hero: radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.14), transparent 36%),
+    linear-gradient(180deg, #f5ebe0 0%, #e8ddd0 100%);
+  --fw-text-primary: #3d3428;
+  --fw-text-secondary: #5c4f42;
+  --fw-text-muted: #7a6e60;
+  --fw-text-on-accent: #3d3428;
+  --fw-accent: #a67c00;
+  --fw-accent-bright: #c9a227;
+  --fw-border: rgba(166, 124, 0, 0.2);
+  --fw-border-strong: rgba(201, 162, 39, 0.4);
+  --fw-shadow-soft: 0 10px 32px rgba(61, 52, 40, 0.08);
+  --fw-shadow-card: 0 6px 22px rgba(61, 52, 40, 0.07);
+  --fw-input-bg: rgba(255, 252, 247, 0.95);
+  --fw-highlight-bg: linear-gradient(135deg, #fffaf5 0%, #f3e8d8 100%);
+  --fw-wordmark-start: #3d3428;
+  --fw-wordmark-end: #a67c00;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -12,18 +35,18 @@ body,
   width: 100%;
   min-width: 100%;
   min-height: 100%;
-  background: #050505;
+  background: var(--fw-bg-page);
 }
 
 body {
   overflow-x: hidden;
-  color: #ffffff;
+  color: var(--fw-text-primary);
   font-family: "Manrope", Arial, sans-serif;
 }
 
 .shrix-app {
   min-height: 100vh;
-  background: #050505;
+  background: var(--fw-bg-page);
 }
 
 .shrix-navbar {
@@ -32,11 +55,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #050505;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.28);
+  background: var(--fw-bg-surface);
+  border-bottom: 1px solid var(--fw-border-strong);
+  box-shadow: var(--fw-shadow-soft);
   position: sticky;
   top: 0;
   z-index: 10;
+  backdrop-filter: blur(6px);
 }
 
 .shrix-brand {
@@ -65,7 +90,7 @@ body {
   font-weight: 900;
   letter-spacing: 4px;
   text-transform: uppercase;
-  background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
+  background: linear-gradient(135deg, var(--fw-wordmark-start) 0%, var(--fw-wordmark-end) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -80,24 +105,25 @@ body {
 .shrix-nav-links {
   display: flex;
   gap: 42px;
+  margin-left: auto;
 }
 
 .shrix-nav-links a {
-  color: #ffffff;
+  color: var(--fw-text-primary);
   font-weight: 800;
   font-size: 17px;
   cursor: pointer;
   transition: 0.25s ease;
+  text-decoration: none;
 }
 
 .shrix-nav-links a:hover {
-  color: #d4af37;
+  color: var(--fw-accent-bright);
 }
 
-.shrix-nav-btn,
 .shrix-primary {
-  background: linear-gradient(135deg, #d4af37, #f5c542);
-  color: #050505;
+  background: linear-gradient(135deg, #c9a227, #d4af37);
+  color: var(--fw-text-on-accent);
   border: none;
   padding: 18px 32px;
   border-radius: 18px;
@@ -105,9 +131,9 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: 0.25s ease;
+  box-shadow: var(--fw-shadow-card);
 }
 
-.shrix-nav-btn:hover,
 .shrix-primary:hover {
   transform: translateY(-3px);
 }
@@ -119,9 +145,7 @@ body {
   grid-template-columns: 0.95fr 1.05fr;
   gap: 70px;
   align-items: center;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(212, 175, 55, 0.13), transparent 32%),
-    linear-gradient(135deg, #050505, #0c0c0c);
+  background: var(--fw-bg-hero);
 }
 
 .shrix-hero-left {
@@ -130,8 +154,9 @@ body {
 
 .shrix-badge {
   display: inline-block;
-  color: #d4af37;
-  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: var(--fw-accent);
+  border: 1px solid var(--fw-border-strong);
+  background: rgba(212, 175, 55, 0.08);
   padding: 12px 22px;
   border-radius: 999px;
   font-weight: 900;
@@ -139,7 +164,7 @@ body {
 }
 
 .shrix-hero-welcome {
-  color: #ffffff;
+  color: var(--fw-text-primary);
   font-size: 40px;
   font-weight: 800;
   margin: 0 0 24px;
@@ -153,15 +178,16 @@ body {
   line-height: 0.95;
   margin: 0 0 36px;
   letter-spacing: -3px;
+  color: var(--fw-text-primary);
 }
 
 .shrix-hero h1 span:not(.shrix-hero-headline) {
-  color: #d4af37;
+  color: var(--fw-accent-bright);
 }
 
 .shrix-hero-text {
   max-width: 620px;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--fw-text-secondary);
   font-size: 22px;
   line-height: 1.8;
   margin: 0 0 42px;
@@ -175,8 +201,8 @@ body {
 
 .shrix-secondary {
   background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: var(--fw-text-primary);
+  border: 1px solid var(--fw-border-strong);
   padding: 15px 26px;
   border-radius: 15px;
   font-weight: 900;
@@ -184,23 +210,25 @@ body {
 }
 
 .shrix-dashboard {
-  background: #111111;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: var(--fw-bg-surface);
+  border: 1px solid var(--fw-border-strong);
   border-radius: 28px;
   padding: 34px;
-  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--fw-shadow-card);
   max-width: 520px;
   margin-left: auto;
+  backdrop-filter: blur(6px);
 }
 
 .shrix-dashboard p {
-  color: #ffffff;
+  color: var(--fw-text-primary);
   font-weight: 900;
 }
 
 .shrix-dashboard h3 {
   font-size: 26px;
   margin: 10px 0 30px;
+  color: var(--fw-text-primary);
 }
 
 .shrix-bars {
@@ -213,7 +241,7 @@ body {
 
 .shrix-bars span {
   flex: 1;
-  background: linear-gradient(180deg, #f5c542, #d4af37);
+  background: linear-gradient(180deg, #d4af37, #c9a227);
   border-radius: 14px 14px 0 0;
 }
 
@@ -227,15 +255,15 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 16px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--fw-border);
 }
 
 .shrix-row span {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
 }
 
 .shrix-row strong {
-  color: #d4af37;
+  color: var(--fw-accent-bright);
 }
 
 .shrix-trust {
@@ -243,36 +271,39 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 22px;
-  background: #080808;
+  background: var(--fw-bg-page-alt);
 }
 
 .shrix-trust-card {
-  background: #111111;
-  border: 1px solid rgba(212, 175, 55, 0.32);
+  background: var(--fw-bg-surface);
+  border: 1px solid var(--fw-border-strong);
   border-radius: 20px;
   padding: 28px;
   text-align: center;
+  box-shadow: var(--fw-shadow-card);
+  backdrop-filter: blur(6px);
 }
 
 .shrix-trust-card h3 {
-  color: #d4af37;
+  color: var(--fw-accent);
   font-size: 26px;
   margin: 0;
 }
 
 .shrix-trust-card p {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   margin: 8px 0 0;
 }
 
 .shrix-calculators {
   padding: 90px max(32px, calc((100vw - 1280px) / 2));
-  background: #050505;
+  background: var(--fw-bg-page);
   text-align: center;
+  border-top: 1px solid var(--fw-border);
 }
 
 .shrix-section-label {
-  color: #d4af37;
+  color: var(--fw-accent);
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -281,6 +312,7 @@ body {
 .shrix-calculators h2 {
   font-size: 34px;
   margin: 10px 0 46px;
+  color: var(--fw-text-primary);
 }
 
 .shrix-grid {
@@ -290,17 +322,20 @@ body {
 }
 
 .shrix-card {
-  background: #111111;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: var(--fw-bg-surface);
+  border: 1px solid var(--fw-border-strong);
   border-radius: 24px;
   padding: 30px;
   text-align: left;
   transition: 0.3s;
+  box-shadow: var(--fw-shadow-card);
+  backdrop-filter: blur(6px);
 }
 
 .shrix-card:hover {
   transform: translateY(-8px);
-  border-color: #d4af37;
+  border-color: var(--fw-accent-bright);
+  box-shadow: var(--fw-shadow-soft);
 }
 
 .shrix-icon {
@@ -308,11 +343,11 @@ body {
 }
 
 .shrix-card h3 {
-  color: #d4af37;
+  color: var(--fw-accent);
 }
 
 .shrix-card p {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   line-height: 1.6;
 }
 
@@ -320,7 +355,7 @@ body {
   margin-top: 14px;
   background: none;
   border: none;
-  color: #d4af37;
+  color: var(--fw-accent);
   font-weight: 900;
   cursor: pointer;
 }
@@ -328,8 +363,8 @@ body {
 .shrix-footer {
   padding: 60px max(32px, calc((100vw - 1280px) / 2));
   text-align: center;
-  background: #050505;
-  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  background: var(--fw-bg-page);
+  border-top: 1px solid var(--fw-border);
 }
 
 .shrix-footer img {
@@ -341,7 +376,7 @@ body {
 }
 
 .shrix-footer p {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   margin: 18px 0 0;
 }
 
@@ -358,14 +393,14 @@ body {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid var(--fw-border-strong);
   border-radius: 12px;
-  color: #d4af37;
+  color: var(--fw-accent);
   transition: 0.25s ease;
 }
 
 .shrix-footer-social a:hover {
-  border-color: #d4af37;
+  border-color: var(--fw-accent-bright);
   background: rgba(212, 175, 55, 0.08);
   transform: translateY(-2px);
 }
@@ -377,7 +412,8 @@ body {
 }
 
 .shrix-footer small {
-  color: #777777;
+  color: var(--fw-text-muted);
+  opacity: 0.85;
   display: block;
   margin-top: 22px;
 }
@@ -406,8 +442,7 @@ body {
     font-size: 32px;
   }
 
-  .shrix-nav-links,
-  .shrix-nav-btn {
+  .shrix-nav-links {
     display: none;
   }
 
@@ -505,17 +540,18 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 50px;
-  background: #080808;
-  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  background: var(--fw-bg-page-alt);
+  border-top: 1px solid var(--fw-border);
 }
 
 .sip-left h2 {
   font-size: 42px;
   margin: 10px 0 18px;
+  color: var(--fw-text-primary);
 }
 
 .sip-left p {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
   line-height: 1.7;
 }
 
@@ -528,41 +564,42 @@ body {
 .sip-form label {
   display: grid;
   gap: 8px;
-  color: #d4af37;
+  color: var(--fw-accent);
   font-weight: 800;
 }
 
 .sip-form input {
   padding: 16px;
   border-radius: 14px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  background: #111;
-  color: #fff;
+  border: 1px solid var(--fw-border-strong);
+  background: var(--fw-input-bg);
+  color: var(--fw-text-primary);
   font-size: 18px;
 }
 
 .sip-result {
-  background: #111;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: var(--fw-bg-surface);
+  border: 1px solid var(--fw-border-strong);
   border-radius: 28px;
   padding: 36px;
   display: grid;
   gap: 22px;
+  box-shadow: var(--fw-shadow-card);
 }
 
 .sip-result div {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid var(--fw-border);
   padding-bottom: 18px;
 }
 
 .sip-result span {
-  color: #b8b8b8;
+  color: var(--fw-text-muted);
 }
 
 .sip-result strong {
-  color: #d4af37;
+  color: var(--fw-accent);
   font-size: 22px;
 }
 
