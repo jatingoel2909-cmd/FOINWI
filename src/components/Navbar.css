@@ -3,6 +3,8 @@
   display: flex;
   align-items: center;
   overflow: visible;
+  position: relative;
+  z-index: 12;
 }
 
 .shrix-brand img {
@@ -14,10 +16,129 @@
   display: block;
 }
 
-@media (max-width: 950px) {
+.shrix-nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  padding: 0;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: 12px;
+  background: var(--fw-bg-surface-alt);
+  cursor: pointer;
+  position: relative;
+  z-index: 12;
+  box-shadow: var(--fw-shadow-card);
+}
+
+.shrix-nav-toggle__bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: var(--fw-text-primary);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.shrix-navbar--menu-open .shrix-nav-toggle__bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.shrix-navbar--menu-open .shrix-nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+
+.shrix-navbar--menu-open .shrix-nav-toggle__bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.shrix-nav-drawer {
+  display: none;
+}
+
+.shrix-nav-overlay {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .shrix-brand {
+    height: auto;
+    min-height: 72px;
+  }
+
   .shrix-brand img {
     height: 58px;
     width: auto;
+  }
+
+  .shrix-nav-toggle {
+    display: flex;
+  }
+
+  .shrix-nav-links {
+    display: none;
+  }
+
+  .shrix-nav-drawer {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 11;
+    width: min(320px, 88vw);
+    height: 100vh;
+    padding: 96px 28px 32px;
+    background: var(--fw-bg-surface);
+    border-left: 1px solid var(--fw-border-strong);
+    box-shadow: var(--fw-shadow-soft);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .shrix-nav-drawer--open {
+    transform: translateX(0);
+  }
+
+  .shrix-nav-drawer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shrix-nav-drawer__links a {
+    display: block;
+    padding: 14px 16px;
+    border-radius: 14px;
+    color: var(--fw-text-primary);
+    font-weight: 800;
+    font-size: 17px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: 0.2s ease;
+  }
+
+  .shrix-nav-drawer__links a:hover,
+  .shrix-nav-drawer__links a:focus-visible {
+    color: var(--fw-accent);
+    border-color: var(--fw-border);
+    background: rgba(212, 175, 55, 0.08);
+    outline: none;
+  }
+
+  .shrix-nav-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    border: none;
+    padding: 0;
+    background: rgba(61, 52, 40, 0.28);
+    cursor: pointer;
   }
 }
 
@@ -25,5 +146,13 @@
   .shrix-brand img {
     height: 52px;
     width: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shrix-nav-toggle,
+  .shrix-nav-drawer,
+  .shrix-nav-overlay {
+    display: none !important;
   }
 }

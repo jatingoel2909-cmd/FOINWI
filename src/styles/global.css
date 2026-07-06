@@ -442,10 +442,6 @@ body {
     font-size: 32px;
   }
 
-  .shrix-nav-links {
-    display: none;
-  }
-
   .shrix-hero {
     grid-template-columns: 1fr;
     text-align: center;
@@ -610,5 +606,11 @@ body {
 @media (max-width: 850px) {
   .sip-section {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    zoom: 0.9;
   }
 }
