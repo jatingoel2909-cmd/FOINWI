@@ -5,7 +5,10 @@ function Footer() {
     <footer className="shrix-footer" id="about">
       <BrandWordmark className="foinwi-wordmark--footer" />
       <p>Premium Financial Platform for Indian Investors.</p>
-      <small id="contact">Educational purpose only. Not financial advice.</small>
+      <small id="contact">
+        FOINWI provides educational financial tools only. This is not financial advice.
+        Please consult a qualified financial advisor before making financial decisions.
+      </small>
     </footer>
   );
 }
