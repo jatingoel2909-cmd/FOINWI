@@ -10,54 +10,47 @@ function PrivacyPolicyPage() {
       <InfoPageLayout
         label="Legal"
         title="Privacy Policy"
-        subtitle="How FOINWI handles information when you use our educational financial platform."
+        subtitle="How FOINWI handles information on our educational financial platform for users in India."
         centered
       >
         <article className="shrix-info-card shrix-info-card--wide">
           <p>
-            FOINWI (“we”, “us”, “our”) operates foinwi.com as an educational
-            financial tools platform for users in India. This Privacy Policy
-            explains what information we may collect and how we use it.
+            FOINWI (“we”, “us”, “our”) operates foinwi.com to provide educational
+            financial calculators, learning content, and tools. This Privacy
+            Policy explains how we handle information in simple terms.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Information We May Collect</h3>
+          <h2>Information We Collect</h2>
           <p>
-            When you use FOINWI, we may collect limited information such as
-            pages visited, device and browser type, general location (city or
-            region level), and technical logs needed to operate and improve the
-            website. Calculator inputs you enter are processed in your browser
+            FOINWI collects limited information only when users contact us or use
+            forms on the website. This may include:
+          </p>
+          <ul className="shrix-info-list">
+            <li>Your name and email address</li>
+            <li>The content of your message or enquiry</li>
+            <li>Basic technical details needed to respond to you</li>
+          </ul>
+          <p className="shrix-info-card__follow">
+            Calculator inputs you enter are generally processed in your browser
             for estimates and are not stored by us unless clearly stated
             otherwise.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Contact and Email Information</h3>
+          <h2>Analytics and Cookies</h2>
           <p>
-            If you contact us by email at{" "}
-            <a href="mailto:support@foinwi.com">support@foinwi.com</a>, we receive
-            the information you choose to share, such as your name, email
-            address, and message content. We use this only to respond to your
-            query, feedback, calculator issue, partnership request, or
-            collaboration message.
+            We may use analytics and cookies in future to improve website
+            experience, understand usage patterns, and make FOINWI easier to
+            use. If we introduce these tools, we will update this policy as
+            needed.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Analytics and Cookies</h3>
-          <p>
-            We may use analytics tools and cookies to understand how visitors use
-            FOINWI, improve performance, and enhance user experience. Cookies are
-            small files stored on your device. You can control cookies through
-            your browser settings, though some features may work less smoothly
-            if cookies are disabled.
-          </p>
-        </article>
-
-        <article className="shrix-info-card shrix-info-card--wide">
-          <h3>No Sale of Personal Information</h3>
+          <h2>We Do Not Sell Personal Information</h2>
           <p>
             We do not sell your personal information. FOINWI is built for
             education and clarity, not for trading user data.
@@ -65,28 +58,28 @@ function PrivacyPolicyPage() {
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Third-Party Services</h3>
+          <h2>Third-Party Services</h2>
           <p>
-            We may use third-party services for hosting, analytics, fonts, or
-            other technical functions. These providers may process limited data
-            on our behalf under their own privacy policies. We choose services
-            carefully but do not control all third-party practices.
+            Third-party services like hosting, email routing, analytics, ads, or
+            payment tools may be used in future to operate and improve FOINWI.
+            These providers may process limited data under their own policies.
+            We choose services carefully but do not control all third-party
+            practices.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Data Protection and Your Responsibility</h3>
+          <h2>Sensitive Information</h2>
           <p>
-            We take reasonable steps to protect information, but no website can
-            guarantee complete security. Please do not share sensitive personal,
-            banking, or identification details through general contact messages
-            unless necessary. You are responsible for the information you
-            choose to send us.
+            Users should not submit sensitive financial information through
+            contact forms or general email messages — such as bank account
+            numbers, passwords, Aadhaar, PAN, or full investment details —
+            unless we specifically request it for a defined purpose.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Contact</h3>
+          <h2>Contact</h2>
           <p>
             For privacy-related questions, contact us at{" "}
             <a href="mailto:support@foinwi.com">support@foinwi.com</a>.
