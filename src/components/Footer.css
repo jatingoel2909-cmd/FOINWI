@@ -22,4 +22,26 @@
 
 .footer small {
   color: #777;
+}.shrix-footer {
+  text-align: center;
+}
+
+.shrix-footer .foinwi-wordmark--footer,
+.shrix-footer p,
+.shrix-footer__contact,
+.shrix-footer small {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.shrix-footer__contact {
+  max-width: 900px;
+  line-height: 1.7;
+}
+
+.shrix-footer small {
+  display: block;
+  max-width: 1100px;
+  line-height: 1.7;
 }
