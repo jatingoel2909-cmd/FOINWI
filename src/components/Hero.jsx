@@ -1,10 +1,4 @@
-import { scrollToSection } from "../utils/homeNavigation";
-
 function Hero() {
-  const scrollToCalculators = () => {
-    scrollToSection("calculators");
-  };
-
   return (
     <section className="shrix-hero">
       <div className="shrix-hero-left">
@@ -15,17 +9,6 @@ function Hero() {
           <span className="shrix-hero-headline">Grow Beyond</span>{" "}
           <span>Numbers.</span>
         </h1>
-
-        <p className="shrix-hero-text">
-          Plan SIP, EMI, FD, PPF, retirement and wealth goals with simple,
-          accurate and premium financial calculators built for Indian users.
-        </p>
-
-        <div className="shrix-hero-actions">
-          <button type="button" className="shrix-primary" onClick={scrollToCalculators}>
-            Explore Calculators
-          </button>
-        </div>
       </div>
 
       <div className="shrix-dashboard">

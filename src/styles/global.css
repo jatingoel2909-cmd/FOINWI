@@ -146,6 +146,7 @@ body {
   gap: 70px;
   align-items: center;
   background: var(--fw-bg-hero);
+  text-align: left;
 }
 
 .shrix-hero-left {
@@ -207,6 +208,14 @@ body {
   border-radius: 15px;
   font-weight: 900;
   cursor: pointer;
+  font-size: 16px;
+  font-family: inherit;
+  transition: 0.25s ease;
+}
+
+.shrix-secondary:hover {
+  border-color: var(--fw-accent-bright);
+  color: var(--fw-accent);
 }
 
 .shrix-dashboard {
@@ -499,6 +508,7 @@ body {
 
   .shrix-hero-left {
     margin: 0 auto;
+    text-align: left;
   }
 
   .shrix-hero-welcome {
