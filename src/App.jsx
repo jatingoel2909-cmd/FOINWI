@@ -29,6 +29,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import DisclaimerPage from "./pages/DisclaimerPage";
 import JourneyPage from "./pages/JourneyPage";
+import FinancialHealthScorePage from "./pages/FinancialHealthScorePage";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/learn" element={<LearnPage />} />
         <Route path="/ai-tools" element={<AiToolsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/financial-health-score" element={<FinancialHealthScorePage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
         <Route path="/disclaimer" element={<DisclaimerPage />} />

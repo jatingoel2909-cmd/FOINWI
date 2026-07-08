@@ -48,6 +48,7 @@ function Navbar() {
 
       <nav className="shrix-nav-links" aria-label="Main navigation">
         <Link to="/calculators">Calculators</Link>
+        <Link to="/financial-health-score">Health Score</Link>
         <Link to="/learn">Learn</Link>
         <Link to="/ai-tools">AI</Link>
         <Link to="/about">About</Link>
@@ -63,6 +64,9 @@ function Navbar() {
         <nav className="shrix-nav-drawer__links" aria-label="Mobile navigation">
           <Link to="/calculators" onClick={closeMenu}>
             Calculators
+          </Link>
+          <Link to="/financial-health-score" onClick={closeMenu}>
+            Health Score
           </Link>
           <Link to="/learn" onClick={closeMenu}>
             Learn
