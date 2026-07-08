@@ -28,6 +28,7 @@ import CompoundInterestCalculatorPage from "./pages/CompoundInterestCalculatorPa
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import DisclaimerPage from "./pages/DisclaimerPage";
+import JourneyPage from "./pages/JourneyPage";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
         <Route path="/disclaimer" element={<DisclaimerPage />} />
+        <Route path="/journeys/:slug" element={<JourneyPage />} />
         <Route path="/sip-calculator" element={<SipCalculatorPage />} />
         <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
         <Route path="/fd-calculator" element={<FdCalculatorPage />} />

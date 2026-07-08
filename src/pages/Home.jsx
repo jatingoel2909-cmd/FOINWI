@@ -28,8 +28,8 @@ function Home() {
     <div className="shrix-app">
       <Navbar />
       <Hero />
-      <FourPillarsSection />
       <FinancialJourneysSection />
+      <FourPillarsSection />
       <CalculatorGrid
         calculators={getPopularCalculators({ shortTitles: true })}
         showSectionLabel={false}

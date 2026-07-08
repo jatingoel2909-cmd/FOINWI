@@ -1,52 +1,32 @@
 import { Link } from "react-router-dom";
-
-const journeys = [
-  {
-    title: "Build Wealth",
-    text: "Start with SIP, lumpsum, and goal planning tools for long-term growth.",
-    to: "/calculators",
-  },
-  {
-    title: "Plan a Loan",
-    text: "Estimate EMI, eligibility, and prepayment impact before you borrow.",
-    to: "/emi-calculator",
-  },
-  {
-    title: "Save Tax",
-    text: "Explore income tax, HRA, and GST calculators for smarter tax planning.",
-    to: "/income-tax-calculator",
-  },
-  {
-    title: "Plan Retirement",
-    text: "Estimate retirement corpus with EPF, NPS, and retirement planners.",
-    to: "/retirement-calculator",
-  },
-  {
-    title: "Learn Money Basics",
-    text: "Build strong foundations with simple finance learning for every stage.",
-    to: "/learn",
-  },
-  {
-    title: "Family Financial Planning",
-    text: "Plan for education, home, health, and family goals with clarity.",
-    to: "/learn",
-  },
-];
+import { FINANCIAL_JOURNEYS } from "../../data/journeys";
+import "../../styles/journey-home.css";
 
 function FinancialJourneysSection() {
   return (
-    <section className="shrix-home-section shrix-home-section--alt" id="journeys">
+    <section className="shrix-journey-section" id="journeys">
+      <p className="shrix-section-label">Financial Journeys</p>
       <h2>Choose Your Financial Journey</h2>
-      <p className="shrix-home-section__subtitle">
-        Pick the path that matches your goal and start with the right tools or learning content.
+      <p className="shrix-journey-section__subtitle">
+        Structured paths with calculators, learning steps, and planning guidance for
+        every major money goal.
       </p>
-      <div className="shrix-home-grid shrix-home-grid--3">
-        {journeys.map((journey) => (
-          <article className="shrix-home-card" key={journey.title}>
+
+      <div className="shrix-journey-grid">
+        {FINANCIAL_JOURNEYS.map((journey, index) => (
+          <article
+            className="shrix-journey-card"
+            key={journey.slug}
+            style={{ animationDelay: `${index * 60}ms` }}
+          >
+            <div className="shrix-journey-card__icon" aria-hidden="true">
+              <span>{journey.icon}</span>
+            </div>
             <h3>{journey.title}</h3>
-            <p>{journey.text}</p>
-            <Link to={journey.to} className="shrix-home-card__link">
-              Explore →
+            <p>{journey.description}</p>
+            <span className="shrix-journey-card__duration">{journey.duration}</span>
+            <Link to={`/journeys/${journey.slug}`} className="shrix-journey-card__cta">
+              Start Journey →
             </Link>
           </article>
         ))}
