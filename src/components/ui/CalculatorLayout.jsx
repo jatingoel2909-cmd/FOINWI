@@ -1,4 +1,6 @@
+import CalculatorExplainEngine from "./CalculatorExplainEngine";
 import CalculatorResultSupport from "./CalculatorResultSupport";
+import { getCalculatorExplain } from "../../data/calculatorExplains";
 import { getCalculatorInsights } from "../../data/calculatorInsights";
 import "./calculator-ui.css";
 
@@ -15,6 +17,7 @@ function CalculatorLayout({
   formula,
 }) {
   const insights = calculatorId ? getCalculatorInsights(calculatorId) : null;
+  const explain = calculatorId ? getCalculatorExplain(calculatorId) : null;
 
   return (
     <section
@@ -33,6 +36,8 @@ function CalculatorLayout({
         <div className="calc-layout__results">{results}</div>
         {formula}
       </div>
+
+      {explain ? <CalculatorExplainEngine explain={explain} /> : null}
 
       {insights ? (
         <CalculatorResultSupport {...insights} />

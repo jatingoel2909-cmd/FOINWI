@@ -1,5 +1,7 @@
 export function isNavLinkActive(pathname, href) {
   switch (href) {
+    case "/":
+      return pathname === "/";
     case "/calculators":
       return (
         pathname === "/calculators" ||

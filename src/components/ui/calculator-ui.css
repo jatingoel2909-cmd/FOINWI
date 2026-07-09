@@ -281,6 +281,20 @@
   .calc-result-support__card h3 {
     font-size: 16px;
   }
+
+  .calc-explain__header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px;
+  }
+
+  .calc-explain__header-text h3 {
+    font-size: 18px;
+  }
+
+  .calc-explain__body {
+    padding: 0 20px 20px;
+  }
 }
 
 .calc-layout__disclaimer {
@@ -407,5 +421,180 @@
   background: rgba(212, 175, 55, 0.08);
   color: var(--fw-text-muted);
   font-size: 13px;
+  line-height: 1.65;
+}
+
+.calc-explain {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.calc-explain__card {
+  border-radius: 20px;
+  border: 1px solid var(--fw-border-strong);
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(250, 245, 235, 0.92));
+  box-shadow: var(--fw-shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.calc-explain__card--open {
+  border-color: rgba(212, 175, 55, 0.45);
+  box-shadow: var(--fw-shadow-soft);
+}
+
+.calc-explain__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  padding: 22px 24px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.calc-explain__header-text h3 {
+  margin: 6px 0 8px;
+  color: var(--fw-accent);
+  font-size: 20px;
+  letter-spacing: -0.3px;
+}
+
+.calc-explain__header-text p {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.calc-explain__eyebrow {
+  display: inline-block;
+  color: var(--fw-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.calc-explain__toggle {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.9);
+  color: var(--fw-accent);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.calc-explain__body {
+  padding: 0 24px 24px;
+}
+
+.calc-explain__accordions {
+  display: grid;
+  gap: 10px;
+}
+
+.calc-explain__accordion {
+  border-radius: 14px;
+  border: 1px solid var(--fw-border);
+  background: var(--fw-bg-surface);
+  overflow: hidden;
+}
+
+.calc-explain__accordion--open {
+  border-color: var(--fw-border-strong);
+}
+
+.calc-explain__accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--fw-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.calc-explain__accordion-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid var(--fw-border);
+  color: var(--fw-accent);
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.calc-explain__accordion-panel {
+  padding: 0 16px 16px;
+}
+
+.calc-explain__accordion-panel p {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.calc-explain__accordion-panel ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.calc-explain__accordion-panel li + li {
+  margin-top: 6px;
+}
+
+.calc-explain__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.calc-explain__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.85);
+  color: var(--fw-accent);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.calc-explain__link:hover {
+  border-color: var(--fw-border-strong);
+  color: var(--fw-accent-bright);
+  box-shadow: var(--fw-shadow-soft);
+}
+
+.calc-explain__disclaimer {
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--fw-border-strong);
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--fw-text-muted);
+  font-size: 12px;
   line-height: 1.65;
 }

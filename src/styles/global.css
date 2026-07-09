@@ -58,9 +58,9 @@ body {
 .shrix-navbar {
   height: 122px;
   padding: 0 var(--fw-space-inline, max(32px, calc((100vw - 1280px) / 2)));
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   background: var(--fw-bg-surface);
   border-bottom: 1px solid var(--fw-border-strong);
   box-shadow: var(--fw-shadow-soft);
@@ -110,8 +110,12 @@ body {
 
 .shrix-nav-links {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 42px;
-  margin-left: auto;
+  grid-column: 2;
+  width: 100%;
+  min-width: 0;
 }
 
 .shrix-nav-links a {
