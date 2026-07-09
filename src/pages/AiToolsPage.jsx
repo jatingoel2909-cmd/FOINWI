@@ -1,84 +1,106 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import AiGuideHero from "../components/ai/AiGuideHero";
-import FinancialGoalCard from "../components/ai/FinancialGoalCard";
-import AiGuideCard from "../components/ai/AiGuideCard";
-import DailyAiInsight from "../components/ai/DailyAiInsight";
-import AiRoadmap from "../components/ai/AiRoadmap";
-import AiContinueLearning from "../components/ai/AiContinueLearning";
-import AiVisionSection from "../components/ai/AiVisionSection";
+import GuideHero from "../components/guide/GuideHero";
+import ExploreGoalCard from "../components/guide/ExploreGoalCard";
+import GuideLearningCard from "../components/guide/GuideLearningCard";
+import GuideToolCard from "../components/guide/GuideToolCard";
+import GuideHabitCard from "../components/guide/GuideHabitCard";
+import GuideDailyInsight from "../components/guide/GuideDailyInsight";
+import GuideFutureTimeline from "../components/guide/GuideFutureTimeline";
+import { getLearningPathBySlug } from "../data/learnAcademy";
+import { ALL_CALCULATORS } from "../data/calculators";
 import {
-  AI_GUIDE_DISCLAIMER,
-  AI_GUIDES,
-  AI_VISION,
-  CONTINUE_LEARNING,
-  DAILY_AI_INSIGHT,
-  FINANCIAL_GOALS,
-} from "../data/aiGuide";
+  DAILY_FINANCIAL_INSIGHT,
+  EXPLORE_GOALS,
+  FEATURED_LEARNING_SLUGS,
+  FEATURED_TOOL_PATHS,
+  FINANCIAL_HABITS,
+  GUIDE_DISCLAIMER,
+} from "../data/foinwiGuide";
 import "../styles/global.css";
 import "../styles/ai-guide.css";
 
 function AiToolsPage() {
+  const learningPaths = FEATURED_LEARNING_SLUGS.map((slug) => getLearningPathBySlug(slug)).filter(
+    Boolean,
+  );
+
+  const featuredTools = FEATURED_TOOL_PATHS.map((path) =>
+    ALL_CALCULATORS.find((calc) => calc.path === path),
+  ).filter(Boolean);
+
   return (
     <div className="shrix-app">
       <Navbar />
-      <AiGuideHero />
+      <GuideHero />
 
-      <main className="ai-main">
-        <section className="ai-section" id="ai-goals" aria-labelledby="ai-goals-title">
-          <div className="ai-section__head">
-            <p className="shrix-section-label">Your Goals</p>
-            <h2 id="ai-goals-title">Financial Goals</h2>
-            <p>
-              Choose a goal and FOINWI AI will connect learning paths, calculators,
-              missions, and financial understanding into one guided experience.
-            </p>
+      <main className="guide-main">
+        <section
+          className="guide-section"
+          id="guide-explore"
+          aria-labelledby="guide-explore-title"
+        >
+          <div className="guide-section__head">
+            <h2 id="guide-explore-title">What would you like to explore today?</h2>
           </div>
-          <div className="ai-goals-grid">
-            {FINANCIAL_GOALS.map((goal) => (
-              <FinancialGoalCard key={goal.id} goal={goal} />
+          <div className="guide-explore-grid">
+            {EXPLORE_GOALS.map((goal) => (
+              <ExploreGoalCard key={goal.id} goal={goal} />
             ))}
           </div>
         </section>
 
-        <section className="ai-section" aria-labelledby="ai-guides-title">
-          <div className="ai-section__head">
-            <p className="shrix-section-label">Guided Learning</p>
-            <h2 id="ai-guides-title">AI Guides</h2>
-            <p>
-              Structured educational guides that explain concepts, link to lessons,
-              and point you toward the right calculators and missions.
-            </p>
+        <section
+          className="guide-section"
+          id="guide-continue"
+          aria-labelledby="guide-continue-title"
+        >
+          <div className="guide-section__head">
+            <h2 id="guide-continue-title">Continue Your Learning</h2>
           </div>
-          <div className="ai-guides-grid">
-            {AI_GUIDES.map((guide) => (
-              <AiGuideCard key={guide.id} guide={guide} />
+          <div className="guide-learning-grid">
+            {learningPaths.map((path) => (
+              <GuideLearningCard key={path.slug} path={path} />
             ))}
           </div>
         </section>
 
-        <section className="ai-section ai-section--flush" aria-label="Daily insight">
-          <DailyAiInsight insight={DAILY_AI_INSIGHT} />
+        <section className="guide-section guide-section--compact" aria-label="Daily financial insight">
+          <GuideDailyInsight insight={DAILY_FINANCIAL_INSIGHT} />
         </section>
 
-        <section className="ai-section" aria-labelledby="ai-roadmap-title">
-          <div className="ai-section__head">
-            <p className="shrix-section-label">Product Roadmap</p>
-            <h2 id="ai-roadmap-title">AI Roadmap</h2>
-            <p>
-              See what you can use today, what is being built next, and where
-              FOINWI AI is heading over time.
-            </p>
+        <section className="guide-section" aria-labelledby="guide-tools-title">
+          <div className="guide-section__head">
+            <h2 id="guide-tools-title">Popular Financial Tools</h2>
+            <p>Choose the right calculator to support your financial journey.</p>
           </div>
-          <AiRoadmap />
+          <div className="guide-tools-grid">
+            {featuredTools.map((calc) => (
+              <GuideToolCard key={calc.path} calculator={calc} />
+            ))}
+          </div>
         </section>
 
-        <AiContinueLearning config={CONTINUE_LEARNING} />
+        <section className="guide-section" aria-labelledby="guide-habits-title">
+          <div className="guide-section__head">
+            <h2 id="guide-habits-title">Build Better Financial Habits</h2>
+          </div>
+          <div className="guide-habits-grid">
+            {FINANCIAL_HABITS.map((habit) => (
+              <GuideHabitCard key={habit.id} habit={habit} />
+            ))}
+          </div>
+        </section>
 
-        <AiVisionSection vision={AI_VISION} />
+        <section className="guide-section" aria-labelledby="guide-future-title">
+          <div className="guide-section__head">
+            <h2 id="guide-future-title">The Future of FOINWI Guide</h2>
+          </div>
+          <GuideFutureTimeline />
+        </section>
       </main>
 
-      <p className="ai-notice">{AI_GUIDE_DISCLAIMER}</p>
+      <p className="guide-notice">{GUIDE_DISCLAIMER}</p>
       <Footer />
     </div>
   );
