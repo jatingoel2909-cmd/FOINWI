@@ -57,10 +57,6 @@ function FinancialJourneyPage({ journey }) {
 
   const complete = isJourneyComplete(journey.progressSteps, checkedItems);
 
-  const toggleProgress = (id) => {
-    setCheckedItems((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
   return (
     <div className="shrix-app">
       <Navbar />
@@ -71,7 +67,6 @@ function FinancialJourneyPage({ journey }) {
         <JourneyProgress
           progressSteps={journey.progressSteps}
           checkedItems={checkedItems}
-          onToggle={toggleProgress}
           progressPercent={progressPercent}
         />
         <JourneyModules modules={modules} />

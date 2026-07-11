@@ -43,6 +43,9 @@ const REVEAL_SELECTORS = [
   ".fje-completion",
   ".fje-next__card",
   ".fje-hero__overview",
+  ".fje-achievement-card",
+  ".fje-progress-panel",
+  ".fje-progress-status",
 ].join(",");
 
 function ScrollReveal() {

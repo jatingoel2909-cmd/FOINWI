@@ -382,7 +382,10 @@ h3 {
 .fje-health-card,
 .fje-completion,
 .fje-next__card,
-.fje-hero__overview {
+.fje-hero__overview,
+.fje-achievement-card,
+.fje-progress-panel,
+.fje-timeline-stage {
   border-radius: var(--fw-radius-lg);
   transition:
     transform var(--fw-duration) var(--fw-ease),
