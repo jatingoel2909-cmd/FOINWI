@@ -202,6 +202,7 @@ h3 {
 .la-btn--primary,
 .fhs-btn--primary,
 .guide-btn--primary,
+.fje-btn--primary,
 .shrix-mission-hero__start,
 .shrix-mission-next__btn {
   background: var(--fw-accent-gradient);
@@ -213,7 +214,9 @@ h3 {
 .shrix-secondary,
 .la-btn--ghost,
 .fhs-btn--ghost,
-.guide-btn--ghost {
+.guide-btn--ghost,
+.fje-btn,
+.fje-btn--primary {
   background: transparent;
   border: 1px solid var(--fw-border-strong);
   color: var(--fw-text-primary);
@@ -224,6 +227,7 @@ h3 {
 .la-btn--primary:hover:not(:disabled),
 .fhs-btn--primary:hover:not(:disabled),
 .guide-btn--primary:hover:not(:disabled),
+.fje-btn--primary:hover:not(:disabled),
 .shrix-mission-hero__start:hover,
 .shrix-mission-next__btn:hover {
   transform: translateY(-2px);
@@ -369,7 +373,16 @@ h3 {
 .guide-habit-card,
 .guide-daily-insight,
 .guide-timeline,
-.guide-hero__visual {
+.guide-hero__visual,
+.fje-block,
+.fje-timeline__card,
+.fje-module-card,
+.fje-calc-card,
+.fje-mission-card,
+.fje-health-card,
+.fje-completion,
+.fje-next__card,
+.fje-hero__overview {
   border-radius: var(--fw-radius-lg);
   transition:
     transform var(--fw-duration) var(--fw-ease),
@@ -397,6 +410,9 @@ h3 {
 .guide-tool-card:hover,
 .guide-habit-card:hover,
 .guide-daily-insight:hover,
+.fje-module-card:hover,
+.fje-calc-card:hover,
+.fje-next__card:hover,
 .la-tool-card:hover,
 .la-more-path:hover,
 .shrix-ai-preview-card:hover,

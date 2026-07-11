@@ -34,6 +34,15 @@ const REVEAL_SELECTORS = [
   ".guide-timeline",
   ".guide-hero__visual",
   ".guide-hero__content",
+  ".fje-block",
+  ".fje-timeline__card",
+  ".fje-module-card",
+  ".fje-calc-card",
+  ".fje-mission-card",
+  ".fje-health-card",
+  ".fje-completion",
+  ".fje-next__card",
+  ".fje-hero__overview",
 ].join(",");
 
 function ScrollReveal() {
