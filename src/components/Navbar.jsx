@@ -3,6 +3,7 @@ import BrandWordmark from "./BrandWordmark";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { navigateToHomeSection } from "../utils/homeNavigation";
 import { getNavLinkClass } from "../utils/navHelpers";
+import SearchCommandCenter from "./intelligence/SearchCommandCenter";
 import "./Navbar.css";
 
 const NAV_ITEMS = [
@@ -18,6 +19,7 @@ function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -25,6 +27,11 @@ function Navbar() {
     event.preventDefault();
     closeMenu();
     navigateToHomeSection(navigate, pathname, "contact");
+  };
+
+  const openSearch = () => {
+    closeMenu();
+    setSearchOpen(true);
   };
 
   useEffect(() => {
@@ -56,8 +63,20 @@ function Navbar() {
         </a>
       </nav>
 
-      <div className="shrix-nav-spacer" aria-hidden="true">
-        <span className="foinwi-wordmark shrix-nav-spacer__mark">FOINWI</span>
+      <div className="shrix-nav-actions">
+        <button
+          type="button"
+          className="shrix-nav-search"
+          aria-label="Open FOINWI Command Center"
+          onClick={openSearch}
+        >
+          <span className="shrix-nav-search__icon" aria-hidden="true">
+            ⌕
+          </span>
+        </button>
+        <div className="shrix-nav-spacer" aria-hidden="true">
+          <span className="foinwi-wordmark shrix-nav-spacer__mark">FOINWI</span>
+        </div>
       </div>
 
       <button
@@ -90,6 +109,9 @@ function Navbar() {
           <a href="#contact" onClick={handleContactClick}>
             Contact
           </a>
+          <button type="button" className="shrix-nav-drawer__search" onClick={openSearch}>
+            Search FOINWI
+          </button>
         </nav>
       </div>
 
@@ -101,6 +123,8 @@ function Navbar() {
           onClick={closeMenu}
         />
       )}
+
+      <SearchCommandCenter open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }
