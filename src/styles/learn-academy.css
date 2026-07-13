@@ -281,6 +281,46 @@
   margin-top: 12px;
 }
 
+.la-journey-cta {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 12px;
+  margin-bottom: 28px;
+  padding: 26px 28px;
+  border-radius: 24px;
+  border: 1px solid var(--fw-border-strong);
+  background: linear-gradient(145deg, rgba(255, 252, 247, 0.98) 0%, rgba(243, 232, 216, 0.4) 100%);
+  box-shadow: var(--fw-shadow-card);
+}
+
+.la-journey-cta__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 1px solid var(--fw-border);
+  background: var(--fw-bg-surface);
+  font-size: 30px;
+}
+
+.la-journey-cta h2 {
+  margin: 6px 0 10px;
+  font-size: clamp(20px, 2.6vw, 26px);
+  letter-spacing: -0.3px;
+  color: var(--fw-text-primary);
+}
+
+.la-journey-cta p {
+  margin: 0 0 16px;
+  max-width: 560px;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
 .la-continue__copy h2 {
   margin: 6px 0 10px;
   font-size: clamp(22px, 3vw, 28px);
@@ -571,7 +611,8 @@
     grid-template-columns: 1fr;
   }
 
-  .la-continue {
+  .la-continue,
+  .la-journey-cta {
     grid-template-columns: 1fr;
   }
 }

@@ -424,6 +424,82 @@
   line-height: 1.65;
 }
 
+.calc-journey-promo {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.calc-journey-promo__label {
+  margin: 0 0 10px;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.calc-journey-promo__card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 22px 24px;
+  border-radius: 18px;
+  border: 1px solid var(--fw-border-strong);
+  background: linear-gradient(145deg, rgba(255, 252, 247, 0.98) 0%, rgba(243, 232, 216, 0.4) 100%);
+  box-shadow: var(--fw-shadow-card);
+}
+
+.calc-journey-promo__icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid var(--fw-border);
+  background: var(--fw-bg-surface);
+  font-size: 26px;
+}
+
+.calc-journey-promo__card h3 {
+  margin: 0 0 8px;
+  color: var(--fw-text-primary);
+  font-size: 18px;
+  letter-spacing: -0.2px;
+}
+
+.calc-journey-promo__card p {
+  margin: 0 0 14px;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.calc-journey-promo__cta {
+  display: inline-flex;
+  align-items: center;
+  color: var(--fw-accent);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.calc-journey-promo__cta:hover {
+  color: var(--fw-accent-bright);
+}
+
+.calc-journey-promo__cta:focus-visible {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .calc-journey-promo__card {
+    grid-template-columns: 1fr;
+  }
+}
+
 .calc-explain {
   grid-column: 1 / -1;
   margin-top: 8px;

@@ -11,6 +11,13 @@ import { getCalculatorsByPaths } from "../utils/learnHelpers";
 import "../styles/global.css";
 import "../styles/learn-academy.css";
 
+const BUILD_WEALTH_LEARN_PATHS = new Set([
+  "money-basics",
+  "saving-budgeting",
+  "investing-fundamentals",
+  "mutual-funds-sip",
+]);
+
 function LearnPathPage() {
   const { slug } = useParams();
   const path = getLearningPathBySlug(slug);
@@ -21,6 +28,7 @@ function LearnPathPage() {
 
   const nextPath = getLearningPathBySlug(path.nextPath);
   const pathCalculators = getCalculatorsByPaths(path.relatedCalculators);
+  const showBuildWealthJourney = BUILD_WEALTH_LEARN_PATHS.has(path.slug);
 
   return (
     <div className="shrix-app">
@@ -110,6 +118,25 @@ function LearnPathPage() {
                 <li>{nextPath.lessons.length} lessons</li>
               </ul>
             </article>
+          </section>
+        )}
+
+        {showBuildWealthJourney && (
+          <section className="la-journey-cta" aria-labelledby="la-journey-cta-title">
+            <span className="la-journey-cta__icon" aria-hidden="true">
+              📈
+            </span>
+            <div>
+              <p className="shrix-section-label">Financial Journey</p>
+              <h2 id="la-journey-cta-title">Start Build Wealth Journey</h2>
+              <p>
+                Apply what you learned with a guided path for SIP planning, goal-based
+                investing, and long-term wealth habits.
+              </p>
+              <Link to="/journeys/build-wealth" className="la-btn la-btn--primary">
+                Start Build Wealth Journey →
+              </Link>
+            </div>
           </section>
         )}
 

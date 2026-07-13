@@ -162,6 +162,12 @@
   gap: 22px;
 }
 
+a.guide-explore-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 .guide-explore-card {
   display: flex;
   flex-direction: column;
@@ -175,6 +181,11 @@
     transform 0.28s var(--fw-ease),
     box-shadow 0.28s var(--fw-ease),
     border-color 0.28s var(--fw-ease);
+}
+
+.guide-explore-card:focus-visible {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 2px;
 }
 
 .guide-explore-card:hover {

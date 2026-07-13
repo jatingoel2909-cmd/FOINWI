@@ -99,7 +99,7 @@ function HealthScoreDashboard({ result, onRetake }) {
       </section>
 
       <section className="fhs-suggest-card">
-        <p className="shrix-section-label">Suggested FOINWI Mission</p>
+        <p className="shrix-section-label">Recommended Journey</p>
         <div className="fhs-suggest-card__body">
           <span className="fhs-suggest-card__icon" aria-hidden="true">
             {suggestedMission.icon}
@@ -108,7 +108,7 @@ function HealthScoreDashboard({ result, onRetake }) {
             <h3>{suggestedMission.title}</h3>
             <p>{suggestedMission.description}</p>
             <Link to={`/journeys/${suggestedMission.slug}`} className="fhs-link-btn">
-              Explore Mission →
+              Start Journey →
             </Link>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import CalculatorExplainEngine from "./CalculatorExplainEngine";
 import CalculatorResultSupport from "./CalculatorResultSupport";
+import ContinueJourneyCard from "./ContinueJourneyCard";
 import { getCalculatorExplain } from "../../data/calculatorExplains";
 import { getCalculatorInsights } from "../../data/calculatorInsights";
 import "./calculator-ui.css";
@@ -48,6 +49,8 @@ function CalculatorLayout({
           Consult qualified professionals before making financial decisions.
         </p>
       )}
+
+      {calculatorId ? <ContinueJourneyCard calculatorId={calculatorId} /> : null}
     </section>
   );
 }
