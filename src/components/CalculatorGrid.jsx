@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ALL_CALCULATORS, getPopularCalculators } from "../data/calculators";
+import { ALL_CALCULATORS } from "../data/calculators";
 import "./CalculatorGrid.css";
 
 function CalculatorGrid({
@@ -52,4 +52,3 @@ function CalculatorGrid({
 }
 
 export default CalculatorGrid;
-export { getPopularCalculators, ALL_CALCULATORS };

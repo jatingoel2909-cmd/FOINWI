@@ -36,7 +36,7 @@ async function render(size, output) {
 }
 
 async function main() {
-  await render(512, path.join(publicDir, "shrix-favicon.png"));
+  await render(512, path.join(publicDir, "foinwi-favicon.png"));
   await render(32, path.join(publicDir, "favicon-32x32.png"));
   await render(16, path.join(publicDir, "favicon-16x16.png"));
   await render(180, path.join(publicDir, "apple-touch-icon.png"));

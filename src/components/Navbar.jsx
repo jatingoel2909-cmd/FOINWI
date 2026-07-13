@@ -28,7 +28,8 @@ function Navbar() {
   };
 
   useEffect(() => {
-    closeMenu();
+    const frame = requestAnimationFrame(() => setMenuOpen(false));
+    return () => cancelAnimationFrame(frame);
   }, [pathname]);
 
   useEffect(() => {

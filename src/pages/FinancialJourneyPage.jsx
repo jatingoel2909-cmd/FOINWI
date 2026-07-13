@@ -23,7 +23,7 @@ import "../styles/global.css";
 import "../styles/journey-engine.css";
 
 function FinancialJourneyPage({ journey }) {
-  const [checkedItems, setCheckedItems] = useState(() => {
+  const [checkedItems] = useState(() => {
     try {
       const stored = localStorage.getItem(getJourneyProgressKey(journey.slug));
       return stored ? JSON.parse(stored) : {};
