@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { navigateToHomeSection } from "../utils/homeNavigation";
 
 function Hero() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const handleStartJourney = (event) => {
+    event.preventDefault();
+    navigateToHomeSection(navigate, pathname, "journeys");
+  };
+
   return (
     <section className="shrix-hero">
       <div className="shrix-hero-left">
@@ -19,9 +28,13 @@ function Hero() {
         </p>
 
         <div className="shrix-hero-actions">
-          <Link to="/#journeys" className="shrix-primary shrix-hero-cta-link">
+          <a
+            href="/#journeys"
+            className="shrix-primary shrix-hero-cta-link"
+            onClick={handleStartJourney}
+          >
             Start Your Journey
-          </Link>
+          </a>
           <Link to="/calculators" className="shrix-secondary shrix-hero-cta-link">
             Explore Calculators
           </Link>

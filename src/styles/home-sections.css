@@ -404,6 +404,11 @@
     padding: var(--fw-space-section-y-sm) var(--fw-space-inline-sm);
   }
 
+  .shrix-section-bridge {
+    margin-top: 28px;
+    font-size: 14px;
+  }
+
   .shrix-ai-preview {
     padding: var(--fw-space-section-y-sm) var(--fw-space-inline-sm);
   }
@@ -416,6 +421,11 @@
   .shrix-home-section__subtitle {
     font-size: 16px;
     margin-bottom: 32px;
+  }
+
+  .shrix-section-bridge {
+    margin-top: 28px;
+    font-size: 14px;
   }
 
   .shrix-ai-assistant-preview {

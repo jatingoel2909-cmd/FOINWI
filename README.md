@@ -1,16 +1,140 @@
-# React + Vite
+# FOINWI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Grow Beyond Numbers
 
-Currently, two official plugins are available:
+**Educational Financial Intelligence Platform**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+FOINWI helps people understand money through structured learning, intelligent calculators, guided financial journeys, health assessments, and educational insights.
 
-## React Compiler
+Built to improve financial confidence — not to provide regulated financial advice.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Mission
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Our mission is to make financial education simple, practical, and accessible for everyone.
+
+We believe people should understand money before making financial decisions.
+
+---
+
+## Features
+
+### Financial Calculators
+
+Educational tools for everyday Indian money decisions:
+
+- SIP
+- EMI
+- FD
+- RD
+- PPF
+- EPF
+- NPS
+- Retirement
+- Goal Planner
+- Inflation
+- Home Loan
+- Tax
+- and more
+
+### Learning Platform
+
+- Step-by-step learning paths
+- Beginner-friendly lessons
+- Related calculators
+- Connected journeys
+
+### Financial Journeys
+
+- Build Wealth
+- Buy Your Dream Home
+- Save Tax
+- Become Debt Free
+- Retirement Planning
+- Family Protection
+
+### Financial Health Score
+
+- Assess financial habits
+- Identify improvement areas
+- Educational recommendations
+
+### Intelligence Layer
+
+- Knowledge Graph
+- Recommendation Engine
+- Context Engine
+- Smart Search
+- Daily Insights
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+| --- | --- |
+| UI | React |
+| Build | Vite |
+| Language | JavaScript |
+| Styling | CSS |
+| Hosting | Cloudflare Pages |
+| Source | GitHub |
+
+---
+
+## Project Status
+
+**Current stage:** Phase 5 — Product Excellence
+
+- Core platform complete
+- Intelligence Layer implemented
+- Homepage optimization completed
+- Continuous improvements in progress
+
+---
+
+## Roadmap
+
+### Completed
+
+- ✅ Foundation
+- ✅ Financial Platform
+- ✅ Learning Platform
+- ✅ Journey Engine
+- ✅ Intelligence Layer
+
+### In Progress
+
+- 🚧 Product Excellence
+- 🚧 Mobile App
+
+### Upcoming
+
+- Search enhancements
+- Brand assets
+- SEO
+- Analytics
+- Interactive learning
+
+---
+
+## Live Website
+
+**[https://foinwi.com](https://foinwi.com)**
+
+---
+
+## Disclaimer
+
+FOINWI provides educational content and digital tools only.
+
+It does not provide investment advice, tax advice, loan advice, or financial advisory services.
+
+Users should independently verify information and consult qualified professionals where appropriate.
+
+---
+
+## License
+
+MIT

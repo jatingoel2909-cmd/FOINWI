@@ -49,8 +49,8 @@ function AiToolsPreviewSection() {
         </div>
 
         <p className="shrix-ai-assistant-preview__subtitle">
-          A planned AI assistant to help users understand calculators, compare options,
-          and explore money concepts more clearly.
+          Coming next: clearer explanations of calculator results and planning concepts.
+          For now, use Learn Academy and calculators to build understanding.
         </p>
 
         <div className="shrix-ai-assistant-preview__chat">
