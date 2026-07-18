@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -43,6 +43,8 @@ function CompoundInterestCalculator({
 
   const periodsPerYear =
     COMPOUNDING_OPTIONS.find((option) => option.value === frequency)?.periods ?? 1;
+  const frequencyLabel =
+    COMPOUNDING_OPTIONS.find((option) => option.value === frequency)?.label ?? "Yearly";
 
   const maturityAmount = calculateCompoundInterest(
     principal,
@@ -106,24 +108,16 @@ function CompoundInterestCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(principal)}
-            label="Principal"
-            value={formatCurrency(principal)}
-          />
-          <ResultCard
-            key={formatCurrency(interestEarned)}
-            label="Interest Earned"
-            value={formatCurrency(interestEarned)}
-          />
-          <ResultCard
-            key={formatCurrency(maturityAmount)}
-            label="Maturity Amount"
-            value={formatCurrency(maturityAmount)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Maturity Amount", value: formatCurrency(maturityAmount) }}
+          metrics={[
+            { label: "Principal", value: formatCurrency(principal) },
+            { label: "Interest Earned", value: formatCurrency(interestEarned) },
+            { label: "Compounding", value: frequencyLabel },
+            { label: "Time Period", value: `${years} years` },
+          ]}
+          story="More frequent compounding can increase maturity value slightly because interest is added to principal more often."
+        />
       }
     />
   );

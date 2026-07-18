@@ -1,8 +1,9 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
+import { formatCurrency } from "../utils/calculatorFormat";
 
 const CAGR_LIMITS = {
   initial: { min: 10000, max: 10000000, step: 10000 },
@@ -31,6 +32,7 @@ function CagrCalculator({
   const [years, setYears] = useState(defaultYears);
 
   const cagr = calculateCagr(initial, finalValue, years);
+  const absoluteGain = finalValue - initial;
 
   return (
     <CalculatorLayout
@@ -68,11 +70,15 @@ function CagrCalculator({
         </>
       }
       results={
-        <ResultCard
-          key={formatPercent(cagr)}
-          label="CAGR"
-          value={formatPercent(cagr)}
-          highlight
+        <CalculatorResults
+          primary={{ label: "CAGR", value: formatPercent(cagr) }}
+          metrics={[
+            { label: "Initial Investment", value: formatCurrency(initial) },
+            { label: "Final Value", value: formatCurrency(finalValue) },
+            { label: "Time Period", value: `${years} years` },
+            { label: "Absolute Change", value: formatCurrency(absoluteGain) },
+          ]}
+          story="CAGR smooths growth into a single annualised rate. It does not show year-by-year volatility along the way."
         />
       }
     />

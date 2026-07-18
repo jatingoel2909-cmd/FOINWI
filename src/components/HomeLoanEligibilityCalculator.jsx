@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -52,6 +52,7 @@ function HomeLoanEligibilityCalculator({
       variant="default"
       className={className}
       calculatorId="/home-loan-eligibility-calculator"
+      simplifiedModelNotice
       form={
         <>
           <CurrencyInput
@@ -87,19 +88,19 @@ function HomeLoanEligibilityCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(eligibleEmi)}
-            label="Eligible EMI"
-            value={formatCurrency(eligibleEmi)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(loanEligibility)}
-            label="Estimated Loan Eligibility"
-            value={formatCurrency(loanEligibility)}
-          />
-        </>
+        <CalculatorResults
+          primary={{
+            label: "Estimated Loan Eligibility",
+            value: formatCurrency(loanEligibility),
+          }}
+          metrics={[
+            { label: "Eligible EMI", value: formatCurrency(eligibleEmi) },
+            { label: "Monthly Income", value: formatCurrency(monthlyIncome) },
+            { label: "Existing Monthly EMI", value: formatCurrency(existingEmi) },
+            { label: "Loan Tenure", value: `${years} years` },
+          ]}
+          story="This estimate uses a simplified income-to-EMI guideline. Banks may apply different FOIR limits, credit checks, and co-applicant rules."
+        />
       }
     />
   );

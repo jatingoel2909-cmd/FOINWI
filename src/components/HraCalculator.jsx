@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -53,6 +53,7 @@ function HraCalculator({
       variant="default"
       className={className}
       calculatorId="/hra-calculator"
+      simplifiedModelNotice
       form={
         <>
           <CurrencyInput
@@ -96,19 +97,19 @@ function HraCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(exemption)}
-            label="HRA Exemption"
-            value={formatCurrency(exemption)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(taxableHra)}
-            label="Taxable HRA"
-            value={formatCurrency(taxableHra)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "HRA Exemption", value: formatCurrency(exemption) }}
+          metrics={[
+            { label: "HRA Received", value: formatCurrency(hraReceived) },
+            { label: "Taxable HRA", value: formatCurrency(taxableHra) },
+            { label: "Rent Paid", value: formatCurrency(rentPaid) },
+            {
+              label: "City Type",
+              value: cityType === "metro" ? "Metro" : "Non-Metro",
+            },
+          ]}
+          story="HRA exemption is the lowest of common rule-based amounts. Documentation and salary structure can affect the final taxable portion."
+        />
       }
     />
   );

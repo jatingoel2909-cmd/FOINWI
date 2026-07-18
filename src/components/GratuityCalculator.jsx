@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -55,11 +55,13 @@ function GratuityCalculator({
         </>
       }
       results={
-        <ResultCard
-          key={formatCurrency(gratuity)}
-          label="Gratuity Amount"
-          value={formatCurrency(gratuity)}
-          highlight
+        <CalculatorResults
+          primary={{ label: "Gratuity Amount", value: formatCurrency(gratuity) }}
+          metrics={[
+            { label: "Monthly Salary (Basic + DA)", value: formatCurrency(salary) },
+            { label: "Years of Service", value: `${years} years` },
+          ]}
+          story="This estimate uses the standard gratuity formula for eligible service length. Actual payout can depend on employer rules and statutory limits."
         />
       }
     />

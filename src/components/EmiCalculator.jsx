@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const EMI_LIMITS = {
@@ -76,24 +76,15 @@ function EmiCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(emi)}
-            label="Monthly EMI"
-            value={formatCurrency(emi)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(totalInterest)}
-            label="Total Interest"
-            value={formatCurrency(totalInterest)}
-          />
-          <ResultCard
-            key={formatCurrency(totalPayment)}
-            label="Total Payment"
-            value={formatCurrency(totalPayment)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Monthly EMI", value: formatCurrency(emi) }}
+          metrics={[
+            { label: "Loan Amount", value: formatCurrency(principal) },
+            { label: "Interest Paid", value: formatCurrency(totalInterest) },
+            { label: "Total Repayment", value: formatCurrency(totalPayment) },
+          ]}
+          story="A significant portion of long-term repayment is interest. Paying extra toward principal can reduce total interest."
+        />
       }
     />
   );

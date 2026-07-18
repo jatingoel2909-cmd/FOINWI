@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -40,7 +40,7 @@ function NpsCalculator({
   const years = Math.max(retirementAge - currentAge, 1);
   const corpus = calculateSipCorpus(monthly, rate, years);
   const totalInvested = monthly * years * 12;
-  const estimatedPension = corpus * 0.4 * 0.06 / 12;
+  const estimatedPension = (corpus * 0.4 * 0.06) / 12;
 
   return (
     <CalculatorLayout
@@ -87,24 +87,15 @@ function NpsCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(totalInvested)}
-            label="Total Invested"
-            value={formatCurrency(totalInvested)}
-          />
-          <ResultCard
-            key={formatCurrency(corpus)}
-            label="Corpus at Retirement"
-            value={formatCurrency(corpus)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(estimatedPension)}
-            label="Est. Monthly Pension"
-            value={formatCurrency(estimatedPension)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Corpus at Retirement", value: formatCurrency(corpus) }}
+          metrics={[
+            { label: "Total Invested", value: formatCurrency(totalInvested) },
+            { label: "Est. Monthly Pension", value: formatCurrency(estimatedPension) },
+            { label: "Contribution Years", value: `${years} years` },
+          ]}
+          story="The indicative pension uses a simplified annuity assumption on part of the corpus. Actual annuity rates and withdrawal rules can differ."
+        />
       }
     />
   );

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -66,19 +66,15 @@ function InflationCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(futureCost)}
-            label="Future Cost"
-            value={formatCurrency(futureCost)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(increase)}
-            label="Increase in Cost"
-            value={formatCurrency(increase)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Future Cost", value: formatCurrency(futureCost) }}
+          metrics={[
+            { label: "Current Amount", value: formatCurrency(amount) },
+            { label: "Increase in Cost", value: formatCurrency(increase) },
+            { label: "Time Period", value: `${years} years` },
+          ]}
+          story="Inflation reduces purchasing power over time. The same amount of money may buy less in the future under these assumptions."
+        />
       }
     />
   );

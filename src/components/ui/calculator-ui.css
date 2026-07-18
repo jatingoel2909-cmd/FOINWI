@@ -43,6 +43,87 @@
   gap: 16px;
 }
 
+.calc-results-story {
+  display: grid;
+  gap: 18px;
+}
+
+.calc-results-story__header {
+  display: grid;
+  gap: 4px;
+}
+
+.calc-results-story__title {
+  margin: 0;
+  color: var(--fw-text-primary);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.calc-results-story__subtitle {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.calc-results-story__outputs {
+  display: grid;
+  gap: 12px;
+}
+
+.calc-results-story__primary {
+  display: grid;
+}
+
+.calc-results-story__primary .calc-result-card--highlight {
+  border-color: var(--fw-accent-bright);
+  box-shadow: var(--fw-shadow-soft);
+}
+
+.calc-results-story__primary .calc-result-card__value {
+  font-size: 30px;
+}
+
+.calc-results-story__metrics {
+  display: grid;
+  gap: 10px;
+}
+
+.calc-results-story__story {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: var(--fw-radius-md);
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.92);
+  color: var(--fw-text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.calc-simplified-notice {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--fw-radius-md);
+  border: 1px solid var(--fw-border);
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--fw-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.calc-field__helper {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--fw-radius-md);
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.9);
+  color: var(--fw-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .calc-field {
   display: grid;
   gap: 10px;
@@ -259,6 +340,20 @@
     font-size: 24px;
   }
 
+  .calc-results-story {
+    gap: 16px;
+  }
+
+  .calc-results-story__primary .calc-result-card__value {
+    font-size: 26px;
+  }
+
+  .calc-results-story__story {
+    padding: 12px 14px;
+    font-size: 13px;
+    overflow-wrap: break-word;
+  }
+
   .calc-range::-webkit-slider-thumb {
     width: 24px;
     height: 24px;
@@ -424,9 +519,18 @@
   line-height: 1.65;
 }
 
+.calc-daily-insight {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+}
+
+.calc-daily-insight .fi-daily-insight {
+  max-width: none;
+}
+
 .calc-journey-promo {
   grid-column: 1 / -1;
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 .calc-journey-promo__label {

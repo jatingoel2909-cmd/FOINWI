@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -119,20 +119,15 @@ function LoanPrepaymentCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(interestSaved)}
-            label="Interest Saved"
-            value={formatCurrency(interestSaved)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(newOutstanding)}
-            label="New Outstanding Amount"
-            value={formatCurrency(newOutstanding)}
-          />
-          <ResultCard key={revisedImpact} label="Revised Loan Impact" value={revisedImpact} />
-        </>
+        <CalculatorResults
+          primary={{ label: "Interest Saved", value: formatCurrency(interestSaved) }}
+          metrics={[
+            { label: "Prepayment Amount", value: formatCurrency(prepayment) },
+            { label: "New Outstanding Amount", value: formatCurrency(newOutstanding) },
+            { label: "Revised Loan Impact", value: revisedImpact },
+          ]}
+          story="Prepaying principal can reduce remaining interest when EMI stays the same and tenure shortens. Fees or lender rules are not included here."
+        />
       }
     />
   );

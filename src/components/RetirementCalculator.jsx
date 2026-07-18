@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -109,24 +109,15 @@ function RetirementCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(corpusNeeded)}
-            label="Corpus Needed"
-            value={formatCurrency(corpusNeeded)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(projectedCorpus)}
-            label="Projected Corpus"
-            value={formatCurrency(projectedCorpus)}
-          />
-          <ResultCard
-            key={formatCurrency(monthlySipRequired)}
-            label="Monthly SIP Required"
-            value={formatCurrency(monthlySipRequired)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Target Corpus", value: formatCurrency(corpusNeeded) }}
+          metrics={[
+            { label: "Projected Corpus", value: formatCurrency(projectedCorpus) },
+            { label: "Monthly Investment", value: formatCurrency(monthlySipRequired) },
+            { label: "Shortfall", value: formatCurrency(shortfall) },
+          ]}
+          story="Your projected corpus may or may not meet your retirement goal depending on inflation and future contributions."
+        />
       }
     />
   );

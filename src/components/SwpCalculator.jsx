@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const SWP_LIMITS = {
@@ -98,24 +98,16 @@ function SwpCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(totalWithdrawal)}
-            label="Total Withdrawal"
-            value={formatCurrency(totalWithdrawal)}
-          />
-          <ResultCard
-            key={formatCurrency(remainingValue)}
-            label="Remaining Value"
-            value={formatCurrency(remainingValue)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(estimatedReturns)}
-            label="Estimated Returns"
-            value={formatCurrency(estimatedReturns)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Remaining Value", value: formatCurrency(remainingValue) }}
+          metrics={[
+            { label: "Initial Corpus", value: formatCurrency(corpus) },
+            { label: "Total Withdrawal", value: formatCurrency(totalWithdrawal) },
+            { label: "Estimated Returns", value: formatCurrency(estimatedReturns) },
+            { label: "Monthly Withdrawal", value: formatCurrency(withdrawal) },
+          ]}
+          story="Systematic withdrawals depend on both return assumptions and withdrawal size. A zero remaining value means the corpus may be exhausted within the period."
+        />
       }
     />
   );

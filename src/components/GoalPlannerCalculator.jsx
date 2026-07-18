@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -101,20 +101,16 @@ function GoalPlannerCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(projected)}
-            label="Projected Value"
-            value={formatCurrency(projected)}
-            highlight
-          />
-          <ResultCard key={gapValue} label={gapLabel} value={gapValue} />
-          <ResultCard
-            key={formatCurrency(goal)}
-            label="Target Goal"
-            value={formatCurrency(goal)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Projected Value", value: formatCurrency(projected) }}
+          metrics={[
+            { label: "Target Goal", value: formatCurrency(goal) },
+            { label: gapLabel, value: gapValue },
+            { label: "Monthly Investment", value: formatCurrency(monthly) },
+            { label: "Time Period", value: `${years} years` },
+          ]}
+          story="Comparing projected value with your target shows whether current savings and contributions appear on track under these assumptions."
+        />
       }
     />
   );

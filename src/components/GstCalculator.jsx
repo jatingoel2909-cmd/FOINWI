@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -94,24 +94,15 @@ function GstCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(baseAmount)}
-            label="Base Amount"
-            value={formatCurrency(baseAmount)}
-          />
-          <ResultCard
-            key={formatCurrency(gstAmount)}
-            label="GST Amount"
-            value={formatCurrency(gstAmount)}
-          />
-          <ResultCard
-            key={formatCurrency(totalAmount)}
-            label="Total Amount"
-            value={formatCurrency(totalAmount)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Total Amount", value: formatCurrency(totalAmount) }}
+          metrics={[
+            { label: "Base Amount", value: formatCurrency(baseAmount) },
+            { label: "GST Amount", value: formatCurrency(gstAmount) },
+            { label: "GST Rate", value: `${rate}%` },
+          ]}
+          story="GST splits an invoice into taxable value and tax component. The same rate can be used to add GST or extract it from an inclusive total."
+        />
       }
     />
   );

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const FD_LIMITS = {
@@ -97,24 +97,15 @@ function FdCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(deposit)}
-            label="Invested Amount"
-            value={formatCurrency(deposit)}
-          />
-          <ResultCard
-            key={formatCurrency(interestEarned)}
-            label="Interest Earned"
-            value={formatCurrency(interestEarned)}
-          />
-          <ResultCard
-            key={formatCurrency(maturityAmount)}
-            label="Maturity Amount"
-            value={formatCurrency(maturityAmount)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Maturity Value", value: formatCurrency(maturityAmount) }}
+          metrics={[
+            { label: "Principal", value: formatCurrency(deposit) },
+            { label: "Interest Earned", value: formatCurrency(interestEarned) },
+            { label: "Tenure", value: `${years} years` },
+          ]}
+          story="This estimate assumes the selected interest rate remains constant for the full tenure."
+        />
       }
     />
   );

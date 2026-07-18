@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const PPF_LIMITS = {
@@ -50,7 +50,7 @@ function PpfCalculator({
         <>
           <CurrencyInput
             id="ppf-yearly"
-            label="Yearly Investment Amount"
+            label="Yearly Investment"
             value={yearly}
             onChange={setYearly}
             limits={PPF_LIMITS.yearly}
@@ -74,24 +74,16 @@ function PpfCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(totalInvested)}
-            label="Total Invested"
-            value={formatCurrency(totalInvested)}
-          />
-          <ResultCard
-            key={formatCurrency(interestEarned)}
-            label="Interest Earned"
-            value={formatCurrency(interestEarned)}
-          />
-          <ResultCard
-            key={formatCurrency(maturityValue)}
-            label="Maturity Value"
-            value={formatCurrency(maturityValue)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Maturity Value", value: formatCurrency(maturityValue) }}
+          metrics={[
+            { label: "Yearly Investment", value: formatCurrency(yearly) },
+            { label: "Total Invested", value: formatCurrency(totalInvested) },
+            { label: "Interest Earned", value: formatCurrency(interestEarned) },
+            { label: "Investment Period", value: `${years} years` },
+          ]}
+          story="PPF growth is modelled with annual compounding and a long lock-in. Rate assumptions may change over the full tenure."
+        />
       }
     />
   );

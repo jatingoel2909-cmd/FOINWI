@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const SIP_LIMITS = {
@@ -72,24 +72,20 @@ function SipCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(invested)}
-            label="Total Invested"
-            value={formatCurrency(invested)}
-          />
-          <ResultCard
-            key={formatCurrency(returns)}
-            label="Estimated Returns"
-            value={formatCurrency(returns)}
-          />
-          <ResultCard
-            key={formatCurrency(futureValue)}
-            label="Future Value"
-            value={formatCurrency(futureValue)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Estimated Wealth", value: formatCurrency(futureValue) }}
+          metrics={[
+            { label: "Monthly Investment", value: formatCurrency(monthly) },
+            { label: "Investment Period", value: `${years} years` },
+            { label: "Total Invested", value: formatCurrency(invested) },
+            { label: "Estimated Returns", value: formatCurrency(returns) },
+          ]}
+          story={
+            returns > invested
+              ? "Your estimated returns are greater than your invested amount, illustrating the long-term impact of compounding."
+              : "Comparing estimated returns with total invested shows how regular contributions and compounding interact over time."
+          }
+        />
       }
     />
   );

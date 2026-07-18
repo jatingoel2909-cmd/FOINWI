@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -78,6 +78,7 @@ function IncomeTaxCalculator({
       : calculateNewRegimeTax(taxableIncome);
 
   const netIncome = Math.max(0, annualIncome - estimatedTax);
+  const isNewRegime = regime === "new";
 
   return (
     <CalculatorLayout
@@ -88,6 +89,7 @@ function IncomeTaxCalculator({
       variant="alt"
       className={className}
       calculatorId="/income-tax-calculator"
+      simplifiedModelNotice
       form={
         <>
           <CurrencyInput
@@ -96,13 +98,6 @@ function IncomeTaxCalculator({
             value={annualIncome}
             onChange={setAnnualIncome}
             limits={LIMITS.income}
-          />
-          <CurrencyInput
-            id="it-deductions"
-            label="Deductions"
-            value={deductions}
-            onChange={setDeductions}
-            limits={LIMITS.deductions}
           />
           <div className="calc-field">
             <label className="calc-field__label" htmlFor="it-regime">
@@ -113,6 +108,7 @@ function IncomeTaxCalculator({
               className="calc-field__select"
               value={regime}
               onChange={(e) => setRegime(e.target.value)}
+              aria-describedby={isNewRegime ? "it-regime-helper" : undefined}
             >
               {REGIMES.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -121,27 +117,36 @@ function IncomeTaxCalculator({
               ))}
             </select>
           </div>
+          {isNewRegime ? (
+            <p className="calc-field__helper" id="it-regime-helper">
+              The New Regime automatically applies the standard deduction where applicable.
+              Additional deductions are not required.
+            </p>
+          ) : (
+            <CurrencyInput
+              id="it-deductions"
+              label="Deductions"
+              value={deductions}
+              onChange={setDeductions}
+              limits={LIMITS.deductions}
+            />
+          )}
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(taxableIncome)}
-            label="Taxable Income"
-            value={formatCurrency(taxableIncome)}
-          />
-          <ResultCard
-            key={formatCurrency(estimatedTax)}
-            label="Estimated Tax"
-            value={formatCurrency(estimatedTax)}
-            highlight
-          />
-          <ResultCard
-            key={formatCurrency(netIncome)}
-            label="Net Income"
-            value={formatCurrency(netIncome)}
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Estimated Tax", value: formatCurrency(estimatedTax) }}
+          metrics={[
+            { label: "Annual Income", value: formatCurrency(annualIncome) },
+            { label: "Taxable Income", value: formatCurrency(taxableIncome) },
+            { label: "Net Income", value: formatCurrency(netIncome) },
+            {
+              label: "Regime",
+              value: isNewRegime ? "New Regime" : "Old Regime",
+            },
+          ]}
+          story="This simplified estimate compares tax under your selected regime. Actual liability can change with exemptions, rebates, and filing details."
+        />
       }
     />
   );

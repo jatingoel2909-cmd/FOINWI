@@ -51,11 +51,15 @@ function collectItems(result) {
   ];
 }
 
-function buildGroups(result, pathname) {
+function buildGroups(result, pathname, excludePaths = [], excludeTypes = []) {
+  const excludedPathSet = new Set(excludePaths.filter(Boolean));
+  const excludedTypeSet = new Set(excludeTypes.filter(Boolean));
   const seen = new Set();
   const items = collectItems(result).filter((item) => {
     if (!item?.id || !item.path) return false;
     if (pathname && item.path === pathname) return false;
+    if (excludedPathSet.has(item.path)) return false;
+    if (excludedTypeSet.has(item.type)) return false;
     if (seen.has(item.id)) return false;
     seen.add(item.id);
     return true;
@@ -80,6 +84,8 @@ function RecommendationPanel({
   sourceType,
   className = "",
   compact = false,
+  excludePaths = [],
+  excludeTypes = [],
 }) {
   const result = useMemo(
     () =>
@@ -106,8 +112,8 @@ function RecommendationPanel({
   );
 
   const groups = useMemo(
-    () => buildGroups(result, pathname ?? calculatorPath),
-    [result, pathname, calculatorPath],
+    () => buildGroups(result, pathname ?? calculatorPath, excludePaths, excludeTypes),
+    [result, pathname, calculatorPath, excludePaths, excludeTypes],
   );
 
   if (!groups.length) return null;

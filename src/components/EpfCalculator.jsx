@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
@@ -94,24 +94,16 @@ function EpfCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(totalContributions)}
-            label="Total Contributions"
-            value={formatCurrency(totalContributions)}
-          />
-          <ResultCard
-            key={formatCurrency(interestEarned)}
-            label="Interest Earned"
-            value={formatCurrency(interestEarned)}
-          />
-          <ResultCard
-            key={formatCurrency(corpus)}
-            label="Estimated EPF Corpus"
-            value={formatCurrency(corpus)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Estimated EPF Corpus", value: formatCurrency(corpus) }}
+          metrics={[
+            { label: "Current Balance", value: formatCurrency(balance) },
+            { label: "Total Contributions", value: formatCurrency(totalContributions) },
+            { label: "Interest Earned", value: formatCurrency(interestEarned) },
+            { label: "Years Until Retirement", value: `${years} years` },
+          ]}
+          story="EPF corpus grows from existing balance plus ongoing contributions. Interest rate assumptions can change over long service periods."
+        />
       }
     />
   );

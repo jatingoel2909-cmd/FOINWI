@@ -1,36 +1,23 @@
 import { Link } from "react-router-dom";
+import { getPrimaryJourneyForCalculator } from "../../utils/journeyEngineHelpers";
 
-const BUILD_WEALTH_JOURNEY_CALCULATORS = new Set([
-  "/sip-calculator",
-  "/lumpsum-calculator",
-  "/cagr-calculator",
-  "/compound-interest-calculator",
-  "/fd-calculator",
-  "/rd-calculator",
-  "/ppf-calculator",
-  "/swp-calculator",
-  "/goal-planner",
-  "/inflation-calculator",
-]);
+function ContinueJourneyCard({ calculatorId, journey: journeyProp }) {
+  const journey = journeyProp ?? getPrimaryJourneyForCalculator(calculatorId);
 
-function ContinueJourneyCard({ calculatorId }) {
-  if (!BUILD_WEALTH_JOURNEY_CALCULATORS.has(calculatorId)) return null;
+  if (!journey?.slug) return null;
 
   return (
     <aside className="calc-journey-promo" aria-label="Continue your journey">
       <p className="calc-journey-promo__label">Continue Your Journey</p>
       <article className="calc-journey-promo__card">
         <span className="calc-journey-promo__icon" aria-hidden="true">
-          📈
+          {journey.icon}
         </span>
         <div>
-          <h3>Continue with the Build Wealth Journey</h3>
-          <p>
-            Turn this estimate into a structured path for SIP planning, goal-based
-            investing, and long-term wealth habits.
-          </p>
-          <Link to="/journeys/build-wealth" className="calc-journey-promo__cta">
-            Start Build Wealth Journey →
+          <h3>Continue with the {journey.title} Journey</h3>
+          <p>{journey.description}</p>
+          <Link to={`/journeys/${journey.slug}`} className="calc-journey-promo__cta">
+            Start {journey.title} Journey →
           </Link>
         </div>
       </article>

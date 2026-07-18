@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const LUMPSUM_LIMITS = {
@@ -67,24 +67,15 @@ function LumpsumCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(amount)}
-            label="Invested Amount"
-            value={formatCurrency(amount)}
-          />
-          <ResultCard
-            key={formatCurrency(estimatedReturns)}
-            label="Estimated Returns"
-            value={formatCurrency(estimatedReturns)}
-          />
-          <ResultCard
-            key={formatCurrency(futureValue)}
-            label="Future Value"
-            value={formatCurrency(futureValue)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Future Value", value: formatCurrency(futureValue) }}
+          metrics={[
+            { label: "Investment Amount", value: formatCurrency(amount) },
+            { label: "Estimated Returns", value: formatCurrency(estimatedReturns) },
+            { label: "Investment Period", value: `${years} years` },
+          ]}
+          story="A lumpsum projection compounds a single contribution over time. Actual market returns can vary year to year."
+        />
       }
     />
   );

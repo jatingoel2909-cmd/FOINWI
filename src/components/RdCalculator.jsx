@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
+import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
-import ResultCard from "./ui/ResultCard";
 import { formatCurrency } from "../utils/calculatorFormat";
 
 const RD_LIMITS = {
@@ -48,7 +48,7 @@ function RdCalculator({
       title="Plan your recurring deposit growth"
       description="Calculate RD maturity value based on monthly deposit, interest rate, and tenure."
       showHeader={showHeader}
-      variant="alt"
+      variant="default"
       className={className}
       calculatorId="/rd-calculator"
       form={
@@ -79,24 +79,16 @@ function RdCalculator({
         </>
       }
       results={
-        <>
-          <ResultCard
-            key={formatCurrency(totalInvested)}
-            label="Total Invested"
-            value={formatCurrency(totalInvested)}
-          />
-          <ResultCard
-            key={formatCurrency(interestEarned)}
-            label="Interest Earned"
-            value={formatCurrency(interestEarned)}
-          />
-          <ResultCard
-            key={formatCurrency(maturityValue)}
-            label="Maturity Value"
-            value={formatCurrency(maturityValue)}
-            highlight
-          />
-        </>
+        <CalculatorResults
+          primary={{ label: "Maturity Value", value: formatCurrency(maturityValue) }}
+          metrics={[
+            { label: "Monthly Deposit", value: formatCurrency(monthly) },
+            { label: "Total Invested", value: formatCurrency(totalInvested) },
+            { label: "Interest Earned", value: formatCurrency(interestEarned) },
+            { label: "Tenure", value: `${years} years` },
+          ]}
+          story="Recurring deposits grow through regular monthly contributions. This estimate assumes a constant interest rate for the full tenure."
+        />
       }
     />
   );
