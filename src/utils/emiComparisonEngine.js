@@ -7,6 +7,9 @@ import { getLoanTypeById, formatTenureLabel } from "../data/loanTypes.js";
 import { buildEmiSummary } from "./emiFormula.js";
 import { formatCurrency } from "./calculatorFormat.js";
 
+export const BALANCED_OPTION_NOTE =
+  "Balanced Option is calculated from the relative monthly EMI and total-interest burden across the displayed tenures. It is an educational comparison, not personal financial advice.";
+
 function normalize(value, min, max) {
   if (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max)) {
     return 0;
@@ -55,6 +58,73 @@ export function selectBalancedOption(options) {
   return best;
 }
 
+/**
+ * Build factual educational trade-off statements from comparison data.
+ */
+export function buildDecisionSummary(comparison) {
+  if (!comparison?.valid || !comparison.options?.length || !comparison.highlights) {
+    return {
+      statements: [],
+      balancedNote: BALANCED_OPTION_NOTE,
+    };
+  }
+
+  const { options, highlights, longest } = comparison;
+  const shortest = options.reduce((min, item) =>
+    item.months < min.months ? item : min,
+  );
+  const balanced = highlights.balanced;
+  const statements = [];
+
+  if (shortest && longest) {
+    statements.push(
+      `The shortest tenure (${shortest.tenureLabel}) has the highest EMI (${formatCurrency(shortest.monthlyEmi)}) but the lowest estimated interest (${formatCurrency(shortest.totalInterest)}).`,
+    );
+    statements.push(
+      `The longest tenure (${longest.tenureLabel}) has the lowest EMI (${formatCurrency(longest.monthlyEmi)}) but the highest estimated interest (${formatCurrency(longest.totalInterest)}).`,
+    );
+  }
+
+  if (balanced && longest && balanced.id !== longest.id) {
+    const emiIncrease = Math.max(0, balanced.monthlyEmi - longest.monthlyEmi);
+    const interestReduce = Math.max(0, longest.totalInterest - balanced.totalInterest);
+    statements.push(
+      `Choosing ${balanced.tenureLabel} instead of ${longest.tenureLabel} increases EMI by ${formatCurrency(emiIncrease)} per month but may reduce estimated interest by ${formatCurrency(interestReduce)}.`,
+    );
+  }
+
+  if (shortest && longest && shortest.id !== longest.id) {
+    const interestReduce = Math.max(0, longest.totalInterest - shortest.totalInterest);
+    statements.push(
+      `Choosing ${shortest.tenureLabel} instead of ${longest.tenureLabel} may reduce estimated interest by ${formatCurrency(interestReduce)}.`,
+    );
+  }
+
+  statements.push(
+    "Longer tenure lowers monthly EMI but increases total interest.",
+    "Shorter tenure increases EMI but reduces borrowing cost.",
+  );
+
+  return {
+    statements,
+    balancedNote: BALANCED_OPTION_NOTE,
+  };
+}
+
+/**
+ * Scale a bar width as a percent of the metric maximum.
+ * Equal maxima render as full-width bars; zeros stay empty.
+ */
+export function scaleBarPercent(value, max) {
+  if (!Number.isFinite(value) || value < 0) return 0;
+  if (!Number.isFinite(max) || max <= 0) {
+    return value === 0 ? 0 : 100;
+  }
+  if (value === 0) return 0;
+  if (max === value) return 100;
+  return Math.max((value / max) * 100, 4);
+}
+
 export function buildTenureComparison({ principal, annualRate, loanTypeId }) {
   const loanType = getLoanTypeById(loanTypeId);
   const empty = {
@@ -64,6 +134,10 @@ export function buildTenureComparison({ principal, annualRate, loanTypeId }) {
     highlights: null,
     longest: null,
     decisionPoints: [],
+    decisionSummary: {
+      statements: [],
+      balancedNote: BALANCED_OPTION_NOTE,
+    },
   };
 
   if (!loanType) return empty;
@@ -160,7 +234,7 @@ export function buildTenureComparison({ principal, annualRate, loanTypeId }) {
     isFastest: fastest?.id === option.id,
   }));
 
-  return {
+  const comparison = {
     valid: true,
     loanType,
     options: enriched,
@@ -176,5 +250,10 @@ export function buildTenureComparison({ principal, annualRate, loanTypeId }) {
       "Shorter tenure increases EMI but reduces borrowing cost.",
       "The Balanced Option represents a middle ground in this comparison.",
     ],
+  };
+
+  return {
+    ...comparison,
+    decisionSummary: buildDecisionSummary(comparison),
   };
 }

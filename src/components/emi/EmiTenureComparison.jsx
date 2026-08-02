@@ -1,21 +1,31 @@
 import { formatCurrency } from "../../utils/calculatorFormat";
+import { BALANCED_OPTION_NOTE } from "../../utils/emiComparisonEngine";
+import EmiComparisonVisuals from "./EmiComparisonVisuals";
+import EmiDecisionSummary from "./EmiDecisionSummary";
 import "./emi-comparison.css";
 
-function BadgeList({ badges }) {
+function BadgeList({ badges, showBalancedExplain = false }) {
   if (!badges?.length) return null;
+  const hasBalanced = badges.includes("Balanced Option");
+
   return (
-    <ul className="emi-compare__badges">
-      {badges.map((badge) => (
-        <li
-          key={badge}
-          className={`emi-compare__badge${
-            badge === "Balanced Option" ? " emi-compare__badge--balanced" : ""
-          }`}
-        >
-          {badge}
-        </li>
-      ))}
-    </ul>
+    <div className="emi-compare__badge-wrap">
+      <ul className="emi-compare__badges">
+        {badges.map((badge) => (
+          <li
+            key={badge}
+            className={`emi-compare__badge${
+              badge === "Balanced Option" ? " emi-compare__badge--balanced" : ""
+            }`}
+          >
+            {badge}
+          </li>
+        ))}
+      </ul>
+      {showBalancedExplain && hasBalanced ? (
+        <p className="emi-compare__balanced-explain">{BALANCED_OPTION_NOTE}</p>
+      ) : null}
+    </div>
   );
 }
 
@@ -26,7 +36,7 @@ function ComparisonCard({ option }) {
     >
       <header className="emi-compare__card-head">
         <h4>{option.tenureLabel}</h4>
-        <BadgeList badges={option.badges} />
+        <BadgeList badges={option.badges} showBalancedExplain />
       </header>
       <dl className="emi-compare__stats">
         <div>
@@ -68,7 +78,7 @@ function EmiTenureComparison({ comparison }) {
     );
   }
 
-  const { options, highlights, decisionPoints, longest } = comparison;
+  const { options, highlights, longest } = comparison;
 
   return (
     <section className="emi-compare" aria-label="Compare loan tenures">
@@ -77,25 +87,20 @@ function EmiTenureComparison({ comparison }) {
         <p>See how your EMI and total interest change across different repayment periods.</p>
       </header>
 
-      <div
-        className="emi-compare__live"
-        aria-live="polite"
-        aria-atomic="true"
-        role="status"
-      >
-        <p className="emi-compare__highlights">
-          Lowest EMI: {highlights.lowestEmi.tenureLabel} ({formatCurrency(highlights.lowestEmi.monthlyEmi)})
-          {" · "}
-          Lowest Total Interest: {highlights.lowestInterest.tenureLabel} (
-          {formatCurrency(highlights.lowestInterest.totalInterest)})
-          {" · "}
-          Fastest Payoff: {highlights.fastest.tenureLabel}
-          {" · "}
-          Balanced Option: {highlights.balanced.tenureLabel}
-        </p>
-      </div>
+      <p className="emi-compare__highlights">
+        Lowest EMI: {highlights.lowestEmi.tenureLabel} (
+        {formatCurrency(highlights.lowestEmi.monthlyEmi)})
+        {" · "}
+        Lowest Total Interest: {highlights.lowestInterest.tenureLabel} (
+        {formatCurrency(highlights.lowestInterest.totalInterest)})
+        {" · "}
+        Fastest Payoff: {highlights.fastest.tenureLabel}
+        {" · "}
+        Balanced Option: {highlights.balanced.tenureLabel}
+      </p>
 
-      {/* Desktop / tablet table */}
+      <EmiComparisonVisuals comparison={comparison} />
+
       <div className="emi-compare__table-wrap">
         <table className="emi-compare__table">
           <caption className="sr-only">
@@ -140,25 +145,13 @@ function EmiTenureComparison({ comparison }) {
         </table>
       </div>
 
-      {/* Mobile stacked cards */}
       <div className="emi-compare__cards">
         {options.map((option) => (
           <ComparisonCard key={option.id} option={option} />
         ))}
       </div>
 
-      <aside className="emi-compare__tradeoff" aria-labelledby="emi-tradeoff-title">
-        <h4 id="emi-tradeoff-title">Understanding the Trade-off</h4>
-        <ul>
-          {decisionPoints.map((point) => (
-            <li key={point}>{point}</li>
-          ))}
-        </ul>
-        <p className="emi-compare__disclaimer">
-          Educational comparison only. Affordability depends on income, existing obligations,
-          and lender criteria — this tool does not assess those factors.
-        </p>
-      </aside>
+      <EmiDecisionSummary comparison={comparison} />
     </section>
   );
 }

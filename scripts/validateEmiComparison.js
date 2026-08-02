@@ -1,10 +1,14 @@
 /**
- * Lightweight validation for EMI tenure comparison.
+ * Lightweight validation for EMI tenure comparison + storytelling helpers.
  * Run: node scripts/validateEmiComparison.js
  */
 
 import { calculateEmi, calculateEmiFromMonths } from "../src/utils/emiFormula.js";
-import { buildTenureComparison } from "../src/utils/emiComparisonEngine.js";
+import {
+  buildDecisionSummary,
+  buildTenureComparison,
+  scaleBarPercent,
+} from "../src/utils/emiComparisonEngine.js";
 import { formatCurrency } from "../src/utils/calculatorFormat.js";
 
 function assert(condition, message) {
@@ -19,9 +23,9 @@ function summarize(label, comparison) {
       `${option.tenureLabel.padEnd(12)} EMI ${formatCurrency(option.monthlyEmi).padStart(14)}  Interest ${formatCurrency(option.totalInterest).padStart(14)}  Total ${formatCurrency(option.totalRepayment).padStart(14)}  [${option.badges.join(", ")}]`,
     );
   });
-  console.log(
-    `Balanced Option → ${comparison.highlights.balanced.tenureLabel}`,
-  );
+  console.log(`Balanced Option → ${comparison.highlights.balanced.tenureLabel}`);
+  console.log("--- Decision summary ---");
+  comparison.decisionSummary.statements.forEach((line) => console.log(`• ${line}`));
 }
 
 // A. Home Loan
@@ -40,6 +44,24 @@ assert(
   home.highlights.lowestEmi.tenureValue === 30,
   "Lowest EMI should be longest home tenure",
 );
+assert(
+  home.decisionSummary.statements.length >= 4,
+  "Home loan decision summary should include factual statements",
+);
+assert(
+  home.decisionSummary.statements.some((line) => line.includes("15 years")),
+  "Home summary should mention balanced 15-year trade-off",
+);
+
+// Visual scaling for Home Loan EMI bars
+const homeEmiMax = Math.max(...home.options.map((o) => o.monthlyEmi));
+assert(scaleBarPercent(homeEmiMax, homeEmiMax) === 100, "Max EMI bar should be 100%");
+assert(
+  scaleBarPercent(home.highlights.lowestEmi.monthlyEmi, homeEmiMax) < 100,
+  "Lower EMI bar should be shorter than max",
+);
+assert(scaleBarPercent(0, homeEmiMax) === 0, "Zero value bar should be empty");
+console.log("=== Home Loan visuals ✓ ===");
 
 // B. Personal Loan
 const personal = buildTenureComparison({
@@ -49,6 +71,13 @@ const personal = buildTenureComparison({
 });
 summarize("Personal Loan ₹5L @ 12%", personal);
 assert(personal.options.length === 5, "Personal loan should have 5 tenures");
+assert(
+  personal.decisionSummary.statements.some((line) =>
+    line.includes(personal.highlights.balanced.tenureLabel),
+  ),
+  "Personal summary should mention balanced tenure",
+);
+console.log("=== Personal Loan visuals ✓ ===");
 
 // C. Car Loan
 const car = buildTenureComparison({
@@ -88,15 +117,38 @@ assert(
   zero.options.every((o) => o.totalInterest < 0.01),
   "Zero interest means ~0 total interest",
 );
+const zeroInterestMax = Math.max(...zero.options.map((o) => o.totalInterest), 0);
+assert(
+  zero.options.every((o) => scaleBarPercent(o.totalInterest, zeroInterestMax) === 0),
+  "Zero-interest bars stay empty when max interest is 0",
+);
+assert(
+  zero.decisionSummary.statements.length > 0,
+  "Zero-interest case still produces decision statements",
+);
 console.log("\n=== Zero interest ✓ ===");
 
-// F. Invalid inputs
+// Near-equal bar scaling
+assert(scaleBarPercent(100, 100) === 100, "Equal max values map to 100%");
+assert(scaleBarPercent(50, 100) === 50, "Half value maps to 50%");
+assert(scaleBarPercent(1, 100) === 4, "Tiny non-zero values keep a visible minimum width");
+console.log("=== Equal / near-equal bar scaling ✓ ===");
+
+// F. Invalid / empty comparison data
 const invalid = buildTenureComparison({
   principal: 0,
   annualRate: 10,
   loanTypeId: "home",
 });
 assert(!invalid.valid && invalid.options.length === 0, "Invalid principal yields empty compare");
+assert(
+  invalid.decisionSummary.statements.length === 0,
+  "Empty comparison has no decision statements",
+);
+assert(
+  buildDecisionSummary(invalid).statements.length === 0,
+  "buildDecisionSummary handles empty comparison",
+);
 assert(calculateEmi(null, 10, 5) === null, "Null principal returns null EMI");
 assert(calculateEmiFromMonths(100000, 10, 0) === null, "Zero months returns null");
 console.log("=== Invalid / empty inputs ✓ ===");

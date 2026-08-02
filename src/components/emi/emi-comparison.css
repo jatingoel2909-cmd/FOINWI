@@ -260,29 +260,231 @@
   overflow-wrap: anywhere;
 }
 
-.emi-compare__tradeoff {
-  padding: 18px 16px;
+.emi-compare__badge-wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.emi-compare__balanced-explain {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  max-width: 42ch;
+}
+
+.emi-quick-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.emi-quick-card {
+  min-width: 0;
+  padding: 16px 14px;
+  border-radius: var(--fw-radius-md, 14px);
+  border: 1px solid var(--fw-border-strong);
+  background: rgba(255, 252, 247, 0.95);
+  box-shadow: var(--fw-shadow-card);
+}
+
+.emi-quick-card--balanced {
+  border-color: var(--fw-accent-bright);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 252, 247, 0.98) 0%,
+    rgba(243, 232, 216, 0.42) 100%
+  );
+}
+
+.emi-quick-card__title {
+  margin: 0 0 6px;
+  color: var(--fw-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.emi-quick-card__tenure {
+  margin: 0 0 12px;
+  color: var(--fw-text-primary);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.emi-quick-card__stats {
+  margin: 0 0 10px;
+  display: grid;
+  gap: 6px;
+}
+
+.emi-quick-card__stats > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.emi-quick-card__stats dt {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.emi-quick-card__stats dd {
+  margin: 0;
+  color: var(--fw-text-primary);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.emi-quick-card__note {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.emi-quick-card__balanced-note {
+  margin: 8px 0 0;
+  color: var(--fw-text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.emi-visuals {
+  display: grid;
+  gap: 18px;
+}
+
+.emi-visuals__charts {
+  display: grid;
+  gap: 18px;
+}
+
+.emi-visuals__chart {
+  padding: 16px 14px;
   border-radius: var(--fw-radius-md, 14px);
   border: 1px solid var(--fw-border);
   background: rgba(255, 252, 247, 0.9);
 }
 
-.emi-compare__tradeoff h4 {
-  margin: 0 0 10px;
+.emi-visuals__chart-title {
+  margin: 0 0 12px;
+  color: var(--fw-text-primary);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.emi-visuals__bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.emi-visuals__row {
+  display: grid;
+  grid-template-columns: minmax(72px, 110px) minmax(0, 1fr) minmax(88px, auto);
+  gap: 10px;
+  align-items: center;
+}
+
+.emi-visuals__row-meta {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.emi-visuals__tenure {
+  color: var(--fw-text-primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.emi-visuals__markers {
+  color: var(--fw-accent);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.emi-visuals__track {
+  min-width: 0;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(166, 124, 0, 0.12);
+  overflow: hidden;
+}
+
+.emi-visuals__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c9a227, #a67c00);
+  max-width: 100%;
+}
+
+.emi-visuals__fill--highlight {
+  background: linear-gradient(90deg, #d4af37, #8a6700);
+  box-shadow: inset 0 0 0 1px rgba(61, 52, 40, 0.08);
+}
+
+.emi-visuals__amount {
+  color: var(--fw-text-primary);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: right;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.emi-decision {
+  padding: 18px 16px;
+  border-radius: var(--fw-radius-md, 14px);
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.9);
+  display: grid;
+  gap: 12px;
+}
+
+.emi-decision h4 {
+  margin: 0;
   color: var(--fw-text-primary);
   font-size: 16px;
 }
 
-.emi-compare__tradeoff ul {
-  margin: 0 0 12px;
+.emi-decision__list {
+  margin: 0;
   padding-left: 18px;
   color: var(--fw-text-secondary);
   font-size: 14px;
   line-height: 1.65;
 }
 
-.emi-compare__tradeoff li + li {
+.emi-decision__list li + li {
   margin-top: 6px;
+}
+
+.emi-decision__empty {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+}
+
+.emi-decision__balanced-note {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--fw-border);
+  background: rgba(166, 124, 0, 0.08);
+  color: var(--fw-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .emi-compare__disclaimer {
@@ -314,6 +516,23 @@
   }
 }
 
+@media (max-width: 900px) {
+  .emi-quick-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .emi-visuals__row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .emi-visuals__amount {
+    text-align: left;
+  }
+}
+
 @media (max-width: 430px) {
   .emi-loan-type__option {
     flex: 1 1 calc(50% - 8px);
@@ -328,6 +547,14 @@
   .emi-compare__stats dd {
     font-size: 14px;
   }
+
+  .emi-visuals__chart {
+    padding: 14px 12px;
+  }
+
+  .emi-quick-card__tenure {
+    font-size: 16px;
+  }
 }
 
 @media (hover: none), (pointer: coarse) {
@@ -341,7 +568,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .emi-loan-type__option {
+  .emi-loan-type__option,
+  .emi-visuals__fill {
     transition: none;
   }
 }
