@@ -5,6 +5,7 @@ import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
 import EmiLoanTypeSelector from "./emi/EmiLoanTypeSelector";
 import EmiTenureComparison from "./emi/EmiTenureComparison";
+import EmiLenderComparison from "./emi/EmiLenderComparison";
 import { DEFAULT_LOAN_TYPE_ID, getLoanTypeById } from "../data/loanTypes";
 import { calculateEmi } from "../utils/emiFormula";
 import { buildTenureComparison } from "../utils/emiComparisonEngine";
@@ -32,6 +33,8 @@ function EmiCalculator({
   const [rate, setRate] = useState(initialRate);
   const [years, setYears] = useState(defaultYears);
 
+  const loanType = getLoanTypeById(loanTypeId);
+
   const handleLoanTypeChange = (nextLoanTypeId) => {
     setLoanTypeId(nextLoanTypeId);
     const nextType = getLoanTypeById(nextLoanTypeId);
@@ -55,6 +58,11 @@ function EmiCalculator({
       }),
     [principal, rate, loanTypeId],
   );
+
+  const minRate = loanType?.illustrativeMinRate;
+  const maxRate = loanType?.illustrativeMaxRate;
+  const hasRateRange =
+    Number.isFinite(minRate) && Number.isFinite(maxRate);
 
   return (
     <CalculatorLayout
@@ -83,8 +91,16 @@ function EmiCalculator({
             format="percent"
             limits={EMI_LIMITS.rate}
           />
+          {hasRateRange ? (
+            <p className="calc-field__helper" id="emi-rate-range">
+              Typical illustrative range: {minRate}% – {maxRate}%
+              <br />
+              Current calculation: {Number(rate).toFixed(1)}%
+            </p>
+          ) : null}
           <p className="calc-field__helper" id="emi-rate-helper">
-            Actual rates vary by lender, credit profile, income, loan amount and eligibility.
+            Rates vary by lender, credit profile, income, employment, loan amount, tenure and
+            eligibility. Verify the final rate directly with the lender.
           </p>
           <InputField
             id="emi-years"
@@ -113,7 +129,16 @@ function EmiCalculator({
           </p>
         )
       }
-      extension={<EmiTenureComparison comparison={comparison} />}
+      extension={
+        <>
+          <EmiTenureComparison comparison={comparison} />
+          <EmiLenderComparison
+            principal={principal}
+            tenureMonths={months}
+            loanTypeId={loanTypeId}
+          />
+        </>
+      }
     />
   );
 }

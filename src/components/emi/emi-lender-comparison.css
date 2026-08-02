@@ -1,0 +1,271 @@
+.emi-lender {
+  margin-top: 1.75rem;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid rgba(212, 175, 55, 0.22);
+}
+
+.emi-lender--coming-soon .emi-lender__coming-soon {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.emi-lender__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.emi-lender__header-text h3 {
+  margin: 0 0 0.35rem;
+  color: #f5f0e6;
+  font-size: 1.2rem;
+}
+
+.emi-lender__header-text p {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.78);
+  font-size: 0.95rem;
+  max-width: 42rem;
+}
+
+.emi-lender__toggle {
+  display: none;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.08);
+  color: #d4af37;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.emi-lender__toggle:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 3px;
+}
+
+.emi-lender__panel[hidden] {
+  display: none;
+}
+
+.emi-lender__empty {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.72);
+}
+
+.emi-lender__savings {
+  margin: 0 0 1.25rem;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid rgba(212, 175, 55, 0.65);
+  background: rgba(212, 175, 55, 0.06);
+}
+
+.emi-lender__savings-title {
+  margin: 0 0 0.45rem;
+  color: #d4af37;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.emi-lender__savings-statement {
+  margin: 0 0 0.5rem;
+  color: #f5f0e6;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.emi-lender__savings-secondary {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.emi-lender__desktop {
+  display: none;
+}
+
+.emi-lender__mobile {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.emi-lender__card {
+  padding: 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  background: rgba(5, 5, 5, 0.35);
+}
+
+.emi-lender__card-head h4 {
+  margin: 0 0 0.25rem;
+  color: #f5f0e6;
+  font-size: 1.05rem;
+}
+
+.emi-lender__category {
+  margin: 0 0 0.75rem;
+  color: rgba(212, 175, 55, 0.9);
+  font-size: 0.85rem;
+}
+
+.emi-lender__stats {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.emi-lender__stats > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.emi-lender__stats dt {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.8rem;
+}
+
+.emi-lender__stats dd {
+  margin: 0;
+  color: #f5f0e6;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.emi-lender__diff-emi,
+.emi-lender__diff-int {
+  display: block;
+}
+
+.emi-lender__diff-int {
+  margin-top: 0.2rem;
+  color: rgba(245, 240, 230, 0.75);
+  font-size: 0.88rem;
+}
+
+.emi-lender__rate-note {
+  margin: 0.75rem 0 0;
+  color: rgba(245, 240, 230, 0.65);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.emi-lender__rate-note--global {
+  margin-top: 1rem;
+}
+
+.emi-lender__processing-note,
+.emi-lender__dev-note {
+  margin: 0.45rem 0 0;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.emi-lender__table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.emi-lender__caption {
+  caption-side: bottom;
+  padding-top: 0.75rem;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.emi-lender__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.emi-lender__table th,
+.emi-lender__table td {
+  padding: 0.7rem 0.65rem;
+  border-bottom: 1px solid rgba(245, 240, 230, 0.12);
+  text-align: left;
+  vertical-align: top;
+  color: #f5f0e6;
+  font-variant-numeric: tabular-nums;
+}
+
+.emi-lender__table thead th {
+  color: rgba(212, 175, 55, 0.95);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.emi-lender__table tbody th {
+  font-weight: 600;
+}
+
+.emi-lender__name {
+  display: block;
+}
+
+.emi-lender__proc {
+  display: block;
+  margin-top: 0.2rem;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
+.emi-lender__lowest-label {
+  color: rgba(212, 175, 55, 0.95);
+  font-size: 0.85rem;
+}
+
+.emi-lender__table tbody tr:focus-within {
+  background: rgba(212, 175, 55, 0.05);
+}
+
+@media (min-width: 900px) {
+  .emi-lender__toggle {
+    display: none;
+  }
+
+  .emi-lender__panel {
+    display: block !important;
+  }
+
+  .emi-lender__desktop {
+    display: block;
+  }
+
+  .emi-lender__mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .emi-lender__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .emi-lender {
+    /* Avoid horizontal overflow from table remnants */
+    overflow-x: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emi-lender__toggle,
+  .emi-lender__card,
+  .emi-lender__table tbody tr {
+    transition: none;
+  }
+}
