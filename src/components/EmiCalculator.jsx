@@ -5,7 +5,7 @@ import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
 import EmiLoanTypeSelector from "./emi/EmiLoanTypeSelector";
 import EmiTenureComparison from "./emi/EmiTenureComparison";
-import { DEFAULT_LOAN_TYPE_ID } from "../data/loanTypes";
+import { DEFAULT_LOAN_TYPE_ID, getLoanTypeById } from "../data/loanTypes";
 import { calculateEmi } from "../utils/emiFormula";
 import { buildTenureComparison } from "../utils/emiComparisonEngine";
 import { formatCurrency } from "../utils/calculatorFormat";
@@ -18,16 +18,27 @@ const EMI_LIMITS = {
 
 function EmiCalculator({
   defaultPrincipal = 5000000,
-  defaultRate = 9,
+  defaultRate,
   defaultYears = 20,
   defaultLoanType = DEFAULT_LOAN_TYPE_ID,
   className = "",
   showHeader = true,
 }) {
+  const initialLoanType = getLoanTypeById(defaultLoanType);
+  const initialRate = initialLoanType?.defaultRate ?? defaultRate ?? 8.5;
+
   const [loanTypeId, setLoanTypeId] = useState(defaultLoanType);
   const [principal, setPrincipal] = useState(defaultPrincipal);
-  const [rate, setRate] = useState(defaultRate);
+  const [rate, setRate] = useState(initialRate);
   const [years, setYears] = useState(defaultYears);
+
+  const handleLoanTypeChange = (nextLoanTypeId) => {
+    setLoanTypeId(nextLoanTypeId);
+    const nextType = getLoanTypeById(nextLoanTypeId);
+    if (nextType?.defaultRate != null) {
+      setRate(nextType.defaultRate);
+    }
+  };
 
   const months = years * 12;
   const emi = calculateEmi(principal, rate, years);
@@ -56,7 +67,7 @@ function EmiCalculator({
       calculatorId="/emi-calculator"
       form={
         <>
-          <EmiLoanTypeSelector value={loanTypeId} onChange={setLoanTypeId} />
+          <EmiLoanTypeSelector value={loanTypeId} onChange={handleLoanTypeChange} />
           <CurrencyInput
             id="emi-principal"
             label="Loan Amount"
@@ -66,12 +77,15 @@ function EmiCalculator({
           />
           <InputField
             id="emi-rate"
-            label="Interest Rate (% yearly)"
+            label="Illustrative annual interest rate"
             value={rate}
             onChange={setRate}
             format="percent"
             limits={EMI_LIMITS.rate}
           />
+          <p className="calc-field__helper" id="emi-rate-helper">
+            Actual rates vary by lender, credit profile, income, loan amount and eligibility.
+          </p>
           <InputField
             id="emi-years"
             label="Loan Tenure (Years)"
