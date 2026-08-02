@@ -24,6 +24,7 @@ function CalculatorLayout({
   form,
   results,
   formula,
+  extension = null,
   simplifiedModelNotice = false,
 }) {
   const insights = calculatorId ? getCalculatorInsights(calculatorId) : null;
@@ -60,6 +61,8 @@ function CalculatorLayout({
         </div>
         {formula}
       </div>
+
+      {extension}
 
       {explain ? <CalculatorExplainEngine explain={explain} /> : null}
 

@@ -1,0 +1,347 @@
+/* EMI tenure comparison — Soft Champagne, EMI calculator only */
+
+.emi-loan-type {
+  display: grid;
+  gap: 10px;
+}
+
+.emi-loan-type__label {
+  margin: 0;
+  color: var(--fw-accent);
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.emi-loan-type__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.emi-loan-type__option {
+  min-height: var(--fw-touch-min, 44px);
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--fw-border-strong);
+  background: rgba(255, 252, 247, 0.92);
+  color: var(--fw-text-primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(166, 124, 0, 0.14);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.emi-loan-type__option:hover,
+.emi-loan-type__option:focus-visible {
+  border-color: var(--fw-accent);
+  outline: none;
+}
+
+.emi-loan-type__option:focus-visible {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 2px;
+}
+
+.emi-loan-type__option--active {
+  border-color: var(--fw-accent-bright);
+  background: rgba(166, 124, 0, 0.12);
+  color: var(--fw-accent);
+}
+
+.emi-compare {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding: 28px 0 8px;
+  border-top: 1px solid var(--fw-border);
+  display: grid;
+  gap: 20px;
+}
+
+.emi-compare__header h3 {
+  margin: 0 0 8px;
+  color: var(--fw-text-primary);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  letter-spacing: -0.3px;
+}
+
+.emi-compare__header p {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+.emi-compare__live {
+  margin: 0;
+}
+
+.emi-compare__highlights {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--fw-radius-md, 14px);
+  border: 1px solid var(--fw-border);
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--fw-text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.emi-compare__empty {
+  margin: 0;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px dashed var(--fw-border-strong);
+  color: var(--fw-text-muted);
+  font-size: 14px;
+}
+
+.emi-compare__table-wrap {
+  display: none;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.emi-compare__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.emi-compare__table th,
+.emi-compare__table td {
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--fw-border);
+  color: var(--fw-text-primary);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.emi-compare__table thead th {
+  color: var(--fw-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 252, 247, 0.8);
+}
+
+.emi-compare__table tbody th {
+  font-weight: 700;
+  min-width: 140px;
+}
+
+.emi-compare__row--balanced {
+  background: rgba(166, 124, 0, 0.06);
+}
+
+.emi-compare__tenure {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.emi-compare__badges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.emi-compare__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.95);
+  color: var(--fw-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.emi-compare__badge--balanced {
+  border-color: var(--fw-border-strong);
+  background: rgba(166, 124, 0, 0.12);
+  color: var(--fw-accent);
+}
+
+.emi-compare__saved {
+  margin: 12px 0 0;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.emi-compare__saved--inline {
+  display: block;
+  margin: 0;
+}
+
+.emi-compare__baseline {
+  color: var(--fw-text-muted);
+  font-size: 12px;
+}
+
+.emi-compare__cards {
+  display: grid;
+  gap: 14px;
+}
+
+.emi-compare__card {
+  padding: 18px 16px;
+  border-radius: var(--fw-radius-lg, 18px);
+  border: 1px solid var(--fw-border-strong);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 252, 247, 0.98) 0%,
+    rgba(243, 232, 216, 0.35) 100%
+  );
+  box-shadow: var(--fw-shadow-card);
+}
+
+.emi-compare__card--balanced {
+  border-color: var(--fw-accent-bright);
+  box-shadow: var(--fw-shadow-soft);
+}
+
+.emi-compare__card-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.emi-compare__card-head h4 {
+  margin: 0;
+  color: var(--fw-text-primary);
+  font-size: 17px;
+  letter-spacing: -0.2px;
+}
+
+.emi-compare__stats {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.emi-compare__stats > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.emi-compare__stats dt {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.emi-compare__stats dd {
+  margin: 0;
+  color: var(--fw-accent);
+  font-size: 15px;
+  font-weight: 800;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.emi-compare__tradeoff {
+  padding: 18px 16px;
+  border-radius: var(--fw-radius-md, 14px);
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.9);
+}
+
+.emi-compare__tradeoff h4 {
+  margin: 0 0 10px;
+  color: var(--fw-text-primary);
+  font-size: 16px;
+}
+
+.emi-compare__tradeoff ul {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  color: var(--fw-text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.emi-compare__tradeoff li + li {
+  margin-top: 6px;
+}
+
+.emi-compare__disclaimer {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 900px) {
+  .emi-compare__table-wrap {
+    display: block;
+  }
+
+  .emi-compare__cards {
+    display: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .emi-loan-type__option {
+    flex: 1 1 calc(50% - 8px);
+    justify-content: center;
+    text-align: center;
+  }
+
+  .emi-compare__highlights {
+    font-size: 12px;
+  }
+
+  .emi-compare__stats dd {
+    font-size: 14px;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .emi-loan-type__option:hover {
+    border-color: var(--fw-border-strong);
+  }
+
+  .emi-loan-type__option--active:hover {
+    border-color: var(--fw-accent-bright);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emi-loan-type__option {
+    transition: none;
+  }
+}

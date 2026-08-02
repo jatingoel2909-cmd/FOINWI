@@ -30,11 +30,7 @@ function CalculatorResults({
         {metrics.length > 0 ? (
           <div className="calc-results-story__metrics">
             {metrics.map((metric) => (
-              <ResultCard
-                key={`${metric.label}-${metric.value}`}
-                label={metric.label}
-                value={metric.value}
-              />
+              <ResultCard key={metric.label} label={metric.label} value={metric.value} />
             ))}
           </div>
         ) : null}
