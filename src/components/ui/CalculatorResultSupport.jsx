@@ -1,15 +1,47 @@
 import { Link } from "react-router-dom";
 import { CALCULATOR_DISCLAIMER } from "../../data/calculatorInsights";
 
+function FormulaWhereBlock({ formula, variables, estimateNote }) {
+  if (!formula) return null;
+
+  return (
+    <div className="calc-result-support__formula-block">
+      <p className="calc-result-support__label">Formula used</p>
+      <p className="calc-result-support__formula">{formula}</p>
+
+      {variables?.length > 0 ? (
+        <div className="calc-result-support__where">
+          <p className="calc-result-support__where-label">Where:</p>
+          <ul className="calc-result-support__variables">
+            {variables.map((item) => (
+              <li key={item.symbol}>
+                <span className="calc-result-support__symbol">{item.symbol}</span>
+                {" = "}
+                {item.meaning}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {estimateNote ? (
+        <p className="calc-result-support__estimate-note">{estimateNote}</p>
+      ) : null}
+    </div>
+  );
+}
+
 function CalculatorResultSupport({ howCalculated, meaning, relatedTools }) {
   return (
     <aside className="calc-result-support" aria-label="Calculator result guidance">
       <div className="calc-result-support__grid">
         <article className="calc-result-support__card">
           <h3>How was this calculated?</h3>
-          {howCalculated.formula && (
-            <p className="calc-result-support__formula">{howCalculated.formula}</p>
-          )}
+          <FormulaWhereBlock
+            formula={howCalculated.formula}
+            variables={howCalculated.variables}
+            estimateNote={howCalculated.estimateNote}
+          />
           <p>{howCalculated.summary}</p>
           {howCalculated.inputs?.length > 0 && (
             <>

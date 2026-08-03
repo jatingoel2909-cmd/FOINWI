@@ -286,6 +286,35 @@
   font-family: inherit;
 }
 
+.calc-formula__where {
+  margin: 0 0 10px;
+}
+
+.calc-formula__where-label {
+  margin: 0 0 6px;
+  color: var(--fw-text-primary);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.calc-formula__variables {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--fw-text-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.calc-formula__variables li + li {
+  margin-top: 4px;
+}
+
+.calc-formula__symbol {
+  color: var(--fw-text-primary);
+  font-weight: 700;
+  font-family: "Courier New", Courier, monospace;
+}
+
 .calc-formula__note {
   color: var(--fw-text-muted);
   font-size: 14px;
@@ -443,8 +472,12 @@
   line-height: 1.65;
 }
 
+.calc-result-support__formula-block {
+  margin: 0 0 12px;
+}
+
 .calc-result-support__formula {
-  margin-bottom: 10px !important;
+  margin: 0 0 10px !important;
   padding: 10px 12px;
   border-radius: 10px;
   background: rgba(212, 175, 55, 0.08);
@@ -456,11 +489,51 @@
   word-break: break-word;
 }
 
+.calc-result-support__where {
+  margin: 0 0 8px;
+}
+
+.calc-result-support__where-label {
+  margin: 0 0 6px !important;
+  color: var(--fw-text-primary) !important;
+  font-size: 13px !important;
+  font-weight: 800;
+}
+
+.calc-result-support__variables {
+  margin: 0 !important;
+  padding-left: 18px;
+  color: var(--fw-text-muted);
+  font-size: 13px !important;
+  line-height: 1.55;
+}
+
+.calc-result-support__variables li + li {
+  margin-top: 4px;
+}
+
+.calc-result-support__symbol {
+  color: var(--fw-text-primary);
+  font-weight: 700;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.calc-result-support__estimate-note {
+  margin: 0 0 4px !important;
+  color: var(--fw-text-muted) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
 .calc-result-support__label {
   margin: 14px 0 8px !important;
   color: var(--fw-text-primary) !important;
   font-size: 13px !important;
   font-weight: 800;
+}
+
+.calc-result-support__formula-block > .calc-result-support__label {
+  margin: 0 0 8px !important;
 }
 
 .calc-result-support__card ul {
