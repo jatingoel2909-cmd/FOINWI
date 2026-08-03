@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
 import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
@@ -7,6 +7,8 @@ import EmiLoanTypeSelector from "./emi/EmiLoanTypeSelector";
 import EmiTenureComparison from "./emi/EmiTenureComparison";
 import EmiLenderComparison from "./emi/EmiLenderComparison";
 import EmiPrepaymentCalculator from "./emi/EmiPrepaymentCalculator";
+import AmortizationSchedule from "./emi/AmortizationSchedule";
+import LoanEligibilityCalculator from "./emi/LoanEligibilityCalculator";
 import { DEFAULT_LOAN_TYPE_ID, getLoanTypeById } from "../data/loanTypes";
 import { calculateEmi } from "../utils/emiFormula";
 import { buildTenureComparison } from "../utils/emiComparisonEngine";
@@ -33,6 +35,7 @@ function EmiCalculator({
   const [principal, setPrincipal] = useState(defaultPrincipal);
   const [rate, setRate] = useState(initialRate);
   const [years, setYears] = useState(defaultYears);
+  const [prepaymentScenario, setPrepaymentScenario] = useState(null);
 
   const loanType = getLoanTypeById(loanTypeId);
 
@@ -43,6 +46,10 @@ function EmiCalculator({
       setRate(nextType.defaultRate);
     }
   };
+
+  const handlePrepaymentScenarioChange = useCallback((scenario) => {
+    setPrepaymentScenario(scenario);
+  }, []);
 
   const months = years * 12;
   const emi = calculateEmi(principal, rate, years);
@@ -137,6 +144,19 @@ function EmiCalculator({
             principal={principal}
             annualRate={rate}
             tenureYears={years}
+            onScenarioChange={handlePrepaymentScenarioChange}
+          />
+          <AmortizationSchedule
+            principal={principal}
+            annualInterestRate={rate}
+            tenureMonths={months}
+            emi={emi}
+            prepaymentScenario={prepaymentScenario}
+          />
+          <LoanEligibilityCalculator
+            defaultLoanTypeId={loanTypeId}
+            defaultRate={rate}
+            defaultTenureYears={years}
           />
           <EmiLenderComparison
             principal={principal}

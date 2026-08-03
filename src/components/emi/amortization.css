@@ -1,0 +1,350 @@
+.emi-amort {
+  margin-top: 1.75rem;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  overflow-x: hidden;
+}
+
+.emi-amort__header h3 {
+  margin: 0 0 0.35rem;
+  color: #f5f0e6;
+  font-size: 1.2rem;
+}
+
+.emi-amort__header p {
+  margin: 0;
+  max-width: 44rem;
+  color: rgba(245, 240, 230, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.emi-amort__source,
+.emi-amort__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1rem 0;
+}
+
+.emi-amort__tab,
+.emi-amort__jump-btn,
+.emi-amort__csv,
+.emi-amort__card-toggle {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(245, 240, 230, 0.9);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.emi-amort__tab.is-active,
+.emi-amort__csv {
+  border-color: rgba(212, 175, 55, 0.7);
+  background: rgba(212, 175, 55, 0.12);
+  color: #d4af37;
+}
+
+.emi-amort__tab:focus-visible,
+.emi-amort__jump-btn:focus-visible,
+.emi-amort__csv:focus-visible,
+.emi-amort__card-toggle:focus-visible,
+.emi-amort__jump-form input:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 3px;
+}
+
+.emi-amort__csv:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.emi-amort__summary {
+  margin-bottom: 1.15rem;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid rgba(212, 175, 55, 0.65);
+  background: rgba(212, 175, 55, 0.06);
+}
+
+.emi-amort__summary h4,
+.emi-amort__assumptions h4,
+.emi-amort__progress-heading {
+  margin: 0 0 0.65rem;
+  color: #d4af37;
+  font-size: 0.98rem;
+}
+
+.emi-amort__metrics {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0 0 1rem;
+}
+
+.emi-amort__metrics > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.emi-amort__metrics dt,
+.emi-amort__card-stats dt {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.8rem;
+}
+
+.emi-amort__metrics dd,
+.emi-amort__card-stats dd {
+  margin: 0;
+  color: #f5f0e6;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.emi-amort__progress {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.emi-amort__progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.3rem;
+  color: rgba(245, 240, 230, 0.85);
+  font-size: 0.85rem;
+}
+
+.emi-amort__progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(245, 240, 230, 0.1);
+  overflow: hidden;
+}
+
+.emi-amort__progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.85);
+}
+
+.emi-amort__toolbar {
+  display: grid;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.emi-amort__jump {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.emi-amort__jump-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5.5rem 44px;
+  gap: 0.45rem;
+  align-items: end;
+}
+
+.emi-amort__jump-form label {
+  grid-column: 1 / -1;
+  color: rgba(245, 240, 230, 0.78);
+  font-size: 0.85rem;
+}
+
+.emi-amort__jump-form input {
+  min-height: 44px;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 8px;
+  background: rgba(5, 5, 5, 0.45);
+  color: #f5f0e6;
+  font: inherit;
+}
+
+.emi-amort__panel {
+  margin-bottom: 1rem;
+}
+
+.emi-amort__table-wrap {
+  overflow: auto;
+  max-height: 28rem;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 8px;
+}
+
+.emi-amort__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.88rem;
+}
+
+.emi-amort__table th,
+.emi-amort__table td {
+  padding: 0.65rem 0.7rem;
+  border-bottom: 1px solid rgba(245, 240, 230, 0.1);
+  text-align: left;
+  color: #f5f0e6;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.emi-amort__table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #121212;
+  color: rgba(212, 175, 55, 0.95);
+}
+
+.emi-amort__caption {
+  caption-side: bottom;
+  padding: 0.65rem 0.7rem;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.emi-amort__row--highlight,
+.emi-amort__card--highlight {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.emi-amort__month-cards,
+.emi-amort__year-cards {
+  display: none;
+  gap: 0.75rem;
+}
+
+.emi-amort__card {
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  background: rgba(5, 5, 5, 0.35);
+}
+
+.emi-amort__card h5 {
+  margin: 0 0 0.55rem;
+  color: #f5f0e6;
+  font-size: 0.95rem;
+}
+
+.emi-amort__card-toggle {
+  width: 100%;
+  text-align: left;
+}
+
+.emi-amort__card-body {
+  margin-top: 0.65rem;
+}
+
+.emi-amort__card-stats {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.emi-amort__empty {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.92rem;
+}
+
+.emi-amort__assumptions {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 8px;
+  background: rgba(5, 5, 5, 0.25);
+}
+
+.emi-amort__assumptions ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.emi-amort__assumptions li + li {
+  margin-top: 0.3rem;
+}
+
+@media (min-width: 700px) {
+  .emi-amort__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .emi-amort__toolbar {
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+  }
+
+  .emi-amort__jump {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .emi-amort__table-wrap--desktop {
+    display: block;
+  }
+
+  .emi-amort__month-cards,
+  .emi-amort__year-cards {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .emi-amort__table-wrap--desktop {
+    display: none;
+  }
+
+  .emi-amort__month-cards,
+  .emi-amort__year-cards {
+    display: grid;
+  }
+
+  .emi-amort__source,
+  .emi-amort__modes {
+    flex-direction: column;
+  }
+
+  .emi-amort__tab,
+  .emi-amort__csv {
+    width: 100%;
+  }
+
+  .emi-amort__jump-form {
+    grid-template-columns: minmax(0, 1fr) 44px;
+  }
+
+  .emi-amort__jump-form input {
+    grid-column: 1;
+  }
+
+  .emi-amort__jump-btn {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emi-amort__progress-fill,
+  .emi-amort__tab,
+  .emi-amort__card {
+    transition: none;
+  }
+
+  .emi-amort__row--highlight,
+  .emi-amort__card--highlight {
+    scroll-behavior: auto;
+  }
+}

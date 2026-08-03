@@ -1,0 +1,42 @@
+---
+description: FOINWI trust language — no approval, recommendation, guarantee, or certainty wording
+alwaysApply: true
+---
+
+# FOINWI Trust Rule — Financial Wording
+
+Never generate financial wording that implies approval, recommendation, guarantee, or certainty.
+
+## Always prefer
+
+- Estimated
+- Illustrative
+- May
+- Can
+- Typically
+- Educational
+
+## Never use (in user-facing copy)
+
+- Guaranteed
+- Approved
+- Best
+- Lowest
+- Certain
+- Official approval
+
+## Examples
+
+```text
+❌ Lowest EMI / Best tenure / Guaranteed savings / Approved budget
+✅ Lowest estimated EMI among these tenures → prefer:
+   “Lower estimated monthly EMI among the compared tenures”
+   “You may reduce estimated interest”
+   “Illustrative comparison for educational use”
+```
+
+## Scope
+
+Applies to UI copy, summaries, insights, badges, disclaimers, validation messages, and any new financial content in FOINWI.
+
+Internal variable names may keep neutral math terms; **user-visible labels must follow this rule**.

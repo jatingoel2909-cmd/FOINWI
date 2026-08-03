@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CurrencyInput from "../ui/CurrencyInput";
 import InputField from "../ui/InputField";
 import {
@@ -19,11 +19,13 @@ function EmiPrepaymentCalculator({
   principal,
   annualRate,
   tenureYears,
+  onScenarioChange,
 }) {
   const [mode, setMode] = useState("monthly");
-  const [extraMonthly, setExtraMonthly] = useState(5000);
-  const [lumpSum, setLumpSum] = useState(200000);
+  const [extraMonthly, setExtraMonthly] = useState(0);
+  const [lumpSum, setLumpSum] = useState(0);
   const [afterYears, setAfterYears] = useState(2);
+  const [intentionallyApplied, setIntentionallyApplied] = useState(false);
 
   const tenureMonths = Math.round(Number(tenureYears) * 12);
 
@@ -44,6 +46,52 @@ function EmiPrepaymentCalculator({
       afterYears,
     });
   }, [mode, principal, annualRate, tenureMonths, extraMonthly, lumpSum, afterYears]);
+
+  const activePrepaymentAmount =
+    mode === "monthly"
+      ? Number(extraMonthly)
+      : Number(result.appliedLump ?? lumpSum);
+
+  const comparisonEligible =
+    intentionallyApplied &&
+    Boolean(result?.valid) &&
+    Number.isFinite(activePrepaymentAmount) &&
+    activePrepaymentAmount > 0;
+
+  useEffect(() => {
+    if (typeof onScenarioChange !== "function") return undefined;
+    onScenarioChange({
+      ...result,
+      intentionallyApplied: comparisonEligible,
+    });
+    return undefined;
+  }, [result, comparisonEligible, onScenarioChange]);
+
+  const markIntentFromAmount = (amount) => {
+    const value = Number(amount);
+    if (Number.isFinite(value) && value > 0) {
+      setIntentionallyApplied(true);
+      return;
+    }
+    setIntentionallyApplied(false);
+  };
+
+  const handleExtraMonthlyChange = (value) => {
+    setExtraMonthly(value);
+    markIntentFromAmount(value);
+  };
+
+  const handleLumpSumChange = (value) => {
+    setLumpSum(value);
+    markIntentFromAmount(value);
+  };
+
+  const handleAfterYearsChange = (value) => {
+    setAfterYears(value);
+    if (Number(lumpSum) > 0) {
+      setIntentionallyApplied(true);
+    }
+  };
 
   return (
     <section className="emi-prepay" aria-labelledby="emi-prepay-title">
@@ -103,7 +151,7 @@ function EmiPrepaymentCalculator({
               id="emi-prepay-extra"
               label="Monthly Extra Payment"
               value={extraMonthly}
-              onChange={setExtraMonthly}
+              onChange={handleExtraMonthlyChange}
               limits={EXTRA_LIMITS}
             />
           ) : (
@@ -112,14 +160,14 @@ function EmiPrepaymentCalculator({
                 id="emi-prepay-lump"
                 label="Prepayment Amount"
                 value={lumpSum}
-                onChange={setLumpSum}
+                onChange={handleLumpSumChange}
                 limits={LUMP_LIMITS}
               />
               <InputField
                 id="emi-prepay-after-years"
                 label="Prepayment After (Years)"
                 value={afterYears}
-                onChange={setAfterYears}
+                onChange={handleAfterYearsChange}
                 format="years"
                 limits={AFTER_YEARS_LIMITS}
               />

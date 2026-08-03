@@ -67,3 +67,39 @@ export function buildEmiSummary(principal, annualRate, months) {
     totalRepayment: Math.max(0, totalRepayment),
   };
 }
+
+/**
+ * Inverse EMI: estimate principal supportable by a monthly EMI.
+ * Handles zero interest as principal = EMI × months.
+ * Returns null for invalid inputs.
+ */
+export function calculatePrincipalFromEmi(monthlyEmi, annualRate, months) {
+  const emi = Number(monthlyEmi);
+  const rate = Number(annualRate);
+  const n = Number(months);
+
+  if (!Number.isFinite(emi) || !Number.isFinite(rate) || !Number.isFinite(n)) {
+    return null;
+  }
+  if (emi < 0 || n <= 0 || rate < 0) {
+    return null;
+  }
+  if (emi === 0) {
+    return 0;
+  }
+
+  const monthlyRate = rate / 12 / 100;
+
+  if (monthlyRate === 0) {
+    const principal = emi * n;
+    return Number.isFinite(principal) ? principal : null;
+  }
+
+  const factor = Math.pow(1 + monthlyRate, n);
+  if (!Number.isFinite(factor) || factor === 1) {
+    return null;
+  }
+
+  const principal = (emi * (factor - 1)) / (monthlyRate * factor);
+  return Number.isFinite(principal) && principal >= 0 ? principal : null;
+}
