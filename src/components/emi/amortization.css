@@ -1,20 +1,32 @@
+/* Amortization — Soft Champagne / readable dark text */
+
 .emi-amort {
+  --emi-bg: #f8f4ec;
+  --emi-bg-card: #ffffff;
+  --emi-border: #d4af37;
+  --emi-border-soft: #e8dfd0;
+  --emi-text: #2f2a23;
+  --emi-text-secondary: #5f574d;
+  --emi-gold: #d4af37;
+
+  grid-column: 1 / -1;
   margin-top: 1.75rem;
   padding: 1.25rem 0 0;
-  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  border-top: 1px solid var(--emi-border-soft);
   overflow-x: hidden;
+  color: var(--emi-text);
 }
 
 .emi-amort__header h3 {
   margin: 0 0 0.35rem;
-  color: #f5f0e6;
+  color: var(--emi-gold);
   font-size: 1.2rem;
 }
 
 .emi-amort__header p {
   margin: 0;
   max-width: 44rem;
-  color: rgba(245, 240, 230, 0.78);
+  color: var(--emi-text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -29,57 +41,69 @@
 
 .emi-amort__tab,
 .emi-amort__jump-btn,
-.emi-amort__csv,
 .emi-amort__card-toggle {
   min-height: 44px;
   min-width: 44px;
   padding: 0.65rem 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 8px;
-  background: transparent;
-  color: rgba(245, 240, 230, 0.9);
+  background: var(--emi-bg-card);
+  color: var(--emi-text);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
 }
 
 .emi-amort__tab.is-active {
-  border-color: rgba(212, 175, 55, 0.7);
+  border-color: var(--emi-border);
   background: rgba(212, 175, 55, 0.12);
-  color: #d4af37;
+  color: var(--emi-gold);
 }
 
 .emi-amort__csv-wrap {
   display: grid;
   gap: 0.4rem;
+  margin: 0 0 1rem;
+  isolation: isolate;
 }
 
-.emi-amort__csv {
-  border-color: rgba(212, 175, 55, 0.45);
-  background: rgba(212, 175, 55, 0.08);
-  color: rgba(212, 175, 55, 0.92);
+button.emi-amort__csv {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--emi-gold);
+  font: inherit;
+  font-weight: 600;
 }
 
 .emi-amort__tab:focus-visible,
 .emi-amort__jump-btn:focus-visible,
-.emi-amort__csv:focus-visible,
 .emi-amort__card-toggle:focus-visible,
 .emi-amort__jump-form input:focus-visible {
-  outline: 2px solid #d4af37;
+  outline: 2px solid var(--emi-gold);
   outline-offset: 3px;
 }
 
-.emi-amort__csv:disabled {
-  opacity: 1;
+/* Only the CSV button may look disabled */
+button.emi-amort__csv:disabled,
+button.emi-amort__csv[disabled],
+button.emi-amort__csv[aria-disabled="true"] {
   cursor: not-allowed;
-  color: rgba(212, 175, 55, 0.88);
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.1);
+  pointer-events: none;
+  opacity: 0.65;
+  color: var(--emi-gold) !important;
+  -webkit-text-fill-color: var(--emi-gold) !important;
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  background: rgba(212, 175, 55, 0.1) !important;
+  filter: none !important;
 }
 
 .emi-amort__csv-help {
   margin: 0;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.82rem;
   line-height: 1.45;
 }
@@ -87,15 +111,17 @@
 .emi-amort__summary {
   margin-bottom: 1.15rem;
   padding: 1rem 1.1rem;
-  border-left: 3px solid rgba(212, 175, 55, 0.65);
-  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid var(--emi-border-soft);
+  border-left: 3px solid var(--emi-border);
+  border-radius: 8px;
+  background: var(--emi-bg-card);
 }
 
 .emi-amort__summary h4,
 .emi-amort__assumptions h4,
 .emi-amort__progress-heading {
   margin: 0 0 0.65rem;
-  color: #d4af37;
+  color: var(--emi-gold);
   font-size: 0.98rem;
 }
 
@@ -113,14 +139,14 @@
 .emi-amort__metrics dt,
 .emi-amort__card-stats dt {
   margin: 0;
-  color: rgba(245, 240, 230, 0.62);
+  color: var(--emi-text-secondary);
   font-size: 0.8rem;
 }
 
 .emi-amort__metrics dd,
 .emi-amort__card-stats dd {
   margin: 0;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 1rem;
   font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
@@ -136,7 +162,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.3rem;
-  color: rgba(245, 240, 230, 0.85);
+  color: var(--emi-text);
   font-size: 0.85rem;
 }
 
@@ -144,14 +170,14 @@
   width: 100%;
   height: 12px;
   border-radius: 999px;
-  background: rgba(245, 240, 230, 0.1);
+  background: #e8dfd0;
   overflow: hidden;
 }
 
 .emi-amort__progress-fill {
   height: 100%;
   border-radius: 999px;
-  background: rgba(212, 175, 55, 0.85);
+  background: #d4af37;
 }
 
 .emi-amort__toolbar {
@@ -174,17 +200,17 @@
 
 .emi-amort__jump-form label {
   grid-column: 1 / -1;
-  color: rgba(245, 240, 230, 0.78);
+  color: var(--emi-text-secondary);
   font-size: 0.85rem;
 }
 
 .emi-amort__jump-form input {
   min-height: 44px;
   padding: 0.5rem 0.65rem;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 8px;
-  background: rgba(5, 5, 5, 0.45);
-  color: #f5f0e6;
+  background: var(--emi-bg-card);
+  color: var(--emi-text);
   font: inherit;
 }
 
@@ -195,8 +221,9 @@
 .emi-amort__table-wrap {
   overflow: auto;
   max-height: 28rem;
-  border: 1px solid rgba(212, 175, 55, 0.18);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 8px;
+  background: var(--emi-bg-card);
 }
 
 .emi-amort__table {
@@ -209,32 +236,35 @@
 .emi-amort__table th,
 .emi-amort__table td {
   padding: 0.65rem 0.7rem;
-  border-bottom: 1px solid rgba(245, 240, 230, 0.1);
+  border-bottom: 1px solid var(--emi-border-soft);
   text-align: left;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  background: var(--emi-bg-card);
 }
 
+/* Dark header only — white/gold text allowed here */
 .emi-amort__table thead th {
   position: sticky;
   top: 0;
   z-index: 1;
   background: #121212;
-  color: rgba(212, 175, 55, 0.95);
+  color: #d4af37;
 }
 
 .emi-amort__caption {
   caption-side: bottom;
   padding: 0.65rem 0.7rem;
-  color: rgba(245, 240, 230, 0.62);
+  color: var(--emi-text-secondary);
   font-size: 0.8rem;
   text-align: left;
+  background: var(--emi-bg);
 }
 
 .emi-amort__row--highlight,
 .emi-amort__card--highlight {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.12);
 }
 
 .emi-amort__month-cards,
@@ -245,14 +275,14 @@
 
 .emi-amort__card {
   padding: 0.85rem 0.95rem;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 10px;
-  background: rgba(5, 5, 5, 0.35);
+  background: var(--emi-bg-card);
 }
 
 .emi-amort__card h5 {
   margin: 0 0 0.55rem;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 0.95rem;
 }
 
@@ -273,22 +303,22 @@
 
 .emi-amort__empty {
   margin: 0;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.92rem;
 }
 
 .emi-amort__assumptions {
   margin: 0;
   padding: 0.9rem 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.22);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 8px;
-  background: rgba(5, 5, 5, 0.25);
+  background: var(--emi-bg);
 }
 
 .emi-amort__assumptions ul {
   margin: 0;
   padding-left: 1.15rem;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.84rem;
   line-height: 1.5;
 }
@@ -303,7 +333,7 @@
   }
 
   .emi-amort__toolbar {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
   }
 
@@ -339,8 +369,8 @@
   }
 
   .emi-amort__tab,
-  .emi-amort__csv,
-  .emi-amort__csv-wrap {
+  .emi-amort__csv-wrap,
+  button.emi-amort__csv {
     width: 100%;
   }
 

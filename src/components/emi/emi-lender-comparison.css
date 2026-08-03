@@ -1,12 +1,24 @@
+/* Lender comparison — Soft Champagne / readable dark text */
+
 .emi-lender {
+  --emi-bg: #f8f4ec;
+  --emi-bg-card: #ffffff;
+  --emi-border: #d4af37;
+  --emi-border-soft: #e8dfd0;
+  --emi-text: #2f2a23;
+  --emi-text-secondary: #5f574d;
+  --emi-gold: #d4af37;
+
+  grid-column: 1 / -1;
   margin-top: 1.75rem;
   padding: 1.25rem 0 0;
-  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  border-top: 1px solid var(--emi-border-soft);
+  color: var(--emi-text);
 }
 
 .emi-lender--coming-soon .emi-lender__coming-soon {
   margin: 0;
-  color: rgba(245, 240, 230, 0.78);
+  color: var(--emi-text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -22,13 +34,13 @@
 
 .emi-lender__header-text h3 {
   margin: 0 0 0.35rem;
-  color: #f5f0e6;
+  color: var(--emi-gold);
   font-size: 1.2rem;
 }
 
 .emi-lender__header-text p {
   margin: 0;
-  color: rgba(245, 240, 230, 0.78);
+  color: var(--emi-text-secondary);
   font-size: 0.95rem;
   max-width: 42rem;
 }
@@ -38,17 +50,17 @@
   min-height: 44px;
   min-width: 44px;
   padding: 0.65rem 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.45);
+  border: 1px solid var(--emi-border);
   border-radius: 8px;
-  background: rgba(212, 175, 55, 0.08);
-  color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--emi-gold);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
 }
 
 .emi-lender__toggle:focus-visible {
-  outline: 2px solid #d4af37;
+  outline: 2px solid var(--emi-gold);
   outline-offset: 3px;
 }
 
@@ -58,33 +70,35 @@
 
 .emi-lender__empty {
   margin: 0;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
 }
 
 .emi-lender__savings {
   margin: 0 0 1.25rem;
   padding: 1rem 1.1rem;
-  border-left: 3px solid rgba(212, 175, 55, 0.65);
-  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid var(--emi-border-soft);
+  border-left: 3px solid var(--emi-border);
+  border-radius: 8px;
+  background: var(--emi-bg-card);
 }
 
 .emi-lender__savings-title {
   margin: 0 0 0.45rem;
-  color: #d4af37;
+  color: var(--emi-gold);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
 .emi-lender__savings-statement {
   margin: 0 0 0.5rem;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 0.98rem;
   line-height: 1.55;
 }
 
 .emi-lender__savings-secondary {
   margin: 0;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.9rem;
   line-height: 1.5;
 }
@@ -100,20 +114,20 @@
 
 .emi-lender__card {
   padding: 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 10px;
-  background: rgba(5, 5, 5, 0.35);
+  background: var(--emi-bg-card);
 }
 
 .emi-lender__card-head h4 {
   margin: 0 0 0.25rem;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 1.05rem;
 }
 
 .emi-lender__category {
   margin: 0 0 0.75rem;
-  color: rgba(212, 175, 55, 0.9);
+  color: var(--emi-gold);
   font-size: 0.85rem;
 }
 
@@ -130,13 +144,13 @@
 
 .emi-lender__stats dt {
   margin: 0;
-  color: rgba(245, 240, 230, 0.62);
+  color: var(--emi-text-secondary);
   font-size: 0.8rem;
 }
 
 .emi-lender__stats dd {
   margin: 0;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
 }
@@ -148,13 +162,13 @@
 
 .emi-lender__diff-int {
   margin-top: 0.2rem;
-  color: rgba(245, 240, 230, 0.75);
+  color: var(--emi-text-secondary);
   font-size: 0.88rem;
 }
 
 .emi-lender__rate-note {
   margin: 0.75rem 0 0;
-  color: rgba(245, 240, 230, 0.65);
+  color: var(--emi-text-secondary);
   font-size: 0.82rem;
   line-height: 1.45;
 }
@@ -166,7 +180,7 @@
 .emi-lender__processing-note,
 .emi-lender__dev-note {
   margin: 0.45rem 0 0;
-  color: rgba(245, 240, 230, 0.62);
+  color: var(--emi-text-secondary);
   font-size: 0.82rem;
   line-height: 1.45;
 }
@@ -174,14 +188,18 @@
 .emi-lender__table-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--emi-border-soft);
+  border-radius: 8px;
+  background: var(--emi-bg-card);
 }
 
 .emi-lender__caption {
   caption-side: bottom;
-  padding-top: 0.75rem;
-  color: rgba(245, 240, 230, 0.62);
+  padding: 0.75rem 0.7rem;
+  color: var(--emi-text-secondary);
   font-size: 0.82rem;
   text-align: left;
+  background: var(--emi-bg);
 }
 
 .emi-lender__table {
@@ -193,42 +211,53 @@
 .emi-lender__table th,
 .emi-lender__table td {
   padding: 0.7rem 0.65rem;
-  border-bottom: 1px solid rgba(245, 240, 230, 0.12);
+  border-bottom: 1px solid var(--emi-border-soft);
   text-align: left;
   vertical-align: top;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-variant-numeric: tabular-nums;
+  background: var(--emi-bg-card);
 }
 
+/* Dark header only — gold text allowed here */
 .emi-lender__table thead th {
-  color: rgba(212, 175, 55, 0.95);
+  background: #121212;
+  color: #d4af37;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .emi-lender__table tbody th {
   font-weight: 600;
+  color: var(--emi-text);
+  background: var(--emi-bg-card);
 }
 
 .emi-lender__name {
   display: block;
+  color: var(--emi-text);
 }
 
 .emi-lender__proc {
   display: block;
   margin-top: 0.2rem;
-  color: rgba(245, 240, 230, 0.62);
+  color: var(--emi-text-secondary);
   font-size: 0.78rem;
   font-weight: 400;
 }
 
 .emi-lender__lowest-label {
-  color: rgba(212, 175, 55, 0.95);
+  color: var(--emi-gold);
   font-size: 0.85rem;
 }
 
 .emi-lender__table tbody tr:focus-within {
-  background: rgba(212, 175, 55, 0.05);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.emi-lender__table tbody tr:focus-within th,
+.emi-lender__table tbody tr:focus-within td {
+  background: transparent;
 }
 
 @media (min-width: 900px) {
@@ -257,7 +286,6 @@
   }
 
   .emi-lender {
-    /* Avoid horizontal overflow from table remnants */
     overflow-x: hidden;
   }
 }

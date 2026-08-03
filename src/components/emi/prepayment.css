@@ -1,26 +1,38 @@
+/* Prepayment — Soft Champagne / readable dark text */
+
 .emi-prepay {
+  --emi-bg: #f8f4ec;
+  --emi-bg-card: #ffffff;
+  --emi-border: #d4af37;
+  --emi-border-soft: #e8dfd0;
+  --emi-text: #2f2a23;
+  --emi-text-secondary: #5f574d;
+  --emi-gold: #d4af37;
+
+  grid-column: 1 / -1;
   margin-top: 1.75rem;
   padding: 1.25rem 0 0;
-  border-top: 1px solid rgba(212, 175, 55, 0.22);
+  border-top: 1px solid var(--emi-border-soft);
+  color: var(--emi-text);
 }
 
 .emi-prepay__header h3 {
   margin: 0 0 0.35rem;
-  color: #f5f0e6;
+  color: var(--emi-gold);
   font-size: 1.2rem;
 }
 
 .emi-prepay__header p {
   margin: 0;
   max-width: 42rem;
-  color: rgba(245, 240, 230, 0.78);
+  color: var(--emi-text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
 }
 
 .emi-prepay__context {
   margin: 0.85rem 0 1rem;
-  color: rgba(212, 175, 55, 0.95);
+  color: var(--emi-gold);
   font-size: 0.88rem;
   line-height: 1.45;
 }
@@ -36,23 +48,23 @@
   min-height: 44px;
   min-width: 44px;
   padding: 0.65rem 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 8px;
-  background: transparent;
-  color: rgba(245, 240, 230, 0.85);
+  background: var(--emi-bg-card);
+  color: var(--emi-text);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
 }
 
 .emi-prepay__mode.is-active {
-  border-color: rgba(212, 175, 55, 0.7);
+  border-color: var(--emi-border);
   background: rgba(212, 175, 55, 0.12);
-  color: #d4af37;
+  color: var(--emi-gold);
 }
 
 .emi-prepay__mode:focus-visible {
-  outline: 2px solid #d4af37;
+  outline: 2px solid var(--emi-gold);
   outline-offset: 3px;
 }
 
@@ -74,14 +86,16 @@
 
 .emi-prepay__summary {
   padding: 1rem 1.1rem;
-  border-left: 3px solid rgba(212, 175, 55, 0.65);
-  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid var(--emi-border-soft);
+  border-left: 3px solid var(--emi-border);
+  border-radius: 8px;
+  background: var(--emi-bg-card);
 }
 
 .emi-prepay__summary h4,
 .emi-prepay__timeline h4 {
   margin: 0 0 0.65rem;
-  color: #d4af37;
+  color: var(--emi-gold);
   font-size: 0.98rem;
 }
 
@@ -98,13 +112,13 @@
 
 .emi-prepay__metrics dt {
   margin: 0;
-  color: rgba(245, 240, 230, 0.62);
+  color: var(--emi-text-secondary);
   font-size: 0.8rem;
 }
 
 .emi-prepay__metrics dd {
   margin: 0;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 1rem;
   font-variant-numeric: tabular-nums;
 }
@@ -112,7 +126,7 @@
 .emi-prepay__statements ul {
   margin: 0;
   padding-left: 1.1rem;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 0.94rem;
   line-height: 1.55;
 }
@@ -123,17 +137,20 @@
 
 .emi-prepay__empty {
   margin: 0;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.92rem;
 }
 
 .emi-prepay__timeline {
-  padding: 0.25rem 0 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--emi-border-soft);
+  border-radius: 8px;
+  background: var(--emi-bg);
 }
 
 .emi-prepay__timeline-lead {
   margin: 0 0 0.85rem;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.9rem;
 }
 
@@ -148,12 +165,12 @@
   justify-content: space-between;
   gap: 0.35rem 0.75rem;
   margin-bottom: 0.35rem;
-  color: #f5f0e6;
+  color: var(--emi-text);
   font-size: 0.9rem;
 }
 
 .emi-prepay__bar-meta {
-  color: rgba(245, 240, 230, 0.7);
+  color: var(--emi-text-secondary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -161,7 +178,7 @@
   width: 100%;
   height: 14px;
   border-radius: 999px;
-  background: rgba(245, 240, 230, 0.1);
+  background: #e8dfd0;
   overflow: hidden;
 }
 
@@ -172,30 +189,30 @@
 }
 
 .emi-prepay__fill--original {
-  background: rgba(212, 175, 55, 0.45);
+  background: rgba(212, 175, 55, 0.55);
 }
 
 .emi-prepay__fill--new {
-  background: rgba(212, 175, 55, 0.9);
+  background: #d4af37;
 }
 
 .emi-prepay__years-reduced {
   margin: 0.85rem 0 0;
-  color: rgba(245, 240, 230, 0.78);
+  color: var(--emi-text-secondary);
   font-size: 0.9rem;
 }
 
 .emi-prepay__assumptions {
   margin: 1.1rem 0 0;
   padding: 0.9rem 1rem;
-  border: 1px solid rgba(212, 175, 55, 0.22);
+  border: 1px solid var(--emi-border-soft);
   border-radius: 8px;
-  background: rgba(5, 5, 5, 0.25);
+  background: var(--emi-bg);
 }
 
 .emi-prepay__assumptions h4 {
   margin: 0 0 0.5rem;
-  color: rgba(212, 175, 55, 0.95);
+  color: var(--emi-gold);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -203,7 +220,7 @@
 .emi-prepay__assumptions ul {
   margin: 0;
   padding-left: 1.15rem;
-  color: rgba(245, 240, 230, 0.72);
+  color: var(--emi-text-secondary);
   font-size: 0.84rem;
   line-height: 1.5;
 }
