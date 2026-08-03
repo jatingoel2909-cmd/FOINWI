@@ -43,11 +43,21 @@
   cursor: pointer;
 }
 
-.emi-amort__tab.is-active,
-.emi-amort__csv {
+.emi-amort__tab.is-active {
   border-color: rgba(212, 175, 55, 0.7);
   background: rgba(212, 175, 55, 0.12);
   color: #d4af37;
+}
+
+.emi-amort__csv-wrap {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.emi-amort__csv {
+  border-color: rgba(212, 175, 55, 0.45);
+  background: rgba(212, 175, 55, 0.08);
+  color: rgba(212, 175, 55, 0.92);
 }
 
 .emi-amort__tab:focus-visible,
@@ -60,8 +70,18 @@
 }
 
 .emi-amort__csv:disabled {
-  opacity: 0.45;
+  opacity: 1;
   cursor: not-allowed;
+  color: rgba(212, 175, 55, 0.88);
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.emi-amort__csv-help {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .emi-amort__summary {
@@ -319,7 +339,8 @@
   }
 
   .emi-amort__tab,
-  .emi-amort__csv {
+  .emi-amort__csv,
+  .emi-amort__csv-wrap {
     width: 100%;
   }
 

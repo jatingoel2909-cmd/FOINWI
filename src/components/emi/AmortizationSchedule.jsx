@@ -2,28 +2,13 @@ import { useMemo, useRef, useState } from "react";
 import { formatCurrency } from "../../utils/calculatorFormat";
 import {
   AMORTIZATION_ASSUMPTIONS,
-  amortizationToCsv,
   buildAmortizationFromPrepaymentScenario,
   buildAmortizationSchedule,
   buildYearlySummary,
-  yearlySummaryToCsv,
 } from "../../utils/amortizationEngine";
 import AmortizationSummary from "./AmortizationSummary";
 import AmortizationYearView from "./AmortizationYearView";
 import "./amortization.css";
-
-function downloadCsv(filename, content) {
-  const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.rel = "noopener";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
 
 function MonthlyTable({ rows, highlightMonth, monthRefs }) {
   return (
@@ -223,15 +208,6 @@ function AmortizationSchedule({
     window.setTimeout(() => scrollToYear(year), 0);
   };
 
-  const handleDownloadCsv = () => {
-    if (!activeSchedule?.valid) return;
-    if (viewMode === "yearly") {
-      downloadCsv("foinwi-amortization-yearly.csv", yearlySummaryToCsv(yearlyRows));
-      return;
-    }
-    downloadCsv("foinwi-amortization-monthly.csv", amortizationToCsv(activeSchedule));
-  };
-
   return (
     <section className="emi-amort" aria-labelledby="emi-amort-title">
       <header className="emi-amort__header">
@@ -337,14 +313,20 @@ function AmortizationSchedule({
           </form>
         </div>
 
-        <button
-          type="button"
-          className="emi-amort__csv"
-          onClick={handleDownloadCsv}
-          disabled={!activeSchedule?.valid}
-        >
-          Download CSV
-        </button>
+        <div className="emi-amort__csv-wrap">
+          <button
+            type="button"
+            className="emi-amort__csv"
+            disabled
+            aria-disabled="true"
+            aria-describedby="emi-amort-csv-help"
+          >
+            🔒 Download CSV — Coming Soon
+          </button>
+          <p className="emi-amort__csv-help" id="emi-amort-csv-help">
+            CSV export will be available as an optional premium feature in a future release.
+          </p>
+        </div>
       </div>
 
       <div
