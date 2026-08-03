@@ -6,6 +6,7 @@ import InputField from "./ui/InputField";
 import EmiLoanTypeSelector from "./emi/EmiLoanTypeSelector";
 import EmiTenureComparison from "./emi/EmiTenureComparison";
 import EmiLenderComparison from "./emi/EmiLenderComparison";
+import EmiPrepaymentCalculator from "./emi/EmiPrepaymentCalculator";
 import { DEFAULT_LOAN_TYPE_ID, getLoanTypeById } from "../data/loanTypes";
 import { calculateEmi } from "../utils/emiFormula";
 import { buildTenureComparison } from "../utils/emiComparisonEngine";
@@ -132,6 +133,11 @@ function EmiCalculator({
       extension={
         <>
           <EmiTenureComparison comparison={comparison} />
+          <EmiPrepaymentCalculator
+            principal={principal}
+            annualRate={rate}
+            tenureYears={years}
+          />
           <EmiLenderComparison
             principal={principal}
             tenureMonths={months}

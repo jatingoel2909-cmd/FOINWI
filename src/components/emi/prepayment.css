@@ -1,0 +1,245 @@
+.emi-prepay {
+  margin-top: 1.75rem;
+  padding: 1.25rem 0 0;
+  border-top: 1px solid rgba(212, 175, 55, 0.22);
+}
+
+.emi-prepay__header h3 {
+  margin: 0 0 0.35rem;
+  color: #f5f0e6;
+  font-size: 1.2rem;
+}
+
+.emi-prepay__header p {
+  margin: 0;
+  max-width: 42rem;
+  color: rgba(245, 240, 230, 0.78);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.emi-prepay__context {
+  margin: 0.85rem 0 1rem;
+  color: rgba(212, 175, 55, 0.95);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.emi-prepay__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.emi-prepay__mode {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(245, 240, 230, 0.85);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.emi-prepay__mode.is-active {
+  border-color: rgba(212, 175, 55, 0.7);
+  background: rgba(212, 175, 55, 0.12);
+  color: #d4af37;
+}
+
+.emi-prepay__mode:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 3px;
+}
+
+.emi-prepay__panel {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.emi-prepay__form {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 28rem;
+}
+
+.emi-prepay__results {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.emi-prepay__summary {
+  padding: 1rem 1.1rem;
+  border-left: 3px solid rgba(212, 175, 55, 0.65);
+  background: rgba(212, 175, 55, 0.06);
+}
+
+.emi-prepay__summary h4,
+.emi-prepay__timeline h4 {
+  margin: 0 0 0.65rem;
+  color: #d4af37;
+  font-size: 0.98rem;
+}
+
+.emi-prepay__metrics {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0 0 0.9rem;
+}
+
+.emi-prepay__metrics > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.emi-prepay__metrics dt {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.62);
+  font-size: 0.8rem;
+}
+
+.emi-prepay__metrics dd {
+  margin: 0;
+  color: #f5f0e6;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.emi-prepay__statements ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #f5f0e6;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.emi-prepay__statements li + li {
+  margin-top: 0.35rem;
+}
+
+.emi-prepay__empty {
+  margin: 0;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.92rem;
+}
+
+.emi-prepay__timeline {
+  padding: 0.25rem 0 0;
+}
+
+.emi-prepay__timeline-lead {
+  margin: 0 0 0.85rem;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.9rem;
+}
+
+.emi-prepay__bars {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.emi-prepay__bar-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.35rem;
+  color: #f5f0e6;
+  font-size: 0.9rem;
+}
+
+.emi-prepay__bar-meta {
+  color: rgba(245, 240, 230, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.emi-prepay__track {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(245, 240, 230, 0.1);
+  overflow: hidden;
+}
+
+.emi-prepay__fill {
+  height: 100%;
+  border-radius: 999px;
+  min-width: 0;
+}
+
+.emi-prepay__fill--original {
+  background: rgba(212, 175, 55, 0.45);
+}
+
+.emi-prepay__fill--new {
+  background: rgba(212, 175, 55, 0.9);
+}
+
+.emi-prepay__years-reduced {
+  margin: 0.85rem 0 0;
+  color: rgba(245, 240, 230, 0.78);
+  font-size: 0.9rem;
+}
+
+.emi-prepay__assumptions {
+  margin: 1.1rem 0 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 8px;
+  background: rgba(5, 5, 5, 0.25);
+}
+
+.emi-prepay__assumptions h4 {
+  margin: 0 0 0.5rem;
+  color: rgba(212, 175, 55, 0.95);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.emi-prepay__assumptions ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: rgba(245, 240, 230, 0.72);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.emi-prepay__assumptions li + li {
+  margin-top: 0.3rem;
+}
+
+@media (min-width: 900px) {
+  .emi-prepay__results {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .emi-prepay__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899px) {
+  .emi-prepay {
+    overflow-x: hidden;
+  }
+
+  .emi-prepay__modes {
+    flex-direction: column;
+  }
+
+  .emi-prepay__mode {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emi-prepay__fill,
+  .emi-prepay__mode {
+    transition: none;
+  }
+}
