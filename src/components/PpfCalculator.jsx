@@ -39,9 +39,9 @@ function PpfCalculator({
 
   return (
     <CalculatorLayout
-      label="PPF Calculator"
+      label="Public Provident Fund (PPF) Calculator"
       title="Build long-term wealth with PPF"
-      description="Estimate PPF maturity value based on yearly investment, interest rate, and investment period."
+      description="Estimate Public Provident Fund (PPF) maturity value based on yearly investment, interest rate, and investment period."
       showHeader={showHeader}
       variant="alt"
       className={className}

@@ -94,20 +94,21 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/ppf-calculator": {
     howCalculated: {
-      formula: "Maturity ≈ FV of annual contributions at assumed PPF rate",
+      formulaLabel: "Simplified calculation expression",
+      formula: "Maturity = Yearly Contribution × [((1 + r)^n − 1) / r] × (1 + r)",
       variables: [
         { symbol: "Maturity", meaning: "Estimated PPF balance at the end of the period" },
         {
-          symbol: "FV",
-          meaning: "Future value of regular annual contributions with compounding",
-        },
-        {
-          symbol: "Annual contribution",
+          symbol: "Yearly Contribution",
           meaning: "Amount deposited into PPF each year",
         },
         {
-          symbol: "Assumed PPF rate",
-          meaning: "Illustrative annual interest rate used for the projection",
+          symbol: "r",
+          meaning: "Illustrative annual interest rate in decimal form",
+        },
+        {
+          symbol: "n",
+          meaning: "Investment period in years",
         },
       ],
       estimateNote:
@@ -255,20 +256,25 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/rd-calculator": {
     howCalculated: {
-      formula: "Maturity = sum of monthly deposits compounded at quarterly rests",
+      formulaLabel: "Simplified calculation expression",
+      formula: "Maturity = Monthly Deposit × [((1 + r)^n − 1) / r] × (1 + r)",
       variables: [
         { symbol: "Maturity", meaning: "Estimated RD value at the end of the tenure" },
         {
-          symbol: "Monthly deposits",
+          symbol: "Monthly Deposit",
           meaning: "Fixed amount deposited every month into the RD",
         },
         {
-          symbol: "Quarterly rests",
-          meaning: "Interest is typically compounded every quarter in RD calculations",
+          symbol: "r",
+          meaning: "Monthly interest rate (Annual Interest Rate ÷ 12 ÷ 100)",
+        },
+        {
+          symbol: "n",
+          meaning: "Total number of monthly deposits (Years × 12)",
         },
       ],
       estimateNote:
-        "This estimate projects RD maturity by compounding regular monthly deposits under standard quarterly compounding assumptions.",
+        "This simplified expression matches the calculator’s monthly-compounding maturity estimate for regular monthly deposits.",
       summary:
         "This calculator estimates recurring deposit maturity from monthly deposit, interest rate, and tenure using standard RD compounding logic.",
       inputs: ["Monthly deposit", "Annual interest rate", "Tenure in years"],
@@ -283,20 +289,21 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/swp-calculator": {
     howCalculated: {
-      formula: "Corpus depletes with monthly withdrawals and remaining balance earns return",
+      formulaLabel: "Calculation approach",
+      formula: "Next Balance = (Previous Balance × (1 + r)) − Monthly Withdrawal",
       variables: [
-        { symbol: "Corpus", meaning: "Starting investment amount available for withdrawal" },
+        { symbol: "Previous Balance", meaning: "Corpus available at the beginning of a month" },
         {
-          symbol: "Monthly withdrawals",
+          symbol: "r",
+          meaning: "Monthly expected return rate (Annual Return ÷ 12 ÷ 100)",
+        },
+        {
+          symbol: "Monthly Withdrawal",
           meaning: "Fixed amount taken out each month",
         },
         {
-          symbol: "Remaining balance",
+          symbol: "Next Balance",
           meaning: "Corpus left after each withdrawal",
-        },
-        {
-          symbol: "Return",
-          meaning: "Assumed growth earned on the remaining balance",
         },
       ],
       estimateNote:
@@ -373,6 +380,7 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/epf-calculator": {
     howCalculated: {
+      formulaLabel: "Simplified calculation expression",
       formula: "Monthly EPF = Basic × (12% + 3.67%). Corpus = FV of balance + monthly contributions",
       variables: [
         { symbol: "Basic", meaning: "Current monthly basic salary" },
@@ -418,6 +426,7 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/nps-calculator": {
     howCalculated: {
+      formulaLabel: "Simplified calculation expression",
       formula: "Corpus = Monthly SIP FV. Pension ≈ 40% of corpus × 6% annuity / 12",
       variables: [
         {
@@ -561,6 +570,7 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/income-tax-calculator": {
     howCalculated: {
+      formulaLabel: "Calculation approach",
       formula:
         "Taxable Income = Income − Deductions (Old) or − Standard Deduction (New) | Tax = Slabs + 4% cess",
       variables: [
@@ -621,7 +631,7 @@ export const CALCULATOR_INSIGHTS = {
         { symbol: "Basic", meaning: "Basic salary used in the HRA rules" },
       ],
       estimateNote:
-        "This formula estimates HRA exemption as the lowest of the three common rule-based amounts under simplified salary assumptions.",
+        "This formula estimates HRA exemption as the least of the eligible calculation values under simplified salary assumptions.",
       summary:
         "This calculator estimates HRA exemption using salary components, rent paid, and metro or non-metro city rules.",
       inputs: [

@@ -76,7 +76,7 @@ function EmiCalculator({
   return (
     <CalculatorLayout
       label="EMI Calculator"
-      title="Plan your loan with confidence"
+      title="Plan your loan with clarity"
       description="Estimate monthly EMI, total interest, and overall repayment based on loan amount, interest rate, and tenure. Compare how different repayment periods change EMI and interest."
       showHeader={showHeader}
       variant="alt"

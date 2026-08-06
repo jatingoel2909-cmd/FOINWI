@@ -37,9 +37,9 @@ function SipCalculator({
 
   return (
     <CalculatorLayout
-      label="SIP Calculator"
+      label="Systematic Investment Plan (SIP) Calculator"
       title="Plan your wealth with clarity"
-      description="Calculate estimated SIP returns based on monthly investment, expected annual return and investment period."
+      description="Estimate Systematic Investment Plan (SIP) returns from monthly investment, expected annual return, and investment period."
       showHeader={showHeader}
       variant="default"
       className={className}

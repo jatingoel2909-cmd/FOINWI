@@ -89,7 +89,6 @@ function IncomeTaxCalculator({
       variant="alt"
       className={className}
       calculatorId="/income-tax-calculator"
-      simplifiedModelNotice
       form={
         <>
           <CurrencyInput

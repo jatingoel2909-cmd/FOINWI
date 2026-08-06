@@ -46,14 +46,13 @@ function HraCalculator({
 
   return (
     <CalculatorLayout
-      label="HRA Calculator"
-      title="Calculate your HRA tax exemption"
-      description="Estimate exempt and taxable HRA based on salary, rent paid, and city type under common Indian tax rules."
+      label="House Rent Allowance (HRA) Calculator"
+      title="Estimate your HRA tax exemption"
+      description="Estimate exempt and taxable House Rent Allowance (HRA) based on salary, rent paid, and city type under common Indian tax rules."
       showHeader={showHeader}
       variant="default"
       className={className}
       calculatorId="/hra-calculator"
-      simplifiedModelNotice
       form={
         <>
           <CurrencyInput
@@ -108,7 +107,7 @@ function HraCalculator({
               value: cityType === "metro" ? "Metro" : "Non-Metro",
             },
           ]}
-          story="HRA exemption is the lowest of common rule-based amounts. Documentation and salary structure can affect the final taxable portion."
+          story="HRA exemption is the least of the eligible calculation values. Documentation and salary structure can affect the final taxable portion."
         />
       }
     />

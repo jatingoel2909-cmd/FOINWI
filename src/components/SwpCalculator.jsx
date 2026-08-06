@@ -56,9 +56,9 @@ function SwpCalculator({
 
   return (
     <CalculatorLayout
-      label="SWP Calculator"
+      label="Systematic Withdrawal Plan (SWP) Calculator"
       title="Plan systematic withdrawals wisely"
-      description="Estimate total withdrawal, remaining corpus, and returns when withdrawing monthly from your investment."
+      description="Estimate total withdrawal, remaining investment corpus, and returns in a Systematic Withdrawal Plan (SWP)."
       showHeader={showHeader}
       variant="default"
       className={className}

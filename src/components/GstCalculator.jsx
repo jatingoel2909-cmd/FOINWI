@@ -50,9 +50,9 @@ function GstCalculator({
 
   return (
     <CalculatorLayout
-      label="GST Calculator"
-      title="Add or remove GST instantly"
-      description="Calculate base amount, GST component, and total for common Indian GST rates."
+      label="Goods and Services Tax (GST) Calculator"
+      title="Add or remove GST"
+      description="Estimate base amount, Goods and Services Tax (GST) component, and total for common Indian GST rates."
       showHeader={showHeader}
       variant="default"
       className={className}

@@ -47,12 +47,11 @@ function HomeLoanEligibilityCalculator({
     <CalculatorLayout
       label="Home Loan Eligibility Calculator"
       title="Estimate how much home loan you may qualify for"
-      description="Based on monthly income, existing EMIs, interest rate, and tenure using a common 50% income-to-EMI guideline."
+      description="Based on monthly income, existing EMIs, interest rate, and tenure using a common 50% Fixed Obligation to Income Ratio (FOIR) guideline."
       showHeader={showHeader}
       variant="default"
       className={className}
       calculatorId="/home-loan-eligibility-calculator"
-      simplifiedModelNotice
       form={
         <>
           <CurrencyInput
@@ -99,7 +98,7 @@ function HomeLoanEligibilityCalculator({
             { label: "Existing Monthly EMI", value: formatCurrency(existingEmi) },
             { label: "Loan Tenure", value: `${years} years` },
           ]}
-          story="This estimate uses a simplified income-to-EMI guideline. Banks may apply different FOIR limits, credit checks, and co-applicant rules."
+          story="This estimate uses a simplified income-to-EMI guideline. Banks may apply different Fixed Obligation to Income Ratio (FOIR) limits, credit checks, and co-applicant rules."
         />
       }
     />

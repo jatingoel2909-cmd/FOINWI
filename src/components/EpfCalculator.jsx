@@ -52,9 +52,9 @@ function EpfCalculator({
 
   return (
     <CalculatorLayout
-      label="EPF Calculator"
+      label="Employees' Provident Fund (EPF) Calculator"
       title="Project your EPF retirement corpus"
-      description="Estimate EPF balance growth based on monthly basic salary, current balance, interest rate, and remaining service years."
+      description="Estimate Employees' Provident Fund (EPF) balance growth based on monthly basic salary, current balance, interest rate, and remaining service years."
       showHeader={showHeader}
       variant="default"
       className={className}

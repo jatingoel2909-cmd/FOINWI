@@ -36,7 +36,7 @@ function CagrCalculator({
 
   return (
     <CalculatorLayout
-      label="CAGR Calculator"
+      label="Compound Annual Growth Rate (CAGR) Calculator"
       title="Measure your annualized return"
       description="Calculate Compound Annual Growth Rate based on initial investment, final value, and investment period."
       showHeader={showHeader}

@@ -46,8 +46,8 @@ function FdCalculator({
   return (
     <CalculatorLayout
       label="FD Calculator"
-      title="Grow your savings with certainty"
-      description="Calculate fixed deposit maturity value based on deposit amount, interest rate, tenure, and compounding frequency."
+      title="Estimate your fixed deposit maturity"
+      description="Estimate fixed deposit maturity value from deposit amount, interest rate, tenure, and compounding frequency."
       showHeader={showHeader}
       variant="default"
       className={className}

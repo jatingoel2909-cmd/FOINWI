@@ -44,9 +44,9 @@ function RdCalculator({
 
   return (
     <CalculatorLayout
-      label="RD Calculator"
+      label="Recurring Deposit (RD) Calculator"
       title="Plan your recurring deposit growth"
-      description="Calculate RD maturity value based on monthly deposit, interest rate, and tenure."
+      description="Estimate Recurring Deposit (RD) maturity value based on monthly deposit, interest rate, and tenure."
       showHeader={showHeader}
       variant="default"
       className={className}

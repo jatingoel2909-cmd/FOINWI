@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { CALCULATOR_DISCLAIMER } from "../../data/calculatorInsights";
 
-function FormulaWhereBlock({ formula, variables, estimateNote }) {
+function FormulaWhereBlock({ formula, formulaLabel = "Formula used", variables, estimateNote }) {
   if (!formula) return null;
 
   return (
     <div className="calc-result-support__formula-block">
-      <p className="calc-result-support__label">Formula used</p>
+      <p className="calc-result-support__label">{formulaLabel}</p>
       <p className="calc-result-support__formula">{formula}</p>
 
       {variables?.length > 0 ? (
@@ -39,12 +39,10 @@ function CalculatorResultSupport({ howCalculated, meaning, relatedTools }) {
           <h3>How was this calculated?</h3>
           <FormulaWhereBlock
             formula={howCalculated.formula}
+            formulaLabel={howCalculated.formulaLabel}
             variables={howCalculated.variables}
             estimateNote={howCalculated.estimateNote}
           />
-          <p className="calc-result-support__note">
-            Results depend on your inputs and assumptions. Actual outcomes may differ.
-          </p>
         </article>
 
         <article className="calc-result-support__card">

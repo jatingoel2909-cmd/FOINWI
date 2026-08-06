@@ -53,7 +53,7 @@ function RetirementCalculator({
     <CalculatorLayout
       label="Retirement Calculator"
       title="Estimate your retirement corpus needs"
-      description="Calculate how much you need at retirement based on inflated expenses and whether your current corpus is sufficient."
+      description="Estimate how much you may need at retirement based on inflated expenses and your current savings."
       showHeader={showHeader}
       variant="alt"
       className={className}
@@ -113,7 +113,10 @@ function RetirementCalculator({
           primary={{ label: "Target Corpus", value: formatCurrency(corpusNeeded) }}
           metrics={[
             { label: "Projected Corpus", value: formatCurrency(projectedCorpus) },
-            { label: "Monthly Investment", value: formatCurrency(monthlySipRequired) },
+            {
+              label: "Est. monthly investment needed",
+              value: formatCurrency(monthlySipRequired),
+            },
             { label: "Shortfall", value: formatCurrency(shortfall) },
           ]}
           story="Your projected corpus may or may not meet your retirement goal depending on inflation and future contributions."
