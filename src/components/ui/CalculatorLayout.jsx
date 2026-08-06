@@ -1,7 +1,5 @@
 import CalculatorExplainEngine from "./CalculatorExplainEngine";
-import CalculatorFormula from "./CalculatorFormula";
 import CalculatorResultSupport from "./CalculatorResultSupport";
-import CalcSectionAccordion from "./CalcSectionAccordion";
 import ContinueJourneyCard from "./ContinueJourneyCard";
 import DailyInsightCard from "../intelligence/DailyInsightCard";
 import RecommendationPanel from "../intelligence/RecommendationPanel";
@@ -42,7 +40,7 @@ function CalculatorLayout({
     : [];
 
   const resultSupport = insights ? (
-    <CalculatorResultSupport {...insights} showFormula={false} />
+    <CalculatorResultSupport {...insights} />
   ) : (
     <p className="calc-layout__disclaimer">
       Results are illustrative estimates based on your inputs and assumptions. For educational
@@ -76,20 +74,9 @@ function CalculatorLayout({
 
       {extension}
 
-      {insights?.howCalculated ? (
-        <CalcSectionAccordion
-          id="calc-formula-support"
-          className="calc-section-accordion--support"
-          title="Formula Used"
-          description="Review the formula, variable definitions, and the estimate explained in one line."
-        >
-          <CalculatorFormula {...insights.howCalculated} />
-        </CalcSectionAccordion>
-      ) : null}
+      {resultSupport}
 
       {explain ? <CalculatorExplainEngine explain={explain} /> : null}
-
-      {resultSupport}
 
       {calculatorId ? (
         <div className="calc-daily-insight">

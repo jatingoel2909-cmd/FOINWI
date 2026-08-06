@@ -31,30 +31,17 @@ function FormulaWhereBlock({ formula, variables, estimateNote }) {
   );
 }
 
-function CalculatorResultSupport({ howCalculated, meaning, relatedTools, showFormula = true }) {
+function CalculatorResultSupport({ howCalculated, meaning, relatedTools }) {
   return (
     <aside className="calc-result-support" aria-label="Calculator result guidance">
       <div className="calc-result-support__grid">
         <article className="calc-result-support__card">
           <h3>How was this calculated?</h3>
-          {showFormula ? (
-            <FormulaWhereBlock
-              formula={howCalculated.formula}
-              variables={howCalculated.variables}
-              estimateNote={howCalculated.estimateNote}
-            />
-          ) : null}
-          <p>{howCalculated.summary}</p>
-          {howCalculated.inputs?.length > 0 && (
-            <>
-              <p className="calc-result-support__label">Key inputs</p>
-              <ul>
-                {howCalculated.inputs.map((input) => (
-                  <li key={input}>{input}</li>
-                ))}
-              </ul>
-            </>
-          )}
+          <FormulaWhereBlock
+            formula={howCalculated.formula}
+            variables={howCalculated.variables}
+            estimateNote={howCalculated.estimateNote}
+          />
           <p className="calc-result-support__note">
             Results depend on your inputs and assumptions. Actual outcomes may differ.
           </p>
