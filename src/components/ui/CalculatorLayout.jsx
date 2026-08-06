@@ -1,5 +1,6 @@
 import CalculatorExplainEngine from "./CalculatorExplainEngine";
 import CalculatorResultSupport from "./CalculatorResultSupport";
+import CalcSectionAccordion from "./CalcSectionAccordion";
 import ContinueJourneyCard from "./ContinueJourneyCard";
 import DailyInsightCard from "../intelligence/DailyInsightCard";
 import RecommendationPanel from "../intelligence/RecommendationPanel";
@@ -26,6 +27,7 @@ function CalculatorLayout({
   formula,
   extension = null,
   simplifiedModelNotice = false,
+  collapseResultSupport = false,
 }) {
   const insights = calculatorId ? getCalculatorInsights(calculatorId) : null;
   const explain = calculatorId ? getCalculatorExplain(calculatorId) : null;
@@ -38,6 +40,16 @@ function CalculatorLayout({
   const excludeRecommendationPaths = continueJourney
     ? [`/journeys/${continueJourney.slug}`]
     : [];
+
+  const resultSupport = insights ? (
+    <CalculatorResultSupport {...insights} />
+  ) : (
+    <p className="calc-layout__disclaimer">
+      Results are illustrative estimates based on your inputs and assumptions. For educational
+      purposes only. Not financial, tax, investment, or loan advice. Consult qualified
+      professionals before making financial decisions.
+    </p>
+  );
 
   return (
     <section
@@ -66,14 +78,17 @@ function CalculatorLayout({
 
       {explain ? <CalculatorExplainEngine explain={explain} /> : null}
 
-      {insights ? (
-        <CalculatorResultSupport {...insights} />
+      {collapseResultSupport && insights ? (
+        <CalcSectionAccordion
+          id="calc-formula-support"
+          className="calc-section-accordion--support"
+          title="How was this calculated?"
+          description="Review the formula used, what each variable means, and how to read this estimate."
+        >
+          {resultSupport}
+        </CalcSectionAccordion>
       ) : (
-        <p className="calc-layout__disclaimer">
-          Results are illustrative estimates based on your inputs and assumptions. For
-          educational purposes only. Not financial, tax, investment, or loan advice.
-          Consult qualified professionals before making financial decisions.
-        </p>
+        resultSupport
       )}
 
       {calculatorId ? (

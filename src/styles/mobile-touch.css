@@ -17,6 +17,7 @@ label,
 .fi-search-card,
 .calc-explain__header,
 .calc-explain__accordion-trigger,
+.calc-section-accordion__trigger,
 .fhs-option,
 .fhs-btn,
 .shrix-primary,
@@ -85,13 +86,15 @@ label,
 }
 
 .calc-explain__header,
-.calc-explain__accordion-trigger {
+.calc-explain__accordion-trigger,
+.calc-section-accordion__trigger {
   min-height: var(--fw-touch-min, 44px);
   user-select: none;
   -webkit-user-select: none;
 }
 
-.calc-explain__accordion-icon {
+.calc-explain__accordion-icon,
+.calc-section-accordion__icon {
   pointer-events: none;
 }
 

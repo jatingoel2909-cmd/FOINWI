@@ -851,3 +851,133 @@
   font-size: 12px;
   line-height: 1.65;
 }
+
+/* ── Progressive disclosure: calculator section accordion ── */
+
+.emi-advanced {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.calc-section-accordion {
+  border: 1px solid #e8dfd0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(47, 42, 35, 0.03);
+  overflow: hidden;
+}
+
+.calc-section-accordion.is-open {
+  border-color: rgba(212, 175, 55, 0.55);
+  background: #fffefb;
+}
+
+.calc-section-accordion__heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.calc-section-accordion__trigger {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--fw-touch-min, 44px);
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: #2f2a23;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.calc-section-accordion__trigger:hover {
+  background: #f8f4ec;
+}
+
+.calc-section-accordion__trigger:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: -2px;
+}
+
+.calc-section-accordion__title-wrap {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.calc-section-accordion__title {
+  color: #d4af37;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.calc-section-accordion__desc {
+  color: #5f574d;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.calc-section-accordion__icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  border-radius: 999px;
+  border: 1px solid #e8dfd0;
+  background: #ffffff;
+  color: #d4af37;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 26px;
+  text-align: center;
+}
+
+.calc-section-accordion.is-open .calc-section-accordion__icon {
+  border-color: rgba(212, 175, 55, 0.55);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.calc-section-accordion__panel {
+  padding: 0 16px 16px;
+}
+
+.calc-section-accordion--support {
+  margin-top: 1rem;
+}
+
+/* Nested EMI sections: drop outer chrome when inside accordion */
+.calc-section-accordion__panel .emi-compare,
+.calc-section-accordion__panel .emi-prepay,
+.calc-section-accordion__panel .emi-amort,
+.calc-section-accordion__panel .emi-elig,
+.calc-section-accordion__panel .emi-lender,
+.calc-section-accordion__panel .calc-result-support {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.calc-section-accordion__panel .emi-compare__header,
+.calc-section-accordion__panel .emi-prepay__header,
+.calc-section-accordion__panel .emi-amort__header,
+.calc-section-accordion__panel .emi-elig__header,
+.calc-section-accordion__panel .emi-lender__header {
+  display: none;
+}
+
+.calc-section-accordion__panel .emi-elig__toggle,
+.calc-section-accordion__panel .emi-lender__toggle {
+  display: none !important;
+}
+
+/* Keep amortization schedule scrollable inside the panel */
+.calc-section-accordion__panel .emi-amort__table-wrap {
+  max-height: 22rem;
+}

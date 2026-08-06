@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import CurrencyInput from "../ui/CurrencyInput";
 import InputField from "../ui/InputField";
 import EmiLoanTypeSelector from "./EmiLoanTypeSelector";
@@ -30,11 +30,6 @@ const DOWN_LIMITS = { min: 0, max: 50000000, step: 10000 };
 const YEARS_LIMITS = { min: 1, max: 30, step: 1 };
 const MONTHS_LIMITS = { min: 6, max: 36, step: 1 };
 
-function getIsMobileViewport() {
-  if (typeof window === "undefined" || !window.matchMedia) return false;
-  return window.matchMedia("(max-width: 899px)").matches;
-}
-
 function LoanEligibilityCalculator({
   defaultLoanTypeId = DEFAULT_LOAN_TYPE_ID,
   defaultRate,
@@ -42,9 +37,6 @@ function LoanEligibilityCalculator({
 }) {
   const initialType = getLoanTypeById(defaultLoanTypeId) ?? getLoanTypeById(DEFAULT_LOAN_TYPE_ID);
   const initialRate = initialType?.defaultRate ?? defaultRate ?? 8.5;
-
-  const [isMobile, setIsMobile] = useState(getIsMobileViewport);
-  const [expanded, setExpanded] = useState(() => !getIsMobileViewport());
 
   const [loanTypeId, setLoanTypeId] = useState(initialType?.id ?? DEFAULT_LOAN_TYPE_ID);
   const [monthlyIncome, setMonthlyIncome] = useState(100000);
@@ -58,18 +50,6 @@ function LoanEligibilityCalculator({
 
   const loanType = getLoanTypeById(loanTypeId);
   const isGold = loanType?.tenureUnit === "months";
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return undefined;
-    const mq = window.matchMedia("(max-width: 899px)");
-    const sync = () => {
-      setIsMobile(mq.matches);
-      setExpanded(!mq.matches);
-    };
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
 
   const handleLoanTypeChange = (nextId) => {
     setLoanTypeId(nextId);
@@ -136,8 +116,6 @@ function LoanEligibilityCalculator({
     [result, coApplicantIncome, downPayment],
   );
 
-  const contentId = "emi-elig-panel";
-
   return (
     <section className="emi-elig" aria-labelledby="emi-elig-title">
       <header className="emi-elig__header">
@@ -148,22 +126,9 @@ function LoanEligibilityCalculator({
             editable FOIR assumption. Educational only — not a lender assessment or credit decision.
           </p>
         </div>
-        <button
-          type="button"
-          className="emi-elig__toggle"
-          aria-expanded={expanded}
-          aria-controls={contentId}
-          onClick={() => setExpanded((prev) => !prev)}
-        >
-          Estimate Loan Eligibility
-        </button>
       </header>
 
-      <div
-        id={contentId}
-        className={`emi-elig__panel${expanded || !isMobile ? " is-expanded" : ""}`}
-        hidden={isMobile && !expanded}
-      >
+      <div className="emi-elig__panel is-expanded">
         <div className="emi-elig__form">
           <EmiLoanTypeSelector value={loanTypeId} onChange={handleLoanTypeChange} />
           <CurrencyInput

@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import CalculatorLayout from "./ui/CalculatorLayout";
 import CalculatorResults from "./ui/CalculatorResults";
+import CalcSectionAccordion from "./ui/CalcSectionAccordion";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
 import EmiLoanTypeSelector from "./emi/EmiLoanTypeSelector";
@@ -81,6 +82,7 @@ function EmiCalculator({
       variant="alt"
       className={className}
       calculatorId="/emi-calculator"
+      collapseResultSupport
       form={
         <>
           <EmiLoanTypeSelector value={loanTypeId} onChange={handleLoanTypeChange} />
@@ -138,32 +140,67 @@ function EmiCalculator({
         )
       }
       extension={
-        <>
-          <EmiTenureComparison comparison={comparison} />
-          <EmiPrepaymentCalculator
-            principal={principal}
-            annualRate={rate}
-            tenureYears={years}
-            onScenarioChange={handlePrepaymentScenarioChange}
-          />
-          <AmortizationSchedule
-            principal={principal}
-            annualInterestRate={rate}
-            tenureMonths={months}
-            emi={emi}
-            prepaymentScenario={prepaymentScenario}
-          />
-          <LoanEligibilityCalculator
-            defaultLoanTypeId={loanTypeId}
-            defaultRate={rate}
-            defaultTenureYears={years}
-          />
-          <EmiLenderComparison
-            principal={principal}
-            tenureMonths={months}
-            loanTypeId={loanTypeId}
-          />
-        </>
+        <div className="emi-advanced">
+          <CalcSectionAccordion
+            id="emi-tenure"
+            title="Compare Loan Tenures"
+            description="See how different tenures affect EMI and total interest."
+            defaultOpenOnDesktop
+          >
+            <EmiTenureComparison comparison={comparison} />
+          </CalcSectionAccordion>
+
+          <CalcSectionAccordion
+            id="emi-prepay"
+            title="Explore Prepayment Impact"
+            description="Understand how extra payments may reduce interest."
+          >
+            <EmiPrepaymentCalculator
+              principal={principal}
+              annualRate={rate}
+              tenureYears={years}
+              onScenarioChange={handlePrepaymentScenarioChange}
+            />
+          </CalcSectionAccordion>
+
+          <CalcSectionAccordion
+            id="emi-amort"
+            title="Amortization Schedule"
+            description="View principal and interest breakup over time."
+          >
+            <AmortizationSchedule
+              principal={principal}
+              annualInterestRate={rate}
+              tenureMonths={months}
+              emi={emi}
+              prepaymentScenario={prepaymentScenario}
+            />
+          </CalcSectionAccordion>
+
+          <CalcSectionAccordion
+            id="emi-elig"
+            title="Estimate Loan Eligibility"
+            description="Explore an illustrative borrowing range from income and obligations."
+          >
+            <LoanEligibilityCalculator
+              defaultLoanTypeId={loanTypeId}
+              defaultRate={rate}
+              defaultTenureYears={years}
+            />
+          </CalcSectionAccordion>
+
+          <CalcSectionAccordion
+            id="emi-lender"
+            title="Compare Illustrative Lender Scenarios"
+            description="See how small rate differences can change estimated EMI cost."
+          >
+            <EmiLenderComparison
+              principal={principal}
+              tenureMonths={months}
+              loanTypeId={loanTypeId}
+            />
+          </CalcSectionAccordion>
+        </div>
       }
     />
   );

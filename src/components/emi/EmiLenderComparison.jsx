@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ENABLE_LENDER_COMPARISON } from "../../config/featureFlags";
 import { INDIAN_LENDERS } from "../../data/lenders/indianLenders";
 import { formatCurrency } from "../../utils/calculatorFormat";
@@ -118,42 +118,20 @@ function LenderTable({ comparisons }) {
   );
 }
 
-function getIsMobileViewport() {
-  if (typeof window === "undefined" || !window.matchMedia) return false;
-  return window.matchMedia("(max-width: 899px)").matches;
-}
-
 function EmiLenderComparisonComingSoon() {
   return (
     <section className="emi-lender emi-lender--coming-soon" aria-labelledby="emi-lender-title">
       <header className="emi-lender__header">
         <div className="emi-lender__header-text">
           <h3 id="emi-lender-title">Compare Illustrative Lender Scenarios</h3>
-          <p className="emi-lender__coming-soon">
-            Verified lender comparisons are coming soon.
-          </p>
         </div>
       </header>
+      <p className="emi-lender__coming-soon">Verified lender comparisons are coming soon.</p>
     </section>
   );
 }
 
 function EmiLenderComparisonEnabled({ principal, tenureMonths, loanTypeId }) {
-  const [isMobile, setIsMobile] = useState(getIsMobileViewport);
-  const [expanded, setExpanded] = useState(() => !getIsMobileViewport());
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return undefined;
-    const mq = window.matchMedia("(max-width: 899px)");
-    const sync = () => {
-      setIsMobile(mq.matches);
-      setExpanded(!mq.matches);
-    };
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
   const result = useMemo(
     () =>
       buildLenderComparisons({
@@ -170,8 +148,6 @@ function EmiLenderComparisonEnabled({ principal, tenureMonths, loanTypeId }) {
     [result],
   );
 
-  const contentId = "emi-lender-comparison-panel";
-
   return (
     <section className="emi-lender" aria-labelledby="emi-lender-title">
       <header className="emi-lender__header">
@@ -179,22 +155,9 @@ function EmiLenderComparisonEnabled({ principal, tenureMonths, loanTypeId }) {
           <h3 id="emi-lender-title">Compare Illustrative Lender Scenarios</h3>
           <p>See how small rate differences can affect EMI and estimated borrowing cost.</p>
         </div>
-        <button
-          type="button"
-          className="emi-lender__toggle"
-          aria-expanded={expanded}
-          aria-controls={contentId}
-          onClick={() => setExpanded((prev) => !prev)}
-        >
-          Compare Lenders
-        </button>
       </header>
 
-      <div
-        id={contentId}
-        className={`emi-lender__panel${expanded || !isMobile ? " is-expanded" : ""}`}
-        hidden={isMobile && !expanded}
-      >
+      <div className="emi-lender__panel is-expanded">
         {!result.valid || !result.comparisons.length ? (
           <p className="emi-lender__empty">
             Enter a valid loan amount and tenure to compare illustrative lender scenarios for this
