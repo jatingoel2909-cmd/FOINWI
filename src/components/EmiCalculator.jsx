@@ -82,7 +82,6 @@ function EmiCalculator({
       variant="alt"
       className={className}
       calculatorId="/emi-calculator"
-      collapseResultSupport
       form={
         <>
           <EmiLoanTypeSelector value={loanTypeId} onChange={handleLoanTypeChange} />

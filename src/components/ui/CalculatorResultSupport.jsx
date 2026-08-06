@@ -31,17 +31,19 @@ function FormulaWhereBlock({ formula, variables, estimateNote }) {
   );
 }
 
-function CalculatorResultSupport({ howCalculated, meaning, relatedTools }) {
+function CalculatorResultSupport({ howCalculated, meaning, relatedTools, showFormula = true }) {
   return (
     <aside className="calc-result-support" aria-label="Calculator result guidance">
       <div className="calc-result-support__grid">
         <article className="calc-result-support__card">
           <h3>How was this calculated?</h3>
-          <FormulaWhereBlock
-            formula={howCalculated.formula}
-            variables={howCalculated.variables}
-            estimateNote={howCalculated.estimateNote}
-          />
+          {showFormula ? (
+            <FormulaWhereBlock
+              formula={howCalculated.formula}
+              variables={howCalculated.variables}
+              estimateNote={howCalculated.estimateNote}
+            />
+          ) : null}
           <p>{howCalculated.summary}</p>
           {howCalculated.inputs?.length > 0 && (
             <>
