@@ -655,3 +655,674 @@ a.guide-explore-card {
     transform: none;
   }
 }
+
+/* FOINWI Intelligence mission page */
+.fi-ai {
+  background: var(--fw-bg-page);
+  color: var(--fw-text-primary);
+}
+
+.fi-ai__hero {
+  padding: 72px var(--fw-space-inline) 64px;
+  border-bottom: 1px solid var(--fw-border);
+  background: var(--fw-bg-hero);
+}
+
+.fi-ai__hero-inner,
+.fi-ai__section {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.fi-ai__hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 48px;
+  align-items: center;
+}
+
+.fi-ai__hero-copy {
+  max-width: 680px;
+}
+
+.fi-ai__hero h1 {
+  margin: 10px 0 14px;
+  color: var(--fw-text-primary);
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.8px;
+}
+
+.fi-ai__lead {
+  max-width: 620px;
+  margin: 0 0 16px;
+  color: var(--fw-accent);
+  font-size: clamp(19px, 2.4vw, 24px);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.fi-ai__intro {
+  max-width: 620px;
+  margin: 0;
+  color: var(--fw-text-secondary);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.fi-ai__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.fi-ai__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--fw-touch-min, 44px);
+  padding: 0 20px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-pill);
+  color: var(--fw-accent);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.fi-ai__button:focus-visible,
+.fi-ai__capability:focus-within {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 3px;
+}
+
+.fi-ai__button--primary {
+  border-color: var(--fw-accent);
+  background: var(--fw-accent);
+  color: #fff;
+}
+
+.fi-ai__button--secondary {
+  background: var(--fw-bg-surface);
+}
+
+.fi-ai__hero-panel {
+  display: grid;
+  gap: 14px;
+  padding: 32px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-xl);
+  background: var(--fw-bg-surface);
+}
+
+.fi-ai__hero-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: 15px;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--fw-accent);
+  font-size: 24px;
+}
+
+.fi-ai__hero-panel p,
+.fi-ai__hero-panel strong {
+  margin: 0;
+}
+
+.fi-ai__hero-panel p {
+  color: var(--fw-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fi-ai__hero-panel strong {
+  color: var(--fw-text-primary);
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.fi-ai__section {
+  padding: 72px 0;
+}
+
+.fi-ai__section + .fi-ai__section {
+  border-top: 1px solid var(--fw-border);
+}
+
+.fi-ai__section-head {
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+.fi-ai__section-head .shrix-section-label {
+  margin: 0 0 10px;
+}
+
+.fi-ai__section-head h2 {
+  margin: 0 0 10px;
+  color: var(--fw-text-primary);
+  font-size: clamp(28px, 3.2vw, 36px);
+  letter-spacing: -0.45px;
+}
+
+.fi-ai__section-head > p:last-child {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.fi-ai__capability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.fi-ai__capability {
+  display: flex;
+  flex-direction: column;
+  min-height: 230px;
+  padding: 24px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-lg);
+  background: var(--fw-bg-surface);
+}
+
+.fi-ai__capability-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.fi-ai__capability-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(212, 175, 55, 0.1);
+  font-size: 22px;
+}
+
+.fi-ai__badge,
+.fi-ai__roadmap-status,
+.fi-ai__chat-status {
+  width: fit-content;
+  padding: 5px 9px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-pill);
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--fw-text-secondary);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.fi-ai__capability h3 {
+  margin: 0 0 10px;
+  color: var(--fw-text-primary);
+  font-size: 18px;
+}
+
+.fi-ai__capability p {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.fi-ai__section--chat {
+  padding-left: var(--fw-space-inline);
+  padding-right: var(--fw-space-inline);
+  max-width: none;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.fi-ai__section--chat .fi-ai__section-head,
+.fi-ai__section--chat .fi-ai__chat-shell {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fi-ai__chat-shell {
+  overflow: hidden;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-xl);
+  background: var(--fw-bg-surface);
+}
+
+.fi-ai__chat-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--fw-border);
+  color: var(--fw-text-primary);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.fi-ai__chat-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--fw-accent);
+}
+
+.fi-ai__chat-status {
+  margin-left: auto;
+}
+
+.fi-ai__messages {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+}
+
+.fi-ai__message {
+  max-width: min(100%, 680px);
+  padding: 14px 16px;
+  border: 1px solid var(--fw-border);
+  border-radius: 14px;
+  background: #fffdfa;
+}
+
+.fi-ai__message--user {
+  justify-self: end;
+  border-color: rgba(212, 175, 55, 0.45);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.fi-ai__message > span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--fw-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fi-ai__message p {
+  margin: 0;
+  color: var(--fw-text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.fi-ai__trust {
+  padding-left: var(--fw-space-inline);
+  padding-right: var(--fw-space-inline);
+  max-width: none;
+  background: var(--fw-bg-page);
+}
+
+.fi-ai__trust .fi-ai__section-head,
+.fi-ai__trust-list {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fi-ai__trust-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fi-ai__trust-list li {
+  padding: 16px;
+  border: 1px solid var(--fw-border);
+  border-radius: 14px;
+  background: var(--fw-bg-surface);
+  color: var(--fw-text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.fi-ai__trust-list li::before {
+  content: "•";
+  margin-right: 8px;
+  color: var(--fw-accent);
+  font-weight: 800;
+}
+
+.fi-ai__roadmap {
+  padding-left: var(--fw-space-inline);
+  padding-right: var(--fw-space-inline);
+  max-width: none;
+  background: rgba(255, 252, 247, 0.6);
+}
+
+.fi-ai__roadmap .fi-ai__section-head,
+.fi-ai__roadmap-list {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fi-ai__roadmap-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fi-ai__roadmap-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid var(--fw-border);
+  border-radius: 14px;
+  background: var(--fw-bg-surface);
+}
+
+.fi-ai__roadmap-list li.is-current {
+  border-color: rgba(212, 175, 55, 0.55);
+}
+
+.fi-ai__roadmap-number {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--fw-accent);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.fi-ai__roadmap-list p,
+.fi-ai__roadmap-list h3 {
+  margin: 0;
+}
+
+.fi-ai__roadmap-list p {
+  margin-bottom: 5px;
+  color: var(--fw-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.fi-ai__roadmap-list h3 {
+  color: var(--fw-text-primary);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.fi-ai__roadmap-status {
+  grid-column: 2;
+  margin-top: 4px;
+}
+
+@media (max-width: 980px) {
+  .fi-ai__capability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fi-ai__trust-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fi-ai__roadmap-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .fi-ai__hero {
+    padding: 52px var(--fw-space-inline-sm);
+  }
+
+  .fi-ai__hero-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .fi-ai__hero-panel {
+    padding: 24px;
+  }
+
+  .fi-ai__section {
+    padding: 52px var(--fw-space-inline-sm);
+  }
+
+  .fi-ai__section--chat,
+  .fi-ai__trust,
+  .fi-ai__roadmap {
+    padding-left: var(--fw-space-inline-sm);
+    padding-right: var(--fw-space-inline-sm);
+  }
+
+  .fi-ai__capability-grid,
+  .fi-ai__trust-list,
+  .fi-ai__roadmap-list {
+    grid-template-columns: 1fr;
+  }
+
+  .fi-ai__capability {
+    min-height: 0;
+  }
+
+  .fi-ai__actions {
+    display: grid;
+  }
+
+  .fi-ai__button {
+    width: 100%;
+  }
+
+  .fi-ai__chat-bar {
+    flex-wrap: wrap;
+  }
+
+  .fi-ai__chat-status {
+    margin-left: 0;
+  }
+
+  .fi-ai__messages {
+    padding: 16px;
+  }
+}
+
+/* Flagship Intelligence refinements */
+.fi-ai__hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.fi-ai__hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image: linear-gradient(rgba(166, 124, 0, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(166, 124, 0, 0.08) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+.fi-ai__hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.fi-ai__hero-panel {
+  border-color: rgba(201, 162, 39, 0.55);
+  box-shadow: var(--fw-shadow-soft);
+}
+
+.fi-ai__node-map {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding-top: 8px;
+}
+
+.fi-ai__node-map span {
+  position: relative;
+  padding: 10px;
+  border: 1px solid var(--fw-border);
+  border-radius: 10px;
+  background: rgba(255, 252, 247, 0.82);
+  color: var(--fw-text-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.fi-ai__layer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fi-ai__layer-card {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-lg);
+  background: var(--fw-bg-surface);
+}
+
+.fi-ai__layer-card > span {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: rgba(212, 175, 55, 0.1);
+  font-size: 20px;
+}
+
+.fi-ai__layer-card h3 {
+  margin: 0 0 8px;
+  color: var(--fw-text-primary);
+  font-size: 17px;
+}
+
+.fi-ai__layer-card p,
+.fi-ai__roadmap-copy {
+  color: var(--fw-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.fi-ai__layer-card p {
+  margin: 0;
+}
+
+.fi-ai__chat-shell {
+  box-shadow: var(--fw-shadow-card);
+}
+
+.fi-ai__console-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 22px 22px;
+}
+
+.fi-ai__console-labels span {
+  padding: 6px 10px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-pill);
+  color: var(--fw-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fi-ai__trust-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.fi-ai__roadmap-list {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.fi-ai__roadmap-copy {
+  display: block;
+  grid-column: 2;
+  margin-top: 2px;
+}
+
+.fi-ai__final {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 64px 0;
+}
+
+.fi-ai__final > div:first-child {
+  max-width: 700px;
+}
+
+.fi-ai__final h2 {
+  margin: 8px 0 10px;
+  color: var(--fw-text-primary);
+  font-size: clamp(28px, 3.2vw, 36px);
+}
+
+.fi-ai__final p:last-child {
+  margin: 0;
+  color: var(--fw-text-muted);
+  line-height: 1.65;
+}
+
+.fi-ai__final .fi-ai__actions {
+  flex-shrink: 0;
+  margin-top: 0;
+}
+
+@media (max-width: 1080px) {
+  .fi-ai__layer-grid,
+  .fi-ai__roadmap-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .fi-ai__node-map,
+  .fi-ai__layer-grid,
+  .fi-ai__roadmap-list,
+  .fi-ai__trust-list {
+    grid-template-columns: 1fr;
+  }
+
+  .fi-ai__console-labels {
+    padding: 0 16px 16px;
+  }
+
+  .fi-ai__final {
+    display: grid;
+    padding: 52px var(--fw-space-inline-sm);
+  }
+
+  .fi-ai__final .fi-ai__actions {
+    margin-top: 0;
+  }
+}
