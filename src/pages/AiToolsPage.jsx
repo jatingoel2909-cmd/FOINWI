@@ -6,10 +6,10 @@ import "../styles/global.css";
 import "../styles/ai-guide.css";
 
 const INTELLIGENCE_LAYERS = [
-  { icon: "🧮", title: "Calculators", description: "Explain results and trade-offs behind each estimate." },
-  { icon: "📚", title: "Learning", description: "Simplify concepts into clear, beginner-friendly language." },
-  { icon: "🧭", title: "Journeys", description: "Guide practical next steps across planning milestones." },
-  { icon: "♥", title: "Financial Health Score", description: "Explain weak areas and possible improvement paths." },
+  { icon: "🧮", title: "Calculators", description: "Explain results and trade-offs behind each estimate.", to: "/calculators", ariaLabel: "Open Calculators" },
+  { icon: "📚", title: "Learning", description: "Simplify concepts into clear, beginner-friendly language.", to: "/learn", ariaLabel: "Open Learning" },
+  { icon: "🧭", title: "Journeys", description: "Guide practical next steps across planning milestones.", to: "/learn", ariaLabel: "Open FOINWI Guide" },
+  { icon: "♥", title: "Financial Health Score", description: "Explain weak areas and possible improvement paths.", to: "/financial-health-score", ariaLabel: "Open Financial Health Score" },
 ];
 
 const MODULES = [
@@ -136,8 +136,12 @@ function AiToolsPage() {
             <aside className="fi-ai__hero-panel" aria-label="FOINWI Intelligence preview">
               <p>FOINWI Intelligence</p>
               <strong>Calculator + Learning + Journey + Health Score</strong>
-              <div className="fi-ai__node-map" aria-hidden="true">
-                <span>Calculators</span><span>Learning</span><span>Journeys</span><span>Health Score</span>
+              <div className="fi-ai__node-map">
+                {INTELLIGENCE_LAYERS.map((layer) => (
+                  <Link key={layer.title} to={layer.to} aria-label={layer.ariaLabel}>
+                    {layer.title === "Financial Health Score" ? "Health Score" : layer.title}
+                  </Link>
+                ))}
               </div>
             </aside>
           </div>
@@ -151,55 +155,49 @@ function AiToolsPage() {
           </div>
           <div className="fi-ai__layer-grid">
             {INTELLIGENCE_LAYERS.map((layer) => (
-              <article key={layer.title} className="fi-ai__layer-card">
+              <Link key={layer.title} to={layer.to} aria-label={layer.ariaLabel} className="fi-ai__layer-card">
                 <span aria-hidden="true">{layer.icon}</span>
                 <h3>{layer.title}</h3>
                 <p>{layer.description}</p>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
 
-        <section className="fi-ai__section fi-ai__section--chat" aria-labelledby="fi-ai-chat-title">
+        <section className="fi-ai__section fi-ai__assist" aria-labelledby="fi-ai-assist-title">
           <div className="fi-ai__section-head">
-            <p className="shrix-section-label">Static Preview</p>
-            <h2 id="fi-ai-chat-title">A Preview of How FOINWI Intelligence Will Help</h2>
-            <p>Preview only. FOINWI Intelligence is planned, not a live chat service today.</p>
+            <p className="shrix-section-label">Planned Assistance</p>
+            <h2 id="fi-ai-assist-title">How FOINWI Intelligence Will Assist</h2>
+            <p>FOINWI Intelligence is planned to explain financial concepts, calculator results, and next steps in a calm, educational way.</p>
           </div>
-          <div className="fi-ai__chat-shell">
-            <div className="fi-ai__chat-bar">
-              <span className="fi-ai__chat-dot" aria-hidden="true" />
-              <span>FOINWI Intelligence</span>
-              <span className="fi-ai__chat-status">Educational explanation</span>
-            </div>
-            <div className="fi-ai__messages">
-              <div className="fi-ai__message fi-ai__message--user">
-                <span>User</span>
-                <p>Why is my EMI affordable but total interest high?</p>
+          <div className="fi-ai__assist-grid">
+            <article className="fi-ai__assist-card">
+              <span className="fi-ai__assist-icon" aria-hidden="true">⌁</span>
+              <h3>Understand Loan Results</h3>
+              <p>See why EMI, tenure, interest, and repayment amount move together, and explore calculators that explain the trade-off.</p>
+              <div className="fi-ai__assist-actions">
+                <Link to="/emi-calculator">Open EMI Calculator <span aria-hidden="true">→</span></Link>
+                <Link to="/loan-prepayment-calculator">Explore Prepayment <span aria-hidden="true">→</span></Link>
               </div>
-              <div className="fi-ai__message fi-ai__message--assistant">
-                <span>FOINWI Intelligence</span>
-                <p>
-                  Your EMI may feel comfortable because the loan is spread over many months. But the
-                  longer the tenure, the longer interest is charged. Compare shorter tenure and
-                  prepayment scenarios to understand the trade-off.
-                </p>
+            </article>
+            <article className="fi-ai__assist-card">
+              <span className="fi-ai__assist-icon" aria-hidden="true">↗</span>
+              <h3>Start Investing Step by Step</h3>
+              <p>Learn how SIP, compounding, inflation, and goals connect before making long-term financial plans.</p>
+              <div className="fi-ai__assist-actions">
+                <Link to="/sip-calculator">Open SIP Calculator <span aria-hidden="true">→</span></Link>
+                <Link to="/learn">Start Learning <span aria-hidden="true">→</span></Link>
               </div>
-              <div className="fi-ai__message fi-ai__message--user">
-                <span>User</span>
-                <p>I am new to investing. Where should I start?</p>
+            </article>
+            <article className="fi-ai__assist-card">
+              <span className="fi-ai__assist-icon" aria-hidden="true">⌘</span>
+              <h3>Choose the Right Tool</h3>
+              <p>Start with your financial question, then move toward the calculator, lesson, or guided journey that fits your need.</p>
+              <div className="fi-ai__assist-actions">
+                <Link to="/calculators">Explore Calculators <span aria-hidden="true">→</span></Link>
+                <Link to="/learn">Open FOINWI Guide <span aria-hidden="true">→</span></Link>
               </div>
-              <div className="fi-ai__message fi-ai__message--assistant">
-                <span>FOINWI Intelligence</span>
-                <p>
-                  Start with money basics, emergency fund planning, and goal clarity. Then explore
-                  SIP, inflation, and retirement calculators to understand long-term planning step by step.
-                </p>
-              </div>
-              <div className="fi-ai__message fi-ai__message--user"><span>User</span><p>Which calculator should I use first?</p></div>
-              <div className="fi-ai__message fi-ai__message--assistant"><span>FOINWI Intelligence</span><p>Start with your financial question. If you are planning a loan, use EMI. If you invest monthly, use SIP. If you want to estimate tax impact, use Income Tax.</p></div>
-            </div>
-            <div className="fi-ai__console-labels"><span>Educational explanation</span><span>No personal advice</span><span>Calculator-linked guidance</span></div>
+            </article>
           </div>
         </section>
 

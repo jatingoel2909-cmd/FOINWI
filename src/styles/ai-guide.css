@@ -732,7 +732,8 @@ a.guide-explore-card {
 }
 
 .fi-ai__button:focus-visible,
-.fi-ai__capability:focus-within {
+.fi-ai__capability:focus-within,
+.fi-ai__layer-card:focus-visible {
   outline: 2px solid var(--fw-accent-bright);
   outline-offset: 3px;
 }
@@ -832,6 +833,7 @@ a.guide-explore-card {
   border: 1px solid var(--fw-border-strong);
   border-radius: var(--fw-radius-lg);
   background: var(--fw-bg-surface);
+  cursor: default;
 }
 
 .fi-ai__capability-top {
@@ -957,6 +959,94 @@ a.guide-explore-card {
   color: var(--fw-text-secondary);
   font-size: 14px;
   line-height: 1.65;
+}
+
+.fi-ai__assist {
+  padding-left: var(--fw-space-inline);
+  padding-right: var(--fw-space-inline);
+  max-width: none;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.fi-ai__assist .fi-ai__section-head,
+.fi-ai__assist-grid {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fi-ai__assist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.fi-ai__assist-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-lg);
+  background: var(--fw-bg-surface);
+  box-shadow: var(--fw-shadow-card);
+}
+
+.fi-ai__assist-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 20px;
+  border-radius: 13px;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--fw-accent);
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.fi-ai__assist-card h3 {
+  margin: 0 0 10px;
+  color: var(--fw-text-primary);
+  font-size: 19px;
+}
+
+.fi-ai__assist-card > p {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.fi-ai__assist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 22px;
+}
+
+.fi-ai__assist-actions a {
+  min-height: 38px;
+  padding: 9px 11px;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-pill);
+  background: #fffdfa;
+  color: var(--fw-accent);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.fi-ai__assist-actions a:hover {
+  border-color: var(--fw-accent);
+  box-shadow: 0 5px 12px rgba(166, 124, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.fi-ai__assist-actions a:focus-visible {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 3px;
 }
 
 .fi-ai__trust {
@@ -1179,8 +1269,9 @@ a.guide-explore-card {
   padding-top: 8px;
 }
 
-.fi-ai__node-map span {
+.fi-ai__node-map a {
   position: relative;
+  display: block;
   padding: 10px;
   border: 1px solid var(--fw-border);
   border-radius: 10px;
@@ -1189,6 +1280,20 @@ a.guide-explore-card {
   font-size: 12px;
   font-weight: 700;
   text-align: center;
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.fi-ai__node-map a:hover,
+.fi-ai__node-map a:focus-visible {
+  border-color: var(--fw-accent);
+  box-shadow: 0 6px 14px rgba(166, 124, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.fi-ai__node-map a:focus-visible {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 2px;
 }
 
 .fi-ai__layer-grid {
@@ -1199,10 +1304,21 @@ a.guide-explore-card {
 
 .fi-ai__layer-card {
   position: relative;
+  display: block;
   padding: 22px;
   border: 1px solid var(--fw-border-strong);
   border-radius: var(--fw-radius-lg);
   background: var(--fw-bg-surface);
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.fi-ai__layer-card:hover {
+  border-color: var(--fw-accent);
+  box-shadow: var(--fw-shadow-card);
+  transform: translateY(-3px);
 }
 
 .fi-ai__layer-card > span {
@@ -1455,6 +1571,15 @@ a.guide-explore-card {
 }
 
 @media (max-width: 720px) {
+  .fi-ai__assist {
+    padding-left: var(--fw-space-inline-sm);
+    padding-right: var(--fw-space-inline-sm);
+  }
+
+  .fi-ai__assist-grid {
+    grid-template-columns: 1fr;
+  }
+
   .fi-ai__node-map,
   .fi-ai__layer-grid,
   .fi-ai__roadmap-list,
