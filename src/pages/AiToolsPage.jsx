@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -46,7 +47,66 @@ const ROADMAP = [
   { phase: "Phase 5", title: "Verified Partner Pathways", copy: "Explore verified provider discovery only after trust processes are ready.", status: "Future" },
 ];
 
+const GUIDED_FLOWS = [
+  {
+    id: "loan",
+    icon: "🏠",
+    title: "Loan / EMI",
+    options: ["Estimate monthly EMI", "Compare loan tenure", "Understand total interest", "Explore prepayment impact"],
+    links: [
+      ["EMI Calculator", "/emi-calculator"],
+      ["Loan Prepayment Calculator", "/loan-prepayment-calculator"],
+      ["Home Loan Eligibility Calculator", "/home-loan-eligibility-calculator"],
+      ["Loans & EMI lesson", "/learn"],
+    ],
+  },
+  {
+    id: "sip",
+    icon: "📈",
+    title: "SIP / Investment",
+    options: ["Estimate SIP growth", "Understand compounding", "Plan a goal", "Understand inflation impact"],
+    links: [["SIP Calculator", "/sip-calculator"], ["Lumpsum Calculator", "/lumpsum-calculator"], ["Goal Planner", "/goal-planner"], ["Inflation Calculator", "/inflation-calculator"], ["Mutual Funds & SIP lesson", "/learn"]],
+  },
+  {
+    id: "tax",
+    icon: "🧾",
+    title: "Income Tax",
+    options: ["Estimate tax", "Understand taxable income", "Compare deductions", "Learn tax basics"],
+    links: [["Income Tax Calculator", "/income-tax-calculator"], ["HRA Calculator", "/hra-calculator"], ["GST Calculator", "/gst-calculator"], ["Taxes & Salary guide", "/learn"]],
+  },
+  {
+    id: "goals",
+    icon: "🎯",
+    title: "Goal Planning",
+    options: ["Plan a future goal", "Estimate monthly savings", "Understand shortfall", "Learn goal planning"],
+    links: [["Goal Planner", "/goal-planner"], ["SIP Calculator", "/sip-calculator"], ["Inflation Calculator", "/inflation-calculator"], ["Build Wealth journey", "/learn"]],
+  },
+  {
+    id: "retirement",
+    icon: "🌿",
+    title: "Retirement",
+    options: ["Estimate retirement corpus", "Understand inflation", "Estimate pension needs", "Learn long-term planning"],
+    links: [["Retirement Calculator", "/retirement-calculator"], ["NPS Calculator", "/nps-calculator"], ["PPF Calculator", "/ppf-calculator"], ["Retirement Planning lesson", "/learn"]],
+  },
+  {
+    id: "health",
+    icon: "♥",
+    title: "Financial Health",
+    options: ["Understand savings", "Review debt comfort", "Check protection gaps", "Improve planning habits"],
+    links: [["Financial Health Score", "/financial-health-score"], ["EMI Calculator", "/emi-calculator"], ["Goal Planner", "/goal-planner"], ["FOINWI Guide", "/learn"]],
+  },
+];
+
 function AiToolsPage() {
+  const [selectedFlowId, setSelectedFlowId] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const selectedFlow = GUIDED_FLOWS.find((flow) => flow.id === selectedFlowId);
+
+  function selectFlow(flowId) {
+    setSelectedFlowId(flowId);
+    setSelectedOption(null);
+  }
+
   return (
     <div className="shrix-app">
       <Navbar />
@@ -140,6 +200,65 @@ function AiToolsPage() {
               <div className="fi-ai__message fi-ai__message--assistant"><span>FOINWI Intelligence</span><p>Start with your financial question. If you are planning a loan, use EMI. If you invest monthly, use SIP. If you want to estimate tax impact, use Income Tax.</p></div>
             </div>
             <div className="fi-ai__console-labels"><span>Educational explanation</span><span>No personal advice</span><span>Calculator-linked guidance</span></div>
+          </div>
+        </section>
+
+        <section className="fi-ai__section fi-ai__guided" aria-labelledby="fi-ai-guided-title">
+          <div className="fi-ai__section-head">
+            <p className="shrix-section-label">Static Guided Preview</p>
+            <h2 id="fi-ai-guided-title">Try the Guided Assistant Preview</h2>
+            <p>Choose what you want to understand. FOINWI will guide you toward the right calculator, lesson, or journey — educationally and safely.</p>
+          </div>
+          <div className="fi-ai__guided-shell">
+            <p className="fi-ai__guided-step">Step 1 of 2 · Choose a topic</p>
+            <div className="fi-ai__guided-topic-grid" role="group" aria-label="Choose a financial topic">
+              {GUIDED_FLOWS.map((flow) => (
+                <button
+                  key={flow.id}
+                  type="button"
+                  className={`fi-ai__guided-topic${selectedFlowId === flow.id ? " is-selected" : ""}`}
+                  aria-pressed={selectedFlowId === flow.id}
+                  onClick={() => selectFlow(flow.id)}
+                >
+                  <span aria-hidden="true">{flow.icon}</span>
+                  {flow.title}
+                </button>
+              ))}
+            </div>
+
+            {selectedFlow ? (
+              <div className="fi-ai__guided-next" aria-live="polite">
+                <div className="fi-ai__guided-next-head">
+                  <div>
+                    <p className="fi-ai__guided-step">Step 2 of 2 · {selectedFlow.title}</p>
+                    <h3>What would you like to understand?</h3>
+                  </div>
+                  <button type="button" className="fi-ai__guided-reset" onClick={() => selectFlow(null)}>Change topic</button>
+                </div>
+                <div className="fi-ai__guided-option-grid" role="group" aria-label={`${selectedFlow.title} options`}>
+                  {selectedFlow.options.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className={`fi-ai__guided-option${selectedOption === option ? " is-selected" : ""}`}
+                      aria-pressed={selectedOption === option}
+                      onClick={() => setSelectedOption(option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+                {selectedOption ? (
+                  <div className="fi-ai__guided-recommendations">
+                    <p><strong>Explore these FOINWI resources</strong><span> based on your selected topic.</span></p>
+                    <div>
+                      {selectedFlow.links.map(([label, path]) => <Link key={label} to={path}>{label}<span aria-hidden="true"> →</span></Link>)}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+            <p className="fi-ai__guided-safety">Educational guidance only. This guided assistant preview does not provide personalized financial, investment, tax, legal, or loan advice.</p>
           </div>
         </section>
 
