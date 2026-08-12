@@ -7,7 +7,7 @@ import { formatCurrency } from "../utils/calculatorFormat";
 
 const LUMPSUM_LIMITS = {
   amount: { min: 10000, max: 10000000, step: 10000 },
-  rate: { min: 1, max: 30, step: 0.5 },
+  rate: { min: 0, max: 30, step: 0.5 },
   years: { min: 1, max: 40, step: 1 },
 };
 

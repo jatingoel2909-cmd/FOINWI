@@ -21,6 +21,15 @@ const EMI_LIMITS = {
   years: { min: 1, max: 30, step: 1 },
 };
 
+function formatEmiCurrency(value) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 function EmiCalculator({
   defaultPrincipal = 5000000,
   defaultRate,
@@ -124,7 +133,7 @@ function EmiCalculator({
       results={
         hasValidPrimary ? (
           <CalculatorResults
-            primary={{ label: "Monthly EMI", value: formatCurrency(emi) }}
+            primary={{ label: "Monthly EMI", value: formatEmiCurrency(emi) }}
             metrics={[
               { label: "Loan Amount", value: formatCurrency(principal) },
               { label: "Interest Paid", value: formatCurrency(totalInterest) },

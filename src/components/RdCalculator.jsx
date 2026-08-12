@@ -7,7 +7,7 @@ import { formatCurrency } from "../utils/calculatorFormat";
 
 const RD_LIMITS = {
   monthly: { min: 500, max: 100000, step: 500 },
-  rate: { min: 3, max: 12, step: 0.1 },
+  rate: { min: 0, max: 12, step: 0.1 },
   years: { min: 1, max: 10, step: 1 },
 };
 
@@ -46,7 +46,7 @@ function RdCalculator({
     <CalculatorLayout
       label="Recurring Deposit (RD) Calculator"
       title="Plan your recurring deposit growth"
-      description="Estimate Recurring Deposit (RD) maturity value based on monthly deposit, interest rate, and tenure."
+      description="Estimate Recurring Deposit (RD) maturity value using a simplified monthly-compounding model."
       showHeader={showHeader}
       variant="default"
       className={className}
@@ -79,16 +79,21 @@ function RdCalculator({
         </>
       }
       results={
-        <CalculatorResults
-          primary={{ label: "Maturity Value", value: formatCurrency(maturityValue) }}
-          metrics={[
-            { label: "Monthly Deposit", value: formatCurrency(monthly) },
-            { label: "Total Invested", value: formatCurrency(totalInvested) },
-            { label: "Interest Earned", value: formatCurrency(interestEarned) },
-            { label: "Tenure", value: `${years} years` },
-          ]}
-          story="Recurring deposits grow through regular monthly contributions. This estimate assumes a constant interest rate for the full tenure."
-        />
+        <>
+          <CalculatorResults
+            primary={{ label: "Maturity Value", value: formatCurrency(maturityValue) }}
+            metrics={[
+              { label: "Monthly Deposit", value: formatCurrency(monthly) },
+              { label: "Total Invested", value: formatCurrency(totalInvested) },
+              { label: "Interest Earned", value: formatCurrency(interestEarned) },
+              { label: "Tenure", value: `${years} years` },
+            ]}
+            story="This estimate uses fixed monthly deposits made at the beginning of each month and monthly compounding."
+          />
+          <p className="calc-simplified-notice">
+            FOINWI uses a simplified monthly-compounding model for learning and planning. Actual bank RD maturity may differ because of quarterly compounding, deposit-date rules, TDS/tax, missed instalments, penalties, premature closure and other product terms.
+          </p>
+        </>
       }
     />
   );

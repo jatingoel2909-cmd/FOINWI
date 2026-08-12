@@ -16,8 +16,19 @@ function formatPercent(value) {
 }
 
 function calculateCagr(initial, finalValue, years) {
-  if (initial <= 0 || finalValue <= 0 || years <= 0) return 0;
-  return (Math.pow(finalValue / initial, 1 / years) - 1) * 100;
+  if (
+    !Number.isFinite(initial) ||
+    !Number.isFinite(finalValue) ||
+    !Number.isFinite(years) ||
+    initial <= 0 ||
+    finalValue <= 0 ||
+    years <= 0
+  ) {
+    return null;
+  }
+
+  const cagr = (Math.pow(finalValue / initial, 1 / years) - 1) * 100;
+  return Number.isFinite(cagr) ? cagr : null;
 }
 
 function CagrCalculator({
@@ -32,6 +43,7 @@ function CagrCalculator({
   const [years, setYears] = useState(defaultYears);
 
   const cagr = calculateCagr(initial, finalValue, years);
+  const hasValidCagr = cagr !== null;
   const absoluteGain = finalValue - initial;
 
   return (
@@ -70,16 +82,22 @@ function CagrCalculator({
         </>
       }
       results={
-        <CalculatorResults
-          primary={{ label: "CAGR", value: formatPercent(cagr) }}
-          metrics={[
-            { label: "Initial Investment", value: formatCurrency(initial) },
-            { label: "Final Value", value: formatCurrency(finalValue) },
-            { label: "Time Period", value: `${years} years` },
-            { label: "Absolute Change", value: formatCurrency(absoluteGain) },
-          ]}
-          story="CAGR smooths growth into a single annualised rate. It does not show year-by-year volatility along the way."
-        />
+        hasValidCagr ? (
+          <CalculatorResults
+            primary={{ label: "CAGR", value: formatPercent(cagr) }}
+            metrics={[
+              { label: "Initial Investment", value: formatCurrency(initial) },
+              { label: "Final Value", value: formatCurrency(finalValue) },
+              { label: "Time Period", value: `${years} years` },
+              { label: "Absolute Change", value: formatCurrency(absoluteGain) },
+            ]}
+            story="CAGR smooths growth into a single annualised rate. It does not show year-by-year volatility along the way."
+          />
+        ) : (
+          <p className="calc-simplified-notice">
+            Enter positive beginning and ending values with a valid time period to calculate CAGR.
+          </p>
+        )
       }
     />
   );

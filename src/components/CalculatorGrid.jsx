@@ -26,7 +26,7 @@ function CalculatorGrid({
       <div className="shrix-grid">
         {calculators.map(({ icon, title: calcTitle, cardTitle, desc, path }) => (
           <div className="shrix-card" key={calcTitle}>
-            <div className="shrix-icon">{icon}</div>
+            <div className="shrix-icon" aria-hidden="true">{icon}</div>
             <h3>{cardTitle || calcTitle}</h3>
             <p>{desc}</p>
             {path ? (

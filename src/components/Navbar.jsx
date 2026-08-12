@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import BrandWordmark from "./BrandWordmark";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { navigateToHomeSection } from "../utils/homeNavigation";
+import { Link, useLocation } from "react-router-dom";
 import { getNavLinkClass } from "../utils/navHelpers";
 import SearchCommandCenter from "./intelligence/SearchCommandCenter";
 import "./Navbar.css";
@@ -11,23 +10,16 @@ const NAV_ITEMS = [
   { href: "/calculators", label: "Calculators" },
   { href: "/financial-health-score", label: "Health Score" },
   { href: "/learn", label: "Learn" },
-  { href: "/ai-tools", label: "AI" },
+  { href: "/ai-tools", label: "Intelligence" },
   { href: "/about", label: "About" },
 ];
 
 function Navbar() {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
-
-  const handleContactClick = (event) => {
-    event.preventDefault();
-    closeMenu();
-    navigateToHomeSection(navigate, pathname, "contact");
-  };
 
   const openSearch = () => {
     closeMenu();
@@ -65,9 +57,7 @@ function Navbar() {
             {label}
           </Link>
         ))}
-        <a href="#contact" onClick={handleContactClick}>
-          Contact
-        </a>
+        <Link to="/#contact">Contact</Link>
       </nav>
 
       <div className="shrix-nav-actions">
@@ -101,6 +91,7 @@ function Navbar() {
       <div
         className={`shrix-nav-drawer${menuOpen ? " shrix-nav-drawer--open" : ""}`}
         aria-hidden={!menuOpen}
+        inert={!menuOpen}
       >
         <nav className="shrix-nav-drawer__links" aria-label="Mobile navigation">
           {NAV_ITEMS.map(({ href, label }) => (
@@ -113,9 +104,7 @@ function Navbar() {
               {label}
             </Link>
           ))}
-          <a href="#contact" onClick={handleContactClick}>
-            Contact
-          </a>
+          <Link to="/#contact" onClick={closeMenu}>Contact</Link>
           <button type="button" className="shrix-nav-drawer__search" onClick={openSearch}>
             Search FOINWI
           </button>

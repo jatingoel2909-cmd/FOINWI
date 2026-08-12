@@ -4,7 +4,7 @@ export const EXPLAIN_DISCLAIMER =
 export const CALCULATOR_EXPLAINS = {
   "/sip-calculator": {
     whyGenerated:
-      "This result shows the projected future value of investing a fixed amount every month at a steady annual return, compounded monthly. The formula treats each SIP instalment as a separate growing stream.",
+      "This result shows the projected future value of investing a fixed amount at the beginning of every month at a steady annual return, compounded monthly. The formula treats each SIP instalment as a separate growing stream.",
     keyInputs: [
       "Monthly investment amount — directly scales the final corpus",
       "Expected annual return — small changes compound significantly over long tenures",
@@ -52,10 +52,10 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/fd-calculator": {
     whyGenerated:
-      "This estimates maturity value by applying compound interest on a fixed deposit for the chosen tenure and compounding frequency, with optional periodic interest payouts affecting reinvestment.",
+      "This estimates cumulative maturity value by reinvesting interest on a fixed deposit for the chosen tenure and compounding frequency.",
     keyInputs: [
       "Deposit amount — scales maturity value linearly at a given rate",
-      "Interest rate — higher bank FD rates increase maturity",
+      "Interest rate — a higher selected annual rate increases the illustration",
       "Tenure and compounding frequency — longer tenure and more frequent compounding help growth",
     ],
     ifInputsChange: [
@@ -125,7 +125,7 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/goal-planner": {
     whyGenerated:
-      "The planner projects wealth from current savings plus monthly SIP and compares it to your target goal amount at the chosen horizon.",
+      "The planner compounds current savings and monthly SIP contributions at the same monthly rate, then compares the projected value to your target goal amount at the chosen horizon. Monthly contributions are assumed at the beginning of each month.",
     keyInputs: [
       "Target goal amount — defines the finish line",
       "Monthly SIP and current savings — drive the projected corpus",
@@ -194,10 +194,10 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/rd-calculator": {
     whyGenerated:
-      "Recurring deposit maturity is calculated from equal monthly deposits earning compound interest at the stated rate for the full tenure.",
+      "This simplified RD estimate uses equal monthly deposits made at the beginning of each month and compounds them monthly for the selected tenure. Actual bank maturity may differ.",
     keyInputs: [
       "Monthly deposit — each instalment adds to the corpus",
-      "Interest rate — bank RD rate for the tenure",
+      "Interest rate — selected annual rate used in this monthly-compounding estimate",
       "Tenure — number of months deposits continue",
     ],
     ifInputsChange: [
@@ -206,9 +206,9 @@ export const CALCULATOR_EXPLAINS = {
       "Longer tenure → more deposits and more compounding",
     ],
     beginnerMistakes: [
-      "Missing a monthly deposit and not checking bank rules",
+      "Assuming all banks use the same compounding or deposit-date rules",
       "Comparing RD to equity without risk context",
-      "Ignoring tax on RD interest",
+      "Ignoring TDS/tax, missed-instalment terms, penalties, or premature-closure rules",
       "Choosing tenure without matching the goal date",
     ],
     relatedCalculators: ["/fd-calculator", "/goal-planner", "/sip-calculator"],
@@ -217,7 +217,7 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/swp-calculator": {
     whyGenerated:
-      "SWP models regular withdrawals from an existing corpus while the remaining balance continues to earn returns, showing how long the corpus may last.",
+      "SWP applies the selected monthly return to the corpus before each withdrawal, limits the final withdrawal to the available balance, and shows whether the corpus lasts through the selected tenure.",
     keyInputs: [
       "Starting corpus — pool available for withdrawals",
       "Monthly withdrawal — cash taken out each month",
@@ -241,7 +241,7 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/inflation-calculator": {
     whyGenerated:
-      "Future cost is calculated by growing today's amount at the inflation rate over the selected years — showing how purchasing power erodes.",
+      "Future cost is calculated by growing today's amount at the selected inflation rate over the selected years. It is a nominal future-cost estimate, not a purchasing-power calculation.",
     keyInputs: [
       "Current amount — today's price or expense",
       "Inflation rate — annual price rise assumption",

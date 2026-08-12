@@ -1026,7 +1026,7 @@ a.guide-explore-card {
 }
 
 .fi-ai__assist-actions a {
-  min-height: 38px;
+  min-height: var(--fw-touch-min, 44px);
   padding: 9px 11px;
   border: 1px solid var(--fw-border);
   border-radius: var(--fw-radius-pill);

@@ -57,11 +57,11 @@ function AiToolsPreviewSection() {
           {chatPreview.map((exchange) => (
             <div className="shrix-ai-assistant-preview__exchange" key={exchange.user}>
               <div className="shrix-ai-chat-bubble shrix-ai-chat-bubble--user">
-                <span className="shrix-ai-chat-bubble__label">User</span>
+                <span className="shrix-ai-chat-bubble__label">Preview question</span>
                 <p>{exchange.user}</p>
               </div>
               <div className="shrix-ai-chat-bubble shrix-ai-chat-bubble--ai">
-                <span className="shrix-ai-chat-bubble__label">FOINWI AI</span>
+                <span className="shrix-ai-chat-bubble__label">Coming Soon</span>
                 <p>{exchange.ai}</p>
               </div>
             </div>

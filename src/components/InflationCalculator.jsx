@@ -33,7 +33,7 @@ function InflationCalculator({
     <CalculatorLayout
       label="Inflation Calculator"
       title="Understand the rising cost of living"
-      description="See how inflation affects purchasing power over time and how much an expense today may cost in the future."
+      description="Estimate the future cost of an expense today using an illustrative annual inflation rate."
       showHeader={showHeader}
       variant="default"
       className={className}
@@ -73,7 +73,7 @@ function InflationCalculator({
             { label: "Increase in Cost", value: formatCurrency(increase) },
             { label: "Time Period", value: `${years} years` },
           ]}
-          story="Inflation reduces purchasing power over time. The same amount of money may buy less in the future under these assumptions."
+          story="This estimate shows how a current expense may translate into a higher future cost under the selected inflation assumption."
         />
       }
     />

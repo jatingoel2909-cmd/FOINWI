@@ -12,7 +12,7 @@ function Hero() {
   return (
     <section className="shrix-hero">
       <div className="shrix-hero-left">
-        <p className="shrix-badge">India’s Smart Financial Platform</p>
+        <p className="shrix-badge">Educational Financial Intelligence Platform</p>
         <p className="shrix-hero-welcome">Welcome to FOINWI</p>
 
         <h1>
@@ -43,9 +43,12 @@ function Hero() {
       <div className="shrix-dashboard">
         <p>SIP Growth Preview</p>
         <p className="shrix-dashboard__note">Illustrative example only. Not a forecast.</p>
-        <h3>₹10,000/month</h3>
+        <p className="shrix-dashboard__assumptions">
+          Illustration: ₹10,000/month for 15 years at an assumed 12% annual return. Actual returns may vary.
+        </p>
+        <h2>₹10,000/month</h2>
 
-        <div className="shrix-bars">
+        <div className="shrix-bars" aria-hidden="true">
           <span></span>
           <span></span>
           <span></span>
@@ -60,7 +63,7 @@ function Hero() {
 
         <div className="shrix-row">
           <span>Estimated Value</span>
-          <strong>₹50.4L</strong>
+          <strong>₹50.5L</strong>
         </div>
       </div>
     </section>

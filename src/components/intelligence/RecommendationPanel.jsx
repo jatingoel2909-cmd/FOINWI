@@ -128,7 +128,7 @@ function RecommendationPanel({
           <p className="shrix-section-label">Next Steps</p>
           <h2 id="fi-rec-panel-title">Continue Your Financial Journey</h2>
           <p className="fi-rec-panel__subtitle">
-            Based on what you&apos;re exploring, here are the best next steps.
+            Educational guidance based on FOINWI&apos;s structured rules and content. Explore these useful next steps.
           </p>
         </header>
 

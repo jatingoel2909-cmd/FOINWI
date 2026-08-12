@@ -8,7 +8,7 @@ import "../styles/ai-guide.css";
 const INTELLIGENCE_LAYERS = [
   { icon: "🧮", title: "Calculators", description: "Explain results and trade-offs behind each estimate.", to: "/calculators", ariaLabel: "Open Calculators" },
   { icon: "📚", title: "Learning", description: "Simplify concepts into clear, beginner-friendly language.", to: "/learn", ariaLabel: "Open Learning" },
-  { icon: "🧭", title: "Journeys", description: "Guide practical next steps across planning milestones.", to: "/learn", ariaLabel: "Open FOINWI Guide" },
+  { icon: "🧭", title: "Journeys", description: "Explore practical paths across planning milestones.", to: "/journeys/build-wealth", ariaLabel: "Open Build Wealth Journey" },
   { icon: "♥", title: "Financial Health Score", description: "Explain weak areas and possible improvement paths.", to: "/financial-health-score", ariaLabel: "Open Financial Health Score" },
 ];
 
@@ -52,48 +52,67 @@ const GUIDED_FLOWS = [
     id: "loan",
     icon: "🏠",
     title: "Loan / EMI",
-    options: ["Estimate monthly EMI", "Compare loan tenure", "Understand total interest", "Explore prepayment impact"],
-    links: [
-      ["EMI Calculator", "/emi-calculator"],
-      ["Loan Prepayment Calculator", "/loan-prepayment-calculator"],
-      ["Home Loan Eligibility Calculator", "/home-loan-eligibility-calculator"],
-      ["Loans & EMI lesson", "/learn"],
+    options: [
+      { id: "estimate-emi", label: "Estimate monthly EMI", links: [["Open EMI Calculator", "/emi-calculator"], ["Loans & EMI lesson", "/learn/loans-emi"]] },
+      { id: "compare-tenure", label: "Compare loan tenure", links: [["Open EMI Calculator", "/emi-calculator"], ["Explore Prepayment", "/loan-prepayment-calculator"]] },
+      { id: "understand-interest", label: "Understand total interest", links: [["Loans & EMI lesson", "/learn/loans-emi"], ["Open EMI Calculator", "/emi-calculator"]] },
+      { id: "prepayment", label: "Explore prepayment impact", links: [["Explore Prepayment", "/loan-prepayment-calculator"], ["Open EMI Calculator", "/emi-calculator"]] },
     ],
   },
   {
     id: "sip",
     icon: "📈",
     title: "SIP / Investment",
-    options: ["Estimate SIP growth", "Understand compounding", "Plan a goal", "Understand inflation impact"],
-    links: [["SIP Calculator", "/sip-calculator"], ["Lumpsum Calculator", "/lumpsum-calculator"], ["Goal Planner", "/goal-planner"], ["Inflation Calculator", "/inflation-calculator"], ["Mutual Funds & SIP lesson", "/learn"]],
+    options: [
+      { id: "sip-growth", label: "Estimate SIP growth", links: [["Open SIP Calculator", "/sip-calculator"], ["Mutual Funds & SIP lesson", "/learn/mutual-funds-sip"]] },
+      { id: "compounding", label: "Understand compounding", links: [["Mutual Funds & SIP lesson", "/learn/mutual-funds-sip"], ["Open Lumpsum Calculator", "/lumpsum-calculator"]] },
+      { id: "plan-goal", label: "Plan a goal", links: [["Open Goal Planner", "/goal-planner"], ["Open SIP Calculator", "/sip-calculator"]] },
+      { id: "inflation", label: "Understand inflation impact", links: [["Open Inflation Calculator", "/inflation-calculator"], ["Mutual Funds & SIP lesson", "/learn/mutual-funds-sip"]] },
+    ],
   },
   {
     id: "tax",
     icon: "🧾",
     title: "Income Tax",
-    options: ["Estimate tax", "Understand taxable income", "Compare deductions", "Learn tax basics"],
-    links: [["Income Tax Calculator", "/income-tax-calculator"], ["HRA Calculator", "/hra-calculator"], ["GST Calculator", "/gst-calculator"], ["Taxes & Salary guide", "/learn"]],
+    options: [
+      { id: "estimate-tax", label: "Estimate tax", links: [["Open Income Tax Calculator", "/income-tax-calculator"], ["Income Tax Basics lesson", "/learn/income-tax-basics"]] },
+      { id: "taxable-income", label: "Understand taxable income", links: [["Income Tax Basics lesson", "/learn/income-tax-basics"], ["Open Income Tax Calculator", "/income-tax-calculator"]] },
+      { id: "deductions", label: "Compare deductions", links: [["Open HRA Calculator", "/hra-calculator"], ["Income Tax Basics lesson", "/learn/income-tax-basics"]] },
+      { id: "tax-basics", label: "Learn tax basics", links: [["Income Tax Basics lesson", "/learn/income-tax-basics"], ["Open GST Calculator", "/gst-calculator"]] },
+    ],
   },
   {
     id: "goals",
     icon: "🎯",
     title: "Goal Planning",
-    options: ["Plan a future goal", "Estimate monthly savings", "Understand shortfall", "Learn goal planning"],
-    links: [["Goal Planner", "/goal-planner"], ["SIP Calculator", "/sip-calculator"], ["Inflation Calculator", "/inflation-calculator"], ["Build Wealth journey", "/learn"]],
+    options: [
+      { id: "future-goal", label: "Plan a future goal", links: [["Open Goal Planner", "/goal-planner"], ["Build Wealth Journey", "/journeys/build-wealth"]] },
+      { id: "monthly-savings", label: "Estimate monthly savings", links: [["Open Goal Planner", "/goal-planner"], ["Open SIP Calculator", "/sip-calculator"]] },
+      { id: "shortfall", label: "Understand shortfall", links: [["Open Goal Planner", "/goal-planner"], ["Open Inflation Calculator", "/inflation-calculator"]] },
+      { id: "learn-goals", label: "Learn goal planning", links: [["Build Wealth Journey", "/journeys/build-wealth"], ["Explore Learning", "/learn"]] },
+    ],
   },
   {
     id: "retirement",
     icon: "🌿",
     title: "Retirement",
-    options: ["Estimate retirement corpus", "Understand inflation", "Estimate pension needs", "Learn long-term planning"],
-    links: [["Retirement Calculator", "/retirement-calculator"], ["NPS Calculator", "/nps-calculator"], ["PPF Calculator", "/ppf-calculator"], ["Retirement Planning lesson", "/learn"]],
+    options: [
+      { id: "retirement-corpus", label: "Estimate retirement corpus", links: [["Open Retirement Calculator", "/retirement-calculator"], ["Retirement Planning lesson", "/learn/retirement-planning"]] },
+      { id: "retirement-inflation", label: "Understand inflation", links: [["Open Inflation Calculator", "/inflation-calculator"], ["Retirement Planning lesson", "/learn/retirement-planning"]] },
+      { id: "pension", label: "Estimate pension needs", links: [["Open NPS Calculator", "/nps-calculator"], ["Open Retirement Calculator", "/retirement-calculator"]] },
+      { id: "long-term", label: "Learn long-term planning", links: [["Retirement Planning lesson", "/learn/retirement-planning"], ["Open PPF Calculator", "/ppf-calculator"]] },
+    ],
   },
   {
     id: "health",
     icon: "♥",
     title: "Financial Health",
-    options: ["Understand savings", "Review debt comfort", "Check protection gaps", "Improve planning habits"],
-    links: [["Financial Health Score", "/financial-health-score"], ["EMI Calculator", "/emi-calculator"], ["Goal Planner", "/goal-planner"], ["FOINWI Guide", "/learn"]],
+    options: [
+      { id: "savings", label: "Understand savings", links: [["Open Financial Health Score", "/financial-health-score"], ["Open Goal Planner", "/goal-planner"]] },
+      { id: "debt", label: "Review debt comfort", links: [["Open Financial Health Score", "/financial-health-score"], ["Open EMI Calculator", "/emi-calculator"]] },
+      { id: "protection", label: "Check protection gaps", links: [["Open Financial Health Score", "/financial-health-score"], ["Explore Learning", "/learn"]] },
+      { id: "habits", label: "Improve planning habits", links: [["Open Financial Health Score", "/financial-health-score"], ["Explore Learning", "/learn"]] },
+    ],
   },
 ];
 
@@ -101,6 +120,7 @@ function AiToolsPage() {
   const [selectedFlowId, setSelectedFlowId] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const selectedFlow = GUIDED_FLOWS.find((flow) => flow.id === selectedFlowId);
+  const selectedOptionData = selectedFlow?.options.find((option) => option.id === selectedOption);
 
   function selectFlow(flowId) {
     setSelectedFlowId(flowId);
@@ -117,7 +137,7 @@ function AiToolsPage() {
               <p className="shrix-section-label">In Development</p>
               <h1 id="fi-ai-title">FOINWI Intelligence</h1>
               <p className="fi-ai__lead">
-                AI-powered financial clarity for every stage of your money journey.
+                Educational financial intelligence, built for clearer decisions.
               </p>
               <p className="fi-ai__intro">
                 FOINWI Intelligence is being designed to help users understand calculators, compare
@@ -191,11 +211,11 @@ function AiToolsPage() {
             </article>
             <article className="fi-ai__assist-card">
               <span className="fi-ai__assist-icon" aria-hidden="true">⌘</span>
-              <h3>Choose the Right Tool</h3>
+              <h3>Choose a Useful Tool</h3>
               <p>Start with your financial question, then move toward the calculator, lesson, or guided journey that fits your need.</p>
               <div className="fi-ai__assist-actions">
                 <Link to="/calculators">Explore Calculators <span aria-hidden="true">→</span></Link>
-                <Link to="/learn">Open FOINWI Guide <span aria-hidden="true">→</span></Link>
+                <Link to="/learn">Explore Learning <span aria-hidden="true">→</span></Link>
               </div>
             </article>
           </div>
@@ -205,7 +225,7 @@ function AiToolsPage() {
           <div className="fi-ai__section-head">
             <p className="shrix-section-label">Static Guided Preview</p>
             <h2 id="fi-ai-guided-title">Try the Guided Assistant Preview</h2>
-            <p>Choose what you want to understand. FOINWI will guide you toward the right calculator, lesson, or journey — educationally and safely.</p>
+            <p>Choose what you want to understand, then explore relevant FOINWI calculators, lessons, or journeys — educationally and safely.</p>
           </div>
           <div className="fi-ai__guided-shell">
             <p className="fi-ai__guided-step">Step 1 of 2 · Choose a topic</p>
@@ -236,21 +256,21 @@ function AiToolsPage() {
                 <div className="fi-ai__guided-option-grid" role="group" aria-label={`${selectedFlow.title} options`}>
                   {selectedFlow.options.map((option) => (
                     <button
-                      key={option}
+                      key={option.id}
                       type="button"
-                      className={`fi-ai__guided-option${selectedOption === option ? " is-selected" : ""}`}
-                      aria-pressed={selectedOption === option}
-                      onClick={() => setSelectedOption(option)}
+                      className={`fi-ai__guided-option${selectedOption === option.id ? " is-selected" : ""}`}
+                      aria-pressed={selectedOption === option.id}
+                      onClick={() => setSelectedOption(option.id)}
                     >
-                      {option}
+                      {option.label}
                     </button>
                   ))}
                 </div>
-                {selectedOption ? (
+                {selectedOptionData ? (
                   <div className="fi-ai__guided-recommendations">
-                    <p><strong>Explore these FOINWI resources</strong><span> based on your selected topic.</span></p>
+                    <p><strong>Based on what you selected, start here.</strong><span> These are educational FOINWI resources.</span></p>
                     <div>
-                      {selectedFlow.links.map(([label, path]) => <Link key={label} to={path}>{label}<span aria-hidden="true"> →</span></Link>)}
+                      {selectedOptionData.links.map(([label, path]) => <Link key={label} to={path}>{label}<span aria-hidden="true"> →</span></Link>)}
                     </div>
                   </div>
                 ) : null}
@@ -307,15 +327,15 @@ function AiToolsPage() {
             ))}
           </ol>
         </section>
-        <section className="fi-ai__final">
+        <section className="fi-ai__final" aria-labelledby="fi-ai-final-title">
           <div>
             <p className="shrix-section-label">Start Here</p>
-            <h2>Start With Clarity Today</h2>
+            <h2 id="fi-ai-final-title">Start With Clarity Today</h2>
             <p>While FOINWI Intelligence is being built, you can already explore calculators, learning paths, and guided journeys designed to make money decisions easier to understand.</p>
           </div>
           <div className="fi-ai__actions">
             <Link to="/calculators" className="fi-ai__button fi-ai__button--primary">Explore Calculators</Link>
-            <Link to="/learn" className="fi-ai__button fi-ai__button--secondary">Open FOINWI Guide</Link>
+            <Link to="/learn" className="fi-ai__button fi-ai__button--secondary">Explore Learning</Link>
           </div>
         </section>
       </main>

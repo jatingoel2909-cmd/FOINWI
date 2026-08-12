@@ -20,7 +20,7 @@ const MISSION_META = {
     },
     extraMilestones: [
       { title: "Review total cost", detail: "Include registration, stamp duty, and interior setup." },
-      { title: "Shortlist properties", detail: "Match listings to your approved budget range." },
+      { title: "Shortlist properties", detail: "Compare listings with your estimated planning range." },
     ],
     learningDetails: {
       "How home loan eligibility is assessed in India":

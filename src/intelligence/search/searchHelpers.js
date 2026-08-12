@@ -30,7 +30,7 @@ const FALLBACK_SUGGESTIONS = [
   },
   {
     id: "suggestion:guide",
-    label: "Open FOINWI Guide",
+    label: "Open FOINWI Intelligence",
     path: "/ai-tools",
     reason: "Explore goals and habits with educational guidance.",
   },

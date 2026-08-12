@@ -7,7 +7,7 @@ import { formatCurrency } from "../utils/calculatorFormat";
 
 const LIMITS = {
   principal: { min: 1000, max: 10000000, step: 1000 },
-  rate: { min: 1, max: 30, step: 0.1 },
+  rate: { min: 0, max: 30, step: 0.1 },
   years: { min: 1, max: 40, step: 1 },
 };
 

@@ -12,7 +12,7 @@ import SearchResults from "./SearchResults";
 import { flattenSearchGroups } from "./searchCommandHelpers";
 import "./search-ui.css";
 
-const RECENT_SEARCHES = ["SIP", "Emergency fund", "Home loan", "Retirement"];
+const SUGGESTED_SEARCHES = ["SIP", "Emergency fund", "Home loan", "Retirement"];
 const POPULAR_SEARCHES = [
   "Monthly investment",
   "Tax saving",
@@ -139,6 +139,9 @@ function SearchCommandCenter({ open, onClose }) {
           <div className="fi-search-command__heading">
             <p className="shrix-section-label">FOINWI Command Center</p>
             <h2 id="fi-search-command-title">What would you like to achieve today?</h2>
+            <p className="fi-search-command__boundary">
+              Educational guidance based on FOINWI&apos;s structured content.
+            </p>
           </div>
           <button
             type="button"
@@ -177,7 +180,7 @@ function SearchCommandCenter({ open, onClose }) {
           activeIndex={safeActiveIndex}
           getOptionId={getOptionId}
           onSelectResult={handleSelectResult}
-          recentSearches={RECENT_SEARCHES}
+          suggestedSearches={SUGGESTED_SEARCHES}
           popularSearches={POPULAR_SEARCHES}
           onPickSuggestion={handlePickSuggestion}
         />

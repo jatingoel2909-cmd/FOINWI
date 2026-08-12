@@ -11,7 +11,7 @@ function SearchResults({
   activeIndex,
   getOptionId,
   onSelectResult,
-  recentSearches,
+  suggestedSearches,
   popularSearches,
   onPickSuggestion,
 }) {
@@ -21,10 +21,10 @@ function SearchResults({
     return (
       <div className="fi-search-results fi-search-results--empty">
         <div className="fi-search-suggest">
-          <h3 className="fi-search-suggest__title">Recent searches</h3>
+          <h3 className="fi-search-suggest__title">Suggested searches</h3>
           <ul className="fi-search-suggest__list">
-            {recentSearches.map((item) => (
-              <li key={`recent-${item}`}>
+            {suggestedSearches.map((item) => (
+              <li key={`suggested-${item}`}>
                 <button type="button" onClick={() => onPickSuggestion(item)}>
                   {item}
                 </button>

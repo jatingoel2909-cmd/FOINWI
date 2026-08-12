@@ -15,9 +15,9 @@ export const CALCULATOR_INSIGHTS = {
         { symbol: "Future Value", meaning: "Estimated maturity value of the SIP" },
       ],
       estimateNote:
-        "This formula estimates how a regular monthly investment may grow when returns are compounded monthly under a constant rate assumption.",
+        "This formula estimates how a regular monthly investment may grow when contributions are made at the beginning of each month and returns compound monthly under a constant rate assumption.",
       summary:
-        "This calculator projects SIP maturity value using your monthly contribution, expected annual return, and investment period. Returns are compounded monthly.",
+        "This calculator projects SIP maturity value using your monthly contribution, expected annual return, and investment period. Contributions are assumed at the beginning of each month and returns compound monthly.",
       inputs: [
         "Monthly investment amount",
         "Expected annual return (assumed constant)",
@@ -74,9 +74,9 @@ export const CALCULATOR_INSIGHTS = {
         { symbol: "Maturity", meaning: "Estimated value at the end of the FD tenure" },
       ],
       estimateNote:
-        "This formula estimates FD maturity value when interest is compounded at a chosen frequency over the selected tenure.",
+        "This formula estimates cumulative FD maturity value when interest is reinvested at a chosen frequency over the selected tenure.",
       summary:
-        "This calculator estimates fixed deposit maturity using deposit amount, annual interest rate, tenure, and compounding frequency.",
+        "This calculator provides an illustrative cumulative FD estimate using deposit amount, selected annual rate, tenure, and compounding frequency.",
       inputs: [
         "Deposit amount",
         "Annual interest rate",
@@ -169,16 +169,21 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/goal-planner": {
     howCalculated: {
-      formula: "Projected = FV(Current Savings) + FV(Monthly SIP) | Gap = Goal − Projected",
+      formula: "Projected = [Current Savings × (1 + r)^n] + [Monthly SIP × ((1 + r)^n − 1) / r × (1 + r)]",
       variables: [
         {
           symbol: "FV(Current Savings)",
-          meaning: "Estimated future value of money already saved",
+          meaning: "Estimated future value of money already saved, compounded monthly",
         },
         {
           symbol: "FV(Monthly SIP)",
           meaning: "Estimated future value of ongoing monthly contributions",
         },
+        {
+          symbol: "r",
+          meaning: "Monthly expected return rate (Annual Return ÷ 12 ÷ 100)",
+        },
+        { symbol: "n", meaning: "Total number of months (Years × 12)" },
         {
           symbol: "Projected",
           meaning: "Combined estimated amount available at the goal date",
@@ -190,9 +195,9 @@ export const CALCULATOR_INSIGHTS = {
         },
       ],
       estimateNote:
-        "This estimate compares your goal amount with the combined projected growth of current savings and monthly SIP contributions.",
+        "This estimate compares your goal amount with current savings compounded monthly and monthly contributions assumed at the beginning of each month.",
       summary:
-        "This calculator combines future value of current savings and monthly SIP to compare against your target goal amount and timeline.",
+        "This calculator compounds current savings and monthly contributions using the same monthly rate before comparing the projection against your target goal amount and timeline.",
       inputs: [
         "Goal amount and target years",
         "Current savings",
@@ -262,7 +267,7 @@ export const CALCULATOR_INSIGHTS = {
         { symbol: "Maturity", meaning: "Estimated RD value at the end of the tenure" },
         {
           symbol: "Monthly Deposit",
-          meaning: "Fixed amount deposited every month into the RD",
+          meaning: "Fixed amount assumed to be deposited at the beginning of every month",
         },
         {
           symbol: "r",
@@ -274,9 +279,9 @@ export const CALCULATOR_INSIGHTS = {
         },
       ],
       estimateNote:
-        "This simplified expression matches the calculator’s monthly-compounding maturity estimate for regular monthly deposits.",
+        "This simplified expression uses fixed monthly deposits made at the beginning of each month and monthly compounding for educational planning.",
       summary:
-        "This calculator estimates recurring deposit maturity from monthly deposit, interest rate, and tenure using standard RD compounding logic.",
+        "FOINWI uses a simplified monthly-compounding model for learning and planning. Actual bank RD maturity may differ.",
       inputs: ["Monthly deposit", "Annual interest rate", "Tenure in years"],
     },
     meaning:
@@ -290,16 +295,16 @@ export const CALCULATOR_INSIGHTS = {
   "/swp-calculator": {
     howCalculated: {
       formulaLabel: "Calculation approach",
-      formula: "Next Balance = (Previous Balance × (1 + r)) − Monthly Withdrawal",
+      formula: "Next Balance = Available Balance − Actual Withdrawal | Actual Withdrawal = lesser of requested withdrawal and available balance",
       variables: [
-        { symbol: "Previous Balance", meaning: "Corpus available at the beginning of a month" },
+        { symbol: "Available Balance", meaning: "Corpus remaining after monthly growth and before that month’s withdrawal" },
         {
           symbol: "r",
           meaning: "Monthly expected return rate (Annual Return ÷ 12 ÷ 100)",
         },
         {
-          symbol: "Monthly Withdrawal",
-          meaning: "Fixed amount taken out each month",
+          symbol: "Actual Withdrawal",
+          meaning: "Requested monthly withdrawal, limited to the balance available after monthly growth",
         },
         {
           symbol: "Next Balance",
@@ -307,9 +312,9 @@ export const CALCULATOR_INSIGHTS = {
         },
       ],
       estimateNote:
-        "This estimate shows how a corpus may change when regular withdrawals continue while the remaining balance grows at an assumed return.",
+        "This constant-return educational estimate applies monthly growth before each withdrawal and stops when the corpus reaches zero.",
       summary:
-        "This calculator estimates how long a corpus may last or what remains after periodic withdrawals at an assumed return rate.",
+        "This calculator projects what may remain after periodic withdrawals and shows whether the corpus lasts through the selected tenure.",
       inputs: [
         "Starting corpus",
         "Monthly withdrawal amount",
@@ -340,7 +345,7 @@ export const CALCULATOR_INSIGHTS = {
       estimateNote:
         "This formula estimates how today’s amount may translate into a higher future cost under a constant inflation assumption.",
       summary:
-        "This calculator shows how today's amount may translate into future purchasing power at a given inflation rate.",
+        "This calculator estimates how today's amount may translate into a higher future cost at a given illustrative inflation rate.",
       inputs: ["Current amount", "Expected inflation rate", "Number of years"],
     },
     meaning:

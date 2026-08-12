@@ -24,7 +24,9 @@ function calculateSipFv(monthly, annualRate, years) {
 }
 
 function calculateGoalProjection(goal, savings, monthly, rate, years) {
-  const savingsFv = savings * Math.pow(1 + rate / 100, years);
+  const months = years * 12;
+  const monthlyRate = rate / 12 / 100;
+  const savingsFv = savings * Math.pow(1 + monthlyRate, months);
   const sipFv = calculateSipFv(monthly, rate, years);
   const projected = savingsFv + sipFv;
   const gap = goal - projected;
@@ -47,8 +49,9 @@ function GoalPlannerCalculator({
   const [years, setYears] = useState(defaultYears);
 
   const { projected, gap } = calculateGoalProjection(goal, savings, monthly, rate, years);
-  const gapLabel = gap > 0 ? "Goal Gap" : "Goal Surplus";
-  const gapValue = formatCurrency(Math.abs(gap));
+  const onTarget = Math.abs(gap) <= 1;
+  const gapLabel = onTarget ? "On Target" : gap > 0 ? "Goal Gap" : "Goal Surplus";
+  const gapValue = onTarget ? "Within ₹1" : formatCurrency(Math.abs(gap));
 
   return (
     <CalculatorLayout
@@ -90,6 +93,9 @@ function GoalPlannerCalculator({
             format="percent"
             limits={LIMITS.rate}
           />
+          <p className="calc-field__helper">
+            Current savings and monthly contributions compound monthly. Contributions are assumed at the beginning of each month.
+          </p>
           <InputField
             id="goal-years"
             label="Time Period (Years)"

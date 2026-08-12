@@ -50,6 +50,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.shrix-skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  padding: 10px 14px;
+  border-radius: var(--fw-radius-pill);
+  background: var(--fw-bg-surface);
+  color: var(--fw-accent);
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-160%);
+}
+
+.shrix-skip-link:focus-visible {
+  outline: 2px solid var(--fw-accent-bright);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
 .shrix-app {
   min-height: 100vh;
   background: var(--fw-bg-page);
@@ -244,7 +264,16 @@ body {
   letter-spacing: 0.2px;
 }
 
-.shrix-dashboard h3 {
+.shrix-dashboard__assumptions {
+  margin: -10px 0 18px !important;
+  color: var(--fw-text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px;
+  line-height: 1.45;
+}
+
+.shrix-dashboard h2 {
   font-size: 26px;
   margin: 10px 0 30px;
   color: var(--fw-text-primary);

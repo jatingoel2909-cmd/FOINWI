@@ -10,7 +10,7 @@ function Footer() {
         <Link to="/privacy-policy">Privacy Policy</Link>
         <Link to="/terms-and-conditions">Terms & Conditions</Link>
         <Link to="/disclaimer">Disclaimer</Link>
-        <a href="#contact">Contact</a>
+        <Link to="/#contact">Contact</Link>
       </nav>
       <p className="shrix-footer__contact" id="contact">
         For general queries, feedback, calculator issues, partnership requests, or

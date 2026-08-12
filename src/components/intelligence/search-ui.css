@@ -65,6 +65,13 @@
   color: var(--fw-text-primary, #3d3428);
 }
 
+.fi-search-command__boundary {
+  margin: 6px 0 0;
+  color: var(--fw-text-muted, #7a6e60);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .fi-search-command__close {
   flex-shrink: 0;
   margin-top: 2px;

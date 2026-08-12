@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "validate:calculators": "node scripts/validateAllCalculators.js",
+    "validate:guide": "node scripts/validateGuide.js",
     "preview": "vite preview"
   },
   "dependencies": {

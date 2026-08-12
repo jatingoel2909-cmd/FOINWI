@@ -7,7 +7,7 @@ import { formatCurrency } from "../utils/calculatorFormat";
 
 const SIP_LIMITS = {
   monthly: { min: 500, max: 1000000, step: 500 },
-  rate: { min: 1, max: 30, step: 0.5 },
+  rate: { min: 0, max: 30, step: 0.5 },
   years: { min: 1, max: 40, step: 1 },
 };
 
@@ -61,6 +61,9 @@ function SipCalculator({
             format="percent"
             limits={SIP_LIMITS.rate}
           />
+          <p className="calc-field__helper">
+            Assumes contributions are made at the beginning of each month and returns compound monthly.
+          </p>
           <InputField
             id="sip-years"
             label="Time Period (Years)"

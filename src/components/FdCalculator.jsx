@@ -7,7 +7,7 @@ import { formatCurrency } from "../utils/calculatorFormat";
 
 const FD_LIMITS = {
   deposit: { min: 10000, max: 10000000, step: 10000 },
-  rate: { min: 3, max: 12, step: 0.1 },
+  rate: { min: 0, max: 12, step: 0.1 },
   years: { min: 1, max: 10, step: 1 },
 };
 
@@ -47,7 +47,7 @@ function FdCalculator({
     <CalculatorLayout
       label="FD Calculator"
       title="Estimate your fixed deposit maturity"
-      description="Estimate fixed deposit maturity value from deposit amount, interest rate, tenure, and compounding frequency."
+      description="Estimate cumulative fixed deposit maturity value from deposit amount, interest rate, tenure, and compounding frequency."
       showHeader={showHeader}
       variant="default"
       className={className}
@@ -97,15 +97,20 @@ function FdCalculator({
         </>
       }
       results={
-        <CalculatorResults
-          primary={{ label: "Maturity Value", value: formatCurrency(maturityAmount) }}
-          metrics={[
-            { label: "Principal", value: formatCurrency(deposit) },
-            { label: "Interest Earned", value: formatCurrency(interestEarned) },
-            { label: "Tenure", value: `${years} years` },
-          ]}
-          story="This estimate assumes the selected interest rate remains constant for the full tenure."
-        />
+        <>
+          <CalculatorResults
+            primary={{ label: "Maturity Value", value: formatCurrency(maturityAmount) }}
+            metrics={[
+              { label: "Principal", value: formatCurrency(deposit) },
+              { label: "Interest Earned", value: formatCurrency(interestEarned) },
+              { label: "Tenure", value: `${years} years` },
+            ]}
+            story="This cumulative-deposit illustration assumes interest is reinvested at the selected rate for the full tenure."
+          />
+          <p className="calc-simplified-notice">
+            Illustrative cumulative FD estimate. Actual bank maturity may differ based on deposit dates, product terms, interest payout option, tax/TDS, premature withdrawal and bank-specific rules.
+          </p>
+        </>
       }
     />
   );
