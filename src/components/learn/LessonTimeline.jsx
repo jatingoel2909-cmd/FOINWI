@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { getCalculatorsByPaths } from "../../utils/learnHelpers";
 
-function LessonTimeline({ lessons }) {
+function LessonTimeline({ pathSlug, lessons }) {
   return (
     <ol className="la-timeline">
       {lessons.map((lesson, index) => {
@@ -15,16 +15,27 @@ function LessonTimeline({ lessons }) {
             style={{ animationDelay: `${index * 80}ms` }}
           >
             <div className="la-timeline__marker" aria-hidden="true">
-              <span className="la-timeline__preview-dot" title="Preview indicator" />
+              <span className="la-timeline__preview-dot" title="Lesson indicator" />
             </div>
 
             <article className="la-timeline__card">
               <div className="la-timeline__head">
-                <span className="la-timeline__number">Lesson {lesson.id}</span>
-                <span className="la-timeline__preview-badge">Preview</span>
+                <span className="la-timeline__number">Lesson {index + 1}</span>
+                <span className="la-timeline__preview-badge">{lesson.estimatedMinutes} min</span>
               </div>
-              <h3>{lesson.title}</h3>
+              <h3>
+                {lesson.contentStatus === "complete" ? (
+                  <Link to={`/learn/${pathSlug}/${lesson.slug}`} className="la-lesson-link">
+                    {lesson.title}
+                  </Link>
+                ) : lesson.title}
+              </h3>
               <p>{lesson.summary}</p>
+              {lesson.contentStatus === "complete" ? (
+                <Link to={`/learn/${pathSlug}/${lesson.slug}`} className="la-lesson-open">
+                  Open lesson →
+                </Link>
+              ) : null}
 
               {calculators.length > 0 && (
                 <div className="la-timeline__tools">

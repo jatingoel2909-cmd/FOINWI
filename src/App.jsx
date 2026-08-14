@@ -18,6 +18,7 @@ import GoalPlannerCalculatorPage from "./pages/GoalPlannerCalculatorPage";
 import CalculatorsPage from "./pages/CalculatorsPage";
 import LearnPage from "./pages/LearnPage";
 import LearnPathPage from "./pages/LearnPathPage";
+import LearnLessonPage from "./pages/LearnLessonPage";
 import AiToolsPage from "./pages/AiToolsPage";
 import AboutPage from "./pages/AboutPage";
 import RetirementCalculatorPage from "./pages/RetirementCalculatorPage";
@@ -43,6 +44,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/calculators" element={<CalculatorsPage />} />
         <Route path="/learn" element={<LearnPage />} />
+        <Route path="/learn/:pathSlug/:lessonSlug" element={<LearnLessonPage />} />
         <Route path="/learn/:slug" element={<LearnPathPage />} />
         <Route path="/ai-tools" element={<AiToolsPage />} />
         <Route path="/guide-trial" element={<GuideTrialPage />} />

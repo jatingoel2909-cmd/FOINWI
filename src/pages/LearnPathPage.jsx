@@ -4,9 +4,10 @@ import Footer from "../components/Footer";
 import LessonTimeline from "../components/learn/LessonTimeline";
 import RecommendationPanel from "../components/intelligence/RecommendationPanel";
 import {
+  getLessonById,
   getLearningPathBySlug,
   LEARN_ACADEMY_NOTICE,
-  LEARNING_PATHS,
+  LEARN_PATH_CONNECTIONS,
 } from "../data/learnAcademy";
 import { getCalculatorsByPaths } from "../utils/learnHelpers";
 import "../styles/global.css";
@@ -30,6 +31,11 @@ function LearnPathPage() {
   const nextPath = getLearningPathBySlug(path.nextPath);
   const pathCalculators = getCalculatorsByPaths(path.relatedCalculators);
   const showBuildWealthJourney = BUILD_WEALTH_LEARN_PATHS.has(path.slug);
+  const connections = LEARN_PATH_CONNECTIONS[path.slug] ?? {};
+  const relatedLessons = [...new Set(path.lessons.flatMap((lesson) => lesson.relatedLessonIds))]
+    .map(getLessonById)
+    .filter((lesson) => lesson && lesson.pathSlug !== path.slug)
+    .slice(0, 4);
 
   return (
     <div className="shrix-app">
@@ -76,7 +82,7 @@ function LearnPathPage() {
               indicators are preview-only — no account or progress tracking required.
             </p>
           </div>
-          <LessonTimeline lessons={path.lessons} />
+          <LessonTimeline pathSlug={path.slug} lessons={path.lessons} />
         </section>
 
         {pathCalculators.length > 0 && (
@@ -141,6 +147,28 @@ function LearnPathPage() {
           </section>
         )}
 
+        {!showBuildWealthJourney && connections.journeyPath ? (
+          <section className="la-journey-cta la-journey-cta--simple" aria-labelledby="la-path-journey-title">
+            <div>
+              <p className="shrix-section-label">Financial Journey</p>
+              <h2 id="la-path-journey-title">Continue with a practical path</h2>
+              <p>Explore the connected FOINWI Journey after learning the core concepts.</p>
+              <Link to={connections.journeyPath} className="la-btn la-btn--primary">Explore Journey →</Link>
+            </div>
+          </section>
+        ) : null}
+
+        {connections.healthPath ? (
+          <section className="la-journey-cta la-journey-cta--simple" aria-labelledby="la-health-cta-title">
+            <div>
+              <p className="shrix-section-label">Financial Health</p>
+              <h2 id="la-health-cta-title">Reflect on your financial habits</h2>
+              <p>The Financial Health Score is a separate reflection tool for savings, debt, and protection habits.</p>
+              <Link to={connections.healthPath} className="la-btn la-btn--primary">Open Financial Health Score →</Link>
+            </div>
+          </section>
+        ) : null}
+
         <RecommendationPanel
           pathname={`/learn/${path.slug}`}
           lessonSlug={path.slug}
@@ -150,14 +178,11 @@ function LearnPathPage() {
         />
 
         <section className="la-more-paths">
-          <h2>Explore Other Paths</h2>
+          <h2>Related learning</h2>
           <div className="la-more-paths__grid">
-            {LEARNING_PATHS.filter((item) => item.slug !== path.slug)
-              .slice(0, 4)
-              .map((item) => (
-                <Link key={item.slug} to={`/learn/${item.slug}`} className="la-more-path">
-                  <span aria-hidden="true">{item.icon}</span>
-                  <span>{item.title}</span>
+            {relatedLessons.map((lesson) => (
+                <Link key={lesson.id} to={`/learn/${lesson.pathSlug}/${lesson.slug}`} className="la-more-path">
+                  <span>{lesson.title}</span>
                 </Link>
               ))}
           </div>

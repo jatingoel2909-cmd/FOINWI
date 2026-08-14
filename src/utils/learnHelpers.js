@@ -5,8 +5,3 @@ export function getCalculatorsByPaths(paths = []) {
     .map((path) => ALL_CALCULATORS.find((calc) => calc.path === path))
     .filter(Boolean);
 }
-
-export function getUniqueCalculatorsFromLessons(lessons = []) {
-  const paths = [...new Set(lessons.flatMap((lesson) => lesson.calculators))];
-  return getCalculatorsByPaths(paths);
-}

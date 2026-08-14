@@ -104,6 +104,104 @@
   margin-bottom: 48px;
 }
 
+.la-start {
+  margin-bottom: 48px;
+}
+
+.la-start__options,
+.la-discovery__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.la-start__option,
+.la-discovery__filters button,
+.la-discovery__empty button {
+  display: inline-flex;
+  min-height: var(--fw-touch-min, 44px);
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border: 1px solid var(--fw-border);
+  border-radius: 12px;
+  background: var(--fw-bg-surface);
+  color: var(--fw-text-primary);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.la-start__option:hover,
+.la-discovery__filters button:hover,
+.la-discovery__filters button.is-active {
+  border-color: var(--fw-accent);
+  color: var(--fw-accent);
+}
+
+.la-discovery {
+  margin-bottom: 24px;
+}
+
+.la-discovery > label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--fw-text-primary);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.la-discovery > input {
+  width: 100%;
+  min-height: var(--fw-touch-min, 44px);
+  margin-bottom: 12px;
+  padding: 10px 13px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: 12px;
+  background: var(--fw-input-bg);
+  color: var(--fw-text-primary);
+  font: inherit;
+}
+
+.la-discovery > input:focus-visible,
+.la-start__option:focus-visible,
+.la-discovery__filters button:focus-visible,
+.la-discovery__empty button:focus-visible {
+  outline: 3px solid rgba(201, 162, 39, 0.62);
+  outline-offset: 3px;
+}
+
+.la-discovery__status {
+  margin: 12px 0 0;
+  color: var(--fw-text-muted);
+  font-size: 14px;
+}
+
+.la-discovery__empty {
+  margin-top: 20px;
+  padding: 22px;
+  border: 1px solid var(--fw-border);
+  border-radius: 16px;
+  background: var(--fw-bg-surface);
+}
+
+.la-discovery__empty h3,
+.la-discovery__empty p {
+  margin: 0;
+}
+
+.la-discovery__empty p {
+  margin-top: 8px;
+  color: var(--fw-text-muted);
+  line-height: 1.6;
+}
+
+.la-discovery__empty button {
+  margin-top: 14px;
+}
+
 .la-section__head {
   max-width: 680px;
   margin-bottom: 28px;
@@ -295,6 +393,10 @@
   box-shadow: var(--fw-shadow-card);
 }
 
+.la-journey-cta--simple {
+  grid-template-columns: 1fr;
+}
+
 .la-journey-cta__icon {
   display: grid;
   place-items: center;
@@ -448,7 +550,7 @@
   border-radius: 999px;
   background: rgba(92, 79, 66, 0.08);
   color: var(--fw-text-muted);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.4px;
   text-transform: uppercase;
@@ -466,6 +568,80 @@
   color: var(--fw-text-muted);
   font-size: 14px;
   line-height: 1.65;
+}
+
+.la-lesson-link,
+.la-lesson-open {
+  color: inherit;
+  text-decoration: none;
+}
+
+.la-lesson-link:hover,
+.la-lesson-link:focus-visible {
+  color: var(--fw-accent);
+  text-decoration: underline;
+}
+
+.la-lesson-open {
+  display: inline-flex;
+  min-height: var(--fw-touch-min, 44px);
+  align-items: center;
+  margin-top: 12px;
+  color: var(--fw-accent);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.la-lesson-open:focus-visible,
+.la-lesson__deeper summary:focus-visible {
+  outline: 3px solid rgba(201, 162, 39, 0.62);
+  outline-offset: 3px;
+}
+
+.la-lesson {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.la-lesson section,
+.la-lesson__deeper {
+  padding: 24px 28px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: 20px;
+  background: var(--fw-bg-surface);
+}
+
+.la-lesson h2 {
+  margin: 0 0 10px;
+  color: var(--fw-text-primary);
+  font-size: 22px;
+}
+
+.la-lesson p,
+.la-lesson li {
+  color: var(--fw-text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.la-lesson p {
+  margin: 0;
+}
+
+.la-lesson ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.la-lesson__deeper summary {
+  color: var(--fw-text-primary);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.la-lesson__deeper p {
+  margin-top: 14px;
 }
 
 .la-timeline__tools {
@@ -589,21 +765,6 @@
   line-height: 1.65;
 }
 
-.la-animate-in {
-  animation: la-fade-up 0.55s ease both;
-}
-
-@keyframes la-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 900px) {
   .la-path-grid,
   .la-chip-row--wide,
@@ -645,5 +806,16 @@
 
   .la-continue {
     padding: 22px 20px;
+  }
+
+  .la-start__options,
+  .la-discovery__filters {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .la-lesson section,
+  .la-lesson__deeper {
+    padding: 20px;
   }
 }
