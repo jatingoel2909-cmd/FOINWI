@@ -1,12 +1,13 @@
 import Navbar from "../components/Navbar";
 import InfoPageLayout from "../components/InfoPageLayout";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 import "../styles/global.css";
 
 const principles = [
   "Focus — clarity over complexity in every tool and explanation.",
   "Investment — building long-term wealth through thoughtful decisions.",
-  "Willingly — empowering you to choose with confidence, not pressure.",
+  "Willingly — helping you understand your options more clearly, without pressure.",
   "Education first — we explain concepts, not push products.",
   "Built for India — calculators and content reflect how Indians save, borrow, and plan.",
   "Transparency — no hidden agendas, no exaggerated claims.",
@@ -15,7 +16,7 @@ const principles = [
 const roadmap = [
   "Expanded calculator library covering more Indian financial scenarios.",
   "Structured learning paths aligned to life stages and financial goals.",
-  "AI-powered educational tools for guided explanations and planning.",
+  "More advanced AI-enabled assistance after safety review and product readiness.",
   "Richer content on tax, salary, retirement, and wealth planning.",
   "A platform that grows with you — from first SIP to retirement corpus.",
 ];
@@ -30,7 +31,7 @@ function AboutPage() {
         subtitle="Premium calculators and educational tools from foinwi.com — designed to help you understand money, not overwhelm you with it."
       >
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Who We Are</h3>
+          <h2>Who We Are</h2>
           <p>
             FOINWI is a premium financial platform built for Indian users who want
             clear, practical answers about money. We combine formula-based educational
@@ -43,12 +44,12 @@ function AboutPage() {
 
         <div className="shrix-info-grid">
           <article className="shrix-info-card">
-            <h3>Our Mission</h3>
+            <h2>Our Mission</h2>
             <p>Build wealth through thoughtful financial decisions.</p>
           </article>
 
           <article className="shrix-info-card">
-            <h3>Our Vision</h3>
+            <h2>Our Vision</h2>
             <p>
               Helping users explore financial concepts and compare scenarios with
               greater clarity.
@@ -57,12 +58,12 @@ function AboutPage() {
         </div>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>What Makes Us Different</h3>
+          <h2>What Makes Us Different</h2>
           <p>
             FOINWI is not another generic finance site. We focus on the products,
             scenarios, and questions that matter to Indian users — PPF, EPF, NPS,
             FD, EMI, SIP, gratuity, and more. Our black-and-gold experience is
-            designed to feel premium and trustworthy, with calculators that are
+            designed to feel premium, clear, and easy to use, with calculators that are
             fast, responsive, and easy to use on any device.
           </p>
           <p className="shrix-info-card__follow">
@@ -74,7 +75,7 @@ function AboutPage() {
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Our Principles</h3>
+          <h2>Our Principles</h2>
           <p className="shrix-info-card__follow">
             Our core philosophy is Focus. Investment. Willingly. — the foundation
             behind the FOINWI name and everything we build.
@@ -87,7 +88,7 @@ function AboutPage() {
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide shrix-info-card--highlight">
-          <h3>Grow Beyond Numbers</h3>
+          <h2>Grow Beyond Numbers</h2>
           <p>
             That is more than a tagline — it is how we think about financial
             planning. Numbers matter, but understanding what they mean matters
@@ -96,13 +97,61 @@ function AboutPage() {
             corpus targets take shape over time.
           </p>
           <p className="shrix-info-card__follow">
-            When you Grow Beyond Numbers, you move from guessing to knowing —
-            and from knowing to confident, informed action.
+            When you Grow Beyond Numbers, you move from uncertainty toward clearer
+            understanding and more informed action.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
-          <h3>Future Roadmap</h3>
+          <h2>What You Can Use Today</h2>
+          <p>
+            Today, you can explore educational financial calculators, the Learn
+            Academy, Financial Health Score, financial Journeys, and FOINWI
+            Intelligence for structured educational discovery and guidance.
+          </p>
+          <ul className="shrix-info-list">
+            <li><Link to="/calculators">Explore Calculators</Link></li>
+            <li><Link to="/learn">Learn with FOINWI</Link></li>
+            <li><Link to="/financial-health-score">Financial Health Score</Link></li>
+            <li><Link to="/ai-tools">FOINWI Intelligence</Link></li>
+          </ul>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>What FOINWI Does Not Do</h2>
+          <p>
+            FOINWI does not provide personalised financial, tax, legal, or loan
+            advice. We do not recommend investments or products, decide loan
+            approvals, promise investment outcomes, or claim regulated advisory
+            credentials.
+          </p>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>How Intelligence Works Today</h2>
+          <p>
+            FOINWI Intelligence uses structured educational content, search,
+            explanations, and guided discovery to help you explore concepts and
+            tools. More advanced AI-enabled assistance may be introduced later
+            after safety review and product readiness.
+          </p>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>Support and Trust Information</h2>
+          <p>
+            Questions, feedback, or something unclear? Contact us at{" "}
+            <a href="mailto:support@foinwi.com">support@foinwi.com</a>.
+          </p>
+          <ul className="shrix-info-list">
+            <li><Link to="/disclaimer">Disclaimer</Link></li>
+            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+            <li><Link to="/terms-and-conditions">Terms &amp; Conditions</Link></li>
+          </ul>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>Future Roadmap</h2>
           <p>
             FOINWI is actively evolving. Here is what we are working toward:
           </p>

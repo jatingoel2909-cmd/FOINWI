@@ -3,10 +3,11 @@ import BrandWordmark from "./BrandWordmark";
 
 function Footer() {
   return (
-    <footer className="shrix-footer" id="about">
+    <footer className="shrix-footer">
       <BrandWordmark className="foinwi-wordmark--footer" />
       <p>Premium educational finance platform for Indian users.</p>
       <nav className="shrix-footer__links" aria-label="Footer links">
+        <Link to="/about">About</Link>
         <Link to="/privacy-policy">Privacy Policy</Link>
         <Link to="/terms-and-conditions">Terms & Conditions</Link>
         <Link to="/disclaimer">Disclaimer</Link>

@@ -10,6 +10,7 @@
     "validate:calculators": "node scripts/validateAllCalculators.js",
     "validate:learn": "node scripts/validateLearn.js",
     "validate:guide": "node scripts/validateGuide.js",
+    "validate:trust": "node scripts/validateTrust.js",
     "preview": "vite preview"
   },
   "dependencies": {

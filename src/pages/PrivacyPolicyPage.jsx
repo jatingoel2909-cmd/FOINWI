@@ -24,28 +24,27 @@ function PrivacyPolicyPage() {
         <article className="shrix-info-card shrix-info-card--wide">
           <h2>Information We Collect</h2>
           <p>
-            FOINWI collects limited information only when users contact us or use
-            forms on the website. This may include:
+            FOINWI currently receives information primarily when you choose to
+            contact us by email. This may include:
           </p>
           <ul className="shrix-info-list">
             <li>Your name and email address</li>
             <li>The content of your message or enquiry</li>
-            <li>Basic technical details needed to respond to you</li>
           </ul>
           <p className="shrix-info-card__follow">
-            Calculator inputs you enter are generally processed in your browser
-            for estimates and are not stored by us unless clearly stated
-            otherwise.
+            Calculator inputs are processed in your browser for educational
+            estimates. Some on-device progress features may save your own
+            selections locally in the browser. The Guide Trial conversation stays
+            only in its page and is not saved after refresh.
           </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
           <h2>Analytics and Cookies</h2>
           <p>
-            We may use analytics and cookies in future to improve website
-            experience, understand usage patterns, and make FOINWI easier to
-            use. If we introduce these tools, we will update this policy as
-            needed.
+            Google Analytics and behavioral tracking are not currently enabled.
+            If analytics, cookies, forms, or related services are introduced in
+            future, we may update this policy before or with that implementation.
           </p>
         </article>
 
@@ -60,11 +59,10 @@ function PrivacyPolicyPage() {
         <article className="shrix-info-card shrix-info-card--wide">
           <h2>Third-Party Services</h2>
           <p>
-            Third-party services like hosting, email routing, analytics, ads, or
-            payment tools may be used in future to operate and improve FOINWI.
-            These providers may process limited data under their own policies.
-            We choose services carefully but do not control all third-party
-            practices.
+            Email providers may process information you choose to send through
+            email under their own policies. If other third-party services are
+            introduced in future, we may update this policy before or with that
+            implementation.
           </p>
         </article>
 

@@ -112,6 +112,11 @@
   color: var(--fw-accent-bright);
 }
 
+.shrix-info-card a:focus-visible {
+  outline: 3px solid rgba(201, 162, 39, 0.62);
+  outline-offset: 3px;
+}
+
 .shrix-info-card__follow {
   margin-top: 14px !important;
 }
