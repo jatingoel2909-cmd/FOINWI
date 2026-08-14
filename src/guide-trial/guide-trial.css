@@ -64,7 +64,7 @@
   display: inline-flex;
   width: fit-content;
   color: var(--fw-accent);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -140,6 +140,11 @@
 .guide-trial__message {
   display: flex;
   gap: 12px;
+}
+
+.guide-trial__message:focus {
+  outline: 3px solid rgba(201, 162, 39, 0.62);
+  outline-offset: 3px;
 }
 
 .guide-trial__message--user {
@@ -330,6 +335,18 @@
   color: var(--fw-text-muted);
   font-size: 12px;
   line-height: 1.45;
+}
+
+.guide-trial__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .guide-trial__debug {

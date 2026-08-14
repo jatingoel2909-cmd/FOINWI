@@ -41,7 +41,7 @@ function ResourceCards({ resourceIds }) {
     <div className="guide-trial__resources" aria-label="Relevant FOINWI resources">
       {resources.map((resource, index) => (
         <Link key={resource.path} to={resource.path} className="guide-trial__resource">
-          <span className="guide-trial__resource-type">{index === 0 ? "START HERE" : resource.type}</span>
+          <span className="guide-trial__resource-type">{index === 0 ? "SUGGESTED STARTING POINT" : resource.type}</span>
           <strong>{resource.title}</strong>
           <span>{resource.description}</span>
           <span className="guide-trial__resource-arrow" aria-hidden="true">→</span>
@@ -73,7 +73,28 @@ function GuideResponse({ response, onFollowUp, onAskMore, focusRef }) {
   const [expanded, setExpanded] = useState(false);
   const intent = response.intent;
   const isFallback = response.responseType === "FALLBACK";
+  const isClarification = response.responseType === "CLARIFY";
   const followUps = isFallback ? getFallbackOptions() : getGuideFollowUps(intent);
+
+  if (isClarification) {
+    return (
+      <article className="guide-trial__message guide-trial__message--guide" ref={focusRef} tabIndex="-1">
+        <GuideAvatar />
+        <div className="guide-trial__bubble">
+          <span className="guide-trial__indicator">{getGuideTopicLabel(response.family)}</span>
+          <p>I can help you understand {getGuideTopicLabel(response.family).toLowerCase()}. What are you trying to work out?</p>
+          <div className="guide-trial__follow-ups">
+            <div className="guide-trial__chips">
+              {response.clarificationOptions.map((option) => (
+                <button key={option.id} type="button" onClick={() => onFollowUp(option.id)}>{option.label}</button>
+              ))}
+            </div>
+          </div>
+          <NextActionBar actions={["Explore"]} resourceIds={[]} onAskMore={onAskMore} />
+        </div>
+      </article>
+    );
+  }
 
   if (isFallback) {
     return (
@@ -120,11 +141,15 @@ function GuideTrialPage() {
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState([INITIAL_MESSAGE]);
   const [lastResult, setLastResult] = useState(INITIAL_MESSAGE.response);
+  const [announcement, setAnnouncement] = useState("");
   const inputRef = useRef(null);
   const responseRef = useRef(null);
 
   useEffect(() => {
-    if (messages.length > 1) responseRef.current?.focus({ preventScroll: true });
+    if (messages.length > 1 && responseRef.current) {
+      responseRef.current.focus({ preventScroll: true });
+      responseRef.current.scrollIntoView({ block: "nearest", behavior: "auto" });
+    }
   }, [messages]);
 
   function addResponse(response, userText = null) {
@@ -132,6 +157,13 @@ function GuideTrialPage() {
     const guideMessage = { id: `guide-${Date.now()}`, role: "guide", response };
     setMessages([...nextMessages, guideMessage]);
     setLastResult(response);
+    setAnnouncement(
+      response.responseType === "CLARIFY"
+        ? "Guide recognised a topic and has clarification choices."
+        : response.responseType === "FALLBACK"
+          ? "Guide needs a little more detail."
+          : "Guide response added.",
+    );
   }
 
   function submitQuery(event) {
@@ -152,6 +184,7 @@ function GuideTrialPage() {
     setMessages([INITIAL_MESSAGE]);
     setLastResult(INITIAL_MESSAGE.response);
     setQuery("");
+    setAnnouncement("Guide Trial conversation reset.");
     inputRef.current?.focus();
   }
 
@@ -174,7 +207,8 @@ function GuideTrialPage() {
           <span>No external AI is used in this trial.</span>
         </section>
 
-        <section className="guide-trial__conversation" aria-label="FOINWI Guide conversation" aria-live="polite">
+        <p className="guide-trial__status" aria-live="polite" aria-atomic="true">{announcement}</p>
+        <section className="guide-trial__conversation" aria-label="FOINWI Guide conversation">
           {messages.map((message, index) => message.role === "user" ? (
             <article key={message.id} className="guide-trial__message guide-trial__message--user"><div className="guide-trial__user-bubble">{message.text}</div></article>
           ) : (
@@ -193,13 +227,13 @@ function GuideTrialPage() {
           <div className="guide-trial__starters" aria-label="Starter prompts">
             {STARTER_PROMPTS.map((prompt) => <button key={prompt} type="button" onClick={() => { setQuery(prompt); inputRef.current?.focus(); }}>{prompt}</button>)}
           </div>
-          <p className="guide-trial__privacy">Trial conversations stay in this browser session and are not saved by the Guide.</p>
+          <p className="guide-trial__privacy">Your Guide Trial conversation stays only in this page and is not saved after refresh.</p>
         </section>
 
         <details className="guide-trial__debug">
           <summary>Trial details</summary>
           <dl>
-            <div><dt>Detected topic</dt><dd>{lastResult.intent?.topic ?? "No confident match"}</dd></div>
+            <div><dt>Detected topic</dt><dd>{lastResult.intent?.topic ?? (lastResult.family ? getGuideTopicLabel(lastResult.family) : "No confident match")}</dd></div>
             <div><dt>Detected intent</dt><dd>{lastResult.intent?.id ?? "None"}</dd></div>
             <div><dt>Confidence</dt><dd>{lastResult.confidence}</dd></div>
             <div><dt>Response type</dt><dd>{lastResult.responseType}</dd></div>
