@@ -536,6 +536,52 @@
   line-height: 1.5;
 }
 
+.fje-progress-steps {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fje-progress-steps button,
+.fje-progress-reset {
+  width: 100%;
+  min-height: var(--fw-touch-min, 44px);
+  border: 1px solid var(--fw-border);
+  border-radius: 10px;
+  background: var(--fw-bg-surface);
+  color: var(--fw-text-primary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fje-progress-steps button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+}
+
+.fje-progress-steps button[aria-pressed="true"] {
+  border-color: rgba(212, 175, 55, 0.45);
+  color: var(--fw-accent);
+}
+
+.fje-progress-reset {
+  margin-top: 12px;
+  padding: 8px 10px;
+}
+
+.fje-progress-steps button:focus-visible,
+.fje-progress-reset:focus-visible {
+  outline: 3px solid rgba(201, 162, 39, 0.62);
+  outline-offset: 3px;
+}
+
 .fje-modules-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

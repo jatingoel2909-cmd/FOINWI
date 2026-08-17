@@ -34,6 +34,7 @@ import DisclaimerPage from "./pages/DisclaimerPage";
 import JourneyPage from "./pages/JourneyPage";
 import FinancialHealthScorePage from "./pages/FinancialHealthScorePage";
 import GuideTrialPage from "./guide-trial/GuideTrialPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
         <Route path="/income-tax-calculator" element={<IncomeTaxCalculatorPage />} />
         <Route path="/hra-calculator" element={<HraCalculatorPage />} />
         <Route path="/compound-interest-calculator" element={<CompoundInterestCalculatorPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

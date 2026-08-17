@@ -25,7 +25,7 @@ import "../styles/global.css";
 import "../styles/journey-engine.css";
 
 function FinancialJourneyPage({ journey }) {
-  const [checkedItems] = useState(() => {
+  const [checkedItems, setCheckedItems] = useState(() => {
     try {
       const stored = localStorage.getItem(getJourneyProgressKey(journey.slug));
       return stored ? JSON.parse(stored) : {};
@@ -35,8 +35,20 @@ function FinancialJourneyPage({ journey }) {
   });
 
   useEffect(() => {
-    localStorage.setItem(getJourneyProgressKey(journey.slug), JSON.stringify(checkedItems));
+    try {
+      localStorage.setItem(getJourneyProgressKey(journey.slug), JSON.stringify(checkedItems));
+    } catch {
+      // Progress remains available for the current page when browser storage is unavailable.
+    }
   }, [checkedItems, journey.slug]);
+
+  function toggleProgressStep(stepId) {
+    setCheckedItems((current) => ({ ...current, [stepId]: !current[stepId] }));
+  }
+
+  function resetProgress() {
+    setCheckedItems({});
+  }
 
   const calculators = getJourneyCalculators(journey.calculatorPaths);
   const modules = resolveJourneyModules(journey.modules);
@@ -70,6 +82,8 @@ function FinancialJourneyPage({ journey }) {
           progressSteps={journey.progressSteps}
           checkedItems={checkedItems}
           progressPercent={progressPercent}
+          onToggleStep={toggleProgressStep}
+          onReset={resetProgress}
         />
         <JourneyModules modules={modules} />
         <JourneyCalculators calculators={calculators} />

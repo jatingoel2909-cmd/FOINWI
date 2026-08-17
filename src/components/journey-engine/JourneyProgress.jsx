@@ -1,4 +1,4 @@
-function JourneyProgress({ progressSteps, checkedItems, progressPercent }) {
+function JourneyProgress({ progressSteps, checkedItems, progressPercent, onToggleStep, onReset }) {
   const completedModules = progressSteps.filter((step) => checkedItems[step.id]);
   const remaining = progressSteps.filter((step) => !checkedItems[step.id]);
   const currentModule = remaining[0] ?? null;
@@ -46,15 +46,30 @@ function JourneyProgress({ progressSteps, checkedItems, progressPercent }) {
         </div>
 
         <div className="fje-progress-panel__completed">
-          <p className="fje-progress-status__label">Completed modules</p>
+          <p className="fje-progress-status__label">Mark milestones as you complete them</p>
+          <ul className="fje-progress-steps">
+            {progressSteps.map((step) => {
+              const isComplete = Boolean(checkedItems[step.id]);
+              return (
+                <li key={step.id}>
+                  <button
+                    type="button"
+                    aria-pressed={isComplete}
+                    onClick={() => onToggleStep(step.id)}
+                  >
+                    <span aria-hidden="true">{isComplete ? "✓" : "○"}</span>
+                    {step.label}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
           {completedModules.length > 0 ? (
-            <ul className="fje-progress-completed">
-              {completedModules.map((step) => (
-                <li key={step.id}>{step.label}</li>
-              ))}
-            </ul>
+            <button type="button" className="fje-progress-reset" onClick={onReset}>
+              Reset journey progress
+            </button>
           ) : (
-            <p className="fje-progress-empty">Complete milestones as you move through the journey.</p>
+            <p className="fje-progress-empty">Mark a milestone when you have completed it.</p>
           )}
         </div>
       </div>

@@ -11,6 +11,7 @@
     "validate:learn": "node scripts/validateLearn.js",
     "validate:guide": "node scripts/validateGuide.js",
     "validate:trust": "node scripts/validateTrust.js",
+    "validate:hardening": "node scripts/validateHardening.js",
     "preview": "vite preview"
   },
   "dependencies": {
