@@ -658,6 +658,7 @@ a.guide-explore-card {
 
 /* FOINWI Intelligence mission page */
 .fi-ai {
+  overflow-x: clip;
   background: var(--fw-bg-page);
   color: var(--fw-text-primary);
 }
@@ -710,6 +711,14 @@ a.guide-explore-card {
   line-height: 1.7;
 }
 
+.fi-ai__live {
+  max-width: 620px;
+  margin: 16px 0 0;
+  color: var(--fw-text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
 .fi-ai__actions {
   display: flex;
   flex-wrap: wrap;
@@ -757,16 +766,20 @@ a.guide-explore-card {
   background: var(--fw-bg-surface);
 }
 
-.fi-ai__hero-mark {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--fw-border-strong);
-  border-radius: 15px;
-  background: rgba(212, 175, 55, 0.1);
-  color: var(--fw-accent);
-  font-size: 24px;
+.fi-ai__hero-guide {
+  justify-items: center;
+  text-align: center;
+  padding: 24px 20px 28px;
+  overflow: hidden;
+}
+
+.fi-ai__hero-mascot {
+  display: block;
+  width: min(100%, 300px);
+  max-height: 300px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
 }
 
 .fi-ai__hero-panel p,
@@ -780,6 +793,25 @@ a.guide-explore-card {
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.fi-ai__hero-guide p {
+  max-width: 280px;
+  color: var(--fw-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  line-height: 1.45;
+}
+
+.fi-ai__hero-guide-note {
+  display: block;
+  max-width: 280px;
+  color: var(--fw-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
 }
 
 .fi-ai__hero-panel strong {
@@ -855,8 +887,7 @@ a.guide-explore-card {
 }
 
 .fi-ai__badge,
-.fi-ai__roadmap-status,
-.fi-ai__chat-status {
+.fi-ai__roadmap-status {
   width: fit-content;
   padding: 5px 9px;
   border: 1px solid var(--fw-border);
@@ -877,86 +908,6 @@ a.guide-explore-card {
 .fi-ai__capability p {
   margin: 0;
   color: var(--fw-text-muted);
-  font-size: 14px;
-  line-height: 1.65;
-}
-
-.fi-ai__section--chat {
-  padding-left: var(--fw-space-inline);
-  padding-right: var(--fw-space-inline);
-  max-width: none;
-  background: rgba(212, 175, 55, 0.05);
-}
-
-.fi-ai__section--chat .fi-ai__section-head,
-.fi-ai__section--chat .fi-ai__chat-shell {
-  max-width: 860px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.fi-ai__chat-shell {
-  overflow: hidden;
-  border: 1px solid var(--fw-border-strong);
-  border-radius: var(--fw-radius-xl);
-  background: var(--fw-bg-surface);
-}
-
-.fi-ai__chat-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--fw-border);
-  color: var(--fw-text-primary);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.fi-ai__chat-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--fw-accent);
-}
-
-.fi-ai__chat-status {
-  margin-left: auto;
-}
-
-.fi-ai__messages {
-  display: grid;
-  gap: 14px;
-  padding: 22px;
-}
-
-.fi-ai__message {
-  max-width: min(100%, 680px);
-  padding: 14px 16px;
-  border: 1px solid var(--fw-border);
-  border-radius: 14px;
-  background: #fffdfa;
-}
-
-.fi-ai__message--user {
-  justify-self: end;
-  border-color: rgba(212, 175, 55, 0.45);
-  background: rgba(212, 175, 55, 0.08);
-}
-
-.fi-ai__message > span {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--fw-accent);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.fi-ai__message p {
-  margin: 0;
-  color: var(--fw-text-secondary);
   font-size: 14px;
   line-height: 1.65;
 }
@@ -1198,7 +1149,6 @@ a.guide-explore-card {
     padding: 52px var(--fw-space-inline-sm);
   }
 
-  .fi-ai__section--chat,
   .fi-ai__trust,
   .fi-ai__roadmap {
     padding-left: var(--fw-space-inline-sm);
@@ -1223,16 +1173,14 @@ a.guide-explore-card {
     width: 100%;
   }
 
-  .fi-ai__chat-bar {
-    flex-wrap: wrap;
+  .fi-ai__hero-mascot {
+    width: min(100%, 220px);
+    max-height: 220px;
   }
 
-  .fi-ai__chat-status {
-    margin-left: 0;
-  }
-
-  .fi-ai__messages {
-    padding: 16px;
+  .fi-ai__hero-guide p,
+  .fi-ai__hero-guide-note {
+    max-width: 100%;
   }
 }
 
@@ -1349,32 +1297,31 @@ a.guide-explore-card {
   margin: 0;
 }
 
-.fi-ai__chat-shell {
-  box-shadow: var(--fw-shadow-card);
-}
-
-.fi-ai__console-labels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 22px 22px;
-}
-
-.fi-ai__console-labels span {
-  padding: 6px 10px;
-  border: 1px solid var(--fw-border);
-  border-radius: var(--fw-radius-pill);
-  color: var(--fw-text-muted);
-  font-size: 11px;
-  font-weight: 700;
-}
-
 .fi-ai__guided-shell {
   padding: 28px;
   border: 1px solid var(--fw-border-strong);
   border-radius: var(--fw-radius-xl);
   background: var(--fw-bg-surface);
   box-shadow: var(--fw-shadow-card);
+}
+
+.fi-ai__guided-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.fi-ai__guided-mark {
+  display: block;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.fi-ai__guided-brand .fi-ai__guided-step {
+  margin: 0;
 }
 
 .fi-ai__guided-step {
@@ -1585,10 +1532,6 @@ a.guide-explore-card {
   .fi-ai__roadmap-list,
   .fi-ai__trust-list {
     grid-template-columns: 1fr;
-  }
-
-  .fi-ai__console-labels {
-    padding: 0 16px 16px;
   }
 
   .fi-ai__guided-shell {
