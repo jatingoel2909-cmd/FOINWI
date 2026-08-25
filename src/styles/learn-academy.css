@@ -29,7 +29,9 @@
 }
 
 .la-back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--fw-touch-min, 44px);
   margin-bottom: 24px;
   color: var(--fw-text-muted);
   font-size: 14px;
@@ -336,6 +338,7 @@
 .la-chip {
   display: inline-flex;
   align-items: center;
+  min-height: var(--fw-touch-min, 44px);
   gap: 6px;
   padding: 8px 12px;
   border-radius: 999px;
@@ -377,6 +380,13 @@
 
 .la-continue--inline {
   margin-top: 12px;
+}
+
+.la-lesson-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
 }
 
 .la-journey-cta {
@@ -635,6 +645,9 @@
 }
 
 .la-lesson__deeper summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--fw-touch-min, 44px);
   color: var(--fw-text-primary);
   font-weight: 800;
   cursor: pointer;
@@ -685,6 +698,7 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  min-height: var(--fw-touch-min, 44px);
   padding: 16px 18px;
   border-radius: 16px;
   border: 1px solid var(--fw-border);
@@ -817,5 +831,26 @@
   .la-lesson section,
   .la-lesson__deeper {
     padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .la-path-card,
+  .la-path-card:hover,
+  .la-btn:hover,
+  .la-btn--primary:hover,
+  .la-btn--ghost:hover {
+    transform: none;
+  }
+
+  .la-path-card,
+  .la-back-link,
+  .la-chip,
+  .la-tool-card,
+  .la-more-path,
+  .la-btn,
+  .la-btn--primary,
+  .la-btn--ghost {
+    transition: none;
   }
 }

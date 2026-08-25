@@ -8,7 +8,6 @@ const RAW_LEARNING_PATHS = [
     title: "Money Basics",
     description:
       "Build a clear foundation — what money is, how inflation erodes value, and why compounding and goals matter.",
-    duration: "45 min",
     difficulty: "Beginner",
     relatedCalculators: [
       "/inflation-calculator",
@@ -60,7 +59,6 @@ const RAW_LEARNING_PATHS = [
     title: "Saving & Budgeting",
     description:
       "Learn practical habits for tracking income, controlling expenses, and building an emergency buffer before investing.",
-    duration: "50 min",
     difficulty: "Beginner",
     relatedCalculators: ["/goal-planner", "/rd-calculator", "/fd-calculator"],
     nextPath: "investing-fundamentals",
@@ -108,7 +106,6 @@ const RAW_LEARNING_PATHS = [
     title: "Investing Fundamentals",
     description:
       "Understand risk, return, asset classes, and how inflation affects real wealth over time.",
-    duration: "55 min",
     difficulty: "Beginner",
     relatedCalculators: [
       "/cagr-calculator",
@@ -160,7 +157,6 @@ const RAW_LEARNING_PATHS = [
     title: "Mutual Funds & SIP",
     description:
       "Explore how mutual funds pool money, how SIP automates investing, and how to compare growth scenarios.",
-    duration: "60 min",
     difficulty: "Intermediate",
     relatedCalculators: [
       "/sip-calculator",
@@ -213,7 +209,6 @@ const RAW_LEARNING_PATHS = [
     title: "Loans & EMI",
     description:
       "Understand borrowing costs, EMI structure, prepayment impact, and how to compare loan options.",
-    duration: "45 min",
     difficulty: "Beginner",
     relatedCalculators: [
       "/emi-calculator",
@@ -265,7 +260,6 @@ const RAW_LEARNING_PATHS = [
     title: "Income Tax Basics",
     description:
       "Learn how Indian income tax works, regime choices, common deductions, and everyday GST.",
-    duration: "50 min",
     difficulty: "Intermediate",
     relatedCalculators: [
       "/income-tax-calculator",
@@ -317,7 +311,6 @@ const RAW_LEARNING_PATHS = [
     title: "Insurance Planning",
     description:
       "Understand why insurance exists, how term and health cover work, and how to think about coverage needs.",
-    duration: "40 min",
     difficulty: "Beginner",
     relatedCalculators: ["/goal-planner"],
     nextPath: "retirement-planning",
@@ -358,7 +351,6 @@ const RAW_LEARNING_PATHS = [
     title: "Retirement Planning",
     description:
       "Estimate retirement needs, explore EPF, NPS, SWP, and build a long-term corpus timeline.",
-    duration: "55 min",
     difficulty: "Intermediate",
     relatedCalculators: [
       "/retirement-calculator",
@@ -816,10 +808,23 @@ function createLesson(path, lesson) {
   };
 }
 
-export const LEARNING_PATHS = RAW_LEARNING_PATHS.map((path) => ({
-  ...path,
-  lessons: path.lessons.map((lesson) => createLesson(path, lesson)),
-}));
+export function getPathDurationMinutes(lessons = []) {
+  return lessons.reduce((sum, lesson) => (
+    sum + (Number.isFinite(lesson.estimatedMinutes) ? lesson.estimatedMinutes : 0)
+  ), 0);
+}
+
+export const LEARNING_PATHS = RAW_LEARNING_PATHS.map((path) => {
+  const lessons = path.lessons.map((lesson) => createLesson(path, lesson));
+  const durationMinutes = getPathDurationMinutes(lessons);
+
+  return {
+    ...path,
+    lessons,
+    durationMinutes,
+    duration: `${durationMinutes} min`,
+  };
+});
 
 export const LEARN_DISCOVERY_TOPICS = Object.freeze([
   { id: "all", label: "All" },
