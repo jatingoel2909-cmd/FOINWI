@@ -12,6 +12,7 @@
     "validate:guide": "node scripts/validateGuide.js",
     "validate:trust": "node scripts/validateTrust.js",
     "validate:hardening": "node scripts/validateHardening.js",
+    "validate:exchange-rates": "node scripts/validateExchangeRates.js",
     "preview": "vite preview"
   },
   "dependencies": {

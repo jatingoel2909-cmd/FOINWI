@@ -37,6 +37,13 @@ function PrivacyPolicyPage() {
             selections locally in the browser. The Guide Trial conversation stays
             only in its page and is not saved after refresh.
           </p>
+          <p className="shrix-info-card__follow">
+            When you use Exchange Rates, your browser sends the selected currency
+            codes to FOINWI&apos;s same-origin exchange-rate endpoint. The amount you
+            enter remains in your browser. FOINWI&apos;s endpoint requests the
+            corresponding reference rate from Frankfurter; it does not send your
+            entered amount to that provider.
+          </p>
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
@@ -60,9 +67,10 @@ function PrivacyPolicyPage() {
           <h2>Third-Party Services</h2>
           <p>
             Email providers may process information you choose to send through
-            email under their own policies. If other third-party services are
-            introduced in future, we may update this policy before or with that
-            implementation.
+            email under their own policies. Exchange Rates uses Frankfurter as a
+            reference-rate data provider through FOINWI&apos;s server-side endpoint.
+            Frankfurter receives only the requested currency pair from that
+            endpoint, subject to its own policies.
           </p>
         </article>
 

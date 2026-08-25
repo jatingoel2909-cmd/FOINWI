@@ -35,6 +35,7 @@ import JourneyPage from "./pages/JourneyPage";
 import FinancialHealthScorePage from "./pages/FinancialHealthScorePage";
 import GuideTrialPage from "./guide-trial/GuideTrialPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ExchangeRatesPage from "./pages/ExchangeRatesPage";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
         <Route path="/learn/:slug" element={<LearnPathPage />} />
         <Route path="/ai-tools" element={<AiToolsPage />} />
         <Route path="/guide-trial" element={<GuideTrialPage />} />
+        <Route path="/exchange-rates" element={<ExchangeRatesPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/financial-health-score" element={<FinancialHealthScorePage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />

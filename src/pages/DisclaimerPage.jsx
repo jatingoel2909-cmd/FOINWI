@@ -30,6 +30,16 @@ function DisclaimerPage() {
         </article>
 
         <article className="shrix-info-card shrix-info-card--wide">
+          <h2>Exchange Rates</h2>
+          <p>
+            Exchange Rates displays published reference rates for educational
+            conversion. They may differ from bank, card, remittance,
+            exchange-counter, broker, or transaction rates. Fees, spreads, taxes,
+            and provider-specific charges are not included.
+          </p>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
           <h2>No Personalized Advice</h2>
           <p>
             We do not provide personalized investment, tax, loan, legal, or

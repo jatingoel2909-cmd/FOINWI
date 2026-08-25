@@ -715,3 +715,23 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.shrix-live-tool {
+  max-width: 780px;
+  margin: 0 auto 34px;
+  padding: 28px;
+  border: 1px solid var(--fw-border-strong);
+  border-radius: var(--fw-radius-xl, 22px);
+  background: var(--fw-bg-surface);
+  box-shadow: var(--fw-shadow-card);
+}
+
+.shrix-live-tool h2 {
+  margin: 8px 0;
+  color: var(--fw-text-primary);
+}
+
+.shrix-live-tool p:not(.shrix-section-label) {
+  margin: 0;
+  color: var(--fw-text-secondary);
+}
