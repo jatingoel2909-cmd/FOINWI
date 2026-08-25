@@ -9,11 +9,11 @@ import { searchFOINWI } from "../../intelligence/search/searchEngine.js";
 import SearchOverlay from "./SearchOverlay";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
-import { flattenSearchGroups } from "./searchCommandHelpers";
+import { flattenSearchGroups, trapTabKey } from "./searchCommandHelpers";
 import "./search-ui.css";
 
 const SUGGESTED_SEARCHES = ["SIP", "Emergency fund", "Home loan", "Retirement"];
-const POPULAR_SEARCHES = [
+const MORE_TOPICS_TO_TRY = [
   "Monthly investment",
   "Tax saving",
   "EMI",
@@ -28,9 +28,11 @@ const QUICK_ACTIONS = [
   { id: "health", label: "Health", path: "/financial-health-score", icon: "❤️" },
 ];
 
-function SearchCommandCenter({ open, onClose }) {
+function SearchCommandCenter({ open, onClose, returnFocusRef }) {
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const dialogRef = useRef(null);
+  const wasOpenRef = useRef(false);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -82,14 +84,24 @@ function SearchCommandCenter({ open, onClose }) {
   }, []);
 
   useEffect(() => {
-    if (!open) return undefined;
+    if (open) {
+      wasOpenRef.current = true;
+      const frame = requestAnimationFrame(() => {
+        inputRef.current?.focus({ preventScroll: true });
+      });
+      return () => cancelAnimationFrame(frame);
+    }
 
-    const frame = requestAnimationFrame(() => {
-      inputRef.current?.focus({ preventScroll: true });
-    });
+    if (wasOpenRef.current) {
+      wasOpenRef.current = false;
+      const opener = returnFocusRef?.current;
+      if (opener && typeof opener.focus === "function") {
+        opener.focus({ preventScroll: true });
+      }
+    }
 
-    return () => cancelAnimationFrame(frame);
-  }, [open]);
+    return undefined;
+  }, [open, returnFocusRef]);
 
   const handleQueryChange = (value) => {
     setQuery(value);
@@ -126,6 +138,16 @@ function SearchCommandCenter({ open, onClose }) {
     }
   };
 
+  const handleDialogKeyDown = (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeAndReset();
+      return;
+    }
+
+    trapTabKey(event, dialogRef.current);
+  };
+
   useEffect(() => {
     if (!open || safeActiveIndex < 0) return;
     const node = document.getElementById(getOptionId(safeActiveIndex));
@@ -133,7 +155,12 @@ function SearchCommandCenter({ open, onClose }) {
   }, [safeActiveIndex, open, getOptionId]);
 
   return (
-    <SearchOverlay open={open} onClose={closeAndReset}>
+    <SearchOverlay
+      open={open}
+      onClose={closeAndReset}
+      dialogRef={dialogRef}
+      onDialogKeyDown={handleDialogKeyDown}
+    >
       <div className="fi-search-command" onKeyDown={handleKeyDown}>
         <header className="fi-search-command__header">
           <div className="fi-search-command__heading">
@@ -181,7 +208,7 @@ function SearchCommandCenter({ open, onClose }) {
           getOptionId={getOptionId}
           onSelectResult={handleSelectResult}
           suggestedSearches={SUGGESTED_SEARCHES}
-          popularSearches={POPULAR_SEARCHES}
+          popularSearches={MORE_TOPICS_TO_TRY}
           onPickSuggestion={handlePickSuggestion}
         />
       </div>

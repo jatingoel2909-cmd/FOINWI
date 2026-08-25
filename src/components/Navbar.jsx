@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BrandWordmark from "./BrandWordmark";
 import { Link, useLocation } from "react-router-dom";
 import { getNavLinkClass } from "../utils/navHelpers";
 import SearchCommandCenter from "./intelligence/SearchCommandCenter";
 import "./Navbar.css";
+
+const MOBILE_NAV_ID = "foinwi-mobile-nav";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
@@ -16,6 +18,7 @@ const NAV_ITEMS = [
 
 function Navbar() {
   const { pathname } = useLocation();
+  const searchOpenerRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -45,6 +48,19 @@ function Navbar() {
     return undefined;
   }, [menuOpen, searchOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setMenuOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen]);
+
   return (
     <header className={`shrix-navbar${menuOpen ? " shrix-navbar--menu-open" : ""}`}>
       <div className="shrix-brand">
@@ -62,9 +78,12 @@ function Navbar() {
 
       <div className="shrix-nav-actions">
         <button
+          ref={searchOpenerRef}
           type="button"
           className="shrix-nav-search"
           aria-label="Open FOINWI Command Center"
+          aria-haspopup="dialog"
+          aria-expanded={searchOpen}
           onClick={openSearch}
         >
           <span className="shrix-nav-search__icon" aria-hidden="true">
@@ -81,6 +100,7 @@ function Navbar() {
         className="shrix-nav-toggle"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
         aria-expanded={menuOpen}
+        aria-controls={MOBILE_NAV_ID}
         onClick={() => setMenuOpen((open) => !open)}
       >
         <span className="shrix-nav-toggle__bar" />
@@ -89,6 +109,7 @@ function Navbar() {
       </button>
 
       <div
+        id={MOBILE_NAV_ID}
         className={`shrix-nav-drawer${menuOpen ? " shrix-nav-drawer--open" : ""}`}
         aria-hidden={!menuOpen}
         inert={!menuOpen}
@@ -105,7 +126,13 @@ function Navbar() {
             </Link>
           ))}
           <Link to="/#contact" onClick={closeMenu}>Contact</Link>
-          <button type="button" className="shrix-nav-drawer__search" onClick={openSearch}>
+          <button
+            type="button"
+            className="shrix-nav-drawer__search"
+            aria-haspopup="dialog"
+            aria-expanded={searchOpen}
+            onClick={openSearch}
+          >
             Search FOINWI
           </button>
         </nav>
@@ -120,7 +147,11 @@ function Navbar() {
         />
       )}
 
-      <SearchCommandCenter open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <SearchCommandCenter
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        returnFocusRef={searchOpenerRef}
+      />
     </header>
   );
 }

@@ -33,10 +33,10 @@ function SearchResults({
           </ul>
         </div>
         <div className="fi-search-suggest">
-          <h3 className="fi-search-suggest__title">Popular searches</h3>
+          <h3 className="fi-search-suggest__title">More topics to try</h3>
           <ul className="fi-search-suggest__list">
             {popularSearches.map((item) => (
-              <li key={`popular-${item}`}>
+              <li key={`topic-${item}`}>
                 <button type="button" onClick={() => onPickSuggestion(item)}>
                   {item}
                 </button>

@@ -2,7 +2,7 @@
  * FOINWI Command Center — overlay shell.
  */
 
-function SearchOverlay({ open, onClose, children }) {
+function SearchOverlay({ open, onClose, children, dialogRef, onDialogKeyDown }) {
   if (!open) return null;
 
   return (
@@ -11,13 +11,16 @@ function SearchOverlay({ open, onClose, children }) {
         type="button"
         className="fi-search-overlay__backdrop"
         aria-label="Close search"
+        tabIndex={-1}
         onClick={onClose}
       />
       <div
+        ref={dialogRef}
         className="fi-search-overlay__dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="fi-search-command-title"
+        onKeyDown={onDialogKeyDown}
       >
         {children}
       </div>
