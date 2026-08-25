@@ -37,8 +37,10 @@ function FinancialHealthScorePage() {
 
   return (
     <div className="shrix-app">
+      <a className="shrix-skip-link" href="#main-content">Skip to main content</a>
       <Navbar />
 
+      <main id="main-content">
       <header className="fhs-hero">
         <div className="fhs-hero__inner">
           <p className="shrix-section-label">FOINWI Financial Health Score</p>
@@ -56,7 +58,7 @@ function FinancialHealthScorePage() {
         </div>
       </header>
 
-      <main className="fhs-main">
+      <div className="fhs-main">
         {phase === "intro" && (
           <section className="fhs-intro-grid">
             <article className="fhs-intro-card">
@@ -103,11 +105,12 @@ function FinancialHealthScorePage() {
         {phase === "results" && result && (
           <HealthScoreDashboard result={result} onRetake={handleRetake} />
         )}
-      </main>
+      </div>
 
       {phase !== "results" && (
         <p className="fhs-disclaimer fhs-disclaimer--page">{HEALTH_SCORE_DISCLAIMER}</p>
       )}
+      </main>
 
       <Footer />
     </div>

@@ -1,21 +1,21 @@
-import { ALL_CALCULATORS } from "../data/calculators";
-import { FINANCIAL_JOURNEYS } from "../data/journeys";
+import { ALL_CALCULATORS } from "../data/calculators.js";
+import { FINANCIAL_JOURNEYS } from "../data/journeys.js";
 import {
   HEALTH_SCORE_CATEGORIES,
   HEALTH_SCORE_QUESTIONS,
-} from "../data/healthScoreQuestions";
+} from "../data/healthScoreQuestions.js";
 
 const MAX_QUESTION_SCORE = 10;
 
-const LEARN_MODULES = [
-  { title: "Investing Basics", path: "/learn", topic: "investments" },
-  { title: "Loans & EMI", path: "/learn", topic: "debt" },
-  { title: "Tax & Salary Planning", path: "/learn", topic: "planning" },
-  { title: "Retirement Planning", path: "/learn", topic: "planning" },
-  { title: "Financial Calculators", path: "/learn", topic: "general" },
-  { title: "Emergency Fund", path: "/learn", topic: "savings" },
-  { title: "Salary Planning", path: "/learn", topic: "savings" },
-  { title: "Insurance Basics", path: "/learn", topic: "protection" },
+export const HEALTH_SCORE_LEARN_MODULES = [
+  { title: "Investing Basics", path: "/learn/investing-fundamentals", topic: "investments" },
+  { title: "Loans & EMI", path: "/learn/loans-emi", topic: "debt" },
+  { title: "Tax & Salary Planning", path: "/learn/income-tax-basics", topic: "planning" },
+  { title: "Retirement Planning", path: "/learn/retirement-planning", topic: "planning" },
+  { title: "Financial Calculators", path: "/calculators", topic: "general" },
+  { title: "Emergency Fund", path: "/learn/saving-budgeting", topic: "savings" },
+  { title: "Money Basics", path: "/learn/money-basics", topic: "savings" },
+  { title: "Insurance Basics", path: "/learn/insurance-planning", topic: "protection" },
 ];
 
 const CATEGORY_CALCULATORS = {
@@ -35,19 +35,19 @@ const CATEGORY_MISSIONS = {
 };
 
 const STRENGTH_MESSAGES = {
-  savings: "You show disciplined saving habits or expense awareness.",
-  investments: "You have active investment participation beyond basic savings.",
-  protection: "You maintain financial safety nets through insurance or emergency reserves.",
-  debt: "Your borrowing profile appears manageable with healthy credit habits.",
-  planning: "You think ahead with goals, tax awareness, or retirement planning.",
+  savings: "Savings scored relatively higher than some other areas in this reflection.",
+  investments: "Investments scored relatively higher than some other areas in this reflection.",
+  protection: "Protection scored relatively higher than some other areas in this reflection.",
+  debt: "Debt-related answers scored relatively higher than some other areas in this reflection.",
+  planning: "Planning scored relatively higher than some other areas in this reflection.",
 };
 
 const IMPROVE_MESSAGES = {
-  savings: "Building a consistent savings rate and tracking expenses can strengthen your foundation.",
-  investments: "Starting or regularising SIP and retirement contributions can help long-term growth.",
-  protection: "An emergency fund and adequate insurance can reduce financial vulnerability.",
-  debt: "Reviewing loan obligations and credit card usage can improve financial flexibility.",
-  planning: "Clearer goals, tax planning, and retirement estimates can improve long-term clarity.",
+  savings: "Learning more about a regular savings rate and expense tracking may help you review this area.",
+  investments: "Exploring SIP and retirement contribution concepts may help you review this area.",
+  protection: "Emergency-fund and insurance concepts may help you review protection as part of money habits.",
+  debt: "Reviewing loan and credit-card concepts may help you understand this area more clearly.",
+  planning: "Written goals, retirement estimates, and tax basics may help you review long-term planning.",
 };
 
 const RECOMMENDATIONS = {
@@ -62,7 +62,7 @@ const RECOMMENDATIONS = {
     "Comparing lumpsum vs SIP scenarios can illustrate different investment approaches.",
   ],
   protection: [
-    "This can help you understand why an emergency fund is often recommended before aggressive investing.",
+    "This can help you understand why an emergency fund is often discussed before aggressive investing.",
     "Reviewing term and health insurance concepts may clarify protection gaps.",
     "Inflation estimates can show why protection planning needs to account for rising costs.",
   ],
@@ -78,7 +78,12 @@ const RECOMMENDATIONS = {
   ],
 };
 
+export function questionAffectsScore(question) {
+  return question?.scoring !== false;
+}
+
 function getQuestionScore(question, answer) {
+  if (!questionAffectsScore(question)) return null;
   if (answer === undefined || answer === null || answer === "") return 0;
 
   if (question.type === "slider") {
@@ -90,11 +95,11 @@ function getQuestionScore(question, answer) {
 }
 
 function getScoreBand(score) {
-  if (score >= 90) return { label: "Excellent", tone: "excellent" };
-  if (score >= 75) return { label: "Strong", tone: "strong" };
-  if (score >= 60) return { label: "On Track", tone: "on-track" };
-  if (score >= 40) return { label: "Building Foundation", tone: "building" };
-  return { label: "Needs Attention", tone: "needs-attention" };
+  if (score >= 90) return { label: "Higher range", tone: "excellent" };
+  if (score >= 75) return { label: "Upper-middle range", tone: "strong" };
+  if (score >= 60) return { label: "Middle range", tone: "on-track" };
+  if (score >= 40) return { label: "Developing range", tone: "building" };
+  return { label: "Lower range", tone: "needs-attention" };
 }
 
 function getCalculatorsByPaths(paths) {
@@ -114,7 +119,7 @@ function getLearnModules(categoryIds, limit = 3) {
   };
 
   const topics = new Set(categoryIds.flatMap((id) => topicMap[id] || ["general"]));
-  return LEARN_MODULES.filter((module) => topics.has(module.topic)).slice(0, limit);
+  return HEALTH_SCORE_LEARN_MODULES.filter((module) => topics.has(module.topic)).slice(0, limit);
 }
 
 function getSuggestedMission(weakestCategories) {
@@ -132,6 +137,8 @@ export function calculateHealthScore(answers) {
   HEALTH_SCORE_QUESTIONS.forEach((question) => {
     const score = getQuestionScore(question, answers[question.id]);
     questionScores[question.id] = score;
+
+    if (!questionAffectsScore(question) || score === null) return;
 
     const bucket = categoryTotals[question.category];
     bucket.earned += score;
@@ -154,11 +161,11 @@ export function calculateHealthScore(answers) {
 
   const strengths = strongest.length
     ? strongest.map((item) => STRENGTH_MESSAGES[item.id])
-    : ["You have started assessing your financial habits — awareness is a useful first step."];
+    : ["Completing this reflection can help you notice which money areas scored relatively higher today."];
 
   const improvements = weakest.length
     ? weakest.map((item) => IMPROVE_MESSAGES[item.id])
-    : ["Continue reviewing your habits periodically to maintain balanced financial health."];
+    : ["You may revisit this reflection later to see whether your answers still match your current habits."];
 
   const recommendations = weakest.length
     ? weakest.flatMap((item) => RECOMMENDATIONS[item.id].slice(0, 1))

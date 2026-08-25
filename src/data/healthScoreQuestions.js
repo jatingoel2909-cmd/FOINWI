@@ -7,28 +7,31 @@ export const HEALTH_SCORE_CATEGORIES = [
 ];
 
 export const HEALTH_SCORE_DISCLAIMER =
-  "Calculator results are estimates only and depend on your inputs and assumptions. For educational purposes only. Not financial, tax, investment, or loan advice.";
+  "This is an educational financial self-reflection tool. The score is an illustrative result based only on the answers you give in this session. It is not a measure of creditworthiness or financial fitness, and it is not financial, investment, tax, insurance, loan, or legal advice. FOINWI does not make a personalised recommendation or guarantee.";
 
 export const HEALTH_SCORE_QUESTIONS = [
   {
     id: "monthly-income",
     category: "planning",
     title: "What is your approximate monthly income range?",
-    helper: "This helps contextualise savings and planning habits — not for judgement.",
+    helper:
+      "Context only — this does not affect your score. It is here to help you think about habits relative to income, not as a judgement.",
     type: "radio",
+    scoring: false,
     options: [
-      { value: "under-25k", label: "Under ₹25,000", score: 6 },
-      { value: "25k-50k", label: "₹25,000 – ₹50,000", score: 7 },
-      { value: "50k-1l", label: "₹50,000 – ₹1,00,000", score: 8 },
-      { value: "1l-2l", label: "₹1,00,000 – ₹2,00,000", score: 9 },
-      { value: "above-2l", label: "Above ₹2,00,000", score: 10 },
+      { value: "under-25k", label: "Under ₹25,000" },
+      { value: "25k-50k", label: "₹25,000 – ₹50,000" },
+      { value: "50k-1l", label: "₹50,000 – ₹1,00,000" },
+      { value: "1l-2l", label: "₹1,00,000 – ₹2,00,000" },
+      { value: "above-2l", label: "Above ₹2,00,000" },
     ],
   },
   {
     id: "savings-rate",
     category: "savings",
     title: "What percentage of your income do you save each month?",
-    helper: "Include all regular savings — FD, RD, SIP, and transfers to savings accounts.",
+    helper:
+      "Include all regular savings — FD, RD, SIP, and transfers to savings accounts. The slider starts at 10%, which is the selected answer unless you change it.",
     type: "slider",
     min: 0,
     max: 40,

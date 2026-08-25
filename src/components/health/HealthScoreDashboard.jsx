@@ -11,7 +11,7 @@ function CategoryBar({ label, icon, score }) {
         <span>
           {icon} {label}
         </span>
-        <strong>{score}</strong>
+        <strong>{score} / 100</strong>
       </div>
       <div className="fhs-category-bar__track" aria-hidden="true">
         <div
@@ -98,6 +98,17 @@ function HealthScoreDashboard({ result, onRetake }) {
       </div>
 
       <section className="fhs-panel fhs-panel--wide">
+        <h3>How this score is built</h3>
+        <p className="fhs-score-method">
+          This questionnaire has 12 answers. One income question is context-only
+          and does not affect the score. The remaining answers contribute to one
+          of five categories. Each category is shown from 0–100. The overall
+          score is the equal average of those five category scores. The result is
+          an educational reflection, not a financial verdict.
+        </p>
+      </section>
+
+      <section className="fhs-panel fhs-panel--wide">
         <h3>Educational Recommendations</h3>
         <ul className="fhs-recommendations">
           {recommendations.map((item) => (
@@ -107,7 +118,7 @@ function HealthScoreDashboard({ result, onRetake }) {
       </section>
 
       <section className="fhs-suggest-card">
-        <p className="shrix-section-label">Recommended Journey</p>
+        <p className="shrix-section-label">Suggested learning journey</p>
         <div className="fhs-suggest-card__body">
           <span className="fhs-suggest-card__icon" aria-hidden="true">
             {suggestedMission.icon}

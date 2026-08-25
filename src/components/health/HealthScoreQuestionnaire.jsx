@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HEALTH_SCORE_CATEGORIES, HEALTH_SCORE_QUESTIONS } from "../../data/healthScoreQuestions";
 import { isQuestionAnswered } from "../../utils/healthScoreEngine";
 
 function HealthScoreQuestionnaire({ answers, onChange, onComplete }) {
   const [step, setStep] = useState(0);
+  const headingRef = useRef(null);
   const total = HEALTH_SCORE_QUESTIONS.length;
   const question = HEALTH_SCORE_QUESTIONS[step];
   const categoryLabel =
@@ -36,6 +37,13 @@ function HealthScoreQuestionnaire({ answers, onChange, onComplete }) {
     if (step > 0) setStep((prev) => prev - 1);
   };
 
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, [step]);
+
+  const sliderValue = currentAnswer ?? question.defaultValue;
+  const isContextOnly = question.scoring === false;
+
   return (
     <div className="fhs-questionnaire">
       <div className="fhs-questionnaire__progress-wrap">
@@ -45,7 +53,15 @@ function HealthScoreQuestionnaire({ answers, onChange, onComplete }) {
           </span>
           <span>{answeredCount} answered</span>
         </div>
-        <div className="fhs-questionnaire__progress-bar" aria-hidden="true">
+        <div
+          className="fhs-questionnaire__progress-bar"
+          role="progressbar"
+          aria-label={`Question ${step + 1} of ${total}`}
+          aria-valuemin={1}
+          aria-valuemax={total}
+          aria-valuenow={step + 1}
+          aria-valuetext={`Question ${step + 1} of ${total}`}
+        >
           <div
             className="fhs-questionnaire__progress-fill"
             style={{ width: `${progress}%` }}
@@ -54,8 +70,13 @@ function HealthScoreQuestionnaire({ answers, onChange, onComplete }) {
       </div>
 
       <article className="fhs-question-card">
-        <p className="fhs-question-card__category">{categoryLabel}</p>
-        <h2>{question.title}</h2>
+        <p className="fhs-question-card__category">
+          {categoryLabel}
+          {isContextOnly ? " · Context only" : ""}
+        </p>
+        <h2 ref={headingRef} tabIndex={-1} id="fhs-question-title">
+          {question.title}
+        </h2>
         <p className="fhs-question-card__helper">{question.helper}</p>
 
         {question.type === "radio" && (
@@ -83,7 +104,7 @@ function HealthScoreQuestionnaire({ answers, onChange, onComplete }) {
         {question.type === "slider" && (
           <div className="fhs-slider-block">
             <div className="fhs-slider-block__value">
-              <span>{currentAnswer ?? question.defaultValue}</span>
+              <span>{sliderValue}</span>
               <span>{question.unit}</span>
             </div>
             <input
@@ -92,10 +113,17 @@ function HealthScoreQuestionnaire({ answers, onChange, onComplete }) {
               min={question.min}
               max={question.max}
               step={question.step}
-              value={currentAnswer ?? question.defaultValue}
+              value={sliderValue}
               onChange={(event) => onChange(question.id, Number(event.target.value))}
               aria-label={question.title}
+              aria-valuemin={question.min}
+              aria-valuemax={question.max}
+              aria-valuenow={sliderValue}
+              aria-valuetext={`${sliderValue}${question.unit} selected. Default is ${question.defaultValue}${question.unit} if unchanged.`}
             />
+            <p className="fhs-slider-block__note">
+              Currently selected: {sliderValue}{question.unit}. The slider starts at {question.defaultValue}{question.unit}; that selected value is used if you continue.
+            </p>
             <div className="fhs-slider-block__range">
               <span>{question.min}{question.unit}</span>
               <span>{question.max}{question.unit}</span>
