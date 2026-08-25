@@ -146,18 +146,6 @@
   color: var(--fw-accent-bright);
 }
 
-@keyframes shrix-journey-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 1100px) {
   .shrix-journey-grid {
     grid-template-columns: repeat(2, 1fr);

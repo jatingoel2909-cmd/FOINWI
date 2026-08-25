@@ -44,10 +44,16 @@ function Home() {
           showViewAll
           className="shrix-calculators--home"
         />
-        <IntelligenceSection
-          pathname="/"
-          className="fi-intelligence-section--home fi-intelligence-section--home-featured"
-        />
+        <div className="fi-home-insight">
+          <h2 id="home-daily-insight-title" className="fi-home-insight__title">
+            Today&apos;s Financial Insight
+          </h2>
+          <IntelligenceSection
+            pathname="/"
+            className="fi-intelligence-section--home fi-intelligence-section--home-featured"
+            ariaLabel="Daily financial insight"
+          />
+        </div>
         <AiToolsPreviewSection />
         <LearnPreviewSection />
         <HomeClaritySection />

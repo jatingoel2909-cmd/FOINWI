@@ -15,7 +15,7 @@ function FinancialJourneysSection() {
       </p>
 
       <div className="shrix-journey-grid">
-        {FINANCIAL_JOURNEYS.map((journey, index) => {
+        {FINANCIAL_JOURNEYS.map((journey) => {
           const mission = enrichMission(journey);
           const lessonCount = mission.learningModules?.length ?? 0;
           const calculatorCount = mission.calculators?.length ?? 0;
@@ -25,7 +25,6 @@ function FinancialJourneysSection() {
             <article
               className="shrix-journey-card"
               key={journey.slug}
-              style={{ animationDelay: `${index * 60}ms` }}
             >
               <div className="shrix-journey-card__icon" aria-hidden="true">
                 <span>{journey.icon}</span>

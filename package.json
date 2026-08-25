@@ -15,6 +15,7 @@
     "validate:exchange-rates": "node scripts/validateExchangeRates.js",
     "validate:health": "node scripts/validateHealthScore.js",
     "validate:intelligence-ui": "node scripts/validateIntelligenceUi.js",
+    "validate:homepage": "node scripts/validateHomepage.js",
     "preview": "vite preview"
   },
   "dependencies": {

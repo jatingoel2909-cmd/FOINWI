@@ -273,8 +273,9 @@ body {
   line-height: 1.45;
 }
 
-.shrix-dashboard h2 {
+.shrix-dashboard p.shrix-dashboard__amount {
   font-size: 26px;
+  font-weight: 800;
   margin: 10px 0 30px;
   color: var(--fw-text-primary);
 }

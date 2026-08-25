@@ -1,5 +1,10 @@
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function scrollToSection(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const behavior = prefersReducedMotion() ? "auto" : "smooth";
+  document.getElementById(id)?.scrollIntoView({ behavior });
 }
 
 export function navigateToHomeSection(navigate, pathname, id) {

@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 const learningPaths = [
   "Money Basics",
-  "Investing Basics",
-  "Loans & Debt",
-  "Tax & Salary",
+  "Investing Fundamentals",
+  "Loans & EMI",
+  "Income Tax Basics",
   "Retirement Planning",
 ];
 

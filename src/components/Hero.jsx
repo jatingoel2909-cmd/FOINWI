@@ -38,6 +38,10 @@ function Hero() {
             Explore Calculators
           </Link>
         </div>
+        <p className="shrix-hero-trust">
+          Reflect on financial habits with the educational{" "}
+          <Link to="/financial-health-score">Financial Health Score</Link>.
+        </p>
       </div>
 
       <div className="shrix-dashboard">
@@ -46,7 +50,7 @@ function Hero() {
         <p className="shrix-dashboard__assumptions">
           Illustration: ₹10,000/month for 15 years at an assumed 12% annual return. Actual returns may vary.
         </p>
-        <h2>₹10,000/month</h2>
+        <p className="shrix-dashboard__amount">₹10,000/month</p>
 
         <div className="shrix-bars" aria-hidden="true">
           <span></span>

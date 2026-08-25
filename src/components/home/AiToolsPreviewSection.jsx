@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 const chatPreview = [
   {
     user: "How much SIP do I need for ₹1 crore?",
-    ai: "Preview: When available, FOINWI AI will explain estimated monthly SIP needs and calculator results step by step.",
+    ai: "Preview: When available, a guardrailed assistant may explain estimated monthly SIP needs and calculator results step by step.",
   },
   {
     user: "Can I afford this EMI?",
-    ai: "Preview: When available, FOINWI AI will help compare EMI, income, tenure, and affordability in simple language.",
+    ai: "Preview: When available, a guardrailed assistant may help compare EMI, income, tenure, and affordability in simple language.",
   },
   {
     user: "How should I plan retirement?",
-    ai: "Preview: When available, FOINWI AI will explain inflation, savings gaps, and planning concepts — not personalised advice.",
+    ai: "Preview: When available, a guardrailed assistant may explain inflation, savings gaps, and planning concepts — not personalised advice.",
   },
 ];
 
@@ -40,17 +40,18 @@ function AiToolsPreviewSection() {
       className="shrix-home-section shrix-home-section--alt shrix-ai-preview"
       id="ai-preview"
     >
-      <p className="shrix-section-label">Coming Soon</p>
+      <p className="shrix-section-label">FOINWI Intelligence</p>
 
       <article className="shrix-ai-assistant-preview">
         <div className="shrix-ai-assistant-preview__header">
-          <h2>FOINWI AI Money Guide</h2>
+          <h2>Future assistant preview</h2>
           <span className="shrix-ai-assistant-preview__badge">Coming Soon</span>
         </div>
 
         <p className="shrix-ai-assistant-preview__subtitle">
-          Coming next: clearer explanations of calculator results and planning concepts.
-          For now, use Learn Academy and calculators to build understanding.
+          Advanced AI assistance is in development. Today, FOINWI Intelligence
+          helps you discover live FOINWI tools through structured educational
+          guidance, including a static Guided Preview.
         </p>
 
         <div className="shrix-ai-assistant-preview__chat">
@@ -69,9 +70,7 @@ function AiToolsPreviewSection() {
         </div>
 
         <p className="shrix-ai-assistant-preview__disclaimer">
-          Preview only. AI features are not live. Educational guidance only — not
-          financial, tax, investment, or loan advice. Consult qualified professionals
-          before making financial decisions.
+          Static concept preview. Advanced AI assistance is in development.
         </p>
       </article>
 
@@ -87,7 +86,7 @@ function AiToolsPreviewSection() {
 
       <div className="shrix-home-section__action">
         <Link to="/ai-tools" className="shrix-view-all-btn">
-          View AI Roadmap →
+          Explore FOINWI Intelligence →
         </Link>
       </div>
     </section>
