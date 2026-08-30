@@ -13,6 +13,8 @@ const DOMAIN_RULES = Object.freeze({
  * Produces deterministic educational explanations from structured calculator context.
  * The caller owns context creation and rendering; this function does not persist data.
  */
+export { runIntelligence, normalizeIntelligenceRequest } from "./runIntelligence.js";
+
 export function getEducationalExplanation(rawContext = {}) {
   const context = buildCalculatorContext(rawContext);
   const scope = getGuidanceScope(context);

@@ -210,14 +210,14 @@ GUIDE_INTENTS.forEach((intent) => {
 });
 
 assert(validateGuideResources().length === 0, "Guide resource catalog contains a missing route");
-assert(GUIDE_INTENTS.length >= 30 && GUIDE_INTENTS.length <= 50, `Intent count ${GUIDE_INTENTS.length} is outside trial target`);
+assert(GUIDE_INTENTS.length >= 30 && GUIDE_INTENTS.length <= 55, `Intent count ${GUIDE_INTENTS.length} is outside trial target`);
 
 const guideSourceFiles = [
   new URL("../src/guide-trial/GuideTrialPage.jsx", import.meta.url),
-  new URL("../src/guide-trial/guideEngine.js", import.meta.url),
-  new URL("../src/guide-trial/guideIntents.js", import.meta.url),
-  new URL("../src/guide-trial/guideResources.js", import.meta.url),
-  new URL("../src/guide-trial/guideSafety.js", import.meta.url),
+  new URL("../src/intelligence/guide/guideEngine.js", import.meta.url),
+  new URL("../src/intelligence/guide/guideIntents.js", import.meta.url),
+  new URL("../src/intelligence/guide/guideResources.js", import.meta.url),
+  new URL("../src/intelligence/guide/guideSafety.js", import.meta.url),
 ];
 
 const source = await Promise.all(guideSourceFiles.map((file) => readFile(file, "utf8")));

@@ -15,6 +15,12 @@
     "validate:exchange-rates": "node scripts/validateExchangeRates.js",
     "validate:health": "node scripts/validateHealthScore.js",
     "validate:intelligence-ui": "node scripts/validateIntelligenceUi.js",
+    "validate:intelligence-engine": "node scripts/validateIntelligenceEngine.js",
+    "validate:search": "node scripts/validateSearchEngine.js",
+    "validate:recommendations": "node scripts/validateRecommendations.js",
+    "validate:context": "node scripts/validateContextEngine.js",
+    "validate:insights": "node scripts/validateInsightEngine.js",
+    "validate:intelligence-layer": "node scripts/validateIntelligenceLayer.js",
     "validate:homepage": "node scripts/validateHomepage.js",
     "validate:shell": "node scripts/validateShell.js",
     "preview": "vite preview"
