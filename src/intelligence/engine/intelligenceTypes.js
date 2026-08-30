@@ -79,6 +79,32 @@ export function createResourceRef(resource) {
   };
 }
 
+function isResourceRef(value) {
+  return value === null || (value && typeof value === "object" && typeof value.path === "string");
+}
+
+export function isValidIntelligenceResponse(response, isApprovedPath) {
+  if (!response || typeof response !== "object" || Array.isArray(response)) return false;
+  if (response.schemaVersion !== INTELLIGENCE_SCHEMA_VERSION) return false;
+  if (!INTELLIGENCE_RESPONSE_TYPES.includes(response.responseType)) return false;
+  if (!INTELLIGENCE_CONFIDENCE.includes(response.confidence)) return false;
+  if (!INTELLIGENCE_SOURCE_TYPES.includes(response.sourceType)) return false;
+  if (response.usedModel !== false) return false;
+  if (!response.safety || response.safety.educationalOnly !== true) return false;
+  if (typeof response.explanation !== "string") return false;
+  if (!Array.isArray(response.keyPoints) || !Array.isArray(response.suggestedActions)) return false;
+  if (!isResourceRef(response.calculator) || !isResourceRef(response.learn)) return false;
+  if (!isResourceRef(response.journey) || !isResourceRef(response.healthScore)) return false;
+  if (!isResourceRef(response.exchangeRates)) return false;
+  return response.suggestedActions.every((action) => (
+    action
+    && INTELLIGENCE_ACTION_TYPES.includes(action.type)
+    && typeof action.path === "string"
+    && typeof isApprovedPath === "function"
+    && isApprovedPath(action.path)
+  ));
+}
+
 export function createIntelligenceResponse(partial = {}) {
   return {
     schemaVersion: INTELLIGENCE_SCHEMA_VERSION,

@@ -16,6 +16,7 @@
     "validate:health": "node scripts/validateHealthScore.js",
     "validate:intelligence-ui": "node scripts/validateIntelligenceUi.js",
     "validate:intelligence-engine": "node scripts/validateIntelligenceEngine.js",
+    "validate:intelligence-api": "node scripts/validateIntelligenceApi.js",
     "validate:search": "node scripts/validateSearchEngine.js",
     "validate:recommendations": "node scripts/validateRecommendations.js",
     "validate:context": "node scripts/validateContextEngine.js",
