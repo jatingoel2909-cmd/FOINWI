@@ -18,6 +18,7 @@
     "validate:intelligence-engine": "node scripts/validateIntelligenceEngine.js",
     "validate:intelligence-api": "node scripts/validateIntelligenceApi.js",
     "validate:ai-guarded-layer": "node scripts/validateAiGuardedLayer.js",
+    "validate:ai-shadow-runtime": "node scripts/validateAiShadowRuntime.js",
     "validate:search": "node scripts/validateSearchEngine.js",
     "validate:recommendations": "node scripts/validateRecommendations.js",
     "validate:context": "node scripts/validateContextEngine.js",

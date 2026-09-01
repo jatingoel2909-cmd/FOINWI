@@ -124,6 +124,19 @@ assert(context.approvedCopy[0]?.simpleAnswer, "SIMPLIFY context must include app
 assert(!approvedContextHasBlockedFields(context), "Approved context must not include blocked fields");
 assert(!Object.hasOwn(context, "answers") && !Object.hasOwn(context, "pan") && !Object.hasOwn(context, "conversationHistory"), "Approved context leaked sensitive fields");
 assert(!Object.hasOwn(context, "amount") && !Object.hasOwn(context, "exchangeAmount"), "Approved context must not include extracted amounts");
+assert(Array.isArray(context.allowedIntentIds) && context.allowedIntentIds.length === 0, "SIMPLIFY must not receive the CLASSIFY intent catalog");
+
+const classifyContext = buildApprovedAiContext({
+  task: "CLASSIFY",
+  userQuery: "messy investing language about where to begin learning",
+  candidateIntentIds: ["invest-sip", "invented-intent"],
+  surface: "api",
+});
+assert(classifyContext.approvedCopy.length === 0, "CLASSIFY must not receive educational copy");
+assert(classifyContext.allowedIntentIds.includes("invest-sip"), "CLASSIFY must receive approved intent IDs");
+assert(!classifyContext.allowedIntentIds.includes("invented-intent"), "CLASSIFY allowedIntentIds must not include unknown IDs");
+assert(classifyContext.allowedIntentIds.every((id) => typeof id === "string"), "CLASSIFY allowedIntentIds must be IDs only");
+assert(!classifyContext.candidateIntentIds.includes("invented-intent"), "CLASSIFY candidate IDs must drop unknown intents");
 
 const ids = getApprovedIntentIds();
 const validClassify = createModelDraft({

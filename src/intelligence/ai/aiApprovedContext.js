@@ -74,6 +74,7 @@ export function buildApprovedAiContext({
     task,
     userQuery: sanitizeQuery(userQuery),
     candidateIntentIds: intents,
+    allowedIntentIds: task === "CLASSIFY" ? getApprovedIntentIds() : [],
     approvedCopy: task === "SIMPLIFY" ? approvedCopy : [],
     conceptNames: conceptNames.filter((name) => typeof name === "string").slice(0, 6),
     surface: surface === "guide" || surface === "command-center" || surface === "ai-tools" || surface === "api"
