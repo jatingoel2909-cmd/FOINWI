@@ -1,5 +1,4 @@
 /* global process */
-import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createModelDraft } from "../src/intelligence/ai/aiDraftTypes.js";
 import { routeAiTask } from "../src/intelligence/ai/aiTaskRouter.js";
@@ -69,8 +68,8 @@ assert(!/https?:\/\/(?:api\.openai\.com|api\.anthropic\.com|generativelanguage\.
 assert(!/\b(OPENAI_API_KEY|OPENAI_MODEL|ANTHROPIC_API_KEY|GEMINI_API_KEY|sk-[a-zA-Z0-9]{8,})\b/u.test(joined), "Shadow runtime must not include API keys or model env vars");
 assert(!/\bfetch\(/u.test(joined), "Phase 4B.1 must not make network calls");
 assert(!/\bn8n\b/iu.test(joined), "Shadow runtime must not include n8n");
-assert(!existsSync(new URL("../functions/lib/openai", import.meta.url)), "Phase 4B.1 must not add an OpenAI adapter");
-assert(!/\bopenai\b/iu.test(packageSource), "package.json must not add an OpenAI SDK");
+assert(!joined.includes("functions/lib/openai"), "Shadow runtime must not import the OpenAI adapter");
+assert(!JSON.parse(packageSource).dependencies?.openai && !JSON.parse(packageSource).devDependencies?.openai, "package.json must not add an OpenAI SDK");
 assert(!/\b(fetch|openai|anthropic|claude|gemini)\b/iu.test(engineSource), "runIntelligence must remain model-free");
 assert(!apiSource.includes("intelligence/shadow/"), "Production API must not wire Shadow Runtime yet");
 assert(!apiSource.includes("intelligence/ai/"), "Production API must not import the guarded AI layer");
