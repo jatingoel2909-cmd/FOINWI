@@ -20,6 +20,8 @@
     "validate:ai-guarded-layer": "node scripts/validateAiGuardedLayer.js",
     "validate:ai-shadow-runtime": "node scripts/validateAiShadowRuntime.js",
     "validate:openai-adapter": "node scripts/validateOpenAiAdapter.js",
+    "validate:shadow-api-hook": "node scripts/validateShadowApiHook.js",
+    "smoke:openai-shadow": "node scripts/smokeOpenAiShadow.js",
     "validate:search": "node scripts/validateSearchEngine.js",
     "validate:recommendations": "node scripts/validateRecommendations.js",
     "validate:context": "node scripts/validateContextEngine.js",

@@ -6,7 +6,7 @@ import { buildApprovedAiContext, getApprovedIntentIds } from "../src/intelligenc
 import { validateModelDraft } from "../src/intelligence/ai/aiOutputValidator.js";
 import { runIntelligence } from "../src/intelligence/engine/runIntelligence.js";
 import { onRequestPost } from "../functions/api/intelligence.js";
-import { canUseAiForUserResponse, isShadowModeEnabled, resolveShadowPolicy } from "../src/intelligence/shadow/shadowPolicy.js";
+import { canUseAiForUserResponse, isExternalProviderEnabled, isShadowModeEnabled, resolveShadowPolicy } from "../src/intelligence/shadow/shadowPolicy.js";
 import { runShadowIntelligence } from "../src/intelligence/shadow/shadowRuntime.js";
 import { createMemoryShadowSink, createShadowSink, resolveShadowSinkKind } from "../src/intelligence/shadow/shadowSink.js";
 import {
@@ -57,8 +57,12 @@ const uiSources = await Promise.all([
 assert(isShadowModeEnabled() === true, "Shadow Mode must default ON");
 assert(isShadowModeEnabled({}) === true, "Empty env must keep Shadow Mode ON");
 assert(resolveShadowPolicy({}).shadowMode === true, "Shadow policy must default ON");
+assert(isExternalProviderEnabled() === false, "External provider must default OFF");
+assert(isExternalProviderEnabled({}) === false, "Empty env must keep external provider OFF");
+assert(resolveShadowPolicy({}).providerEnabled === false, "Shadow policy must keep providerEnabled false by default");
 assert(canUseAiForUserResponse() === false, "Public AI must remain impossible");
 assert(resolveShadowPolicy({ FOINWI_AI_SHADOW_MODE: "false" }).shadowMode === false, "Shadow Mode must be disableable");
+assert(resolveShadowPolicy({ FOINWI_AI_PROVIDER_ENABLED: "true" }).providerEnabled === true, "External provider may be enabled explicitly");
 assert(!/\bFOINWI_AI_PUBLIC_ENABLED\b/u.test(`${joined}\n${aiSource}\n${engineSource}\n${apiSource}`), "No public AI environment flag may exist");
 assert(!/\bPUBLIC_AI\b/u.test(joined), "Shadow runtime must not introduce a public AI switch");
 assert(resolveShadowSinkKind({}) === "none", "Shadow sink must default to none");
@@ -71,8 +75,10 @@ assert(!/\bn8n\b/iu.test(joined), "Shadow runtime must not include n8n");
 assert(!joined.includes("functions/lib/openai"), "Shadow runtime must not import the OpenAI adapter");
 assert(!JSON.parse(packageSource).dependencies?.openai && !JSON.parse(packageSource).devDependencies?.openai, "package.json must not add an OpenAI SDK");
 assert(!/\b(fetch|openai|anthropic|claude|gemini)\b/iu.test(engineSource), "runIntelligence must remain model-free");
-assert(!apiSource.includes("intelligence/shadow/"), "Production API must not wire Shadow Runtime yet");
+assert(!apiSource.includes("intelligence/shadow/"), "Production API must not import Shadow Runtime directly");
 assert(!apiSource.includes("intelligence/ai/"), "Production API must not import the guarded AI layer");
+assert(!apiSource.includes("lib/openai"), "Production API must not import the OpenAI adapter");
+assert(apiSource.includes("lib/intelligence/shadowHook.js"), "Production API may schedule shadow only through a generic hook");
 assert(uiSources.every((source) => !source.includes("intelligence/shadow/") && !source.includes("intelligence/ai/")), "UI must not import Shadow Runtime or guarded AI");
 assert(SHADOW_RECORD_KIND === "production-shadow-record", "Production shadow records must stay distinct from tester review");
 assert(!/\bfounder tester mode\b/iu.test(joined) || /\bnot implemented\b/iu.test(joined), "Founder Tester Mode must not be implemented");
@@ -146,7 +152,10 @@ const unknownDraft = createModelDraft({
 });
 assert(!validateModelDraft(unknownDraft).ok, "Unknown intent IDs must fail draft validation");
 const unknownSpy = createSpyAdapter({ ok: true, draft: unknownDraft, error: null });
-const unknownResult = await runShadowIntelligence({ query: messyQuery }, { adapter: unknownSpy });
+const unknownResult = await runShadowIntelligence({ query: messyQuery }, {
+  env: { FOINWI_AI_PROVIDER_ENABLED: "true" },
+  adapter: unknownSpy,
+});
 assert(unknownSpy.calls === 1, "Eligible AI query may invoke a test adapter");
 assert(unknownResult.review.decision === "validation-failed", "Unknown intent candidate must not be recorded as valid");
 assert(unknownResult.review.candidate.validationOk === false, "Unknown intent candidate must fail validation");
@@ -162,7 +171,11 @@ const validDraft = createModelDraft({
 assert(validateModelDraft(validDraft).ok, "Known intent CLASSIFY draft should be valid");
 const memory = createMemoryShadowSink();
 const validSpy = createSpyAdapter({ ok: true, draft: validDraft, error: null });
-const validResult = await runShadowIntelligence({ query: messyQuery }, { adapter: validSpy, sink: memory });
+const validResult = await runShadowIntelligence({ query: messyQuery }, {
+  env: { FOINWI_AI_PROVIDER_ENABLED: "true" },
+  adapter: validSpy,
+  sink: memory,
+});
 assert(validResult.review.decision === "recorded-candidate", "Valid candidate may become a Shadow record only");
 assert(validResult.review.usedForUserResponse === false, "Valid candidate must not be used for the user response");
 assert(validResult.review.recordKind === "production-shadow-record", "Valid candidate must be a production shadow record");
@@ -182,6 +195,16 @@ const disabled = await runShadowIntelligence({ query: messyQuery }, {
 assert(disabled.review.decision === "shadow-disabled", "Disabled shadow mode must not invoke a provider");
 assert(disabledSpy.calls === 0, "Disabled shadow mode must not call complete()");
 assert(disabled.review.usedForUserResponse === false, "Disabled shadow mode must not serve AI");
+
+const providerOffSpy = createSpyAdapter({ ok: true, draft: validDraft, error: null });
+const providerOff = await runShadowIntelligence({ query: messyQuery }, {
+  env: { FOINWI_AI_PROVIDER_ENABLED: "false" },
+  adapter: providerOffSpy,
+});
+assert(providerOff.review.decision === "provider-not-configured", "Provider off must stay fail-closed");
+assert(providerOffSpy.calls === 0, "Provider off must not call complete()");
+assert(providerOff.review.usedForUserResponse === false, "Provider off must not serve AI");
+assert(JSON.stringify(providerOff.response) === JSON.stringify(runIntelligence({ query: messyQuery })), "Provider off must not alter IntelligenceResponse");
 
 const noop = createShadowSink("none");
 assert(noop.kind === "none", "Default sink kind is none");

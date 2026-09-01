@@ -1,6 +1,6 @@
 /**
  * Server-only OpenAI adapter. Implements the provider-independent complete() contract.
- * Never imported by UI, runIntelligence, or POST /api/intelligence in this phase.
+ * Never imported by UI or by functions/api/intelligence.js.
  */
 
 import { createAiProviderAdapter, createProviderFailure } from "../../../src/intelligence/ai/aiProviderAdapter.js";
@@ -9,6 +9,7 @@ import { isApprovedAiTask } from "../../../src/intelligence/ai/aiTaskTypes.js";
 import { validateModelDraft } from "../../../src/intelligence/ai/aiOutputValidator.js";
 import { OPENAI_RESPONSES_URL, resolveOpenAiConfig } from "./openaiConfig.js";
 import { getOpenAiTextFormat } from "./openaiJsonSchema.js";
+import { isExternalProviderEnabled } from "../../../src/intelligence/shadow/shadowPolicy.js";
 
 const DRAFT_KEYS = Object.freeze([
   "schemaVersion",
@@ -174,6 +175,13 @@ export async function completeOpenAi(request = {}, options = {}) {
     }
     if (constraints && constraints.noAdvice !== true) {
       return fail("safety-failure", "AI tasks must keep FOINWI advice constraints.", telemetry());
+    }
+    if (!isExternalProviderEnabled(options.env)) {
+      return fail(
+        "provider-not-configured",
+        "No generative provider is enabled. FOINWI continues with deterministic guidance.",
+        telemetry(),
+      );
     }
 
     const resolved = resolveOpenAiConfig(options.env);

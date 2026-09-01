@@ -21,6 +21,14 @@ let checks = 0;
 const TEST_KEY = "test-placeholder-key";
 const messyQuery = "I have some leftover cash each month and want a starting point on this website for learning how regular investing works for a beginner";
 
+function enabledEnv(extra = {}) {
+  return {
+    FOINWI_AI_PROVIDER_ENABLED: "true",
+    OPENAI_API_KEY: TEST_KEY,
+    ...extra,
+  };
+}
+
 function assert(condition, message) {
   checks += 1;
   if (!condition) failures.push(message);
@@ -127,6 +135,9 @@ assert(!/\bimport\.meta\.env\b/u.test(adapterSource), "OpenAI adapter must not r
 assert(adapterSource.includes("OPENAI_API_KEY"), "Adapter may read OPENAI_API_KEY from server env");
 assert(adapterSource.includes("OPENAI_MODEL"), "Adapter may read OPENAI_MODEL from server env");
 assert(adapterSource.includes("OPENAI_TIMEOUT_MS"), "Adapter may read OPENAI_TIMEOUT_MS from server env");
+assert(adapterSource.includes("isExternalProviderEnabled"), "Adapter must honor the external-provider enable gate");
+assert(!adapterSource.includes("FOINWI_AI_REAL_SMOKE_TEST"), "Adapter must not use the smoke-test switch");
+assert(!adapterSource.includes("FOINWI_AI_PUBLIC_ENABLED"), "Adapter must not introduce a public AI flag");
 assert(adapterSource.includes("/v1/responses"), "Adapter must use the Responses API endpoint");
 assert(!adapterSource.includes("/v1/chat/completions"), "Adapter must not use Chat Completions");
 assert(!/\bresponse_format\b/u.test(adapterSource), "Adapter must not use Chat Completions response_format");
@@ -146,13 +157,32 @@ assert(missingKeySpy.calls.length === 0, "Missing key must not call fetch");
 assert(missingKey.draft === null, "Missing key must not return a draft");
 assert(!containsSecret(missingKey), "Missing-key failure telemetry must not include secrets");
 
+const keyOnlySpy = createFetchSpy(() => jsonResponse(providerPayload(createModelDraft({
+  task: "CLASSIFY",
+  candidateIntentIds: [ids[0]],
+  confidenceScore: 70,
+}))));
+const keyOnly = await createOpenAiAdapter({
+  env: { OPENAI_API_KEY: TEST_KEY },
+  fetchImpl: keyOnlySpy.fetchImpl,
+}).complete(classifyRequest);
+assert(keyOnly.ok === false && keyOnly.error.code === "provider-not-configured", "A key alone must fail as provider-not-configured");
+assert(keyOnlySpy.calls.length === 0, "A key alone must not call fetch");
+
+const flagOnlySpy = createFetchSpy(() => jsonResponse({}));
+const flagOnly = await createOpenAiAdapter({
+  env: { FOINWI_AI_PROVIDER_ENABLED: "true" },
+  fetchImpl: flagOnlySpy.fetchImpl,
+}).complete(classifyRequest);
+assert(flagOnly.error.code === "provider-not-configured" && flagOnlySpy.calls.length === 0, "Provider flag without a key must not network");
+
 const noEnvSpy = createFetchSpy(() => jsonResponse({}));
 const noEnv = await createOpenAiAdapter({ fetchImpl: noEnvSpy.fetchImpl }).complete(classifyRequest);
 assert(noEnv.error.code === "provider-not-configured" && noEnvSpy.calls.length === 0, "Adapter without env must not network");
 
 const unapprovedSpy = createFetchSpy(() => jsonResponse({}));
 const unapproved = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY, OPENAI_MODEL: "gpt-not-allowed" },
+  env: enabledEnv({ OPENAI_MODEL: "gpt-not-allowed" }),
   fetchImpl: unapprovedSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(unapproved.ok === false, "Unapproved model must fail closed");
@@ -160,7 +190,7 @@ assert(unapprovedSpy.calls.length === 0, "Unapproved model must not call fetch")
 
 const solSpy = createFetchSpy(() => jsonResponse({}));
 const sol = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY, OPENAI_MODEL: "gpt-5.6-sol" },
+  env: enabledEnv({ OPENAI_MODEL: "gpt-5.6-sol" }),
   fetchImpl: solSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(sol.ok === false && solSpy.calls.length === 0, "gpt-5.6-sol must fail closed with zero fetch");
@@ -172,7 +202,7 @@ const terraSpy = createFetchSpy(() => jsonResponse(providerPayload(createModelDr
   confidenceScore: 70,
 }))));
 const terra = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY, OPENAI_MODEL: "gpt-5.6-terra" },
+  env: enabledEnv({ OPENAI_MODEL: "gpt-5.6-terra" }),
   fetchImpl: terraSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(terra.ok === true, "gpt-5.6-terra must be selectable");
@@ -184,7 +214,7 @@ const timeoutSpy = createFetchSpy(async () => {
   throw error;
 });
 const timeout = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: timeoutSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(timeout.error.code === "provider-timeout", "Timeout must map to provider-timeout");
@@ -195,7 +225,7 @@ const throwSpy = createFetchSpy(() => {
   throw new Error("unexpected-adapter-failure");
 });
 const thrown = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: throwSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(thrown.error.code === "provider-unavailable", "Adapter throw must be contained");
@@ -203,7 +233,7 @@ assert(!JSON.stringify(thrown).includes("unexpected-adapter-failure"), "Adapter 
 
 const httpSpy = createFetchSpy(() => jsonResponse({ error: { message: "secret-provider-detail" } }, { status: 500 }));
 const httpError = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: httpSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(httpError.error.code === "provider-unavailable", "Non-2xx must map to provider-unavailable");
@@ -215,7 +245,7 @@ const malformedSpy = createFetchSpy(() => jsonResponse({
   output: [{ type: "message", content: [{ type: "output_text", text: "{not-json" }] }],
 }));
 const malformed = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: malformedSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(malformed.error.code === "malformed-output", "Malformed JSON must map to malformed-output");
@@ -223,7 +253,7 @@ assert(malformed.error.code === "malformed-output", "Malformed JSON must map to 
 const chatDraft = { schemaVersion: "1.0.0", task: "CHAT", candidateIntentIds: [ids[0]], text: "", confidenceScore: 40, flags: [] };
 const invalidSpy = createFetchSpy(() => jsonResponse(providerPayload(chatDraft)));
 const invalidDraft = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: invalidSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(invalidDraft.ok === false, "Invalid draft must be rejected");
@@ -236,7 +266,7 @@ const unknownDraft = createModelDraft({
 });
 const unknownSpy = createFetchSpy(() => jsonResponse(providerPayload(unknownDraft)));
 const unknown = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: unknownSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(unknown.error.code === "unknown-intent", "Unknown intent IDs must be rejected through the existing validator");
@@ -252,7 +282,7 @@ const actionDraft = {
 };
 const actionSpy = createFetchSpy(() => jsonResponse(providerPayload(actionDraft)));
 const action = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: actionSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(action.ok === false, "Model actions must not pass through");
@@ -265,7 +295,7 @@ const urlDraft = createModelDraft({
 });
 const urlSpy = createFetchSpy(() => jsonResponse(providerPayload(urlDraft)));
 const urlResult = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: urlSpy.fetchImpl,
 }).complete({
   ...classifyRequest,
@@ -283,7 +313,7 @@ const calcDraft = createModelDraft({
 });
 const calcSpy = createFetchSpy(() => jsonResponse(providerPayload(calcDraft)));
 const calc = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY },
+  env: enabledEnv(),
   fetchImpl: calcSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(calc.ok === false, "Calculator results from the model must be rejected");
@@ -315,7 +345,7 @@ const successDraft = createModelDraft({
 });
 const successSpy = createFetchSpy(() => jsonResponse(providerPayload(successDraft)));
 const success = await createOpenAiAdapter({
-  env: { OPENAI_API_KEY: TEST_KEY, OPENAI_MODEL: "gpt-5.6-luna", OPENAI_TIMEOUT_MS: "4000" },
+  env: enabledEnv({ OPENAI_MODEL: "gpt-5.6-luna", OPENAI_TIMEOUT_MS: "4000" }),
   fetchImpl: successSpy.fetchImpl,
 }).complete(classifyRequest);
 assert(success.ok === true && success.draft.task === "CLASSIFY", "Valid mapped draft should pass");
@@ -349,8 +379,9 @@ const shadowSpy = createFetchSpy(() => jsonResponse(providerPayload((() => {
   });
 })())));
 const shadow = await runShadowIntelligence({ query: messyQuery }, {
+  env: { FOINWI_AI_PROVIDER_ENABLED: "true" },
   adapter: createOpenAiAdapter({
-    env: { OPENAI_API_KEY: TEST_KEY },
+    env: enabledEnv(),
     fetchImpl: shadowSpy.fetchImpl,
   }),
 });

@@ -2,6 +2,7 @@ import { parseIntelligenceApiRequest } from "../../src/intelligence/engine/intel
 import { isValidIntelligenceResponse } from "../../src/intelligence/engine/intelligenceTypes.js";
 import { isApprovedIntelligencePath } from "../../src/intelligence/engine/intelligenceAllowlist.js";
 import { runIntelligence } from "../../src/intelligence/engine/runIntelligence.js";
+import { scheduleShadowIntelligence } from "../lib/intelligence/shadowHook.js";
 
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -30,7 +31,21 @@ async function readJsonBody(request) {
   }
 }
 
-export async function onRequestPost({ request }) {
+function scheduleShadowSafely({ intelligenceRequest, env, waitUntil, fetchImpl }) {
+  try {
+    return scheduleShadowIntelligence({
+      intelligenceRequest,
+      env,
+      waitUntil,
+      fetchImpl,
+    });
+  } catch {
+    return null;
+  }
+}
+
+export async function onRequestPost(context = {}) {
+  const { request, env, waitUntil, fetchImpl } = context;
   const parsedBody = await readJsonBody(request);
   if (!parsedBody.ok) {
     return errorResponse(400, "invalid-request", "Request body must be valid JSON.");
@@ -52,12 +67,19 @@ export async function onRequestPost({ request }) {
     return errorResponse(500, "invalid-response", "Intelligence is temporarily unavailable.");
   }
 
+  scheduleShadowSafely({
+    intelligenceRequest: parsed.request,
+    env,
+    waitUntil,
+    fetchImpl: typeof fetchImpl === "function" ? fetchImpl : undefined,
+  });
+
   return json(result, 200);
 }
 
-export function onRequest({ request }) {
-  if (request.method === "POST") {
-    return onRequestPost({ request });
+export function onRequest(context = {}) {
+  if (context.request?.method === "POST") {
+    return onRequestPost(context);
   }
   return methodNotAllowed();
 }

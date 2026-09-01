@@ -82,6 +82,12 @@ export async function runShadowIntelligence(request = {}, options = {}) {
     decision = "blocked-pre-model";
   } else if (!planned.aiPlan.useAi) {
     decision = "deterministic-only";
+  } else if (!policy.providerEnabled) {
+    decision = "provider-not-configured";
+    base.candidate = {
+      ...base.candidate,
+      errorCode: "provider-not-configured",
+    };
   } else {
     const started = Date.now();
     let provider;

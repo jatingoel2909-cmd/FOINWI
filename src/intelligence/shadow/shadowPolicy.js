@@ -1,7 +1,8 @@
 /**
  * Shadow Runtime policy.
- * Shadow Mode defaults ON. Public AI cannot be enabled in Phase 4B.1.
+ * Shadow Mode defaults ON. External provider calls default OFF.
  * There is no environment flag that can serve model output to users.
+ * FOINWI_AI_PROVIDER_ENABLED is a server-only network gate, not a public-AI flag.
  */
 
 function readBoolean(value, defaultValue) {
@@ -16,6 +17,10 @@ export function isShadowModeEnabled(env = {}) {
   return readBoolean(env?.FOINWI_AI_SHADOW_MODE, true);
 }
 
+export function isExternalProviderEnabled(env = {}) {
+  return readBoolean(env?.FOINWI_AI_PROVIDER_ENABLED, false);
+}
+
 export function canUseAiForUserResponse() {
   return false;
 }
@@ -23,6 +28,7 @@ export function canUseAiForUserResponse() {
 export function resolveShadowPolicy(env = {}) {
   return {
     shadowMode: isShadowModeEnabled(env),
+    providerEnabled: isExternalProviderEnabled(env),
     usedForUserResponse: false,
   };
 }
