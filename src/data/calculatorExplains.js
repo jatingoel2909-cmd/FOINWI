@@ -264,20 +264,23 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/gratuity-calculator": {
     whyGenerated:
-      "Gratuity is estimated using the standard formula for eligible employees based on monthly salary and years of completed service.",
+      "This educational estimate applies the Code on Social Security, 2020 monthly-rated formula: last drawn statutory wages × 15 × qualifying years ÷ 26. The Code on Social Security, 2020 provides that gratuity is subject to an amount notified by the Central Government. This calculator currently models ₹20 lakh, consistent with the earlier notified ceiling and current Ministry guidance.",
     keyInputs: [
-      "Monthly basic salary — base for the calculation",
-      "Years of service — must meet eligibility rules for gratuity",
+      "Last drawn statutory wages — monthly wage amount applicable for gratuity under the current labour-code wage definition; this may differ from Basic + DA where allowance-add-back rules apply",
+      "Completed years of service — whole years only; decimal years are not rounded",
+      "Additional months of service — 0 to 11; more than 6 months adds one qualifying year",
     ],
     ifInputsChange: [
-      "Higher salary → higher gratuity",
-      "More years of service → higher payout up to formula limits",
+      "Higher last drawn statutory wages → higher estimated gratuity before the ceiling used in this estimate",
+      "More completed years → higher estimated gratuity before the ceiling used in this estimate",
+      "Additional months above 6 → one extra qualifying year in this estimate",
+      "Uncapped estimate above ₹20 lakh → this estimate is limited to the ₹20 lakh ceiling used here",
     ],
     beginnerMistakes: [
-      "Assuming gratuity applies before completing eligible service years",
-      "Mixing gross salary with basic salary for the formula",
-      "Not confirming employer-specific gratuity rules",
-      "Relying on gratuity alone for retirement corpus",
+      "Treating the result as a payout confirmation",
+      "Assuming Basic + DA is always equal to statutory wages",
+      "Applying this ordinary five-year estimate to fixed-term employment",
+      "Assuming ₹20,00,000 is an absolute maximum in every private arrangement",
     ],
     relatedCalculators: ["/epf-calculator", "/retirement-calculator"],
     relatedLessons: ["retirement-planning"],

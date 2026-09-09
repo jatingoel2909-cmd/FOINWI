@@ -10,7 +10,7 @@ export const ALL_CALCULATORS = [
   { icon: "🏖️", title: "RD Calculator", desc: "Calculate recurring deposit maturity.", path: "/rd-calculator" },
   { icon: "🔁", title: "SWP Calculator", desc: "Plan systematic withdrawals.", path: "/swp-calculator" },
   { icon: "📉", title: "Inflation Calculator", desc: "See how inflation affects costs over time.", path: "/inflation-calculator" },
-  { icon: "🎁", title: "Gratuity Calculator", desc: "Estimate gratuity payout after service.", path: "/gratuity-calculator" },
+  { icon: "🎁", title: "Gratuity Calculator", desc: "Simplified statutory estimate under the Code on Social Security, 2020.", path: "/gratuity-calculator" },
   { icon: "🏛️", title: "EPF Calculator", desc: "Project your EPF retirement corpus.", path: "/epf-calculator" },
   { icon: "🛡️", title: "NPS Calculator", desc: "Plan National Pension System growth.", path: "/nps-calculator" },
   { icon: "🏠", title: "Home Loan Eligibility Calculator", desc: "Estimate home loan you may qualify for.", path: "/home-loan-eligibility-calculator" },

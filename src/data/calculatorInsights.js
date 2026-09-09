@@ -358,25 +358,47 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/gratuity-calculator": {
     howCalculated: {
-      formula: "Gratuity = (Monthly Salary × 15 × Years of Service) / 26",
+      formulaLabel: "Calculation approach",
+      formula:
+        "Qualifying years = completed years + (additional months > 6 ? 1 : 0) | Uncapped gratuity = (Last drawn statutory wages × 15 × qualifying years) / 26 | Estimated gratuity = min(uncapped gratuity, ceiling used in this estimate)",
       variables: [
-        { symbol: "Gratuity", meaning: "Estimated gratuity payout" },
         {
-          symbol: "Monthly Salary",
-          meaning: "Last drawn monthly salary used in the estimate (typically basic + DA)",
+          symbol: "Last drawn statutory wages",
+          meaning: "Monthly wage amount entered for this simplified labour-code estimate; this may differ from Basic + DA where statutory allowance-add-back rules apply",
         },
-        { symbol: "15", meaning: "Standard days factor used in the common gratuity formula" },
-        { symbol: "Years of Service", meaning: "Completed years of eligible service" },
-        { symbol: "26", meaning: "Working-days divisor used in the common gratuity formula" },
+        {
+          symbol: "Completed years",
+          meaning: "Whole completed years of service used in this estimate",
+        },
+        {
+          symbol: "Additional months",
+          meaning: "0 to 11 extra months; more than 6 months adds one qualifying year, and exactly 6 months does not",
+        },
+        {
+          symbol: "Qualifying years",
+          meaning: "Completed years plus at most one extra year under the >6-month rule",
+        },
+        {
+          symbol: "15 / 26",
+          meaning: "Monthly-rated employee days factor used in this simplified statutory estimate",
+        },
+        {
+          symbol: "Ceiling used in this estimate",
+          meaning: "₹20,00,000. This simplified estimate currently uses ₹20 lakh as the gratuity ceiling. The amount is time-sensitive and should be rechecked if Government notifications change.",
+        },
       ],
       estimateNote:
-        "This formula estimates gratuity using the commonly applied salary-and-service method under simplified eligibility assumptions.",
+        "This is a simplified statutory estimate under the Code on Social Security, 2020, modelled as effective from 21 November 2025, for a monthly-rated employee in an ordinary retirement, resignation, or superannuation scenario. The Code on Social Security, 2020 provides that gratuity is subject to an amount notified by the Central Government. This calculator currently models ₹20 lakh, consistent with the earlier notified ceiling and current Ministry guidance. Under the general rule, five years of continuous service is required. The five-year condition does not apply in certain cases such as death or disablement. Fixed-term employment can have different gratuity eligibility rules and is not modelled by this calculator. Better gratuity terms may apply under an award, agreement or employment contract. Estimated gratuity may differ based on employment terms and eligibility facts.",
       summary:
-        "This calculator applies the commonly used gratuity formula for eligible employees under the Payment of Gratuity Act framework.",
-      inputs: ["Last drawn monthly salary (basic + DA)", "Years of service"],
+        "This calculator estimates gratuity for a monthly-rated employee using last drawn statutory wages, the 15/26 formula, the >6-month qualifying-year rule, and the ₹20 lakh ceiling used in this estimate.",
+      inputs: [
+        "Last drawn statutory wages",
+        "Completed years of service",
+        "Additional months of service",
+      ],
     },
     meaning:
-      "This can help you understand an estimated gratuity payout based on salary and service length under standard assumptions.",
+      "This can help you understand an estimated gratuity figure under a simplified Code on Social Security, 2020 model. It is not a payout confirmation.",
     relatedTools: [
       { title: "EPF Calculator", path: "/epf-calculator" },
       { title: "Retirement Calculator", path: "/retirement-calculator" },

@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "validate:calculators": "node scripts/validateAllCalculators.js",
     "validate:income-tax": "node scripts/validateIncomeTax.js",
+    "validate:gratuity": "node scripts/validateGratuity.js",
     "validate:learn": "node scripts/validateLearn.js",
     "validate:guide": "node scripts/validateGuide.js",
     "validate:trust": "node scripts/validateTrust.js",

@@ -24,6 +24,7 @@ import {
 } from "../src/utils/calculatorFormat.js";
 import { calculateIncomeTaxEstimate } from "../src/utils/incomeTax/incomeTaxEngine.js";
 import { INCOME_TAX_REGIMES } from "../src/utils/incomeTax/incomeTaxRules.js";
+import { calculateGratuityEstimate } from "../src/utils/gratuity/gratuityEngine.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -292,10 +293,46 @@ runValidation("Inflation", () => {
 });
 
 runValidation("Gratuity", () => {
-  const gratuity = (50000 * 15 * 10) / 26;
-  assertNonNegative(gratuity, "Gratuity");
-  assert(0 === 0, "Gratuity below-five-year handling");
-  assertFiniteNumber((500000 * 15 * 40) / 26, "Gratuity high-value case");
+  const eligible = calculateGratuityEstimate({
+    lastDrawnStatutoryWages: 50000,
+    completedYears: 5,
+    additionalMonths: 0,
+  });
+  assertFields(eligible, ["qualifyingYears", "uncappedGratuity", "statutoryGratuity", "estimatedGratuity", "lastDrawnStatutoryWages"], "Gratuity");
+  assert(eligible.eligibleUnderGeneralRule === true, "Gratuity five-year general eligibility");
+  assertNonNegative(eligible.estimatedGratuity, "Gratuity eligible output");
+  assert(nearlyEqual(eligible.uncappedGratuity, (50000 * 15 * 5) / 26), "Gratuity 15/26 monthly-rated formula");
+  assert(!Object.hasOwn(eligible, "lastDrawnBasicPlusDA"), "Gratuity engine input is statutory wages, not Basic + DA");
+
+  const belowFive = calculateGratuityEstimate({
+    lastDrawnStatutoryWages: 50000,
+    completedYears: 4,
+    additionalMonths: 0,
+  });
+  assert(belowFive.eligibleUnderGeneralRule === false, "Gratuity below-five-year handling");
+  assert(belowFive.estimatedGratuity === null, "Gratuity must not present a payable amount below five years");
+
+  const sixMonths = calculateGratuityEstimate({
+    lastDrawnStatutoryWages: 50000,
+    completedYears: 10,
+    additionalMonths: 6,
+  });
+  assert(sixMonths.qualifyingYears === 10, "Gratuity exactly 6 additional months must not add a year");
+
+  const sevenMonths = calculateGratuityEstimate({
+    lastDrawnStatutoryWages: 50000,
+    completedYears: 10,
+    additionalMonths: 7,
+  });
+  assert(sevenMonths.qualifyingYears === 11, "Gratuity more than 6 additional months must add one year");
+
+  const capped = calculateGratuityEstimate({
+    lastDrawnStatutoryWages: 500000,
+    completedYears: 40,
+    additionalMonths: 0,
+  });
+  assert(capped.statutoryGratuity === 2000000, "Gratuity statutory ceiling");
+  assertFiniteNumber(capped.uncappedGratuity, "Gratuity high-value case");
 });
 
 runValidation("EPF", () => {
