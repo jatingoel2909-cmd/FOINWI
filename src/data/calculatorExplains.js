@@ -402,22 +402,22 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/income-tax-calculator": {
     whyGenerated:
-      "Tax is estimated by applying slab rates to taxable income after regime-specific deductions, plus applicable cess for educational comparison.",
+      "This educational estimate applies FY 2025-26 (AY 2026-27) slabs to simplified taxable salary income, then applies an educational Section 87A rebate or Section 87A marginal relief where this normal-rate model supports it, then adds 4% cess.",
     keyInputs: [
-      "Annual income — starting point for tax",
-      "Tax regime — Old vs New changes deductions and slabs",
-      "Deductions — reduce taxable income in Old regime; New has standard deduction",
+      "Annual salary income — scoped as salary so a Section 16(ia) salary standard deduction can be applied",
+      "Tax regime — New regime uses the ₹75,000 salary standard deduction; Old regime uses the ₹50,000 salary standard deduction plus entered deductions",
+      "Eligible deductions considered — old-regime additional input only; not a second standard deduction and not a confirmation that every rupee is deductible",
     ],
     ifInputsChange: [
-      "Higher income → higher tax across slabs",
-      "More deductions (Old regime) → lower taxable income",
-      "Regime choice can change total tax significantly at same income",
+      "Higher salary → higher estimated taxable income after supported deductions",
+      "More entered old-regime deductions → lower estimated taxable income in that regime only",
+      "Crossing the new-regime ₹12,00,000 87A threshold — ordinary rebate no longer applies; Section 87A marginal relief may reduce estimated tax just above that threshold for eligible normal-rate income",
     ],
     beginnerMistakes: [
-      "Comparing regimes without full deduction picture",
-      "Ignoring surcharge and cess at higher incomes",
-      "Using calculator output as final filing figure",
-      "Missing eligible deductions like 80C, 80D, or NPS",
+      "Treating the result as a filing-ready tax figure",
+      "Assuming this estimate covers capital gains or other special-rate income",
+      "Assuming old-regime slabs cover senior citizens or non-residents",
+      "Using this estimate above ₹50 lakh, where surcharge is not modelled",
     ],
     relatedCalculators: ["/hra-calculator", "/ppf-calculator", "/nps-calculator"],
     relatedLessons: ["income-tax-basics"],

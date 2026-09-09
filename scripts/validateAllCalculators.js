@@ -22,6 +22,8 @@ import {
   parseFormattedInput,
   parseIntegerInput,
 } from "../src/utils/calculatorFormat.js";
+import { calculateIncomeTaxEstimate } from "../src/utils/incomeTax/incomeTaxEngine.js";
+import { INCOME_TAX_REGIMES } from "../src/utils/incomeTax/incomeTaxRules.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -122,30 +124,6 @@ function calculateSwp(corpus, monthlyWithdrawal, annualRate, years) {
   };
 }
 
-function calculateIncomeTax(annualIncome, deductions, regime) {
-  const taxableIncome = regime === "old"
-    ? Math.max(0, annualIncome - deductions)
-    : Math.max(0, annualIncome - 75000);
-  const slabs = regime === "old"
-    ? [
-        [250000, 500000, 0.05],
-        [500000, 1000000, 0.2],
-        [1000000, Infinity, 0.3],
-      ]
-    : [
-        [300000, 700000, 0.05],
-        [700000, 1000000, 0.1],
-        [1000000, 1200000, 0.15],
-        [1200000, 1500000, 0.2],
-        [1500000, Infinity, 0.3],
-      ];
-  const taxBeforeCess = slabs.reduce(
-    (total, [start, end, rate]) => total + Math.max(0, Math.min(taxableIncome, end) - start) * rate,
-    0,
-  );
-  const estimatedTax = taxBeforeCess * 1.04;
-  return { taxableIncome, estimatedTax, netIncome: Math.max(0, annualIncome - estimatedTax) };
-}
 
 function calculateLoanPrepayment(outstanding, annualRate, years, prepayment) {
   const months = years * 12;
@@ -370,13 +348,33 @@ runValidation("GST", () => {
 });
 
 runValidation("Income Tax", () => {
-  const oldRegime = calculateIncomeTax(1200000, 150000, "old");
-  const newRegime = calculateIncomeTax(1200000, 0, "new");
-  [oldRegime, newRegime].forEach((result) => {
-    assertFields(result, ["taxableIncome", "estimatedTax", "netIncome"], "Income Tax");
-    Object.values(result).forEach((value) => assertNonNegative(value, "Income Tax output"));
+  const oldRegime = calculateIncomeTaxEstimate({
+    annualSalaryIncome: 1200000,
+    eligibleDeductions: 0,
+    regime: INCOME_TAX_REGIMES.OLD,
   });
-  assert(calculateIncomeTax(0, 0, "new").estimatedTax === 0, "Income Tax zero-income handling");
+  const newRegime = calculateIncomeTaxEstimate({
+    annualSalaryIncome: 1200000,
+    regime: INCOME_TAX_REGIMES.NEW,
+  });
+  [oldRegime, newRegime].forEach((result) => {
+    assertFields(result, ["taxableIncome", "estimatedTax", "rebate", "marginalRelief", "cess"], "Income Tax");
+    assertNonNegative(result.estimatedTax, "Income Tax output");
+    assertNonNegative(result.taxableIncome, "Income Tax taxable income");
+    assertNonNegative(result.marginalRelief, "Income Tax marginal relief");
+  });
+  assert(newRegime.standardDeduction === 75000, "Income Tax new-regime salary standard deduction");
+  assert(oldRegime.standardDeduction === 50000, "Income Tax old-regime salary standard deduction");
+  assert(newRegime.estimatedTax === 0, "Income Tax eligible new-regime ₹12,00,000 salary vector");
+  assert(oldRegime.estimatedTax > 0, "Income Tax old-regime ₹12,00,000 salary vector");
+  assert(calculateIncomeTaxEstimate({ annualSalaryIncome: 0, regime: INCOME_TAX_REGIMES.NEW }).estimatedTax === 0, "Income Tax zero-income handling");
+  const justOverRebate = calculateIncomeTaxEstimate({
+    annualSalaryIncome: 1200001 + 75000,
+    regime: INCOME_TAX_REGIMES.NEW,
+  });
+  assert(justOverRebate.rebate === 0, "Income Tax ordinary 87A rebate must stop above ₹12,00,000 taxable");
+  assert(justOverRebate.marginalRelief > 0, "Income Tax must apply centralized 87A marginal relief just above ₹12,00,000");
+  assert(justOverRebate.estimatedTax !== null, "Income Tax must present a complete total after 87A marginal relief");
 });
 
 runValidation("HRA", () => {

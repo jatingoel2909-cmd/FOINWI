@@ -577,42 +577,49 @@ export const CALCULATOR_INSIGHTS = {
     howCalculated: {
       formulaLabel: "Calculation approach",
       formula:
-        "Taxable Income = Income − Deductions (Old) or − Standard Deduction (New) | Tax = Slabs + 4% cess",
+        "Taxable Income = Salary − salary standard deduction − entered deductions (Old only) | Tax = Slab tax − 87A rebate − 87A marginal relief + 4% cess",
       variables: [
-        { symbol: "Income", meaning: "Annual income used as the starting point" },
         {
-          symbol: "Deductions",
-          meaning: "Selected deductions applied under the Old regime estimate",
+          symbol: "Salary",
+          meaning: "Annual salary income considered for this educational estimate",
         },
         {
-          symbol: "Standard Deduction",
-          meaning: "Simplified deduction applied under the New regime estimate",
+          symbol: "Salary standard deduction",
+          meaning: "Section 16(ia) amount limited to salary: up to ₹75,000 in the new regime and up to ₹50,000 in the old regime for AY 2026-27",
+        },
+        {
+          symbol: "Entered deductions",
+          meaning: "Additional amounts the visitor asks the old-regime estimate to consider after the salary standard deduction; not a legal confirmation",
         },
         {
           symbol: "Taxable Income",
-          meaning: "Income remaining after the regime-specific deduction step",
+          meaning: "Income remaining after the supported deduction steps; never below zero",
         },
         {
-          symbol: "Slabs",
-          meaning: "Progressive tax rates applied to taxable income bands",
+          symbol: "87A rebate",
+          meaning: "Educational rebate estimate for eligible resident-individual normal-rate income at or below the modelled threshold, applied before cess",
+        },
+        {
+          symbol: "87A marginal relief",
+          meaning: "Educational relief estimate for eligible new-regime normal-rate income just above ₹12,00,000, applied before cess",
         },
         {
           symbol: "4% cess",
-          meaning: "Health and education cess added on the calculated tax",
+          meaning: "Health and education cess on tax after rebate or marginal relief. Surcharge is not modelled.",
         },
       ],
       estimateNote:
-        "This estimate calculates illustrative income tax under Old or New regime slab assumptions and simplified deduction inputs.",
+        "This is a simplified FY 2025-26 (AY 2026-27) educational estimate for salary income. Old-regime slabs are for an individual below 60 years. Surcharge is not modelled. Special-rate income such as capital gains is outside this calculator's scope. A salary standard deduction of up to ₹75,000 (new) or ₹50,000 (old), limited to salary, is applied. New-regime Section 87A rebate may apply up to ₹12,00,000 taxable income. Section 87A marginal relief may apply just above that threshold for eligible normal-rate income.",
       summary:
-        "This calculator estimates income tax under Old or New regime using progressive slabs and simplified deduction inputs.",
+        "This calculator estimates income tax for FY 2025-26 (AY 2026-27) using supported salary deductions, progressive slabs, an educational 87A rebate or marginal-relief step, and 4% cess.",
       inputs: [
-        "Annual income",
+        "Annual salary income",
         "Tax regime selection",
-        "Deductions (Old regime) or standard deduction (New regime)",
+        "Eligible deductions considered for the old-regime estimate",
       ],
     },
     meaning:
-      "This can help you compare approximate tax liability across regimes for educational planning. It is not a filing tool.",
+      "This can help you compare a simplified old-regime and new-regime estimate for salary income. It is not a filing tool and does not identify a recommended regime.",
     relatedTools: [
       { title: "HRA Calculator", path: "/hra-calculator" },
       { title: "GST Calculator", path: "/gst-calculator" },

@@ -3,101 +3,88 @@ import CalculatorLayout from "./ui/CalculatorLayout";
 import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import { formatCurrency } from "../utils/calculatorFormat";
-
-const LIMITS = {
-  income: { min: 100000, max: 50000000, step: 50000 },
-  deductions: { min: 0, max: 5000000, step: 10000 },
-};
+import {
+  calculateIncomeTaxEstimate,
+  compareRegimeEstimates,
+} from "../utils/incomeTax/incomeTaxEngine.js";
+import {
+  INCOME_TAX_INPUT_LIMITS,
+  INCOME_TAX_PERIOD,
+  INCOME_TAX_REGIMES,
+  NEW_STANDARD_DEDUCTION,
+  OLD_STANDARD_DEDUCTION,
+  SECTION_87A_EDUCATIONAL_SCOPE_NOTE,
+} from "../utils/incomeTax/incomeTaxRules.js";
 
 const REGIMES = [
-  { value: "old", label: "Old Regime" },
-  { value: "new", label: "New Regime" },
+  { value: INCOME_TAX_REGIMES.NEW, label: "New Regime" },
+  { value: INCOME_TAX_REGIMES.OLD, label: "Old Regime" },
 ];
 
-function calculateOldRegimeTax(taxableIncome) {
-  if (taxableIncome <= 0) return 0;
-
-  let tax = 0;
-
-  if (taxableIncome > 250000) {
-    tax += Math.min(taxableIncome - 250000, 250000) * 0.05;
+function regimeComparisonNote(lowerEstimatedRegime) {
+  if (lowerEstimatedRegime === INCOME_TAX_REGIMES.NEW) {
+    return "New regime has the lower estimated tax in this simplified scenario.";
   }
-  if (taxableIncome > 500000) {
-    tax += Math.min(taxableIncome - 500000, 500000) * 0.2;
+  if (lowerEstimatedRegime === INCOME_TAX_REGIMES.OLD) {
+    return "Old regime has the lower estimated tax in this simplified scenario.";
   }
-  if (taxableIncome > 1000000) {
-    tax += (taxableIncome - 1000000) * 0.3;
-  }
-
-  return tax * 1.04;
-}
-
-function calculateNewRegimeTax(taxableIncome) {
-  if (taxableIncome <= 0) return 0;
-
-  let tax = 0;
-
-  if (taxableIncome > 300000) {
-    tax += Math.min(taxableIncome - 300000, 400000) * 0.05;
-  }
-  if (taxableIncome > 700000) {
-    tax += Math.min(taxableIncome - 700000, 300000) * 0.1;
-  }
-  if (taxableIncome > 1000000) {
-    tax += Math.min(taxableIncome - 1000000, 200000) * 0.15;
-  }
-  if (taxableIncome > 1200000) {
-    tax += Math.min(taxableIncome - 1200000, 300000) * 0.2;
-  }
-  if (taxableIncome > 1500000) {
-    tax += (taxableIncome - 1500000) * 0.3;
-  }
-
-  return tax * 1.04;
+  return "Both regimes produce the same estimated tax in this simplified scenario.";
 }
 
 function IncomeTaxCalculator({
   defaultIncome = 1200000,
-  defaultDeductions = 150000,
-  defaultRegime = "new",
+  defaultDeductions = 0,
+  defaultRegime = INCOME_TAX_REGIMES.NEW,
   className = "",
   showHeader = true,
 }) {
-  const [annualIncome, setAnnualIncome] = useState(defaultIncome);
-  const [deductions, setDeductions] = useState(defaultDeductions);
+  const [annualSalaryIncome, setAnnualSalaryIncome] = useState(defaultIncome);
+  const [eligibleDeductions, setEligibleDeductions] = useState(defaultDeductions);
   const [regime, setRegime] = useState(defaultRegime);
 
-  const taxableIncome =
-    regime === "old"
-      ? Math.max(0, annualIncome - deductions)
-      : Math.max(0, annualIncome - 75000);
-
-  const estimatedTax =
-    regime === "old"
-      ? calculateOldRegimeTax(taxableIncome)
-      : calculateNewRegimeTax(taxableIncome);
-
-  const netIncome = Math.max(0, annualIncome - estimatedTax);
-  const isNewRegime = regime === "new";
+  const estimate = calculateIncomeTaxEstimate({
+    annualSalaryIncome,
+    regime,
+    eligibleDeductions,
+  });
+  const comparison = compareRegimeEstimates({
+    annualSalaryIncome,
+    eligibleDeductions,
+  });
+  const isNewRegime = estimate.regime === INCOME_TAX_REGIMES.NEW;
 
   return (
     <CalculatorLayout
       label="Income Tax Calculator"
-      title="Estimate your income tax liability"
-      description="Approximate tax calculation for Old and New regimes using simplified Indian income tax slabs."
+      title="Educational tax estimate"
+      description="This calculator provides a simplified estimate for FY 2025-26 (AY 2026-27). Actual tax liability can differ based on residency, age, income type, exemptions, deductions, special-rate income, rebate eligibility, surcharge, marginal relief and other provisions."
       showHeader={showHeader}
       variant="alt"
       className={className}
       calculatorId="/income-tax-calculator"
+      simplifiedModelNotice
       form={
         <>
+          <p className="calc-field__helper" id="it-period">
+            {INCOME_TAX_PERIOD.label}. Educational estimate for salary income.
+            Old-regime slabs are for an individual below 60 years. Surcharge is
+            not modelled, so this estimator is scoped to income up to ₹50 lakh.
+            {" "}
+            {SECTION_87A_EDUCATIONAL_SCOPE_NOTE}
+          </p>
           <CurrencyInput
             id="it-income"
-            label="Annual Income"
-            value={annualIncome}
-            onChange={setAnnualIncome}
-            limits={LIMITS.income}
+            label="Annual Salary Income"
+            value={annualSalaryIncome}
+            onChange={setAnnualSalaryIncome}
+            limits={INCOME_TAX_INPUT_LIMITS.annualSalaryIncome}
           />
+          <p className="calc-field__helper" id="it-income-helper">
+            This field is treated as salary income for the educational estimate.
+            {isNewRegime
+              ? ` A salary standard deduction of up to ₹${NEW_STANDARD_DEDUCTION.toLocaleString("en-IN")} is applied, or salary income if lower.`
+              : ` A salary standard deduction of up to ₹${OLD_STANDARD_DEDUCTION.toLocaleString("en-IN")} is applied, or salary income if lower.`}
+          </p>
           <div className="calc-field">
             <label className="calc-field__label" htmlFor="it-regime">
               Regime
@@ -107,7 +94,7 @@ function IncomeTaxCalculator({
               className="calc-field__select"
               value={regime}
               onChange={(e) => setRegime(e.target.value)}
-              aria-describedby={isNewRegime ? "it-regime-helper" : undefined}
+              aria-describedby="it-regime-helper"
             >
               {REGIMES.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -118,33 +105,74 @@ function IncomeTaxCalculator({
           </div>
           {isNewRegime ? (
             <p className="calc-field__helper" id="it-regime-helper">
-              The New Regime automatically applies the standard deduction where applicable.
-              Additional deductions are not required.
+              New-regime estimation applies only the salary standard deduction
+              supported here. It does not include every deduction that may be
+              available under the new regime.
             </p>
           ) : (
-            <CurrencyInput
-              id="it-deductions"
-              label="Deductions"
-              value={deductions}
-              onChange={setDeductions}
-              limits={LIMITS.deductions}
-            />
+            <>
+              <p className="calc-field__helper" id="it-regime-helper">
+                Old-regime estimation is scoped to an individual below 60 years.
+                The salary standard deduction is applied first and is separate
+                from amounts entered below. Enter only additional amounts you
+                want this simplified estimate to treat as eligible deductions.
+                Limits and eligibility, including any 80C items, still apply
+                outside this calculator.
+              </p>
+              <CurrencyInput
+                id="it-deductions"
+                label="Eligible deductions considered for this simplified estimate"
+                value={eligibleDeductions}
+                onChange={setEligibleDeductions}
+                limits={INCOME_TAX_INPUT_LIMITS.eligibleDeductions}
+              />
+            </>
           )}
         </>
       }
       results={
         <CalculatorResults
-          primary={{ label: "Estimated Tax", value: formatCurrency(estimatedTax) }}
+          headerTitle="Educational tax estimate"
+          headerSubtitle={INCOME_TAX_PERIOD.label}
+          primary={{
+            label: "Estimated total tax",
+            value: formatCurrency(estimate.estimatedTax),
+          }}
           metrics={[
-            { label: "Annual Income", value: formatCurrency(annualIncome) },
-            { label: "Taxable Income", value: formatCurrency(taxableIncome) },
-            { label: "Net Income", value: formatCurrency(netIncome) },
+            { label: "Income considered", value: formatCurrency(estimate.incomeConsidered) },
+            {
+              label: "Salary standard deduction",
+              value: formatCurrency(estimate.standardDeduction),
+            },
+            {
+              label: "Other deductions considered",
+              value: isNewRegime ? "Not applied" : formatCurrency(estimate.otherDeductions),
+            },
+            { label: "Estimated taxable income", value: formatCurrency(estimate.taxableIncome) },
+            { label: "Slab tax", value: formatCurrency(estimate.slabTax) },
+            {
+              label: "Section 87A rebate",
+              value: estimate.rebate > 0 ? formatCurrency(estimate.rebate) : "Not applied",
+            },
+            {
+              label: "Section 87A marginal relief",
+              value: estimate.marginalRelief > 0 ? formatCurrency(estimate.marginalRelief) : "Not applied",
+            },
+            {
+              label: "Tax after rebate / relief",
+              value: formatCurrency(estimate.taxAfterRebate),
+            },
+            {
+              label: "Health & Education Cess",
+              value: formatCurrency(estimate.cess),
+            },
+            { label: "Surcharge", value: "Not modelled" },
             {
               label: "Regime",
-              value: isNewRegime ? "New Regime" : "Old Regime",
+              value: isNewRegime ? "New Regime" : "Old Regime · below 60",
             },
           ]}
-          story="This simplified estimate compares tax under your selected regime. Actual liability can change with exemptions, rebates, and filing details."
+          story={`${regimeComparisonNote(comparison.lowerEstimatedRegime)} ${SECTION_87A_EDUCATIONAL_SCOPE_NOTE} Surcharge is not modelled.`}
         />
       }
     />
