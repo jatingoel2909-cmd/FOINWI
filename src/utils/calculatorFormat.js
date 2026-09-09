@@ -13,7 +13,7 @@ export function formatCurrency(value) {
 export function formatDisplayValue(value, format) {
   if (format === "currency") return formatCurrency(value);
   if (format === "percent") {
-    return `${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 1 }).format(value)}%`;
+    return `${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value)}%`;
   }
   if (format === "years") {
     return `${value} ${value === 1 ? "year" : "years"}`;

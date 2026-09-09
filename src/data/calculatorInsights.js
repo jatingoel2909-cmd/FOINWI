@@ -408,43 +408,47 @@ export const CALCULATOR_INSIGHTS = {
   "/epf-calculator": {
     howCalculated: {
       formulaLabel: "Simplified calculation expression",
-      formula: "Monthly EPF = Basic × (12% + 3.67%). Corpus = FV of balance + monthly contributions",
+      formula:
+        "contributionWage = min(Monthly PF wages, ₹15,000). employeeEPF and employerTotal = rounded contributionWage × 12%. employerEPS = rounded contributionWage × 8.33%. employerEPF = employerTotal − employerEPS. Projected balance uses a monthly running-balance approximation on employeeEPF + employerEPF only.",
       variables: [
-        { symbol: "Basic", meaning: "Current monthly basic salary" },
+        {
+          symbol: "Monthly PF wages",
+          meaning: "Visitor-entered wage amount applicable for provident-fund contribution purposes. This may differ from Basic salary alone.",
+        },
+        {
+          symbol: "contributionWage",
+          meaning: "Lower of Monthly PF wages and the ₹15,000 statutory wage ceiling used in this estimate (S.O. 2702(E), 29 May 2026)",
+        },
         {
           symbol: "12%",
-          meaning: "Employee EPF contribution rate used in the estimate",
+          meaning: "General employee and employer contribution rates used in this estimate, consistent with current EPFO operational treatment",
         },
         {
-          symbol: "3.67%",
-          meaning: "Employer EPF contribution portion used in the estimate",
+          symbol: "8.33%",
+          meaning: "Employer share diverted to EPS and excluded from the projected EPF balance",
         },
         {
-          symbol: "Monthly EPF",
-          meaning: "Combined monthly contribution added to the EPF account",
+          symbol: "employerEPF",
+          meaning: "Residual employer amount entering the projected EPF corpus after EPS diversion",
         },
         {
-          symbol: "Corpus",
-          meaning: "Estimated EPF balance from existing balance plus future contributions",
-        },
-        {
-          symbol: "FV",
-          meaning: "Future value with assumed EPF interest compounding",
+          symbol: "Projected balance",
+          meaning: "Illustrative EPF accumulation from the current balance plus employee EPF and residual employer EPF",
         },
       ],
       estimateNote:
-        "This estimate projects EPF corpus growth from salary-linked contributions and an assumed interest rate until retirement.",
+        "Educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member under the Code on Social Security, 2020. The Employees' Provident Fund Scheme, 2026 has been issued under the current framework. This simplified calculator uses the standard contribution assumptions described here and does not model every membership or payroll case. 8.25% is the last Government-approved/notified rate verified for FY 2024-25 and is used only as an illustrative interest assumption. Specified 10% establishments, higher-wage contribution, voluntary provident-fund top-ups, and a new joiner above ₹15,000 who is not an EPS member are outside this default estimate.",
       summary:
-        "This calculator projects EPF corpus using employee and employer EPF contributions with monthly compounding.",
+        "This calculator uses a simplified projection using a monthly running-balance approximation and a constant illustrative annual interest assumption. EPS is not added to the projected EPF corpus.",
       inputs: [
-        "Current monthly basic salary",
+        "Monthly PF wages",
         "Current EPF balance",
-        "Years until retirement",
-        "Expected EPF interest rate",
+        "Years remaining",
+        "Illustrative EPF interest assumption",
       ],
     },
     meaning:
-      "This can help you understand how salary-linked EPF contributions may build toward retirement corpus over time.",
+      "This can help you explore how statutory-ceiling EPF contributions and an illustrative interest assumption may shape an estimated EPF balance over time.",
     relatedTools: [
       { title: "NPS Calculator", path: "/nps-calculator" },
       { title: "Retirement Calculator", path: "/retirement-calculator" },

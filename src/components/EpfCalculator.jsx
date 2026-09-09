@@ -4,105 +4,145 @@ import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
 import { formatCurrency } from "../utils/calculatorFormat";
-
-const LIMITS = {
-  salary: { min: 5000, max: 150000, step: 1000 },
-  balance: { min: 0, max: 50000000, step: 10000 },
-  rate: { min: 5, max: 12, step: 0.1 },
-  years: { min: 1, max: 40, step: 1 },
-};
-
-const EPF_EMPLOYEE_RATE = 0.12;
-const EPF_EMPLOYER_RATE = 0.0367;
-
-function calculateEpfCorpus(basicSalary, currentBalance, rate, years) {
-  const months = years * 12;
-  const monthlyRate = rate / 12 / 100;
-  const monthlyContribution = basicSalary * (EPF_EMPLOYEE_RATE + EPF_EMPLOYER_RATE);
-
-  if (monthlyRate === 0) {
-    return currentBalance + monthlyContribution * months;
-  }
-
-  const balanceGrowth = currentBalance * Math.pow(1 + monthlyRate, months);
-  const contributionGrowth =
-    monthlyContribution *
-    (((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate));
-
-  return balanceGrowth + contributionGrowth;
-}
+import { calculateEpfEstimate } from "../utils/epf/epfEngine.js";
+import {
+  EPF_CEILING_LABEL,
+  EPF_CEILING_NOTE,
+  EPF_CONTRIBUTION_WAGE_LABEL,
+  EPF_HIGHER_WAGE_SCOPE_NOTE,
+  EPF_ILLUSTRATIVE_INTEREST_RATE,
+  EPF_INPUT_LIMITS,
+  EPF_INTEREST_HELPER_NOTE,
+  EPF_INTEREST_INPUT_LABEL,
+  EPF_LEGAL_FRAMEWORK,
+  EPF_NEW_JOINER_SCOPE_NOTE,
+  EPF_PROJECTION_METHOD_NOTE,
+  EPF_RATE_OPERATIONAL_NOTE,
+  EPF_SCHEME_FRAMEWORK_NOTE,
+  EPF_SCOPE_NOTE,
+  EPF_TEN_PERCENT_SCOPE_NOTE,
+  EPF_WAGE_BASIS_LABEL,
+  EPF_WAGE_CEILING,
+  EPF_WAGE_HELPER_NOTE,
+} from "../utils/epf/epfRules.js";
 
 function EpfCalculator({
-  defaultSalary = 30000,
+  defaultPFWages = 30000,
   defaultBalance = 200000,
-  defaultRate = 8.15,
+  defaultRate = EPF_ILLUSTRATIVE_INTEREST_RATE,
   defaultYears = 20,
   className = "",
   showHeader = true,
 }) {
-  const [salary, setSalary] = useState(defaultSalary);
-  const [balance, setBalance] = useState(defaultBalance);
-  const [rate, setRate] = useState(defaultRate);
+  const [monthlyPFWages, setMonthlyPFWages] = useState(defaultPFWages);
+  const [currentBalance, setCurrentBalance] = useState(defaultBalance);
+  const [annualInterestRate, setAnnualInterestRate] = useState(defaultRate);
   const [years, setYears] = useState(defaultYears);
 
-  const monthlyContribution = salary * (EPF_EMPLOYEE_RATE + EPF_EMPLOYER_RATE);
-  const totalContributions = monthlyContribution * years * 12;
-  const corpus = calculateEpfCorpus(salary, balance, rate, years);
-  const interestEarned = corpus - balance - totalContributions;
+  const estimate = calculateEpfEstimate({
+    monthlyPFWages,
+    currentBalance,
+    annualInterestRate,
+    years,
+  });
 
   return (
     <CalculatorLayout
       label="Employees' Provident Fund (EPF) Calculator"
-      title="Project your EPF retirement corpus"
-      description="Estimate Employees' Provident Fund (EPF) balance growth based on monthly basic salary, current balance, interest rate, and remaining service years."
+      title="Explore an illustrative EPF accumulation estimate"
+      description="Educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member using statutory contribution assumptions under the Code on Social Security, 2020 and current EPFO operational treatment."
       showHeader={showHeader}
       variant="default"
       className={className}
       calculatorId="/epf-calculator"
+      simplifiedModelNotice
       form={
         <>
+          <p className="calc-field__helper" id="epf-scope">
+            {EPF_SCOPE_NOTE}
+            {" "}
+            {EPF_RATE_OPERATIONAL_NOTE}
+            {" "}
+            {EPF_TEN_PERCENT_SCOPE_NOTE}
+            {" "}
+            {EPF_HIGHER_WAGE_SCOPE_NOTE}
+            {" "}
+            {EPF_NEW_JOINER_SCOPE_NOTE}
+            {" "}
+            {EPF_SCHEME_FRAMEWORK_NOTE}
+          </p>
           <CurrencyInput
-            id="epf-salary"
-            label="Monthly Basic Salary"
-            value={salary}
-            onChange={setSalary}
-            limits={LIMITS.salary}
+            id="epf-wages"
+            label={EPF_WAGE_BASIS_LABEL}
+            value={monthlyPFWages}
+            onChange={setMonthlyPFWages}
+            limits={EPF_INPUT_LIMITS.monthlyPFWages}
           />
+          <p className="calc-field__helper" id="epf-wages-helper">
+            {EPF_WAGE_HELPER_NOTE}
+          </p>
+          <p className="calc-field__helper" id="epf-ceiling-helper">
+            {EPF_CEILING_NOTE}
+          </p>
           <CurrencyInput
             id="epf-balance"
             label="Current EPF Balance"
-            value={balance}
-            onChange={setBalance}
-            limits={LIMITS.balance}
+            value={currentBalance}
+            onChange={setCurrentBalance}
+            limits={EPF_INPUT_LIMITS.currentBalance}
           />
           <InputField
             id="epf-rate"
-            label="Interest Rate (%)"
-            value={rate}
-            onChange={setRate}
+            label={`${EPF_INTEREST_INPUT_LABEL} (%)`}
+            value={annualInterestRate}
+            onChange={setAnnualInterestRate}
             format="percent"
-            limits={LIMITS.rate}
+            limits={EPF_INPUT_LIMITS.annualInterestRate}
           />
+          <p className="calc-field__helper" id="epf-rate-helper">
+            {EPF_INTEREST_HELPER_NOTE}
+          </p>
           <InputField
             id="epf-years"
-            label="Years Until Retirement"
+            label="Years remaining"
             value={years}
             onChange={setYears}
             format="years"
-            limits={LIMITS.years}
+            limits={EPF_INPUT_LIMITS.years}
           />
         </>
       }
       results={
         <CalculatorResults
-          primary={{ label: "Estimated EPF Corpus", value: formatCurrency(corpus) }}
+          headerTitle="Illustrative EPF estimate"
+          headerSubtitle={`${EPF_LEGAL_FRAMEWORK} — simplified statutory contribution model`}
+          primary={{
+            label: "Projected EPF balance",
+            value: formatCurrency(estimate.projectedBalance),
+          }}
           metrics={[
-            { label: "Current Balance", value: formatCurrency(balance) },
-            { label: "Total Contributions", value: formatCurrency(totalContributions) },
-            { label: "Interest Earned", value: formatCurrency(interestEarned) },
-            { label: "Years Until Retirement", value: `${years} years` },
+            { label: EPF_WAGE_BASIS_LABEL, value: formatCurrency(estimate.monthlyPFWages) },
+            { label: EPF_CONTRIBUTION_WAGE_LABEL, value: formatCurrency(estimate.contributionWage) },
+            { label: EPF_CEILING_LABEL, value: formatCurrency(EPF_WAGE_CEILING) },
+            { label: "Employee EPF contribution", value: formatCurrency(estimate.employeeEPF) },
+            { label: "Employer total contribution", value: formatCurrency(estimate.employerTotal) },
+            { label: "Employer EPS diversion", value: formatCurrency(estimate.employerEPS) },
+            {
+              label: "Employer EPF contribution entering corpus",
+              value: formatCurrency(estimate.employerEPF),
+            },
+            {
+              label: "Combined monthly EPF entering projected corpus",
+              value: formatCurrency(estimate.monthlyEpfEnteringCorpus),
+            },
+            { label: "Current EPF Balance", value: formatCurrency(estimate.currentBalance) },
+            {
+              label: EPF_INTEREST_INPUT_LABEL,
+              value: `${estimate.annualInterestRate}%`,
+            },
+            { label: "Years remaining", value: `${estimate.years} years` },
           ]}
-          story="EPF corpus grows from existing balance plus ongoing contributions. Interest rate assumptions can change over long service periods."
+          story={`${EPF_PROJECTION_METHOD_NOTE} ${EPF_RATE_OPERATIONAL_NOTE} ${EPF_CEILING_NOTE} ${EPF_INTEREST_HELPER_NOTE} ${EPF_TEN_PERCENT_SCOPE_NOTE} ${EPF_HIGHER_WAGE_SCOPE_NOTE} ${EPF_NEW_JOINER_SCOPE_NOTE}`}
         />
       }
     />

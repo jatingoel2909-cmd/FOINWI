@@ -25,6 +25,7 @@ import {
 import { calculateIncomeTaxEstimate } from "../src/utils/incomeTax/incomeTaxEngine.js";
 import { INCOME_TAX_REGIMES } from "../src/utils/incomeTax/incomeTaxRules.js";
 import { calculateGratuityEstimate } from "../src/utils/gratuity/gratuityEngine.js";
+import { calculateEpfEstimate } from "../src/utils/epf/epfEngine.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -336,12 +337,24 @@ runValidation("Gratuity", () => {
 });
 
 runValidation("EPF", () => {
-  const monthlyContribution = 30000 * (0.12 + 0.0367);
-  const corpus = 200000 * (1 + 8.15 / 12 / 100) ** 240 + futureValueOfMonthlyDeposits(monthlyContribution, 8.15, 20);
-  const result = { corpus, totalContributions: monthlyContribution * 240, interestEarned: corpus - 200000 - monthlyContribution * 240 };
-  assertFields(result, ["corpus", "totalContributions", "interestEarned"], "EPF");
-  Object.values(result).forEach((value) => assertNonNegative(value, "EPF output"));
-  assertFiniteNumber(corpus, "EPF decimal-rate case");
+  const result = calculateEpfEstimate({
+    monthlyPFWages: 30000,
+    currentBalance: 200000,
+    annualInterestRate: 8.25,
+    years: 20,
+  });
+  assertFields(result, ["projectedBalance", "totalEpfContributions", "interestEarned", "contributionWage", "employerEPS", "employerEPF"], "EPF");
+  assert(result.contributionWage === 15000, "EPF above-ceiling wages must use ₹15,000");
+  assert(result.employeeEPF === 1800, "EPF employee contribution at the ceiling");
+  assert(result.employerTotal === 1800, "EPF employer total at the ceiling");
+  assert(result.employerEPS === 1250, "EPF EPS diversion at the ceiling");
+  assert(result.employerEPF === 550, "EPF residual employer share at the ceiling");
+  assert(result.monthlyEpfEnteringCorpus === 2350, "EPF corpus contribution must exclude EPS");
+  assert(result.annualInterestRate === 8.25, "EPF illustrative rate fixture");
+  Object.values(result).forEach((value) => {
+    if (typeof value === "number") assertNonNegative(value, "EPF output");
+  });
+  assertFiniteNumber(result.projectedBalance, "EPF projected balance");
 });
 
 runValidation("NPS", () => {
