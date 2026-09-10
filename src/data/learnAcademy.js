@@ -688,9 +688,9 @@ const FULL_LESSON_CONTENT = Object.freeze({
   "income-tax-basics/gst-in-everyday-purchases": {
     simpleExplanation: "GST is a tax that may be included in, or added to, the price of many goods and services.",
     whyItMatters: "It helps you read whether a quoted amount already includes tax.",
-    keyIdeas: ["Inclusive and exclusive prices mean different things.", "Applicable rates can vary by transaction.", "A calculator performs arithmetic, not compliance."],
+    keyIdeas: ["Inclusive and exclusive prices mean different things.", "Enter the GST rate applicable to the transaction; FOINWI does not determine that rate.", "A calculator performs arithmetic, not compliance."],
     deeperExplanation: "GST treatment depends on the nature of the supply and current rules. Use official guidance for an invoicing or compliance question.",
-    example: "A GST calculator can add or remove an assumed GST percentage from an illustrative amount.",
+    example: "A GST calculator can estimate GST arithmetic from an illustrative amount using a visitor-entered applicable rate.",
     nextSteps: ["Return to money basics to connect price, tax, and budgeting."],
     relatedLessonRefs: ["saving-budgeting/building-a-monthly-budget", "income-tax-basics/income-tax-overview-in-india"],
   },

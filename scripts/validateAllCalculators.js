@@ -30,6 +30,7 @@ import { calculatePpfEstimate } from "../src/utils/ppf/ppfEngine.js";
 import { calculateHraEstimate } from "../src/utils/hra/hraEngine.js";
 import { HRA_CITY_CATEGORY_50 } from "../src/utils/hra/hraRules.js";
 import { calculateNpsEstimate } from "../src/utils/nps/npsEngine.js";
+import { calculateGstEstimate } from "../src/utils/gst/gstEngine.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -417,14 +418,20 @@ runValidation("Loan Prepayment", () => {
 });
 
 runValidation("GST", () => {
-  const add = { baseAmount: 10000, gstAmount: 1800, totalAmount: 11800 };
-  const baseAmount = 11800 / 1.18;
-  const remove = { baseAmount, gstAmount: 11800 - baseAmount, totalAmount: 11800 };
-  [add, remove].forEach((result) => {
-    assertFields(result, ["baseAmount", "gstAmount", "totalAmount"], "GST");
-    Object.values(result).forEach((value) => assertNonNegative(value, "GST output"));
+  const add = calculateGstEstimate({ amount: 10000, gstRatePercent: 18, mode: "add" });
+  const extract = calculateGstEstimate({ amount: 11800, gstRatePercent: 18, mode: "extract" });
+  [add, extract].forEach((result) => {
+    assert(result.valid === true, "GST production result must be valid");
+    assertFields(result, ["taxableValue", "gstAmount", "invoiceValue"], "GST");
+    ["taxableValue", "gstAmount", "invoiceValue"].forEach((field) => {
+      assertNonNegative(result[field], `GST ${field}`);
+    });
   });
-  assert(nearlyEqual(remove.baseAmount, 10000), "GST removal should recover base amount");
+  assert(add.gstAmount === 1800, "GST add 18% on ₹10,000 must be ₹1,800");
+  assert(add.invoiceValue === 11800, "GST add invoice value must be ₹11,800");
+  assert(nearlyEqual(extract.taxableValue, 10000), "GST extract must recover taxable value");
+  assert(nearlyEqual(extract.gstAmount, 1800), "GST extract must recover GST ₹1,800");
+  assert(!nearlyEqual(extract.gstAmount, 11800 * 18 / 100), "GST extract must not use inclusive × rate / 100");
 });
 
 runValidation("Income Tax", () => {

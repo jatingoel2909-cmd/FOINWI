@@ -102,7 +102,7 @@ export const FINANCIAL_JOURNEYS = [
     calculators: [
       { title: "Income Tax Calculator", path: "/income-tax-calculator", desc: "Compare Old and New regime tax estimates." },
       { title: "HRA Calculator", path: "/hra-calculator", desc: "Explore an educational monthly HRA exemption estimate for FY 2026-27." },
-      { title: "GST Calculator", path: "/gst-calculator", desc: "Understand GST on purchases and invoices." },
+      { title: "GST Calculator", path: "/gst-calculator", desc: "Estimate GST arithmetic for a visitor-entered applicable rate." },
       { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore an illustrative PPF accumulation estimate." },
     ],
     learningModules: [

@@ -124,6 +124,38 @@
   line-height: 1.6;
 }
 
+.calc-preset-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.calc-preset {
+  min-height: var(--fw-touch-min, 44px);
+  padding: 8px 14px;
+  border-radius: var(--fw-radius-md);
+  border: 1px solid var(--fw-border-strong);
+  background: var(--fw-input-bg);
+  color: var(--fw-text-primary);
+  font-weight: 700;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.calc-preset:hover,
+.calc-preset:focus-visible {
+  border-color: var(--fw-accent-bright);
+  color: var(--fw-accent);
+  outline: none;
+}
+
+.calc-preset--active {
+  border-color: var(--fw-accent);
+  color: var(--fw-accent);
+  background: rgba(212, 175, 55, 0.12);
+}
+
 .calc-field {
   display: grid;
   gap: 10px;

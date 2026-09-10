@@ -35,7 +35,7 @@ export const GUIDE_RESOURCE_CATALOG = Object.freeze({
   compound: { type: "CALCULATE", path: "/compound-interest-calculator", title: "Compound Interest Calculator", description: "See how compounding changes an illustrative amount over time." },
   tax: { type: "CALCULATE", path: "/income-tax-calculator", title: "Income Tax Calculator", description: "Explore a tax estimate using the calculator’s stated assumptions." },
   hra: { type: "CALCULATE", path: "/hra-calculator", title: "HRA Calculator", description: "Explore an educational monthly HRA exemption estimate for FY 2026-27." },
-  gst: { type: "CALCULATE", path: "/gst-calculator", title: "GST Calculator", description: "Add or remove Goods and Services Tax from an amount." },
+  gst: { type: "CALCULATE", path: "/gst-calculator", title: "GST Calculator", description: "Estimate GST arithmetic using a visitor-entered applicable rate." },
   gratuity: { type: "CALCULATE", path: "/gratuity-calculator", title: "Gratuity Calculator", description: "Explore an illustrative gratuity estimate." },
   taxLesson: { type: "LEARN", path: "/learn/income-tax-basics", title: "Income Tax Basics", description: "Learn tax terms and calculator assumptions in plain language." },
   taxJourney: { type: "EXPLORE", path: "/journeys/save-tax", title: "Tax & Salary Journey", description: "Explore tax and salary planning concepts step by step." },

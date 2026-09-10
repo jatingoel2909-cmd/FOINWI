@@ -386,22 +386,22 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/gst-calculator": {
     whyGenerated:
-      "GST amount is computed from the entered value and rate — either adding tax to a base price or extracting tax from a tax-inclusive price.",
+      "This calculator estimates transaction-level GST arithmetic only, using a visitor-entered applicable GST rate. FOINWI does not determine the legally applicable rate. It does not calculate GST return liability or input tax credit.",
     keyInputs: [
-      "Amount entered — base or inclusive price depending on mode",
-      "GST rate — percentage applied or extracted",
-      "Add vs remove mode — changes which formula is used",
+      "Taxable value or GST-inclusive amount — depending on calculation type",
+      "Applicable GST rate (%) — entered by the visitor; 18% is only this calculator's starting value",
+      "Add GST to taxable value, or extract GST from a GST-inclusive amount",
     ],
     ifInputsChange: [
-      "Higher amount → higher GST value",
-      "Higher rate → more tax",
-      "Switching inclusive vs exclusive changes how base and tax split",
+      "A higher taxable value or inclusive amount changes the estimated GST component",
+      "A higher visitor-entered rate increases the estimated GST component",
+      "Switching add and extract changes whether GST is added or taken out of the entered amount",
     ],
     beginnerMistakes: [
       "Applying GST twice on the same amount",
-      "Using the wrong rate for goods vs services categories",
-      "Confusing CGST/SGST components with the total rate",
-      "Not checking whether a quote is inclusive of GST",
+      "Treating 18% as FOINWI's classification of the transaction",
+      "Subtracting rate% from a GST-inclusive amount instead of using inclusive amount × rate / (100 + rate)",
+      "Not checking whether a quote already includes GST",
     ],
     relatedCalculators: ["/income-tax-calculator"],
     relatedLessons: ["income-tax-basics"],

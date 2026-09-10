@@ -582,24 +582,22 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/gst-calculator": {
     howCalculated: {
-      formula: "Add GST: GST = Amount × Rate / 100 | Remove GST: Base = Amount / (1 + Rate / 100)",
+      formula:
+        "Add GST to taxable value: GST component = taxable value × rate / 100 | Extract GST: GST component = inclusive amount × rate / (100 + rate)",
       variables: [
-        { symbol: "Amount", meaning: "Base amount (add GST) or tax-inclusive amount (remove GST)" },
-        { symbol: "Rate", meaning: "Selected GST percentage" },
-        { symbol: "GST", meaning: "Estimated tax amount when GST is added" },
-        {
-          symbol: "Base",
-          meaning: "Estimated pre-tax amount when GST is removed from an inclusive total",
-        },
+        { symbol: "Taxable value", meaning: "Amount before GST in add mode" },
+        { symbol: "GST-inclusive amount", meaning: "Total that already includes GST in extract mode" },
+        { symbol: "Rate", meaning: "Visitor-entered applicable GST rate" },
+        { symbol: "GST component", meaning: "Estimated GST arithmetic for the entered rate" },
       ],
       estimateNote:
-        "These formulas estimate GST-inclusive or GST-exclusive amounts for a selected rate under simplified tax assumptions.",
+        "This calculator estimates transaction-level GST arithmetic only. It does not calculate GST return liability or input tax credit. Compensation cess, where applicable, is not included. FOINWI does not determine the legally applicable rate. 18% is only this calculator's starting value.",
       summary:
-        "This calculator adds GST to a base amount or removes GST from a tax-inclusive amount using the selected GST rate.",
-      inputs: ["Amount", "GST rate", "Add or remove GST mode"],
+        "Educational GST arithmetic for a visitor-entered applicable rate: add GST to taxable value, or extract GST from a GST-inclusive amount.",
+      inputs: ["Taxable value or GST-inclusive amount", "Applicable GST rate", "Add or extract mode"],
     },
     meaning:
-      "This can help you understand tax-inclusive and tax-exclusive amounts for invoices, purchases, or basic GST checks.",
+      "This can help you read whether a quoted amount is before GST or already GST-inclusive, using a rate you enter.",
     relatedTools: [
       { title: "Income Tax Calculator", path: "/income-tax-calculator" },
       { title: "HRA Calculator", path: "/hra-calculator" },

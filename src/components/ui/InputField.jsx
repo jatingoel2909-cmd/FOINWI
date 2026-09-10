@@ -21,7 +21,7 @@ function InputField({
   const [displayValue, setDisplayValue] = useState(String(value));
   const [error, setError] = useState("");
 
-  const inputMode = format === "percent" ? "decimal" : "numeric";
+  const inputMode = format === "percent" || format === "currencyPaise" ? "decimal" : "numeric";
 
   const handleFocus = () => {
     setIsFocused(true);

@@ -10,8 +10,19 @@ export function formatCurrency(value) {
   }).format(value);
 }
 
+export function formatCurrencyPaise(value) {
+  if (!Number.isFinite(Number(value))) return "—";
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 export function formatDisplayValue(value, format) {
   if (format === "currency") return formatCurrency(value);
+  if (format === "currencyPaise") return formatCurrencyPaise(value);
   if (format === "percent") {
     return `${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value)}%`;
   }
@@ -44,12 +55,14 @@ export function parseDecimalInput(str) {
 export function getValidationError(value, limits, format) {
   if (value < limits.min) {
     if (format === "currency") return `Minimum is ${formatCurrency(limits.min)}`;
+    if (format === "currencyPaise") return `Minimum is ${formatCurrencyPaise(limits.min)}`;
     if (format === "percent") return `Minimum is ${limits.min}%`;
     if (format === "years") return `Minimum is ${limits.min} year${limits.min === 1 ? "" : "s"}`;
     return `Minimum is ${limits.min}`;
   }
   if (value > limits.max) {
     if (format === "currency") return `Maximum is ${formatCurrency(limits.max)}`;
+    if (format === "currencyPaise") return `Maximum is ${formatCurrencyPaise(limits.max)}`;
     if (format === "percent") return `Maximum is ${limits.max}%`;
     if (format === "years") return `Maximum is ${limits.max} years`;
     return `Maximum is ${limits.max}`;
@@ -58,6 +71,6 @@ export function getValidationError(value, limits, format) {
 }
 
 export function parseFormattedInput(raw, format) {
-  if (format === "percent") return parseDecimalInput(raw);
+  if (format === "percent" || format === "currencyPaise") return parseDecimalInput(raw);
   return parseIntegerInput(raw);
 }

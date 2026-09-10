@@ -15,7 +15,7 @@ export const ALL_CALCULATORS = [
   { icon: "🛡️", title: "NPS Calculator", desc: "Explore an educational NPS accumulation and normal-exit illustration.", path: "/nps-calculator" },
   { icon: "🏠", title: "Home Loan Eligibility Calculator", desc: "Estimate home loan you may qualify for.", path: "/home-loan-eligibility-calculator" },
   { icon: "💸", title: "Loan Prepayment Calculator", desc: "See interest saved from loan prepayment.", path: "/loan-prepayment-calculator" },
-  { icon: "🧾", title: "GST Calculator", desc: "Add or remove GST from any amount.", path: "/gst-calculator" },
+  { icon: "🧾", title: "GST Calculator", desc: "Estimate GST arithmetic for a visitor-entered applicable rate.", path: "/gst-calculator" },
   { icon: "📋", title: "Income Tax Calculator", desc: "Educational tax estimate for AY 2026-27.", path: "/income-tax-calculator" },
   { icon: "🏢", title: "HRA Calculator", desc: "Explore an educational monthly HRA exemption estimate for FY 2026-27.", path: "/hra-calculator" },
   { icon: "📐", title: "Compound Interest Calculator", desc: "Project growth with compounding frequency.", path: "/compound-interest-calculator" },
