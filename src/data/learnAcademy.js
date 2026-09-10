@@ -378,7 +378,7 @@ const RAW_LEARNING_PATHS = [
         id: 3,
         title: "NPS Overview",
         summary:
-          "National Pension System (NPS) is a voluntary retirement scheme with market-linked returns. A portion of the corpus must be used to purchase an annuity at retirement under current rules.",
+          "National Pension System (NPS) is a voluntary retirement scheme with market-linked returns. Exit and annuity rules depend on subscriber type, exit path, and corpus size. FOINWI’s calculator illustrates one non-Government All Citizen normal-exit case.",
         calculators: ["/nps-calculator"],
       },
       {
@@ -749,10 +749,10 @@ const FULL_LESSON_CONTENT = Object.freeze({
     relatedLessonRefs: ["retirement-planning/nps-overview", "retirement-planning/retirement-corpus-basics"],
   },
   "retirement-planning/nps-overview": {
-    simpleExplanation: "NPS is a retirement-focused scheme with features and rules that require current official verification.",
-    whyItMatters: "It introduces how a long-term retirement scheme can differ from a simple savings account.",
+    simpleExplanation: "NPS is a retirement-focused scheme with market-linked returns and rules that depend on subscriber type and exit path.",
+    whyItMatters: "It introduces how a long-term retirement scheme can differ from a simple savings account, and why one calculator cannot cover every NPS case.",
     keyIdeas: ["Outcomes can be market-linked.", "Scheme rules can change.", "Calculator results are educational illustrations."],
-    deeperExplanation: "Contribution, withdrawal, tax, and annuity treatment depend on current scheme terms. This lesson does not provide an NPS action or suitability recommendation.",
+    deeperExplanation: "Contribution, withdrawal, tax, and annuity treatment depend on current scheme terms, subscriber type, and corpus size. This lesson does not provide an NPS action or suitability recommendation. FOINWI’s calculator illustrates one non-Government All Citizen normal-exit case and does not compute tax.",
     example: "An NPS calculator can show how selected contribution and return assumptions change an illustrative long-term value.",
     nextSteps: ["Understand how a withdrawal plan can be modelled from a retirement corpus."],
     relatedLessonRefs: ["retirement-planning/swp-for-retirement-income", "retirement-planning/epf-and-employer-benefits"],

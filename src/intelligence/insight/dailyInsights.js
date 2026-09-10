@@ -279,9 +279,9 @@ export const DAILY_INSIGHTS = [
   createInsight({
     id: "insight-nps-voluntary",
     title: "NPS is a voluntary retirement building block",
-    summary: "National Pension System lets you contribute toward a long-term retirement corpus.",
+    summary: "National Pension System is a voluntary, market-linked way to illustrate long-term retirement contributions.",
     explanation:
-      "NPS is often studied alongside EPF and other retirement tools. Educational overviews cover contribution flexibility, asset allocation choices, and withdrawal rules — without recommending any specific fund manager.",
+      "NPS is often studied alongside EPF and other retirement tools. Educational overviews cover contribution flexibility, market-linked returns, and exit rules that can differ by subscriber type — without recommending any fund manager or treating an illustration as a quoted monthly income.",
     conceptId: "nps",
     category: "planning",
     difficulty: "intermediate",

@@ -12,7 +12,7 @@ export const ALL_CALCULATORS = [
   { icon: "📉", title: "Inflation Calculator", desc: "See how inflation affects costs over time.", path: "/inflation-calculator" },
   { icon: "🎁", title: "Gratuity Calculator", desc: "Simplified statutory estimate under the Code on Social Security, 2020.", path: "/gratuity-calculator" },
   { icon: "🏛️", title: "EPF Calculator", desc: "Explore an illustrative EPF accumulation estimate.", path: "/epf-calculator" },
-  { icon: "🛡️", title: "NPS Calculator", desc: "Plan National Pension System growth.", path: "/nps-calculator" },
+  { icon: "🛡️", title: "NPS Calculator", desc: "Explore an educational NPS accumulation and normal-exit illustration.", path: "/nps-calculator" },
   { icon: "🏠", title: "Home Loan Eligibility Calculator", desc: "Estimate home loan you may qualify for.", path: "/home-loan-eligibility-calculator" },
   { icon: "💸", title: "Loan Prepayment Calculator", desc: "See interest saved from loan prepayment.", path: "/loan-prepayment-calculator" },
   { icon: "🧾", title: "GST Calculator", desc: "Add or remove GST from any amount.", path: "/gst-calculator" },

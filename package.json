@@ -13,6 +13,7 @@
     "validate:epf": "node scripts/validateEpf.js",
     "validate:ppf": "node scripts/validatePpf.js",
     "validate:hra": "node scripts/validateHra.js",
+    "validate:nps": "node scripts/validateNps.js",
     "validate:learn": "node scripts/validateLearn.js",
     "validate:guide": "node scripts/validateGuide.js",
     "validate:trust": "node scripts/validateTrust.js",

@@ -29,6 +29,7 @@ import { calculateEpfEstimate } from "../src/utils/epf/epfEngine.js";
 import { calculatePpfEstimate } from "../src/utils/ppf/ppfEngine.js";
 import { calculateHraEstimate } from "../src/utils/hra/hraEngine.js";
 import { HRA_CITY_CATEGORY_50 } from "../src/utils/hra/hraRules.js";
+import { calculateNpsEstimate } from "../src/utils/nps/npsEngine.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -370,11 +371,28 @@ runValidation("EPF", () => {
 });
 
 runValidation("NPS", () => {
-  const corpus = futureValueOfMonthlyDeposits(5000, 10, 30);
-  const result = { corpus, totalInvested: 5000 * 12 * 30, estimatedPension: (corpus * 0.4 * 0.06) / 12 };
-  assertFields(result, ["corpus", "totalInvested", "estimatedPension"], "NPS");
-  Object.values(result).forEach((value) => assertNonNegative(value, "NPS output"));
-  assertFiniteNumber(futureValueOfMonthlyDeposits(200000, 14, 52), "NPS high-value case");
+  const result = calculateNpsEstimate({
+    monthlyContribution: 5000,
+    illustrativeAnnualReturnPercent: 10,
+    currentAge: 30,
+    exitAge: 60,
+    annuityAllocationPercent: 20,
+    illustrativeAnnuityRatePercent: 6,
+  });
+  assertFields(result, ["projectedCorpus", "totalContributed", "annuityAllocation", "illustrativeLumpSum", "illustrativeMonthlyAnnuity"], "NPS");
+  assert(result.valid, "NPS default case must be valid");
+  assert(result.totalContributed === 1800000, "NPS default contributions must be ₹18,00,000");
+  assert(nearlyEqual(result.projectedCorpus, 11396626.62, 0.02), "NPS default corpus vector");
+  assert(result.exitIllustrationApplies, "NPS default corpus must apply the >₹12 lakh split");
+  assertNonNegative(result.projectedCorpus, "NPS projected corpus");
+  assert(!calculateNpsEstimate({ monthlyContribution: 5000, illustrativeAnnualReturnPercent: 10, currentAge: 60, exitAge: 50 }).valid, "NPS inverted ages must be invalid");
+  const highValue = calculateNpsEstimate({
+    monthlyContribution: 200000,
+    illustrativeAnnualReturnPercent: 14,
+    currentAge: 18,
+    exitAge: 70,
+  });
+  assertFiniteNumber(highValue.projectedCorpus, "NPS high-value case");
 });
 
 runValidation("Home Loan Eligibility", () => {

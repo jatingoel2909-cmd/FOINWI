@@ -216,7 +216,7 @@ export const FINANCIAL_CONCEPTS = {
     id: "nps",
     title: "NPS",
     description:
-      "National Pension System — a voluntary retirement savings scheme offering market-linked growth and annuity options at retirement.",
+      "National Pension System — a voluntary, market-linked retirement savings scheme. Exit and annuity treatment depend on subscriber type and current PFRDA rules, and are not a single universal split.",
     difficulty: "intermediate",
     category: "planning",
     tags: ["pension", "annuity", "retirement", "market-linked"],

@@ -237,7 +237,7 @@ export const FINANCIAL_JOURNEYS = [
     calculators: [
       { title: "Retirement Calculator", path: "/retirement-calculator", desc: "Estimate corpus needed for retirement income." },
       { title: "EPF Calculator", path: "/epf-calculator", desc: "Project Employee Provident Fund growth." },
-      { title: "NPS Calculator", path: "/nps-calculator", desc: "Plan National Pension System contributions." },
+      { title: "NPS Calculator", path: "/nps-calculator", desc: "Explore an educational NPS accumulation and normal-exit illustration." },
       { title: "SWP Calculator", path: "/swp-calculator", desc: "Plan systematic withdrawals from retirement corpus." },
     ],
     learningModules: [

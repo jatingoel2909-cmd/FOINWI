@@ -462,41 +462,43 @@ export const CALCULATOR_INSIGHTS = {
   "/nps-calculator": {
     howCalculated: {
       formulaLabel: "Simplified calculation expression",
-      formula: "Corpus = Monthly SIP FV. Pension ≈ 40% of corpus × 6% annuity / 12",
+      formula:
+        "Projected corpus = beginning-of-month monthly contribution FV. If corpus > ₹12 lakh: annuity allocation = corpus × chosen % (minimum 20%); illustrative monthly annuity income = allocation × illustrative annuity-rate assumption / 12",
       variables: [
         {
-          symbol: "Corpus",
-          meaning: "Estimated NPS accumulation at retirement from monthly contributions",
+          symbol: "Estimated projected NPS corpus",
+          meaning: "Educational accumulation from illustrated monthly contributions and a constant market-linked return assumption",
         },
         {
-          symbol: "Monthly SIP FV",
-          meaning: "Future value of regular monthly NPS contributions",
+          symbol: "Total illustrated contributions",
+          meaning: "Monthly contribution × illustrated contribution years × 12",
         },
         {
-          symbol: "40% of corpus",
-          meaning: "Illustrative annuity purchase portion used in the estimate",
+          symbol: "Illustrative amount allocated to annuity",
+          meaning: "Chosen share of projected corpus, at least the 20% statutory minimum for this non-Government All Citizen normal-exit case when corpus is above ₹12 lakh",
         },
         {
-          symbol: "6% annuity",
-          meaning: "Assumed annual annuity rate used for pension illustration",
+          symbol: "Illustrative non-annuity portion",
+          meaning: "Remaining projected corpus after the illustrated annuity allocation; not a tax-free amount",
         },
         {
-          symbol: "Pension",
-          meaning: "Estimated monthly pension from the assumed annuity portion",
+          symbol: "Illustrative monthly annuity income",
+          meaning: "Educational conversion using the illustrated annuity-rate assumption; not an ASP quote",
         },
       ],
       estimateNote:
-        "This estimate projects NPS accumulation and a simplified monthly pension using assumed contribution growth and annuity rates.",
+        "This educational estimate is scoped to a non-Government All Citizen Common Scheme Tier-I normal-exit illustration at age 60 or later. The 20%/80% split is shown only when projected corpus is above ₹12 lakh.",
       summary:
-        "This calculator projects NPS corpus from monthly contributions and estimates annuity pension using simplified assumptions.",
+        "This calculator projects an educational NPS corpus from monthly contributions and, where in scope, an illustrative annuity allocation and monthly annuity income.",
       inputs: [
-        "Monthly NPS contribution",
-        "Current age and retirement age",
-        "Expected annual return",
+        "Monthly contribution",
+        "Current age and illustrated exit age",
+        "Illustrative market-linked return assumption",
+        "Illustrative annuity allocation and annuity-rate assumption",
       ],
     },
     meaning:
-      "This can help you understand estimated NPS accumulation and a simplified view of potential annuity income after retirement.",
+      "This can help you explore how illustrated contributions and a market-linked return assumption change an estimated projected NPS corpus, without treating the result as a maturity amount, promised monthly income, or tax computation. This calculator does not compute tax; NPS contribution deductions and exit treatment depend on the applicable tax year and tax regime.",
     relatedTools: [
       { title: "EPF Calculator", path: "/epf-calculator" },
       { title: "Retirement Calculator", path: "/retirement-calculator" },

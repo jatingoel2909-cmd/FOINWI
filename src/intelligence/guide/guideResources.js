@@ -25,7 +25,7 @@ export const GUIDE_RESOURCE_CATALOG = Object.freeze({
   educationJourney: { type: "PLAN", path: "/journeys/child-education", title: "Child Education Journey", description: "Explore a structured path for an education goal." },
   homeJourney: { type: "PLAN", path: "/journeys/buy-dream-home", title: "Home Buying Journey", description: "Explore down-payment, EMI, and planning steps." },
   retirement: { type: "PLAN", path: "/retirement-calculator", title: "Retirement Calculator", description: "Explore an illustrative retirement-corpus estimate." },
-  nps: { type: "CALCULATE", path: "/nps-calculator", title: "NPS Calculator", description: "Explore National Pension System growth assumptions." },
+  nps: { type: "CALCULATE", path: "/nps-calculator", title: "NPS Calculator", description: "Explore an educational NPS accumulation and normal-exit illustration." },
   epf: { type: "CALCULATE", path: "/epf-calculator", title: "EPF Calculator", description: "Explore Employees’ Provident Fund corpus assumptions." },
   ppf: { type: "CALCULATE", path: "/ppf-calculator", title: "PPF Calculator", description: "Explore Public Provident Fund growth assumptions." },
   retirementLesson: { type: "LEARN", path: "/learn/retirement-planning", title: "Retirement Planning", description: "Learn how time, inflation, and retirement goals connect." },

@@ -83,7 +83,7 @@ export const CONCEPT_RULE_BOOSTS = {
   ],
   retirement: [
     { type: "nextLesson", slug: "retirement-planning", baseScore: 92, reason: "Learn retirement corpus basics, EPF, NPS, and withdrawal concepts." },
-    { type: "nextCalculator", path: "/nps-calculator", baseScore: 86, reason: "Project NPS growth as one voluntary retirement building block." },
+    { type: "nextCalculator", path: "/nps-calculator", baseScore: 86, reason: "Explore an educational NPS accumulation and normal-exit illustration." },
     { type: "nextCalculator", path: "/epf-calculator", baseScore: 84, reason: "Estimate EPF corpus from salary contributions over time." },
     { type: "nextCalculator", path: "/swp-calculator", baseScore: 82, reason: "Explore systematic withdrawals from a retirement corpus." },
     { type: "nextJourney", slug: "retirement-planning", baseScore: 90, reason: "Follow a guided retirement planning path on FOINWI." },
