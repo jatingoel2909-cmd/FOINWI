@@ -293,7 +293,7 @@ const RAW_LEARNING_PATHS = [
         id: 4,
         title: "HRA Exemption Basics",
         summary:
-          "House Rent Allowance (HRA) may be partially exempt if you pay rent and meet conditions. The exempt amount is the lowest of three calculated values — a common salary-planning topic.",
+          "House Rent Allowance may be partly excluded under Rule 279 for FY 2026-27 where a person has opted out of the default tax regime under section 202, actually pays rent for occupied accommodation, and meets the other applicable conditions. The estimated exempt amount is the smaller of three Rule 279 figures.",
         calculators: ["/hra-calculator", "/income-tax-calculator"],
       },
       {
@@ -677,10 +677,10 @@ const FULL_LESSON_CONTENT = Object.freeze({
     relatedLessonRefs: ["income-tax-basics/income-tax-overview-in-india", "income-tax-basics/old-vs-new-tax-regime"],
   },
   "income-tax-basics/hra-exemption-basics": {
-    simpleExplanation: "HRA is a salary component that may receive tax treatment when conditions under current rules are met.",
-    whyItMatters: "It explains why rent, salary components, and location details can appear in an HRA illustration.",
-    keyIdeas: ["Eligibility depends on applicable conditions.", "The calculation uses multiple inputs.", "Official verification is important."],
-    deeperExplanation: "HRA treatment can depend on records and current tax provisions. A calculator explains the arithmetic but cannot confirm a personal exemption.",
+    simpleExplanation: "HRA is a salary component that may be excluded under Rule 279 for FY 2026-27 where a person has opted out of the default tax regime under section 202 and the occupancy and rent conditions are met.",
+    whyItMatters: "It explains why monthly rent, Rule 279 salary, and the eight 50% cities versus any other place appear in an HRA illustration.",
+    keyIdeas: ["The default section 202 regime does not allow this exemption.", "Rule 279 salary is not CTC.", "Gurugram, Noida and other places outside the eight-city list use 40%."],
+    deeperExplanation: "The calculator estimates one monthly period. It cannot confirm a personal exemption, tax payable, or employer TDS. Official verification is still needed.",
     example: "Entering illustrative salary and rent details can show how the calculator compares its stated inputs.",
     nextSteps: ["Explore the difference between tax concepts and compliance."],
     relatedLessonRefs: ["income-tax-basics/income-tax-overview-in-india", "income-tax-basics/gst-in-everyday-purchases"],

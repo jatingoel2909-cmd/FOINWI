@@ -90,7 +90,7 @@ export const CONCEPT_RULE_BOOSTS = {
   ],
   tax: [
     { type: "nextLesson", slug: "income-tax-basics", baseScore: 90, reason: "Learn Old vs New regime concepts and common deductions." },
-    { type: "nextCalculator", path: "/hra-calculator", baseScore: 82, reason: "Estimate HRA exemption as part of salary tax planning." },
+    { type: "nextCalculator", path: "/hra-calculator", baseScore: 82, reason: "Explore an educational monthly HRA exemption estimate for FY 2026-27." },
     { type: "nextCalculator", path: "/ppf-calculator", baseScore: 78, reason: "Explore PPF as a commonly discussed 80C instrument." },
     { type: "nextJourney", slug: "save-tax", baseScore: 86, reason: "Review tax and salary planning in a structured mission." },
   ],

@@ -27,6 +27,8 @@ import { INCOME_TAX_REGIMES } from "../src/utils/incomeTax/incomeTaxRules.js";
 import { calculateGratuityEstimate } from "../src/utils/gratuity/gratuityEngine.js";
 import { calculateEpfEstimate } from "../src/utils/epf/epfEngine.js";
 import { calculatePpfEstimate } from "../src/utils/ppf/ppfEngine.js";
+import { calculateHraEstimate } from "../src/utils/hra/hraEngine.js";
+import { HRA_CITY_CATEGORY_50 } from "../src/utils/hra/hraRules.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -438,14 +440,25 @@ runValidation("Income Tax", () => {
 });
 
 runValidation("HRA", () => {
-  const basicSalary = 50000;
-  const hraReceived = 20000;
-  const rentPaid = 18000;
-  const exemption = Math.min(hraReceived, Math.max(0, rentPaid - basicSalary * 0.1), basicSalary * 0.5);
-  const result = { exemption, taxableHra: Math.max(0, hraReceived - exemption) };
-  assertFields(result, ["exemption", "taxableHra"], "HRA");
-  Object.values(result).forEach((value) => assertNonNegative(value, "HRA output"));
-  assert(Math.min(0, 0, 0) === 0, "HRA zero-input handling");
+  const result = calculateHraEstimate({
+    monthlyBasicSalary: 50000,
+    monthlyQualifyingDA: 0,
+    monthlyHraReceived: 20000,
+    monthlyRentPaid: 18000,
+    residenceCategory: HRA_CITY_CATEGORY_50,
+  });
+  assertFields(result, ["estimatedMonthlyExemption", "monthlyTaxableHra", "rule279Salary"], "HRA");
+  Object.values([result.estimatedMonthlyExemption, result.monthlyTaxableHra, result.rule279Salary]).forEach((value) => {
+    assertNonNegative(value, "HRA output");
+  });
+  assert(result.estimatedMonthlyExemption === 13000, "HRA rent-limb monthly vector");
+  assert(result.monthlyTaxableHra === 7000, "HRA rent-limb taxable vector");
+  assert(calculateHraEstimate({
+    monthlyBasicSalary: 50000,
+    monthlyHraReceived: 0,
+    monthlyRentPaid: 18000,
+    residenceCategory: HRA_CITY_CATEGORY_50,
+  }).estimatedMonthlyExemption === 0, "HRA zero-received handling");
 });
 
 runValidation("Compound Interest", () => {

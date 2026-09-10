@@ -342,7 +342,7 @@ export const FINANCIAL_CONCEPTS = {
     id: "tax",
     title: "Tax",
     description:
-      "Government levies on income and transactions. Indian earners often compare Old vs New tax regimes and common deductions such as 80C and HRA.",
+      "Government levies on income and transactions. Indian earners often compare tax regimes and provisions such as section 80C and House Rent Allowance, where the applicable regime and conditions permit.",
     difficulty: "intermediate",
     category: "tax",
     tags: ["income-tax", "regime", "deductions", "hra", "gst"],

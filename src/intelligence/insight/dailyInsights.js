@@ -323,10 +323,10 @@ export const DAILY_INSIGHTS = [
   }),
   createInsight({
     id: "insight-hra-basics",
-    title: "HRA exemption depends on rent and salary structure",
-    summary: "House Rent Allowance rules use the lowest of a few defined calculations.",
+    title: "HRA exemption depends on rent, Rule 279 salary and residence category",
+    summary: "House Rent Allowance exclusion uses the smaller of a few Rule 279 amounts for a relevant period.",
     explanation:
-      "HRA education usually covers basic salary, rent paid, and city category. An HRA calculator helps explore how those inputs change the exempt and taxable portions — for learning, not payroll instructions.",
+      "For FY 2026-27, an educational HRA estimate typically covers monthly basic, qualifying DA, rent paid, and whether the residence is in a Rule 279 50% city. The calculator is for a person who has opted out of the default tax regime under section 202 — for learning, not payroll or tax-saving instructions.",
     conceptId: "tax",
     category: "tax",
     difficulty: "intermediate",

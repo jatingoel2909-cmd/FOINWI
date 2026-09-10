@@ -101,14 +101,14 @@ export const FINANCIAL_JOURNEYS = [
       "Tax planning for salaried professionals in India involves choosing the right regime, maximising eligible deductions, understanding HRA rules, and planning investments under sections like 80C. This mission helps you estimate liability and identify planning levers without overcomplicating returns filing.",
     calculators: [
       { title: "Income Tax Calculator", path: "/income-tax-calculator", desc: "Compare Old and New regime tax estimates." },
-      { title: "HRA Calculator", path: "/hra-calculator", desc: "Calculate HRA exemption and taxable portion." },
+      { title: "HRA Calculator", path: "/hra-calculator", desc: "Explore an educational monthly HRA exemption estimate for FY 2026-27." },
       { title: "GST Calculator", path: "/gst-calculator", desc: "Understand GST on purchases and invoices." },
       { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore an illustrative PPF accumulation estimate." },
     ],
     learningModules: [
       "Old vs New tax regime — which fits your profile",
       "Section 80C, 80D, and common salary deductions",
-      "HRA exemption rules for metro and non-metro cities",
+      "HRA exemption under Rule 279 for FY 2026-27",
       "Tax planning vs tax evasion — staying compliant",
     ],
     aiPreview:
@@ -116,7 +116,7 @@ export const FINANCIAL_JOURNEYS = [
     checklist: [
       "Collect salary structure, rent receipts, and investment proofs",
       "Compare Old vs New regime estimated tax",
-      "Calculate HRA exemption if applicable",
+      "Explore an illustrative monthly HRA exemption if you have opted out of the default tax regime",
       "Review 80C and health insurance deductions",
       "Plan investments before the financial year ends",
     ],

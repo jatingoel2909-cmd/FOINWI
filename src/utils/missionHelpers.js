@@ -90,8 +90,8 @@ const MISSION_META = {
         "Compare liability with and without deductions to pick the better regime.",
       "Section 80C, 80D, and common salary deductions":
         "Learn eligible investments and expenses that reduce taxable income.",
-      "HRA exemption rules for metro and non-metro cities":
-        "Understand rent, salary structure, and city classification rules.",
+      "HRA exemption under Rule 279 for FY 2026-27":
+        "Understand monthly rent, Rule 279 salary, and the eight 50% cities versus any other place.",
       "Tax planning vs tax evasion — staying compliant":
         "Use legitimate planning tools while meeting disclosure requirements.",
     },

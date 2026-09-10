@@ -658,32 +658,45 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/hra-calculator": {
     howCalculated: {
-      formula: "Exemption = Minimum of (Actual HRA, Rent − 10% of Basic, 50%/40% of Basic)",
+      formulaLabel: "Simplified calculation expression",
+      formula:
+        "For one monthly period this simplified calculator uses: salary = basic + qualifying DA. Commission is not modelled. Estimated monthly HRA exemption = max(0, min(monthly HRA received, max(0, rent − 10% of that salary), 50% or 40% of that salary)).",
       variables: [
-        { symbol: "Exemption", meaning: "Estimated HRA amount that may be exempt from tax" },
-        { symbol: "Actual HRA", meaning: "HRA received as part of salary" },
         {
-          symbol: "Rent − 10% of Basic",
-          meaning: "Rent paid minus ten percent of basic salary",
+          symbol: "Estimated monthly HRA exemption",
+          meaning: "Educational monthly amount that may be excluded under Rule 279 for the scoped opt-out-regime period",
         },
         {
-          symbol: "50%/40% of Basic",
-          meaning: "City-based limit: 50% for metro and 40% for non-metro in this estimate",
+          symbol: "Monthly HRA received",
+          meaning: "House rent allowance received for the same monthly period",
         },
-        { symbol: "Basic", meaning: "Basic salary used in the HRA rules" },
+        {
+          symbol: "Rent − 10% of Rule 279 salary",
+          meaning: "Monthly rent actually paid minus ten percent of Rule 279 salary, not below zero",
+        },
+        {
+          symbol: "50% / 40% of Rule 279 salary",
+          meaning: "50% in Mumbai, Kolkata, Delhi, Chennai, Hyderabad, Pune, Ahmedabad and Bengaluru; 40% in any other place, including Gurugram and Noida",
+        },
+        {
+          symbol: "Rule 279 salary",
+          meaning: "In this simplified calculator, monthly basic plus qualifying DA provided for under the terms of employment. Commission is not modelled.",
+        },
       ],
       estimateNote:
-        "This formula estimates HRA exemption as the least of the eligible calculation values under simplified salary assumptions.",
+        "Educational monthly HRA exemption estimate for FY 2026-27 for a person who has opted out of the default tax regime under section 202. This exemption is not available under that default regime. Rule 279 applies to the relevant period. Monthly taxable HRA means monthly HRA received minus estimated exempt HRA for the scoped period. It is not total taxable income or a tax-payable figure.",
       summary:
-        "This calculator estimates HRA exemption using salary components, rent paid, and metro or non-metro city rules.",
+        "This calculator estimates monthly HRA exemption using Rule 279 salary, monthly HRA received, monthly rent actually paid, and the Rule 279 residence category. It assumes you actually pay rent for the residential accommodation you occupy.",
       inputs: [
-        "Basic salary and HRA received",
-        "Rent paid",
-        "Metro or non-metro city",
+        "Monthly basic salary",
+        "Monthly qualifying DA",
+        "Monthly HRA received",
+        "Monthly rent actually paid",
+        "Residence category (50% cities or any other place)",
       ],
     },
     meaning:
-      "This can help you understand how much HRA may be exempt versus taxable under common salary structures.",
+      "This can help you explore how Rule 279 may treat one month of HRA when you have opted out of the default tax regime under section 202.",
     relatedTools: [
       { title: "Income Tax Calculator", path: "/income-tax-calculator" },
       { title: "GST Calculator", path: "/gst-calculator" },

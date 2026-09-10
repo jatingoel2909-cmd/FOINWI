@@ -3,111 +3,164 @@ import CalculatorLayout from "./ui/CalculatorLayout";
 import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import { formatCurrency } from "../utils/calculatorFormat";
-
-const LIMITS = {
-  basic: { min: 10000, max: 500000, step: 1000 },
-  hra: { min: 0, max: 200000, step: 1000 },
-  rent: { min: 0, max: 200000, step: 1000 },
-};
-
-const CITY_TYPES = [
-  { value: "metro", label: "Metro" },
-  { value: "non-metro", label: "Non-Metro" },
-];
-
-function calculateHra(basicSalary, hraReceived, rentPaid, cityType) {
-  const rentMinusBasic = Math.max(0, rentPaid - basicSalary * 0.1);
-  const percentOfBasic = cityType === "metro" ? basicSalary * 0.5 : basicSalary * 0.4;
-  const exemption = Math.min(hraReceived, rentMinusBasic, percentOfBasic);
-  const taxableHra = Math.max(0, hraReceived - exemption);
-
-  return { exemption, taxableHra };
-}
+import { calculateHraEstimate } from "../utils/hra/hraEngine.js";
+import {
+  HRA_BASIC_LABEL,
+  HRA_CITY_40_HELPER_NOTE,
+  HRA_CITY_50_HELPER_NOTE,
+  HRA_DA_HELPER_NOTE,
+  HRA_DA_LABEL,
+  HRA_FORM_124_NOTE,
+  HRA_INPUT_LIMITS,
+  HRA_MONTHLY_RESULT_NOTE,
+  HRA_OCCUPANCY_NOTE,
+  HRA_OWN_HOUSE_NOTE,
+  HRA_PERIOD_NOTE,
+  HRA_PRIMARY_RESULT_LABEL,
+  HRA_PROJECTION_METHOD_NOTE,
+  HRA_RECEIVED_LABEL,
+  HRA_REGIME_NOTE,
+  HRA_RENT_LABEL,
+  HRA_RESIDENCE_LABEL,
+  HRA_RESIDENCE_OPTIONS,
+  HRA_SCOPE_NOTE,
+  HRA_TAX_YEAR_LABEL,
+  HRA_TAXABLE_MEANING_NOTE,
+  HRA_TAXABLE_RESULT_LABEL,
+  HRA_TITLE,
+  HRA_CITY_CATEGORY_50,
+} from "../utils/hra/hraRules.js";
 
 function HraCalculator({
   defaultBasic = 50000,
+  defaultQualifyingDA = 0,
   defaultHra = 20000,
   defaultRent = 18000,
-  defaultCity = "metro",
+  defaultResidenceCategory = HRA_CITY_CATEGORY_50,
   className = "",
   showHeader = true,
 }) {
-  const [basicSalary, setBasicSalary] = useState(defaultBasic);
-  const [hraReceived, setHraReceived] = useState(defaultHra);
-  const [rentPaid, setRentPaid] = useState(defaultRent);
-  const [cityType, setCityType] = useState(defaultCity);
+  const [monthlyBasicSalary, setMonthlyBasicSalary] = useState(defaultBasic);
+  const [monthlyQualifyingDA, setMonthlyQualifyingDA] = useState(defaultQualifyingDA);
+  const [monthlyHraReceived, setMonthlyHraReceived] = useState(defaultHra);
+  const [monthlyRentPaid, setMonthlyRentPaid] = useState(defaultRent);
+  const [residenceCategory, setResidenceCategory] = useState(defaultResidenceCategory);
 
-  const { exemption, taxableHra } = calculateHra(
-    basicSalary,
-    hraReceived,
-    rentPaid,
-    cityType
-  );
+  const estimate = calculateHraEstimate({
+    monthlyBasicSalary,
+    monthlyQualifyingDA,
+    monthlyHraReceived,
+    monthlyRentPaid,
+    residenceCategory,
+  });
+
+  const residenceLabel =
+    HRA_RESIDENCE_OPTIONS.find((option) => option.value === estimate.residenceCategory)?.label
+    ?? estimate.residenceCategory;
 
   return (
     <CalculatorLayout
       label="House Rent Allowance (HRA) Calculator"
-      title="Estimate your HRA tax exemption"
-      description="Estimate exempt and taxable House Rent Allowance (HRA) based on salary, rent paid, and city type under common Indian tax rules."
+      title={HRA_TITLE}
+      description={`${HRA_SCOPE_NOTE} ${HRA_TAX_YEAR_LABEL}.`}
       showHeader={showHeader}
       variant="default"
       className={className}
       calculatorId="/hra-calculator"
+      simplifiedModelNotice
       form={
         <>
+          <p className="calc-field__helper" id="hra-scope">
+            {HRA_SCOPE_NOTE}
+            {" "}
+            {HRA_REGIME_NOTE}
+            {" "}
+            {HRA_OCCUPANCY_NOTE}
+            {" "}
+            {HRA_OWN_HOUSE_NOTE}
+          </p>
+          <p className="calc-field__helper" id="hra-tax-year">
+            {HRA_TAX_YEAR_LABEL}
+          </p>
           <CurrencyInput
             id="hra-basic"
-            label="Basic Salary"
-            value={basicSalary}
-            onChange={setBasicSalary}
-            limits={LIMITS.basic}
+            label={HRA_BASIC_LABEL}
+            value={monthlyBasicSalary}
+            onChange={setMonthlyBasicSalary}
+            limits={HRA_INPUT_LIMITS.monthlyBasicSalary}
           />
           <CurrencyInput
+            id="hra-da"
+            label={HRA_DA_LABEL}
+            value={monthlyQualifyingDA}
+            onChange={setMonthlyQualifyingDA}
+            limits={HRA_INPUT_LIMITS.monthlyQualifyingDA}
+          />
+          <p className="calc-field__helper" id="hra-da-helper">
+            {HRA_DA_HELPER_NOTE}
+          </p>
+          <CurrencyInput
             id="hra-received"
-            label="HRA Received"
-            value={hraReceived}
-            onChange={setHraReceived}
-            limits={LIMITS.hra}
+            label={HRA_RECEIVED_LABEL}
+            value={monthlyHraReceived}
+            onChange={setMonthlyHraReceived}
+            limits={HRA_INPUT_LIMITS.monthlyHraReceived}
           />
           <CurrencyInput
             id="hra-rent"
-            label="Rent Paid"
-            value={rentPaid}
-            onChange={setRentPaid}
-            limits={LIMITS.rent}
+            label={HRA_RENT_LABEL}
+            value={monthlyRentPaid}
+            onChange={setMonthlyRentPaid}
+            limits={HRA_INPUT_LIMITS.monthlyRentPaid}
           />
           <div className="calc-field">
-            <label className="calc-field__label" htmlFor="hra-city">
-              City Type
+            <label className="calc-field__label" htmlFor="hra-residence">
+              {HRA_RESIDENCE_LABEL}
             </label>
             <select
-              id="hra-city"
+              id="hra-residence"
               className="calc-field__select"
-              value={cityType}
-              onChange={(e) => setCityType(e.target.value)}
+              value={residenceCategory}
+              onChange={(e) => setResidenceCategory(e.target.value)}
             >
-              {CITY_TYPES.map((option) => (
+              {HRA_RESIDENCE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </select>
           </div>
+          <p className="calc-field__helper" id="hra-city-helper">
+            {HRA_CITY_50_HELPER_NOTE}
+            {" "}
+            {HRA_CITY_40_HELPER_NOTE}
+          </p>
+          <p className="calc-field__helper" id="hra-period-helper">
+            {HRA_PERIOD_NOTE}
+            {" "}
+            {HRA_MONTHLY_RESULT_NOTE}
+          </p>
+          <p className="calc-field__helper" id="hra-form-124">
+            {HRA_FORM_124_NOTE}
+          </p>
         </>
       }
       results={
         <CalculatorResults
-          primary={{ label: "HRA Exemption", value: formatCurrency(exemption) }}
+          headerTitle="Illustrative monthly HRA estimate"
+          headerSubtitle={`${HRA_TAX_YEAR_LABEL} — opt-out regime educational model`}
+          primary={{
+            label: HRA_PRIMARY_RESULT_LABEL,
+            value: formatCurrency(estimate.estimatedMonthlyExemption),
+          }}
           metrics={[
-            { label: "HRA Received", value: formatCurrency(hraReceived) },
-            { label: "Taxable HRA", value: formatCurrency(taxableHra) },
-            { label: "Rent Paid", value: formatCurrency(rentPaid) },
-            {
-              label: "City Type",
-              value: cityType === "metro" ? "Metro" : "Non-Metro",
-            },
+            { label: HRA_RECEIVED_LABEL, value: formatCurrency(estimate.monthlyHraReceived) },
+            { label: HRA_TAXABLE_RESULT_LABEL, value: formatCurrency(estimate.monthlyTaxableHra) },
+            { label: HRA_RENT_LABEL, value: formatCurrency(estimate.monthlyRentPaid) },
+            { label: "Rule 279 salary", value: formatCurrency(estimate.rule279Salary) },
+            { label: HRA_RESIDENCE_LABEL, value: residenceLabel },
           ]}
-          story="HRA exemption is the least of the eligible calculation values. Documentation and salary structure can affect the final taxable portion."
+          story={`${HRA_PROJECTION_METHOD_NOTE} ${HRA_TAXABLE_MEANING_NOTE} ${HRA_PERIOD_NOTE} ${HRA_REGIME_NOTE}`}
         />
       }
     />

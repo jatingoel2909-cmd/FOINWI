@@ -429,22 +429,22 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/hra-calculator": {
     whyGenerated:
-      "HRA exemption is the minimum of three eligible amounts based on actual HRA received, rent paid, and salary structure under common Indian rules.",
+      "This is an educational monthly HRA exemption estimate for FY 2026-27 under Rule 279, for a person who has opted out of the default tax regime under section 202. It is not tax advice, a tax-payable estimate, a tax-saving calculator, or an employer TDS calculation.",
     keyInputs: [
-      "Basic salary — used in percentage-based limits",
-      "HRA received — actual allowance component",
-      "Rent paid and metro vs non-metro — affect exemption ceiling",
+      "Monthly basic salary and monthly qualifying DA — this simplified calculator uses Basic salary plus qualifying DA. Commission is not modelled",
+      "Monthly HRA received and monthly rent actually paid — used for one consistent monthly period",
+      "Residence category — 50% cities (Mumbai, Kolkata, Delhi, Chennai, Hyderabad, Pune, Ahmedabad and Bengaluru) or any other place (40%), including Gurugram and Noida",
     ],
     ifInputsChange: [
-      "Higher rent → may increase exemption up to the three-way minimum",
-      "Higher basic salary → changes percentage-based limits",
-      "Metro status → 50% vs 40% of basic limit applies",
+      "A higher monthly rent may increase the estimated monthly exemption up to the Rule 279 ceiling",
+      "Adding qualifying DA typically changes Rule 279 salary and can change both the rent limb and the city limb",
+      "Changing from a 50% city to any other place typically reduces the city limb from 50% to 40% of Rule 279 salary",
     ],
     beginnerMistakes: [
-      "Claiming HRA without valid rent documentation",
-      "Using gross salary instead of basic for the formula",
-      "Forgetting that only the minimum of three amounts is exempt",
-      "Not checking employer payroll vs independent calculation",
+      "Treating this estimate as available under the default tax regime under section 202",
+      "Treating any modern metropolitan city as a 50% city",
+      "Using CTC or other allowances as Rule 279 salary",
+      "Treating a monthly result as an annual exemption, or mixing months when salary, HRA, rent or residence changed",
     ],
     relatedCalculators: ["/income-tax-calculator"],
     relatedLessons: ["income-tax-basics"],
