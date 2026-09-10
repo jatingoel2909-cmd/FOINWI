@@ -26,6 +26,7 @@ import { calculateIncomeTaxEstimate } from "../src/utils/incomeTax/incomeTaxEngi
 import { INCOME_TAX_REGIMES } from "../src/utils/incomeTax/incomeTaxRules.js";
 import { calculateGratuityEstimate } from "../src/utils/gratuity/gratuityEngine.js";
 import { calculateEpfEstimate } from "../src/utils/epf/epfEngine.js";
+import { calculatePpfEstimate } from "../src/utils/ppf/ppfEngine.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -89,12 +90,6 @@ function calculateGoalProjection(goal, savings, monthly, annualRate, years) {
   const sipFv = futureValueOfMonthlyDeposits(monthly, annualRate, years);
   const projected = savingsFv + sipFv;
   return { projected, gap: goal - projected, savingsFv, sipFv };
-}
-
-function futureValueOfAnnualDeposits(yearly, annualRate, years) {
-  const rate = annualRate / 100;
-  if (rate === 0) return yearly * years;
-  return yearly * (((1 + rate) ** years - 1) / rate) * (1 + rate);
 }
 
 function calculateSwp(corpus, monthlyWithdrawal, annualRate, years) {
@@ -184,10 +179,25 @@ runValidation("FD", () => {
 });
 
 runValidation("PPF", () => {
-  const maturity = futureValueOfAnnualDeposits(150000, 7.1, 15);
-  assertNonNegative(maturity, "PPF maturity");
-  assertFiniteNumber(futureValueOfAnnualDeposits(150000, 10, 50), "PPF high-value maturity");
-  assert(futureValueOfAnnualDeposits(0, 7.1, 15) === 0, "PPF zero contribution handling");
+  const result = calculatePpfEstimate({
+    annualContribution: 150000,
+    illustrativeAnnualRate: 7.1,
+    contributionYears: 15,
+  });
+  assertFields(result, ["estimatedBalance", "totalContributed", "interestEarned", "annualContribution"], "PPF");
+  assertNonNegative(result.estimatedBalance, "PPF estimated balance");
+  assert(Math.round(result.estimatedBalance) === 4068209, "PPF ₹1,50,000 / 15-year / 7.1% vector");
+  assert(calculatePpfEstimate({
+    annualContribution: 150000,
+    illustrativeAnnualRate: 0,
+    contributionYears: 15,
+  }).estimatedBalance === 2250000, "PPF zero-rate vector");
+  assert(calculatePpfEstimate({
+    annualContribution: 0,
+    illustrativeAnnualRate: 7.1,
+    contributionYears: 15,
+  }).estimatedBalance === 0, "PPF zero contribution handling");
+  assertFiniteNumber(result.estimatedBalance, "PPF estimated balance must be finite");
 });
 
 runValidation("Retirement", () => {

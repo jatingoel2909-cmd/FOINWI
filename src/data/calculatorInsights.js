@@ -95,34 +95,38 @@ export const CALCULATOR_INSIGHTS = {
   "/ppf-calculator": {
     howCalculated: {
       formulaLabel: "Simplified calculation expression",
-      formula: "Maturity = Yearly Contribution × [((1 + r)^n − 1) / r] × (1 + r)",
+      formula:
+        "For each of 15 contribution years: balance += annual contribution; balance += balance × r. The yearly amount is treated as deposited on or before 5 April.",
       variables: [
-        { symbol: "Maturity", meaning: "Estimated PPF balance at the end of the period" },
         {
-          symbol: "Yearly Contribution",
-          meaning: "Amount deposited into PPF each year",
+          symbol: "Estimated PPF balance",
+          meaning: "Illustrative running balance after 15 modelled contribution years under the stated assumptions",
+        },
+        {
+          symbol: "Annual contribution",
+          meaning: "Yearly amount deposited into one PPF account in this estimate, between ₹500 and ₹1,50,000 in multiples of ₹50",
         },
         {
           symbol: "r",
-          meaning: "Illustrative annual interest rate in decimal form",
+          meaning: "Illustrative interest rate assumption in decimal form, applied unchanged throughout the projection",
         },
         {
-          symbol: "n",
-          meaning: "Investment period in years",
+          symbol: "Contribution years",
+          meaning: "15 modelled annual contributions. This is not a personal statutory maturity date.",
         },
       ],
       estimateNote:
-        "This estimate projects PPF growth from steady yearly contributions and an assumed interest rate over the selected duration.",
+        "Educational PPF accumulation estimate using an annual contribution assumed deposited on or before 5 April of each financial year and a constant illustrative interest-rate assumption. 7.1% is the latest rate verified for 1 July–30 September 2026. Government-notified PPF rates can change, including quarter by quarter. PPF interest is based on the lowest balance between the close of the 5th day and month-end and is credited annually. PPF maturity is not simply 15 calendar years from the opening date. Under the current scheme, closure becomes available after 15 complete financial years from the end of the financial year in which the account was opened. This estimate assumes no loans, withdrawals, premature closure or missed annual contributions. Tax treatment can depend on the applicable income-tax rules and tax regime. This calculator does not estimate tax benefits.",
       summary:
-        "This calculator projects PPF balance growth from annual contributions, expected interest rate, and investment duration.",
+        "Each modelled year adds the annual contribution, then applies the selected illustrative annual rate once. That matches the official 5th-day lowest-balance method when the full yearly amount is in by 5 April and the selected rate is held constant. Interest is credited once a year in this model. The calculator does not add interest to the balance month by month, and it does not model arbitrary deposit dates.",
       inputs: [
-        "Yearly contribution",
-        "Expected annual interest rate",
-        "Investment period in years",
+        "Annual contribution",
+        "Illustrative interest rate assumption",
+        "Contribution years (fixed at 15 in this estimate)",
       ],
     },
     meaning:
-      "This can help you understand long-term PPF corpus growth under steady contribution and rate assumptions.",
+      "This can help you explore how annual PPF contributions may accumulate under a clearly stated 5 April deposit-timing assumption and a constant illustrative rate.",
     relatedTools: [
       { title: "FD Calculator", path: "/fd-calculator" },
       { title: "RD Calculator", path: "/rd-calculator" },

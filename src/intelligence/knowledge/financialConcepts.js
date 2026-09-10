@@ -184,7 +184,7 @@ export const FINANCIAL_CONCEPTS = {
     id: "ppf",
     title: "PPF",
     description:
-      "Public Provident Fund — a long-term government-backed savings scheme with tax benefits and a 15-year lock-in, commonly used for retirement and goal planning.",
+      "Public Provident Fund — a long-term government-backed savings scheme. Contribution limits, notified rates, and maturity follow current scheme rules and can change. Tax treatment depends on applicable income-tax rules and tax regime.",
     difficulty: "intermediate",
     category: "investing",
     tags: ["government-scheme", "tax-benefit", "long-term", "eighty-c"],

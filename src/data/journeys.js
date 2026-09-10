@@ -103,7 +103,7 @@ export const FINANCIAL_JOURNEYS = [
       { title: "Income Tax Calculator", path: "/income-tax-calculator", desc: "Compare Old and New regime tax estimates." },
       { title: "HRA Calculator", path: "/hra-calculator", desc: "Calculate HRA exemption and taxable portion." },
       { title: "GST Calculator", path: "/gst-calculator", desc: "Understand GST on purchases and invoices." },
-      { title: "PPF Calculator", path: "/ppf-calculator", desc: "Plan 80C-linked long-term tax-efficient savings." },
+      { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore an illustrative PPF accumulation estimate." },
     ],
     learningModules: [
       "Old vs New tax regime — which fits your profile",
@@ -148,7 +148,7 @@ export const FINANCIAL_JOURNEYS = [
       { title: "Goal Planner", path: "/goal-planner", desc: "Plan education corpus with target date and amount." },
       { title: "SIP Calculator", path: "/sip-calculator", desc: "Estimate monthly savings needed for the goal." },
       { title: "Inflation Calculator", path: "/inflation-calculator", desc: "See how inflation affects future education costs." },
-      { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore long-term tax-efficient savings options." },
+      { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore an illustrative PPF accumulation estimate." },
     ],
     learningModules: [
       "Projecting school and college fees 10–15 years ahead",
