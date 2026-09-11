@@ -411,7 +411,7 @@ export const CALCULATOR_EXPLAINS = {
     whyGenerated:
       "This educational estimate applies FY 2025-26 (AY 2026-27) slabs to simplified taxable salary income, then applies an educational Section 87A rebate or Section 87A marginal relief where this normal-rate model supports it, then adds 4% cess.",
     keyInputs: [
-      "Annual salary income — scoped as salary so a Section 16(ia) salary standard deduction can be applied",
+      "Annual salary income — scoped as salary so the current salary standard deduction can be applied",
       "Tax regime — New regime uses the ₹75,000 salary standard deduction; Old regime uses the ₹50,000 salary standard deduction plus entered deductions",
       "Eligible deductions considered — old-regime additional input only; not a second standard deduction and not a confirmation that every rupee is deductible",
     ],

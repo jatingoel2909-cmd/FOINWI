@@ -19,6 +19,7 @@ import {
   INCOME_TAX_SPECIAL_RATE_INCOME_MODELLED,
   NEW_STANDARD_DEDUCTION,
   OLD_STANDARD_DEDUCTION,
+  SALARY_STANDARD_DEDUCTION_CITATION,
   SECTION_87A,
   SECTION_87A_EDUCATIONAL_SCOPE_NOTE,
   SECTION_87A_MARGINAL_RELIEF_IMPLEMENTED,
@@ -464,6 +465,29 @@ assert(
   engineSource.includes("special-rate") || engineSource.includes("Special-rate"),
   "Central engine must document that special-rate income is outside calculator scope",
 );
+
+const rulesSource = readFileSync(join(sourceRoot, "src/utils/incomeTax/incomeTaxRules.js"), "utf8");
+const explainsSource = readFileSync(join(sourceRoot, "src/data/calculatorExplains.js"), "utf8");
+const insightsSource = readFileSync(join(sourceRoot, "src/data/calculatorInsights.js"), "utf8");
+assert(
+  SALARY_STANDARD_DEDUCTION_CITATION.includes("section 19(1)")
+    && SALARY_STANDARD_DEDUCTION_CITATION.includes("Table Sl. No. 2"),
+  "Central rules must cite Income-tax Act, 2025, section 19(1), Table Sl. No. 2",
+);
+assert(
+  rulesSource.includes(SALARY_STANDARD_DEDUCTION_CITATION),
+  "incomeTaxRules.js must carry the current-law standard-deduction citation",
+);
+assert(
+  !rulesSource.includes("16(ia)")
+    && !calculatorSource.includes("16(ia)")
+    && !engineSource.includes("16(ia)")
+    && !explainsSource.includes("16(ia)")
+    && !insightsSource.includes("16(ia)"),
+  "Current-law Income Tax surfaces must not cite Section 16(ia) as the Act 2025 standard-deduction provision",
+);
+assert(NEW_STANDARD_DEDUCTION === 75000, "Citation correction must not change the ₹75,000 new-regime cap");
+assert(OLD_STANDARD_DEDUCTION === 50000, "Citation correction must not change the ₹50,000 old-regime cap");
 
 if (failures.length) {
   console.error(`Income tax validation failed: ${failures.length} of ${checks} checks`);

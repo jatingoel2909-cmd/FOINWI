@@ -615,7 +615,7 @@ export const CALCULATOR_INSIGHTS = {
         },
         {
           symbol: "Salary standard deduction",
-          meaning: "Section 16(ia) amount limited to salary: up to ₹75,000 in the new regime and up to ₹50,000 in the old regime for AY 2026-27",
+          meaning: "Amount limited to salary under the current Income-tax Act, 2025 salary-deduction table: up to ₹75,000 in the new/default regime and up to ₹50,000 in the old/opt-out regime for AY 2026-27",
         },
         {
           symbol: "Entered deductions",

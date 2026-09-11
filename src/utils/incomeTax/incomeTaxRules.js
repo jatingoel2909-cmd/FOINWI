@@ -5,8 +5,11 @@
  *
  * Scope (this estimator only):
  * - Salary income for a resident individual
- * - Salary standard deduction under Section 16(ia): ₹50,000 old regime,
- *   ₹75,000 new regime, each limited to salary
+ * - Salary standard deduction under Income-tax Act, 2025, section 19(1),
+ *   Table Sl. No. 2: ₹75,000 or salary, whichever is less, where tax is
+ *   computed under section 202(1) (this estimator's new/default regime);
+ *   ₹50,000 or salary, whichever is less, otherwise (this estimator's
+ *   old/opt-out regime)
  * - Old regime: individual below 60 years
  * - Surcharge is not modelled
  * - Special-rate income (for example capital gains) is not modelled
@@ -28,10 +31,15 @@ export const INCOME_TAX_REGIMES = Object.freeze({
 });
 
 /**
- * Section 16(ia) salary standard deduction.
+ * Salary standard deduction under Income-tax Act, 2025, section 19(1),
+ * Table Sl. No. 2.
  * Applied only because this estimator is scoped to Annual Salary Income.
  * Amount is limited to salary: min(annualSalaryIncome, regime cap).
+ * Act 2025 section 16 defines "salary" for this Part; it is not the
+ * standard-deduction provision.
  */
+export const SALARY_STANDARD_DEDUCTION_CITATION =
+  "Income-tax Act, 2025, section 19(1), Table Sl. No. 2";
 export const OLD_STANDARD_DEDUCTION = 50000;
 export const NEW_STANDARD_DEDUCTION = 75000;
 export const OLD_REGIME_STANDARD_DEDUCTION = OLD_STANDARD_DEDUCTION;
