@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Income Tax",
+    "file": "FOINWI-Income-Tax-Calculator-Audit-2026.pdf",
+    "pages": 9,
+    "bytes": 26300
+  },
+  {
+    "name": "Gratuity",
+    "file": "FOINWI-Gratuity-Calculator-Audit-2026.pdf",
+    "pages": 7,
+    "bytes": 21532
+  },
+  {
+    "name": "EPF",
+    "file": "FOINWI-EPF-Calculator-Audit-2026.pdf",
+    "pages": 7,
+    "bytes": 20155
+  },
+  {
+    "name": "PPF",
+    "file": "FOINWI-PPF-Calculator-Audit-2026.pdf",
+    "pages": 7,
+    "bytes": 18974
+  },
+  {
+    "name": "HRA",
+    "file": "FOINWI-HRA-Calculator-Audit-2026.pdf",
+    "pages": 7,
+    "bytes": 19546
+  },
+  {
+    "name": "NPS",
+    "file": "FOINWI-NPS-Calculator-Audit-2026.pdf",
+    "pages": 7,
+    "bytes": 19941
+  },
+  {
+    "name": "GST",
+    "file": "FOINWI-GST-Calculator-Audit-2026.pdf",
+    "pages": 7,
+    "bytes": 20116
+  }
+]
