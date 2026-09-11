@@ -135,35 +135,43 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/retirement-calculator": {
     howCalculated: {
-      formula: "Corpus Needed = Inflated Monthly Expense × 12 × 25",
+      formula: "Illustrative corpus = first retirement-month expense × Σ ((1 + g) / (1 + r))^t",
       variables: [
         {
-          symbol: "Corpus Needed",
-          meaning: "Estimated retirement savings target",
+          symbol: "First retirement-month expense",
+          meaning: "Current monthly expense grown to retirement with annual compounding",
         },
         {
-          symbol: "Inflated Monthly Expense",
-          meaning: "Today’s monthly expense grown for inflation until retirement",
+          symbol: "r",
+          meaning: "Monthly post-retirement return assumption (annual rate ÷ 12 ÷ 100)",
         },
-        { symbol: "12", meaning: "Converts monthly expense into an annual amount" },
         {
-          symbol: "25",
-          meaning: "Common rule-of-thumb multiplier for annual retirement expense",
+          symbol: "g",
+          meaning: "Monthly retirement inflation assumption (annual rate ÷ 12 ÷ 100)",
+        },
+        {
+          symbol: "t",
+          meaning: "Retirement months from 0 through n − 1, where n = illustrated years × 12",
+        },
+        {
+          symbol: "25× simple comparison",
+          meaning: "Annual retirement-age expenses × 25; a secondary educational comparison only",
         },
       ],
       estimateNote:
-        "This formula estimates a simplified retirement corpus target using inflated expenses and the 25× annual-expense rule of thumb.",
+        "The primary estimate models beginning-of-month withdrawals so the illustrated corpus reaches about zero after the selected retirement years. 25× annual retirement-age expenses is a simple educational comparison, not a prediction of how long a retirement corpus will last.",
       summary:
-        "This calculator estimates retirement corpus using the 25× annual expense rule of thumb, inflation until retirement, current savings, and monthly SIP.",
+        "This calculator illustrates a retirement-duration cash-flow estimate. Current expenses are inflated to retirement. Current retirement savings are grown to retirement with annual compounding only. An illustrative monthly contribution is calculated separately, as a beginning-of-month estimate, to bridge any remaining funding gap.",
       inputs: [
         "Current age and retirement age",
         "Current monthly expenses",
-        "Expected inflation and return rates",
-        "Current savings and monthly SIP",
+        "Illustrative inflation and return assumptions until retirement",
+        "Current retirement savings",
+        "Illustrated years in retirement and post-retirement inflation and return assumptions",
       ],
     },
     meaning:
-      "This can help you understand a simplified retirement target, projected savings, and the estimated gap that may remain.",
+      "This can help you explore how expense, inflation, return, and retirement-duration assumptions change an illustrative corpus, the projected value of current savings, and any remaining funding gap.",
     relatedTools: [
       { title: "NPS Calculator", path: "/nps-calculator" },
       { title: "EPF Calculator", path: "/epf-calculator" },

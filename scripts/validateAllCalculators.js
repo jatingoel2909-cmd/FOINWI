@@ -31,6 +31,8 @@ import { calculateHraEstimate } from "../src/utils/hra/hraEngine.js";
 import { HRA_CITY_CATEGORY_50 } from "../src/utils/hra/hraRules.js";
 import { calculateNpsEstimate } from "../src/utils/nps/npsEngine.js";
 import { calculateGstEstimate } from "../src/utils/gst/gstEngine.js";
+import { calculateRetirementEstimate } from "../src/utils/retirement/retirementEngine.js";
+import { RETIREMENT_DEFAULTS } from "../src/utils/retirement/retirementRules.js";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -205,15 +207,62 @@ runValidation("PPF", () => {
 });
 
 runValidation("Retirement", () => {
-  const years = 30;
-  const expenseAtRetirement = 50000 * (1 + 0.06) ** years;
-  const corpusNeeded = expenseAtRetirement * 12 * 25;
-  const projectedCorpus = 500000 * (1 + 0.1) ** years;
-  const shortfall = Math.max(corpusNeeded - projectedCorpus, 0);
-  const monthlyInvestmentNeeded = shortfall === 0 ? 0 : shortfall / (((1 + 0.1 / 12) ** (years * 12) - 1) / (0.1 / 12) * (1 + 0.1 / 12));
-  assertFields({ expenseAtRetirement, corpusNeeded, projectedCorpus, shortfall, monthlyInvestmentNeeded }, ["expenseAtRetirement", "corpusNeeded", "projectedCorpus", "shortfall", "monthlyInvestmentNeeded"], "Retirement");
-  [expenseAtRetirement, corpusNeeded, projectedCorpus, shortfall, monthlyInvestmentNeeded].forEach((value) => assertNonNegative(value, "Retirement output"));
-  assertFiniteNumber(500000 * (1.2 ** 52), "Retirement high-value projection");
+  const result = calculateRetirementEstimate(RETIREMENT_DEFAULTS);
+  assertFields(result, [
+    "valid",
+    "validationErrors",
+    "yearsToRetirement",
+    "monthsToRetirement",
+    "monthlyExpenseAtRetirement",
+    "retirementYears",
+    "monthsInRetirement",
+    "primaryRequiredCorpus",
+    "projectedExistingCorpus",
+    "shortfall",
+    "surplus",
+    "monthlyContributionRequired",
+    "simple25xComparison",
+    "assumptions",
+  ], "Retirement");
+  assert(result.valid === true, "Retirement default estimate must be valid");
+  [
+    result.monthlyExpenseAtRetirement,
+    result.primaryRequiredCorpus,
+    result.projectedExistingCorpus,
+    result.shortfall,
+    result.surplus,
+    result.monthlyContributionRequired,
+    result.simple25xComparison,
+  ].forEach((value) => assertNonNegative(value, "Retirement output"));
+  assert(
+    nearlyEqual(
+      result.simple25xComparison,
+      result.monthlyExpenseAtRetirement * 12 * 25,
+    ),
+    "Retirement 25× comparison identity",
+  );
+  assert(result.shortfall === 0 || result.monthlyContributionRequired > 0, "Retirement shortfall contribution relationship");
+  const equalAges = calculateRetirementEstimate({
+    ...RETIREMENT_DEFAULTS,
+    currentAge: 50,
+    retirementAge: 50,
+  });
+  assert(equalAges.valid === false, "Retirement equal ages must be invalid");
+  const invertedAges = calculateRetirementEstimate({
+    ...RETIREMENT_DEFAULTS,
+    currentAge: 55,
+    retirementAge: 40,
+  });
+  assert(invertedAges.valid === false, "Retirement inverted ages must be invalid");
+  const zeroRates = calculateRetirementEstimate({
+    ...RETIREMENT_DEFAULTS,
+    preRetirementInflationRate: 0,
+    preRetirementReturnRate: 0,
+    retirementInflationRate: 0,
+    postRetirementReturnRate: 0,
+  });
+  assert(zeroRates.valid === true, "Retirement zero-rate combination must remain valid");
+  assertFiniteNumber(zeroRates.primaryRequiredCorpus, "Retirement zero-rate corpus");
 });
 
 runValidation("Goal Planner", () => {

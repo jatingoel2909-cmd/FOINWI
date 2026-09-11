@@ -248,7 +248,7 @@ export const FINANCIAL_CONCEPTS = {
     id: "retirement",
     title: "Retirement",
     description:
-      "Planning for income and corpus needs when regular salary stops. Retirement planning accounts for inflation, longevity, and withdrawal needs.",
+      "Planning for income and corpus questions when regular salary stops. Educational retirement models often include inflation, a selected number of years in retirement, and withdrawal assumptions.",
     difficulty: "intermediate",
     category: "planning",
     tags: ["corpus", "pension", "withdrawal", "longevity"],

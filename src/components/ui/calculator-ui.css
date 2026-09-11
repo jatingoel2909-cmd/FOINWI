@@ -38,6 +38,27 @@
   gap: 28px;
 }
 
+.calc-assumption-panel {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+  padding: 16px 14px 18px;
+  width: 100%;
+  min-width: 0;
+  min-inline-size: 0;
+  border: 1px solid var(--fw-border);
+  border-radius: var(--fw-radius-md);
+  background: rgba(255, 252, 247, 0.55);
+  box-sizing: border-box;
+}
+
+.calc-assumption-panel legend {
+  padding: 0 6px;
+  color: var(--fw-text-primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .calc-layout__results {
   display: grid;
   gap: 16px;
@@ -165,6 +186,7 @@
   color: var(--fw-accent);
   font-weight: 800;
   font-size: 15px;
+  overflow-wrap: anywhere;
 }
 
 .calc-field__input,
@@ -264,6 +286,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
+  min-width: 0;
   animation: calcFadeUp 0.35s ease;
   box-shadow: var(--fw-shadow-card);
   backdrop-filter: blur(6px);
@@ -279,6 +302,7 @@
   color: var(--fw-text-muted);
   font-size: 15px;
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .calc-result-card__value {
@@ -286,6 +310,8 @@
   font-size: 22px;
   font-weight: 800;
   text-align: right;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .calc-result-card--highlight .calc-result-card__value {

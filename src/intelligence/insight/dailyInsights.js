@@ -414,9 +414,9 @@ export const DAILY_INSIGHTS = [
   createInsight({
     id: "insight-retirement-corpus",
     title: "Retirement planning starts with a corpus estimate",
-    summary: "How much you may need depends on lifestyle, inflation, and longevity.",
+    summary: "An illustrative retirement corpus can depend on lifestyle, inflation, and the years modelled in retirement.",
     explanation:
-      "Educational retirement tools estimate a target corpus and then explore how EPF, NPS, SIPs, and withdrawals might contribute. These are planning sketches — not promises of a specific outcome.",
+      "Educational retirement tools can illustrate a corpus from expense, inflation, return, and duration assumptions, then explore how EPF, NPS, regular contributions, and withdrawals might fit that sketch. These are planning sketches — not promises of a specific outcome.",
     conceptId: "retirement",
     category: "planning",
     difficulty: "intermediate",

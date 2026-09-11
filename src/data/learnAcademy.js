@@ -350,7 +350,7 @@ const RAW_LEARNING_PATHS = [
     icon: "🌅",
     title: "Retirement Planning",
     description:
-      "Estimate retirement needs, explore EPF, NPS, SWP, and build a long-term corpus timeline.",
+      "Explore retirement illustrations, EPF, NPS, SWP, and a long-term corpus timeline.",
     difficulty: "Intermediate",
     relatedCalculators: [
       "/retirement-calculator",
@@ -364,7 +364,7 @@ const RAW_LEARNING_PATHS = [
         id: 1,
         title: "Retirement Corpus Basics",
         summary:
-          "Retirement planning estimates how much you need when regular salary income stops. Expenses, inflation, and life expectancy all affect the corpus target — often modelled over decades.",
+          "Retirement planning illustrations often start from future spending, inflation, and a visitor-selected number of years in retirement. These are educational scenarios, not a prediction of how long savings will last.",
         calculators: ["/retirement-calculator", "/inflation-calculator"],
       },
       {

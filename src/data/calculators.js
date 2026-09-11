@@ -3,7 +3,7 @@ export const ALL_CALCULATORS = [
   { icon: "💳", title: "EMI Calculator", desc: "Plan loan EMI and repayment.", path: "/emi-calculator" },
   { icon: "🏦", title: "FD Calculator", desc: "Calculate fixed deposit maturity value.", path: "/fd-calculator" },
   { icon: "💰", title: "PPF Calculator", desc: "Explore an illustrative PPF accumulation estimate.", path: "/ppf-calculator" },
-  { icon: "🌅", title: "Retirement Calculator", desc: "Estimate retirement corpus needs.", path: "/retirement-calculator" },
+  { icon: "🌅", title: "Retirement Calculator", desc: "Explore an illustrative retirement-corpus estimate.", path: "/retirement-calculator" },
   { icon: "🎯", title: "Goal Planner", desc: "Plan financial goals with clarity.", path: "/goal-planner" },
   { icon: "📊", title: "CAGR Calculator", desc: "Measure annualized investment return.", path: "/cagr-calculator" },
   { icon: "💵", title: "Lumpsum Calculator", desc: "Project one-time investment growth.", path: "/lumpsum-calculator" },
