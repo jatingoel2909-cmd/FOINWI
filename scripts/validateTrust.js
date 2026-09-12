@@ -17,6 +17,7 @@ const files = {
   terms: new URL("../src/pages/TermsAndConditionsPage.jsx", import.meta.url),
   footer: new URL("../src/components/Footer.jsx", import.meta.url),
   infoLayout: new URL("../src/components/InfoPageLayout.jsx", import.meta.url),
+  indexHtml: new URL("../index.html", import.meta.url),
 };
 
 const source = Object.fromEntries(
@@ -45,6 +46,7 @@ assert(
   "About non-advisory boundary is missing",
 );
 assert(!/\bai-powered\b/iu.test(source.about), "About must not present current Intelligence as AI-powered");
+assert(!/\bai-powered\b/iu.test(source.indexHtml), "index.html must not claim current tools are AI-powered");
 assert(!/\bguaranteed returns?\b/iu.test(publicTrustSource), "Trust surfaces must not promise guaranteed returns");
 assert(!/\b(?:loan )?approval for you\b|\bsuitable for you\b/iu.test(publicTrustSource), "Trust surfaces must not imply approval or suitability");
 assert(source.privacy.includes("contact us by email"), "Privacy policy must describe current email contact");

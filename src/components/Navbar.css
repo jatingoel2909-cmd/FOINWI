@@ -173,9 +173,26 @@
   .shrix-nav-drawer {
     display: block;
     position: fixed;
+    inset: 0;
+    z-index: 102;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear 0.28s;
+  }
+
+  .shrix-nav-drawer--open {
+    visibility: visible;
+    transition: visibility 0s linear 0s;
+  }
+
+  .shrix-nav-drawer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: absolute;
     top: 0;
     right: 0;
-    z-index: 102;
     width: min(320px, 88vw);
     height: 100vh;
     padding: 96px 28px 32px;
@@ -188,15 +205,9 @@
     pointer-events: none;
   }
 
-  .shrix-nav-drawer--open {
+  .shrix-nav-drawer--open .shrix-nav-drawer__links {
     transform: translateX(0);
     pointer-events: auto;
-  }
-
-  .shrix-nav-drawer__links {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
   }
 
   .shrix-nav-drawer__links a {

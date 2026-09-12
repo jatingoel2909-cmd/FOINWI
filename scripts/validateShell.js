@@ -24,6 +24,7 @@ function stripClassNames(source) {
 }
 
 const navbar = read("src/components/Navbar.jsx");
+const navbarCss = read("src/components/Navbar.css");
 const footer = read("src/components/Footer.jsx");
 const brand = read("src/components/BrandWordmark.jsx");
 const command = read("src/components/intelligence/SearchCommandCenter.jsx");
@@ -78,6 +79,12 @@ assert(navbar.includes('event.key !== "Escape"') || navbar.includes('event.key =
 assert(navbar.includes("if (!menuOpen) return undefined"), "F: Drawer Escape listener must run only while the drawer is open");
 assert(navbar.includes("aria-hidden={!menuOpen}"), "G: Closed drawer must use aria-hidden");
 assert(navbar.includes("inert={!menuOpen}"), "G: Closed drawer must use inert");
+const mobileCss = navbarCss.split("@media (max-width: 1023px)")[1] ?? "";
+const drawerShell = mobileCss.match(/\.shrix-nav-drawer\s*\{([^}]+)\}/u)?.[1] ?? "";
+assert(/inset:\s*0/u.test(drawerShell), "G: Mobile drawer shell must stay viewport-contained");
+assert(/overflow:\s*hidden/u.test(drawerShell), "G: Mobile drawer shell must clip overflow");
+assert(/visibility:\s*hidden/u.test(drawerShell), "G: Closed mobile drawer must use visibility hidden");
+assert(!/transform:\s*translateX\(100%\)/u.test(drawerShell), "G: Closed drawer root must not translate off-canvas");
 
 assert(navbar.includes('aria-haspopup="dialog"'), 'H: Search opener must use aria-haspopup="dialog"');
 assert(navbar.includes("aria-expanded={searchOpen}"), "H: Search opener must reflect search open state");
