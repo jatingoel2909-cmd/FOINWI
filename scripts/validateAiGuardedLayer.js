@@ -137,6 +137,12 @@ assert(classifyContext.allowedIntentIds.includes("invest-sip"), "CLASSIFY must r
 assert(!classifyContext.allowedIntentIds.includes("invented-intent"), "CLASSIFY allowedIntentIds must not include unknown IDs");
 assert(classifyContext.allowedIntentIds.every((id) => typeof id === "string"), "CLASSIFY allowedIntentIds must be IDs only");
 assert(!classifyContext.candidateIntentIds.includes("invented-intent"), "CLASSIFY candidate IDs must drop unknown intents");
+assert(buildApprovedAiContext({
+  task: "CHAT",
+  userQuery: "I have some leftover cash each month and want a starting point on this website for learning how regular investing works for a beginner",
+  candidateIntentIds: ["invest-sip"],
+  surface: "api",
+}) === null, "Unapproved task must not return an approved context");
 
 const ids = getApprovedIntentIds();
 const validClassify = createModelDraft({

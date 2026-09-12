@@ -398,6 +398,31 @@ assert(noKeyShadow.review.decision === "provider-not-configured", "Shadow with n
 assert(noKeyShadowSpy.calls.length === 0, "Shadow with no key must not call fetch");
 assert(noKeyShadow.review.usedForUserResponse === false, "Unconfigured adapter must not serve AI");
 
+assert(routeAiTask(messyQuery).useAi === true, "Missing-context fetch case must start from an AI-eligible request");
+const missingApprovedContext = buildApprovedAiContext({
+  task: "CHAT",
+  userQuery: messyQuery,
+  candidateIntentIds: ["invest-sip"],
+});
+assert(missingApprovedContext === null, "Unapproved task must make buildApprovedAiContext return no context");
+const missingContextSpy = createFetchSpy(() => jsonResponse(providerPayload(createModelDraft({
+  task: "CLASSIFY",
+  candidateIntentIds: [ids[0]],
+  confidenceScore: 70,
+}))));
+const missingContext = await createOpenAiAdapter({
+  env: enabledEnv(),
+  fetchImpl: missingContextSpy.fetchImpl,
+}).complete({
+  task: routeAiTask(messyQuery).task,
+  userQuery: messyQuery,
+  approvedContext: missingApprovedContext,
+  constraints: { noAdvice: true },
+});
+assert(missingContext.ok === false && missingContext.error.code === "schema-failure", "Missing approved context must fail closed before fetch");
+assert(missingContextSpy.calls.length === 0, "Missing approved context must not call fetch");
+assert(!containsSecret(missingContext), "Missing-context failure telemetry must not include secrets");
+
 const apiResponse = await onRequestPost({
   request: new Request("https://foinwi.com/api/intelligence", {
     method: "POST",

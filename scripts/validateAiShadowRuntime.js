@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { createModelDraft } from "../src/intelligence/ai/aiDraftTypes.js";
 import { routeAiTask } from "../src/intelligence/ai/aiTaskRouter.js";
 import { buildApprovedAiContext, getApprovedIntentIds } from "../src/intelligence/ai/aiApprovedContext.js";
+import { planGuardedIntelligence } from "../src/intelligence/ai/guardedIntelligence.js";
 import { validateModelDraft } from "../src/intelligence/ai/aiOutputValidator.js";
 import { runIntelligence } from "../src/intelligence/engine/runIntelligence.js";
 import { onRequestPost } from "../functions/api/intelligence.js";
@@ -71,6 +72,13 @@ assert(!/from\s+['"](?:openai|@anthropic-ai|@google\/generative-ai|anthropic)['"
 assert(!/https?:\/\/(?:api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com)/iu.test(joined), "Shadow runtime must not include provider URLs");
 assert(!/\b(OPENAI_API_KEY|OPENAI_MODEL|ANTHROPIC_API_KEY|GEMINI_API_KEY|sk-[a-zA-Z0-9]{8,})\b/u.test(joined), "Shadow runtime must not include API keys or model env vars");
 assert(!/\bfetch\(/u.test(joined), "Phase 4B.1 must not make network calls");
+const runtimeSource = sources["src/intelligence/shadow/shadowRuntime.js"];
+assert(runtimeSource.includes("const planned = planGuardedIntelligence(request);"), "Shadow runtime must always plan through planGuardedIntelligence");
+assert(!/\boptions\.planned\b/u.test(runtimeSource), "Shadow runtime must not accept a planned override");
+const approvedContextGate = runtimeSource.indexOf("!planned.approvedContext");
+const completeCall = runtimeSource.indexOf("adapter.complete(");
+assert(approvedContextGate !== -1, "Shadow runtime must fail closed when approved context is missing");
+assert(completeCall !== -1 && approvedContextGate < completeCall, "Missing approved context must be checked before adapter.complete()");
 assert(!/\bn8n\b/iu.test(joined), "Shadow runtime must not include n8n");
 assert(!joined.includes("functions/lib/openai"), "Shadow runtime must not import the OpenAI adapter");
 assert(!JSON.parse(packageSource).dependencies?.openai && !JSON.parse(packageSource).devDependencies?.openai, "package.json must not add an OpenAI SDK");
@@ -139,6 +147,17 @@ assert(injectionSpy.calls === 0, "Injection routes must never invoke a provider"
 assert(injection.review.usedForUserResponse === false, "Injection must not use AI for the user");
 
 const messyQuery = "I have some leftover cash each month and want a starting point on this website for learning how regular investing works for a beginner";
+assert(routeAiTask(messyQuery).useAi === true, "Defense-in-depth case must start from an AI-eligible request");
+const eligiblePlan = planGuardedIntelligence({ query: messyQuery });
+assert(eligiblePlan.aiPlan.useAi === true, "Eligible request must remain AI-routed before context construction");
+assert(eligiblePlan.approvedContext !== null, "Planner currently always builds approved context for AI-routable tasks");
+assert(buildApprovedAiContext({
+  task: "CHAT",
+  userQuery: messyQuery,
+  candidateIntentIds: eligiblePlan.response.intent ? [eligiblePlan.response.intent] : [],
+  surface: "api",
+}) === null, "Unapproved task must make buildApprovedAiContext return no context");
+
 const defaultShadow = await runShadowIntelligence({ query: messyQuery });
 assert(defaultShadow.response.usedModel === false, "Default shadow path must keep usedModel false");
 assert(defaultShadow.review.usedForUserResponse === false, "Default shadow path must not use AI for the user");
