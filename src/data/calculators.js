@@ -13,7 +13,7 @@ export const ALL_CALCULATORS = [
   { icon: "🎁", title: "Gratuity Calculator", desc: "Simplified statutory estimate under the Code on Social Security, 2020.", path: "/gratuity-calculator" },
   { icon: "🏛️", title: "EPF Calculator", desc: "Explore an illustrative EPF accumulation estimate.", path: "/epf-calculator" },
   { icon: "🛡️", title: "NPS Calculator", desc: "Explore an educational NPS accumulation and normal-exit illustration.", path: "/nps-calculator" },
-  { icon: "🏠", title: "Home Loan Eligibility Calculator", desc: "Estimate home loan you may qualify for.", path: "/home-loan-eligibility-calculator" },
+  { icon: "🏠", title: "Home Loan Eligibility Calculator", desc: "Explore an illustrative home-loan affordability estimate.", path: "/home-loan-eligibility-calculator" },
   { icon: "💸", title: "Loan Prepayment Calculator", desc: "See interest saved from loan prepayment.", path: "/loan-prepayment-calculator" },
   { icon: "🧾", title: "GST Calculator", desc: "Estimate GST arithmetic for a visitor-entered applicable rate.", path: "/gst-calculator" },
   { icon: "📋", title: "Income Tax Calculator", desc: "Educational tax estimate for AY 2026-27.", path: "/income-tax-calculator" },

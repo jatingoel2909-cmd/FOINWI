@@ -515,38 +515,39 @@ export const CALCULATOR_INSIGHTS = {
   },
   "/home-loan-eligibility-calculator": {
     howCalculated: {
-      formula: "Eligible EMI = (Income × 50%) − Existing EMI | Loan from EMI, rate, tenure",
+      formula: "Illustrative affordable EMI = (Income × affordability ratio) − Existing EMI | Loan from EMI, rate, tenure",
       variables: [
-        { symbol: "Income", meaning: "Monthly net income used in the estimate" },
+        { symbol: "Income", meaning: "Monthly income used in the estimate" },
         {
-          symbol: "50%",
-          meaning: "Illustrative fixed-obligation ratio used for available EMI capacity",
+          symbol: "Affordability ratio",
+          meaning: "Illustrative share of monthly income available for modelled debt obligations; 50% is the starting assumption and can be changed",
         },
         {
           symbol: "Existing EMI",
           meaning: "Current monthly loan obligations already being paid",
         },
         {
-          symbol: "Eligible EMI",
-          meaning: "Estimated EMI capacity available for a new loan",
+          symbol: "Illustrative affordable EMI",
+          meaning: "Estimated EMI remaining after existing obligations under the selected ratio",
         },
         {
-          symbol: "Loan",
-          meaning: "Estimated principal supportable by the Eligible EMI at the chosen rate and tenure",
+          symbol: "Illustrative loan amount",
+          meaning: "Estimated principal supportable by that EMI at the chosen rate and tenure",
         },
       ],
       estimateNote:
-        "This estimate converts assumed EMI capacity into an illustrative loan amount using income, existing obligations, rate and tenure.",
+        "This estimate converts assumed EMI capacity into an illustrative loan amount. The affordability ratio is not an RBI or bank rule. This calculator does not determine a lender's loan-to-value limit for a property.",
       summary:
-        "This calculator estimates eligible loan amount using income, existing EMIs, interest rate, and tenure with a common 50% obligation ratio.",
+        "This calculator illustrates an income-based loan amount using monthly income, existing EMIs, interest rate, tenure, and a visitor-editable affordability ratio. It is not a sanction or credit decision.",
       inputs: [
         "Monthly income",
         "Existing monthly EMIs",
         "Interest rate and loan tenure",
+        "Illustrative affordability ratio",
       ],
     },
     meaning:
-      "This can help you understand a rough borrowing range before property search. Actual lender eligibility may differ.",
+      "This can help you explore how income, obligations, rate, tenure, and an affordability assumption change an illustrated loan amount. Actual lender eligibility and sanction can differ.",
     relatedTools: [
       { title: "EMI Calculator", path: "/emi-calculator" },
       { title: "Loan Prepayment", path: "/loan-prepayment-calculator" },

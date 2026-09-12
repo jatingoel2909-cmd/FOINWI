@@ -4,33 +4,36 @@ import CalculatorResults from "./ui/CalculatorResults";
 import CurrencyInput from "./ui/CurrencyInput";
 import InputField from "./ui/InputField";
 import { formatCurrency } from "../utils/calculatorFormat";
+import {
+  AFFORDABILITY_RATIO_LABEL,
+  AFFORDABLE_EMI_LABEL,
+  DEFAULT_FOIR_PERCENT,
+  ELIGIBILITY_DESCRIPTION,
+  ELIGIBILITY_LIMITATION_NOTE,
+  ELIGIBILITY_TITLE,
+  FOIR_HELPER_TEXT,
+  FOIR_MAX,
+  FOIR_MIN,
+  LTV_LIMITATION_NOTE,
+  PRIMARY_LOAN_LABEL,
+  ZERO_AFFORDABILITY_NOTE,
+  calculateLoanEligibility,
+} from "../utils/loanEligibilityEngine";
 
 const LIMITS = {
   income: { min: 15000, max: 500000, step: 5000 },
   existingEmi: { min: 0, max: 200000, step: 1000 },
   rate: { min: 6, max: 15, step: 0.1 },
   years: { min: 1, max: 30, step: 1 },
+  affordabilityRatio: { min: FOIR_MIN, max: FOIR_MAX, step: 1 },
 };
-
-const FOIR = 0.5;
-
-function loanFromEmi(emi, annualRate, years) {
-  const months = years * 12;
-  const monthlyRate = annualRate / 12 / 100;
-
-  if (monthlyRate === 0) {
-    return emi * months;
-  }
-
-  const factor = Math.pow(1 + monthlyRate, months);
-  return (emi * (factor - 1)) / (monthlyRate * factor);
-}
 
 function HomeLoanEligibilityCalculator({
   defaultIncome = 100000,
   defaultExistingEmi = 10000,
   defaultRate = 8.5,
   defaultYears = 20,
+  defaultAffordabilityRatio = DEFAULT_FOIR_PERCENT,
   className = "",
   showHeader = true,
 }) {
@@ -38,16 +41,28 @@ function HomeLoanEligibilityCalculator({
   const [existingEmi, setExistingEmi] = useState(defaultExistingEmi);
   const [rate, setRate] = useState(defaultRate);
   const [years, setYears] = useState(defaultYears);
+  const [affordabilityRatio, setAffordabilityRatio] = useState(
+    defaultAffordabilityRatio,
+  );
 
-  const eligibleEmi = Math.max(0, monthlyIncome * FOIR - existingEmi);
-  const loanEligibility =
-    eligibleEmi > 0 ? loanFromEmi(eligibleEmi, rate, years) : 0;
+  const estimate = calculateLoanEligibility({
+    monthlyIncome,
+    existingMonthlyObligations: existingEmi,
+    annualInterestRate: rate,
+    tenureMonths: years * 12,
+    foirPercent: affordabilityRatio,
+  });
+
+  const noAffordableEmi = estimate.estimatedAvailableEmi <= 0;
+  const story = noAffordableEmi
+    ? `${ZERO_AFFORDABILITY_NOTE} ${ELIGIBILITY_LIMITATION_NOTE} ${LTV_LIMITATION_NOTE}`
+    : `${ELIGIBILITY_LIMITATION_NOTE} ${LTV_LIMITATION_NOTE}`;
 
   return (
     <CalculatorLayout
       label="Home Loan Eligibility Calculator"
-      title="Estimate how much home loan you may qualify for"
-      description="Based on monthly income, existing EMIs, interest rate, and tenure using a common 50% Fixed Obligation to Income Ratio (FOIR) guideline."
+      title={ELIGIBILITY_TITLE}
+      description={ELIGIBILITY_DESCRIPTION}
       showHeader={showHeader}
       variant="default"
       className={className}
@@ -84,21 +99,37 @@ function HomeLoanEligibilityCalculator({
             format="years"
             limits={LIMITS.years}
           />
+          <InputField
+            id="hle-affordability-ratio"
+            label={AFFORDABILITY_RATIO_LABEL}
+            value={affordabilityRatio}
+            onChange={setAffordabilityRatio}
+            format="percent"
+            limits={LIMITS.affordabilityRatio}
+          />
+          <p className="calc-field__helper" id="hle-affordability-helper">
+            {FOIR_HELPER_TEXT}
+          </p>
         </>
       }
       results={
         <CalculatorResults
+          headerTitle="Illustrative affordability estimate"
+          headerSubtitle="Educational projection using the assumptions you entered — not a lender decision"
           primary={{
-            label: "Estimated Loan Eligibility",
-            value: formatCurrency(loanEligibility),
+            label: PRIMARY_LOAN_LABEL,
+            value: formatCurrency(estimate.estimatedEligibleLoan),
           }}
           metrics={[
-            { label: "Eligible EMI", value: formatCurrency(eligibleEmi) },
+            {
+              label: AFFORDABLE_EMI_LABEL,
+              value: formatCurrency(estimate.estimatedAvailableEmi),
+            },
             { label: "Monthly Income", value: formatCurrency(monthlyIncome) },
             { label: "Existing Monthly EMI", value: formatCurrency(existingEmi) },
             { label: "Loan Tenure", value: `${years} years` },
           ]}
-          story="This estimate uses a simplified income-to-EMI guideline. Banks may apply different Fixed Obligation to Income Ratio (FOIR) limits, credit checks, and co-applicant rules."
+          story={story}
         />
       }
     />

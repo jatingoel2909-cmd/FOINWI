@@ -455,6 +455,7 @@ runValidation("Home Loan Eligibility", () => {
   });
   assertFields(result, ["estimatedAvailableEmi", "estimatedEligibleLoan", "foirPercent", "status"], "Home Loan Eligibility");
   assert(result.valid, "Home Loan Eligibility normal case must be valid");
+  assert(result.estimatedAvailableEmi === 40000, "Home Loan Eligibility default available EMI must be ₹40,000");
   assertNonNegative(result.estimatedEligibleLoan, "Home Loan Eligibility output");
   assert(!calculateLoanEligibility({ monthlyIncome: -1, annualInterestRate: 8.5, tenureMonths: 240 }).valid, "Home Loan negative income guard");
 });

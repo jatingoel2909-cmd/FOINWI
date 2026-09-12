@@ -10,7 +10,7 @@ export const FINANCIAL_JOURNEYS = [
     overview:
       "Buying a home in India means balancing property cost, down payment savings, home loan EMI, registration charges, and future cash flow. This mission helps you estimate what you can afford, how much to save before applying, and whether the EMI fits your income comfortably.",
     calculators: [
-      { title: "Home Loan Eligibility", path: "/home-loan-eligibility-calculator", desc: "Estimate the loan amount you may qualify for based on income." },
+      { title: "Home Loan Eligibility", path: "/home-loan-eligibility-calculator", desc: "Explore an illustrative income-based loan-affordability estimate." },
       { title: "EMI Calculator", path: "/emi-calculator", desc: "See monthly EMI across loan amount, rate, and tenure." },
       { title: "Goal Planner", path: "/goal-planner", desc: "Plan your down payment target with a monthly savings path." },
       { title: "Loan Prepayment", path: "/loan-prepayment-calculator", desc: "Understand how prepayments can reduce interest over time." },
@@ -26,20 +26,20 @@ export const FINANCIAL_JOURNEYS = [
     checklist: [
       "Estimate total property budget including registration and interiors",
       "Calculate required down payment and monthly savings needed",
-      "Check home loan eligibility against current income",
+      "Explore an illustrative home-loan affordability estimate against current income",
       "Stress-test EMI at higher interest rates",
       "Review emergency fund before committing to a long loan",
     ],
     nextStep: {
       title: "Check your home loan eligibility",
-      text: "Start with the Home Loan Eligibility Calculator to see a realistic borrowing range before you shortlist properties.",
+      text: "Start with the Home Loan Eligibility Calculator to explore an illustrative borrowing range before you shortlist properties.",
       path: "/home-loan-eligibility-calculator",
       cta: "Open Eligibility Calculator →",
     },
     timeline: [
       { title: "Set property budget", detail: "Define total cost range including taxes and setup expenses." },
       { title: "Plan down payment", detail: "Use Goal Planner to map monthly savings toward your target." },
-      { title: "Check loan eligibility", detail: "Estimate sanctioned amount based on income and obligations." },
+      { title: "Check loan eligibility", detail: "Compare an illustrative loan amount with income and obligations." },
       { title: "Compare EMI scenarios", detail: "Test tenure and rate combinations for comfortable repayment." },
       { title: "Prepare to apply", detail: "Organise documents, credit profile, and emergency buffer." },
     ],

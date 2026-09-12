@@ -36,7 +36,7 @@ function LoanEligibilityComparison({ comparison }) {
                 <dd>{formatCurrency(option.estimatedAvailableEmi)}</dd>
               </div>
               <div>
-                <dt>Estimated eligible loan</dt>
+                <dt>Illustrative loan amount</dt>
                 <dd>{formatCurrency(option.estimatedEligibleLoan)}</dd>
               </div>
               <div>

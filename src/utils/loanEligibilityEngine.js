@@ -15,20 +15,33 @@ export const DEFAULT_FOIR_PERCENT = 50;
 export const FOIR_MIN = 20;
 export const FOIR_MAX = 70;
 
+export const AFFORDABILITY_RATIO_LABEL = "Illustrative affordability ratio (%)";
 export const FOIR_HELPER_TEXT =
-  "FOIR is an illustrative assumption used to estimate how much of monthly income may be available for total debt obligations. Actual lender policies vary.";
+  "This calculator uses an illustrative share of monthly income to estimate loan affordability. Actual lender criteria vary by lender and applicant.";
+export const ELIGIBILITY_TITLE =
+  "Explore an illustrative home-loan affordability estimate";
+export const ELIGIBILITY_DESCRIPTION =
+  "This illustration estimates how a monthly income, existing EMIs, interest rate, tenure, and an illustrative affordability ratio may translate into a loan amount. It is educational only and is not a lender assessment.";
+export const PRIMARY_LOAN_LABEL = "Illustrative loan amount";
+export const AFFORDABLE_EMI_LABEL = "Illustrative affordable EMI";
+export const ELIGIBILITY_LIMITATION_NOTE =
+  "Actual home-loan eligibility and sanction can vary by lender and may depend on income assessment, existing obligations, age, tenure, credit profile, property value, loan-to-value limits and lender policy.";
+export const LTV_LIMITATION_NOTE =
+  "This estimate focuses on income-based affordability. It does not determine the lender's loan-to-value limit for a specific property.";
+export const ZERO_AFFORDABILITY_NOTE =
+  "Under the assumptions entered, existing monthly obligations use the modelled affordability amount.";
 
 export const ELIGIBILITY_ASSUMPTIONS = [
   "Income remains stable.",
   "Interest rate remains unchanged.",
   "Existing monthly obligations are accurately entered.",
-  "FOIR is an illustrative user-editable assumption.",
+  "The affordability ratio is an illustrative visitor-editable assumption.",
   "Taxes, living expenses, credit history, property valuation, lender policy and documentation are not assessed.",
   "Results are educational estimates only.",
 ];
 
 export const CAPACITY_INDICATOR_NOTE =
-  "This indicator is based only on entered income, obligations and the selected FOIR assumption. It is not a lender assessment or credit decision.";
+  "This indicator is based only on entered income, obligations and the selected affordability-ratio assumption. It is not a lender assessment or credit decision.";
 
 function toNumber(value, fallback = NaN) {
   const n = Number(value);
@@ -320,7 +333,7 @@ export function buildEligibilityInsights(result, { hasCoApplicant, hasDownPaymen
     );
   } else {
     statements.push(
-      "With no existing monthly obligations entered, more of the FOIR capacity may be available for a new EMI estimate.",
+      "With no existing monthly obligations entered, more of the modelled affordability capacity may be available for a new EMI estimate.",
     );
   }
 
@@ -350,7 +363,7 @@ export function buildEligibilityInsights(result, { hasCoApplicant, hasDownPaymen
 
   if (result.estimatedAvailableEmi <= 0) {
     statements.push(
-      "Entered obligations appear to use or exceed the selected FOIR capacity, so estimated available EMI is zero in this scenario.",
+      ZERO_AFFORDABILITY_NOTE,
     );
   }
 

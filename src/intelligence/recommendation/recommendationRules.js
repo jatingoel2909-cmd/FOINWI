@@ -77,7 +77,7 @@ export const CONCEPT_RULE_BOOSTS = {
   emi: [
     { type: "nextLesson", slug: "loans-emi", baseScore: 90, reason: "Understand EMI structure, tenure, and total interest cost." },
     { type: "nextCalculator", path: "/loan-prepayment-calculator", baseScore: 85, reason: "Compare how prepayments may reduce interest over a loan tenure." },
-    { type: "nextCalculator", path: "/home-loan-eligibility-calculator", baseScore: 80, reason: "Estimate borrowing capacity before committing to a home loan." },
+    { type: "nextCalculator", path: "/home-loan-eligibility-calculator", baseScore: 80, reason: "Explore an illustrative home-loan affordability estimate before comparing EMI scenarios." },
     { type: "nextJourney", slug: "become-debt-free", baseScore: 88, reason: "Explore a guided path for reviewing loans and repayment habits." },
     { type: "relatedConcepts", conceptId: "debt", baseScore: 76, reason: "Debt management concepts help put EMI in a broader financial context." },
   ],

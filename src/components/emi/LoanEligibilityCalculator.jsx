@@ -10,9 +10,12 @@ import {
   getLoanTypeById,
 } from "../../data/loanTypes";
 import {
+  AFFORDABILITY_RATIO_LABEL,
   DEFAULT_FOIR_PERCENT,
   ELIGIBILITY_ASSUMPTIONS,
+  ELIGIBILITY_LIMITATION_NOTE,
   FOIR_HELPER_TEXT,
+  LTV_LIMITATION_NOTE,
   FOIR_MAX,
   FOIR_MIN,
   buildEligibilityInsights,
@@ -123,7 +126,7 @@ function LoanEligibilityCalculator({
           <h3 id="emi-elig-title">Estimate Loan Eligibility</h3>
           <p>
             Explore an illustrative borrowing-capacity estimate from income, obligations and an
-            editable FOIR assumption. Educational only — not a lender assessment or credit decision.
+            editable affordability-ratio assumption. Educational only — not a lender assessment or credit decision.
           </p>
         </div>
       </header>
@@ -181,7 +184,7 @@ function LoanEligibilityCalculator({
           )}
           <InputField
             id="emi-elig-foir"
-            label="FOIR assumption"
+            label={AFFORDABILITY_RATIO_LABEL}
             value={foirPercent}
             onChange={setFoirPercent}
             format="percent"
@@ -213,6 +216,8 @@ function LoanEligibilityCalculator({
               <li key={line}>{line}</li>
             ))}
           </ul>
+          <p className="emi-elig__capacity-note">{ELIGIBILITY_LIMITATION_NOTE}</p>
+          <p className="emi-elig__capacity-note">{LTV_LIMITATION_NOTE}</p>
         </aside>
       </div>
     </section>

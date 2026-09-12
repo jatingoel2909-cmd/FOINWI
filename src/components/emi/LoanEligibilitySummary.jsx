@@ -23,11 +23,11 @@ function LoanEligibilitySummary({ result }) {
         aria-atomic="true"
       >
         <div>
-          <dt>Estimated eligible loan amount</dt>
+          <dt>Illustrative loan amount</dt>
           <dd>{formatCurrency(result.estimatedEligibleLoan)}</dd>
         </div>
         <div>
-          <dt>Estimated available EMI</dt>
+          <dt>Illustrative affordable EMI</dt>
           <dd>{formatCurrency(result.estimatedAvailableEmi)}</dd>
         </div>
         <div>
@@ -45,7 +45,7 @@ function LoanEligibilitySummary({ result }) {
           </div>
         ) : null}
         <div>
-          <dt>FOIR assumption used</dt>
+          <dt>Illustrative affordability ratio used</dt>
           <dd>{result.foirPercent}%</dd>
         </div>
       </dl>
