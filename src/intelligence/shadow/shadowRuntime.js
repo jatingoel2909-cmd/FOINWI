@@ -19,6 +19,17 @@ function decisionFromError(code) {
   if (code === "malformed-output" || code === "schema-failure" || code === "unknown-intent") {
     return "validation-failed";
   }
+  if (
+    code === "provider-auth-failed"
+    || code === "provider-permission-denied"
+    || code === "provider-request-invalid"
+    || code === "provider-not-found"
+    || code === "provider-rate-limited"
+    || code === "provider-server-error"
+    || code === "provider-network-error"
+  ) {
+    return "provider-unavailable";
+  }
   return "provider-unavailable";
 }
 

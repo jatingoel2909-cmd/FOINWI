@@ -47,6 +47,16 @@ function fail(code, message, telemetry) {
   return withTelemetry(createProviderFailure(code, message), telemetry);
 }
 
+function errorCodeFromHttpStatus(status) {
+  if (status === 400) return "provider-request-invalid";
+  if (status === 401) return "provider-auth-failed";
+  if (status === 403) return "provider-permission-denied";
+  if (status === 404) return "provider-not-found";
+  if (status === 429) return "provider-rate-limited";
+  if (Number.isInteger(status) && status >= 500 && status <= 599) return "provider-server-error";
+  return "provider-unavailable";
+}
+
 function constraintSet(constraints = {}) {
   return {
     noAdvice: constraints.noAdvice === true,
@@ -217,11 +227,19 @@ export async function completeOpenAi(request = {}, options = {}) {
     } catch (error) {
       const timedOut = error?.name === "AbortError";
       return fail(
-        timedOut ? "provider-timeout" : "provider-unavailable",
+        timedOut ? "provider-timeout" : "provider-network-error",
         timedOut
           ? "The language provider timed out. FOINWI continues with deterministic guidance."
           : "The language provider is temporarily unavailable.",
         { ...telemetry(), timedOut },
+      );
+    }
+
+    if (!response.ok) {
+      return fail(
+        errorCodeFromHttpStatus(response.status),
+        "The language provider is temporarily unavailable.",
+        { ...telemetry(), requestId: readRequestId(response, null) },
       );
     }
 
@@ -236,12 +254,6 @@ export async function completeOpenAi(request = {}, options = {}) {
     }
 
     const requestId = readRequestId(response, raw);
-    if (!response.ok) {
-      return fail("provider-unavailable", "The language provider is temporarily unavailable.", {
-        ...telemetry(),
-        requestId,
-      });
-    }
 
     const extracted = extractOutputText(raw);
     if (extracted.refused) {

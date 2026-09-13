@@ -79,6 +79,8 @@ const approvedContextGate = runtimeSource.indexOf("!planned.approvedContext");
 const completeCall = runtimeSource.indexOf("adapter.complete(");
 assert(approvedContextGate !== -1, "Shadow runtime must fail closed when approved context is missing");
 assert(completeCall !== -1 && approvedContextGate < completeCall, "Missing approved context must be checked before adapter.complete()");
+assert(runtimeSource.includes("provider-network-error"), "Shadow runtime must recognize internal network-class codes");
+assert(runtimeSource.includes("return \"provider-unavailable\""), "Internal provider class codes must stay visitor-invisible");
 assert(!/\bn8n\b/iu.test(joined), "Shadow runtime must not include n8n");
 assert(!joined.includes("functions/lib/openai"), "Shadow runtime must not import the OpenAI adapter");
 assert(!JSON.parse(packageSource).dependencies?.openai && !JSON.parse(packageSource).devDependencies?.openai, "package.json must not add an OpenAI SDK");

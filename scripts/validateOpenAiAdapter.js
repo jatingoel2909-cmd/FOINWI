@@ -1,6 +1,6 @@
 /* global process */
 import { readFile } from "node:fs/promises";
-import { createAiProviderAdapter } from "../src/intelligence/ai/aiProviderAdapter.js";
+import { AI_PROVIDER_ERROR_CODES, createAiProviderAdapter } from "../src/intelligence/ai/aiProviderAdapter.js";
 import { createModelDraft } from "../src/intelligence/ai/aiDraftTypes.js";
 import { buildApprovedAiContext, getApprovedIntentIds } from "../src/intelligence/ai/aiApprovedContext.js";
 import { routeAiTask } from "../src/intelligence/ai/aiTaskRouter.js";
@@ -221,6 +221,16 @@ assert(timeout.error.code === "provider-timeout", "Timeout must map to provider-
 assert(timeout.telemetry.timedOut === true, "Timeout telemetry must set timedOut");
 assert(!containsSecret(timeout), "Timeout telemetry must not include secrets");
 
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-auth-failed"), "Auth failure must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-permission-denied"), "Permission failure must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-request-invalid"), "Invalid request must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-not-found"), "Not-found must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-rate-limited"), "Rate limit must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-server-error"), "Server error must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-network-error"), "Network error must be an allowed internal code");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-unavailable"), "Generic provider-unavailable must remain allowed");
+assert(AI_PROVIDER_ERROR_CODES.includes("provider-timeout"), "Timeout must remain allowed");
+
 const throwSpy = createFetchSpy(() => {
   throw new Error("unexpected-adapter-failure");
 });
@@ -228,18 +238,49 @@ const thrown = await createOpenAiAdapter({
   env: enabledEnv(),
   fetchImpl: throwSpy.fetchImpl,
 }).complete(classifyRequest);
-assert(thrown.error.code === "provider-unavailable", "Adapter throw must be contained");
+assert(thrown.error.code === "provider-network-error", "Generic fetch throw must map to provider-network-error");
+assert(throwSpy.calls.length === 1, "Generic fetch throw must not retry");
 assert(!JSON.stringify(thrown).includes("unexpected-adapter-failure"), "Adapter throw must not leak internal errors");
+assert(!containsSecret(thrown), "Network-error telemetry must not include secrets");
 
-const httpSpy = createFetchSpy(() => jsonResponse({ error: { message: "secret-provider-detail" } }, { status: 500 }));
-const httpError = await createOpenAiAdapter({
-  env: enabledEnv(),
-  fetchImpl: httpSpy.fetchImpl,
-}).complete(classifyRequest);
-assert(httpError.error.code === "provider-unavailable", "Non-2xx must map to provider-unavailable");
-assert(!JSON.stringify(httpError).includes("secret-provider-detail"), "Provider error bodies must not leak into adapter output");
-assert(httpSpy.calls[0].url === OPENAI_RESPONSES_URL, "Configured adapter must call the OpenAI Responses API");
-assert(!String(httpSpy.calls[0].url).includes("/v1/chat/completions"), "Configured adapter must not call Chat Completions");
+async function assertHttpClass(status, expectedCode) {
+  const spy = createFetchSpy(() => jsonResponse({ error: { message: "secret-provider-detail" } }, { status }));
+  const result = await createOpenAiAdapter({
+    env: enabledEnv(),
+    fetchImpl: spy.fetchImpl,
+  }).complete(classifyRequest);
+  assert(result.ok === false && result.error.code === expectedCode, `HTTP ${status} must map to ${expectedCode}`);
+  assert(spy.calls.length === 1, `HTTP ${status} must not retry`);
+  assert(!JSON.stringify(result).includes("secret-provider-detail"), `HTTP ${status} must not leak provider body`);
+  assert(!containsSecret(result), `HTTP ${status} must not leak secrets`);
+  assert(!Object.hasOwn(result, "raw") && !JSON.stringify(result).includes("Unauthorized"), `HTTP ${status} must not expose status text or raw payload`);
+  return { result, spy };
+}
+
+await assertHttpClass(400, "provider-request-invalid");
+const http401 = await assertHttpClass(401, "provider-auth-failed");
+await assertHttpClass(403, "provider-permission-denied");
+await assertHttpClass(404, "provider-not-found");
+await assertHttpClass(429, "provider-rate-limited");
+const http500 = await assertHttpClass(500, "provider-server-error");
+await assertHttpClass(503, "provider-server-error");
+await assertHttpClass(418, "provider-unavailable");
+assert(http500.spy.calls[0].url === OPENAI_RESPONSES_URL, "Configured adapter must call the OpenAI Responses API");
+assert(!String(http500.spy.calls[0].url).includes("/v1/chat/completions"), "Configured adapter must not call Chat Completions");
+
+const authShadow = await runShadowIntelligence({ query: messyQuery }, {
+  env: { FOINWI_AI_PROVIDER_ENABLED: "true" },
+  adapter: createOpenAiAdapter({
+    env: enabledEnv(),
+    fetchImpl: http401.spy.fetchImpl,
+  }),
+});
+assert(authShadow.review.decision === "provider-unavailable", "Internal HTTP class must stay visitor-invisible as provider-unavailable");
+assert(authShadow.review.candidate.errorCode === "provider-auth-failed", "Shadow candidate may keep the internal HTTP class");
+assert(authShadow.review.usedForUserResponse === false, "HTTP-class failure must not use AI for the user");
+assert(authShadow.response.usedModel === false, "HTTP-class failure must keep usedModel false");
+assert(JSON.stringify(authShadow.response) === JSON.stringify(runIntelligence({ query: messyQuery })), "HTTP-class failure must preserve the deterministic response");
+assert(!JSON.stringify(authShadow.response).includes("provider-auth-failed"), "Internal HTTP class must not leak into the visitor response");
 
 const malformedSpy = createFetchSpy(() => jsonResponse({
   output: [{ type: "message", content: [{ type: "output_text", text: "{not-json" }] }],
