@@ -1,16 +1,18 @@
 /**
  * Server-only provider composition. Vendor details stay out of the API file.
  * One language-provider call maximum per shadow request. No retries.
+ * No vendor is hard-coded. Default complete() stays fail-closed.
  */
 
-import { createProviderFailure } from "../../../src/intelligence/ai/aiProviderAdapter.js";
+import { complete as defaultComplete, createProviderFailure } from "../../../src/intelligence/ai/aiProviderAdapter.js";
 import { isExternalProviderEnabled } from "../../../src/intelligence/shadow/shadowPolicy.js";
-import { createOpenAiAdapter } from "../openai/openaiAdapter.js";
 
 export const MAX_SHADOW_PROVIDER_CALLS = 1;
 
-export function createShadowProvider({ env = {}, fetchImpl } = {}) {
-  const adapter = createOpenAiAdapter({ env, fetchImpl });
+export function createShadowProvider({ env = {}, adapter } = {}) {
+  const resolvedAdapter = adapter && typeof adapter.complete === "function"
+    ? adapter
+    : { complete: defaultComplete };
   let calls = 0;
 
   return {
@@ -28,7 +30,7 @@ export function createShadowProvider({ env = {}, fetchImpl } = {}) {
           "FOINWI allows one language-provider call per shadow request.",
         );
       }
-      return adapter.complete(request);
+      return resolvedAdapter.complete(request);
     },
   };
 }

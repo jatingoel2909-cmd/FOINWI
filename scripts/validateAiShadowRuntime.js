@@ -82,8 +82,10 @@ assert(completeCall !== -1 && approvedContextGate < completeCall, "Missing appro
 assert(runtimeSource.includes("provider-network-error"), "Shadow runtime must recognize internal network-class codes");
 assert(runtimeSource.includes("return \"provider-unavailable\""), "Internal provider class codes must stay visitor-invisible");
 assert(!/\bn8n\b/iu.test(joined), "Shadow runtime must not include n8n");
-assert(!joined.includes("functions/lib/openai"), "Shadow runtime must not import the OpenAI adapter");
+assert(!joined.includes("functions/lib/openai"), "Shadow runtime must not import a vendor adapter");
 assert(!JSON.parse(packageSource).dependencies?.openai && !JSON.parse(packageSource).devDependencies?.openai, "package.json must not add an OpenAI SDK");
+assert(!JSON.parse(packageSource).scripts["smoke:openai-shadow"], "package.json must not include an OpenAI smoke script");
+assert(!JSON.parse(packageSource).scripts["validate:openai-adapter"], "package.json must not include an OpenAI adapter validator");
 assert(!/\b(fetch|openai|anthropic|claude|gemini)\b/iu.test(engineSource), "runIntelligence must remain model-free");
 assert(!apiSource.includes("intelligence/shadow/"), "Production API must not import Shadow Runtime directly");
 assert(!apiSource.includes("intelligence/ai/"), "Production API must not import the guarded AI layer");
