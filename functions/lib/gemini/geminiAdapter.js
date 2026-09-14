@@ -258,7 +258,8 @@ export async function completeGemini(request = {}, options = {}) {
           store: false,
           response_format: getGeminiResponseFormat(),
           generation_config: {
-            max_output_tokens: 400,
+            thinking_level: "minimal",
+            max_output_tokens: 1200,
           },
         }),
       }, resolved.config.timeoutMs);

@@ -163,6 +163,9 @@ assert(!adapterSource.includes("?key="), "Adapter must not place GEMINI_API_KEY 
 assert(adapterSource.includes("x-goog-api-key"), "Adapter must authenticate with x-goog-api-key");
 assert(adapterSource.includes("/v1beta/interactions"), "Adapter must use the Interactions API endpoint");
 assert(adapterSource.includes("store: false"), "Adapter must not store Gemini interactions");
+assert(adapterSource.includes("thinking_level: \"minimal\""), "Adapter must set thinking_level to minimal");
+assert(adapterSource.includes("max_output_tokens: 1200"), "Adapter must set max_output_tokens to 1200");
+assert(!adapterSource.includes("max_output_tokens: 400"), "Adapter must not keep the 400-token output cap");
 assert(!/\bwhile\s*\(/u.test(adapterSource) && !adapterSource.includes("retries"), "Adapter must not retry provider calls");
 assert(!adapterSource.includes("FOINWI_AI_PUBLIC_ENABLED"), "Adapter must not introduce a public AI flag");
 assert(!/\b(openai|OPENAI_API_KEY|api\.openai)\b/u.test(adapterSource), "Gemini adapter must not retain OpenAI runtime details");
@@ -311,6 +314,8 @@ assert(successSpy.calls.length === 1, "A successful adapter call must fetch once
 const fetchBody = JSON.parse(successSpy.calls[0].init.body);
 assert(fetchBody.model === "gemini-3.6-flash", "Request must use gemini-3.6-flash");
 assert(fetchBody.store === false, "Request must disable Gemini storage");
+assert(fetchBody.generation_config?.thinking_level === "minimal", "Request must set thinking_level to minimal");
+assert(fetchBody.generation_config?.max_output_tokens === 1200, "Request must allow 1200 output tokens");
 assert(typeof fetchBody.input === "string", "Approved context must be sent as Interactions input");
 assert(!JSON.stringify(fetchBody).includes(TEST_KEY), "Request body must not include GEMINI_API_KEY");
 assert(successSpy.calls[0].init.headers["x-goog-api-key"] === TEST_KEY, "Request must send x-goog-api-key");
