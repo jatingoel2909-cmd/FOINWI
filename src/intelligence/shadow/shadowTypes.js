@@ -136,6 +136,12 @@ export function createShadowReview(partial = {}) {
         ? partial.candidate.validationReason
         : null,
       errorCode: typeof partial.candidate?.errorCode === "string" ? partial.candidate.errorCode : null,
+      providerErrorType: typeof partial.candidate?.providerErrorType === "string"
+        ? partial.candidate.providerErrorType
+        : null,
+      providerErrorCode: typeof partial.candidate?.providerErrorCode === "string"
+        ? partial.candidate.providerErrorCode
+        : null,
       latencyMs: Number.isFinite(partial.candidate?.latencyMs) ? partial.candidate.latencyMs : null,
       timedOut: partial.candidate?.timedOut === true,
     },

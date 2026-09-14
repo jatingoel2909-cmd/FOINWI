@@ -124,6 +124,9 @@ assert(smokeSource.includes("FOINWI_AI_REAL_SMOKE_TEST"), "Smoke script must req
 assert(smokeSource.includes("FOINWI_AI_PROVIDER_ENABLED"), "Smoke script may enable the provider only on its own env object");
 assert(!/console\.(log|error|info)\([^)]*OPENAI_API_KEY/u.test(smokeSource), "Smoke script must not print the key");
 assert(!/console\.(log|error|info)\([^)]*Authorization/u.test(smokeSource), "Smoke script must not print Authorization");
+assert(smokeSource.includes("providerErrorType"), "Smoke script may print machine-readable providerErrorType");
+assert(smokeSource.includes("providerErrorCode"), "Smoke script may print machine-readable providerErrorCode");
+assert(!smokeSource.includes("error.message"), "Smoke script must not print provider error.message");
 assert(!String(packageJson.scripts.build).includes("smoke:openai-shadow"), "Build must not run the real smoke test");
 assert(!String(packageJson.scripts["validate:intelligence-api"]).includes("smoke"), "API validation must not run the real smoke test");
 

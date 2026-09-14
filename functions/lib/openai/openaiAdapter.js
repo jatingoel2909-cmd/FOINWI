@@ -39,6 +39,8 @@ function withTelemetry(result, telemetry) {
       requestId: typeof telemetry?.requestId === "string" && telemetry.requestId.trim()
         ? telemetry.requestId.trim()
         : null,
+      providerErrorType: typeof telemetry?.providerErrorType === "string" ? telemetry.providerErrorType : null,
+      providerErrorCode: typeof telemetry?.providerErrorCode === "string" ? telemetry.providerErrorCode : null,
     },
   };
 }
@@ -55,6 +57,29 @@ function errorCodeFromHttpStatus(status) {
   if (status === 429) return "provider-rate-limited";
   if (Number.isInteger(status) && status >= 500 && status <= 599) return "provider-server-error";
   return "provider-unavailable";
+}
+
+function readSafeProviderErrorField(value) {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.length > 80) return null;
+  if (!/^[a-zA-Z0-9_.:-]+$/u.test(trimmed)) return null;
+  if (/sk-|bearer/iu.test(trimmed)) return null;
+  return trimmed;
+}
+
+async function extractProviderErrorClass(response) {
+  try {
+    const parsed = await response.json();
+    const error = parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? parsed.error
+      : null;
+    const providerErrorType = readSafeProviderErrorField(error?.type);
+    const providerErrorCode = readSafeProviderErrorField(error?.code);
+    return { providerErrorType, providerErrorCode };
+  } catch {
+    return { providerErrorType: null, providerErrorCode: null };
+  }
 }
 
 function constraintSet(constraints = {}) {
@@ -236,10 +261,16 @@ export async function completeOpenAi(request = {}, options = {}) {
     }
 
     if (!response.ok) {
+      const providerErrorClass = await extractProviderErrorClass(response);
       return fail(
         errorCodeFromHttpStatus(response.status),
         "The language provider is temporarily unavailable.",
-        { ...telemetry(), requestId: readRequestId(response, null) },
+        {
+          ...telemetry(),
+          requestId: readRequestId(response, null),
+          providerErrorType: providerErrorClass.providerErrorType,
+          providerErrorCode: providerErrorClass.providerErrorCode,
+        },
       );
     }
 

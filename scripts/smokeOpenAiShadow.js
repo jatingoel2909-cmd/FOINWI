@@ -52,6 +52,12 @@ console.log(JSON.stringify({
   candidateOk: review.candidate?.ok === true,
   validationOk: review.candidate?.validationOk === true,
   errorCode: review.candidate?.errorCode ?? null,
+  providerErrorType: typeof review.candidate?.providerErrorType === "string"
+    ? review.candidate.providerErrorType
+    : null,
+  providerErrorCode: typeof review.candidate?.providerErrorCode === "string"
+    ? review.candidate.providerErrorCode
+    : null,
   timedOut: review.candidate?.timedOut === true,
   latencyMs: Number.isFinite(review.candidate?.latencyMs) ? review.candidate.latencyMs : null,
 }));

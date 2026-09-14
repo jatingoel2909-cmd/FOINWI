@@ -282,6 +282,80 @@ assert(authShadow.response.usedModel === false, "HTTP-class failure must keep us
 assert(JSON.stringify(authShadow.response) === JSON.stringify(runIntelligence({ query: messyQuery })), "HTTP-class failure must preserve the deterministic response");
 assert(!JSON.stringify(authShadow.response).includes("provider-auth-failed"), "Internal HTTP class must not leak into the visitor response");
 
+const SENSITIVE_PROVIDER_MESSAGE = "SENSITIVE MESSAGE MUST NOT LEAK";
+const classified401Spy = createFetchSpy(() => jsonResponse({
+  error: {
+    message: SENSITIVE_PROVIDER_MESSAGE,
+    type: "example_type",
+    code: "example_code",
+  },
+}, { status: 401 }));
+const classified401 = await createOpenAiAdapter({
+  env: enabledEnv(),
+  fetchImpl: classified401Spy.fetchImpl,
+}).complete(classifyRequest);
+assert(classified401.error.code === "provider-auth-failed", "Classified 401 must keep HTTP status mapping");
+assert(classified401.telemetry.providerErrorType === "example_type", "401 may keep machine-readable error.type");
+assert(classified401.telemetry.providerErrorCode === "example_code", "401 may keep machine-readable error.code");
+assert(classified401Spy.calls.length === 1, "Classified 401 must not retry");
+assert(!JSON.stringify(classified401).includes(SENSITIVE_PROVIDER_MESSAGE), "Provider error.message must not leak");
+assert(!JSON.stringify(classified401).includes("SENSITIVE"), "Provider error message text must not leak");
+assert(!containsSecret(classified401), "Classified 401 must not leak secrets");
+assert(!Object.hasOwn(classified401, "raw"), "Classified 401 must not keep the raw provider body");
+assert(!JSON.stringify(classified401).includes("Bearer "), "Classified 401 must not leak Authorization");
+
+const classifiedShadow = await runShadowIntelligence({ query: messyQuery }, {
+  env: { FOINWI_AI_PROVIDER_ENABLED: "true" },
+  adapter: createOpenAiAdapter({
+    env: enabledEnv(),
+    fetchImpl: classified401Spy.fetchImpl,
+  }),
+});
+assert(classifiedShadow.review.decision === "provider-unavailable", "Classified provider error must stay visitor-invisible");
+assert(classifiedShadow.review.candidate.errorCode === "provider-auth-failed", "Classified shadow candidate must keep HTTP class");
+assert(classifiedShadow.review.candidate.providerErrorType === "example_type", "Shadow candidate may keep providerErrorType");
+assert(classifiedShadow.review.candidate.providerErrorCode === "example_code", "Shadow candidate may keep providerErrorCode");
+assert(classifiedShadow.review.usedForUserResponse === false, "Classified provider error must not use AI for the user");
+assert(JSON.stringify(classifiedShadow.response) === JSON.stringify(runIntelligence({ query: messyQuery })), "Classified provider error must preserve the deterministic response");
+assert(!JSON.stringify(classifiedShadow.response).includes("example_type"), "providerErrorType must not enter the visitor response");
+assert(!JSON.stringify(classifiedShadow.response).includes("example_code"), "providerErrorCode must not enter the visitor response");
+assert(!JSON.stringify(classifiedShadow.response).includes(SENSITIVE_PROVIDER_MESSAGE), "Provider error.message must not enter the visitor response");
+assert(!JSON.stringify(classifiedShadow).includes(SENSITIVE_PROVIDER_MESSAGE), "Shadow review must not retain provider error.message");
+
+const malformed401Spy = createFetchSpy(() => new Response("{not-json", {
+  status: 401,
+  headers: { "Content-Type": "application/json" },
+}));
+const malformed401 = await createOpenAiAdapter({
+  env: enabledEnv(),
+  fetchImpl: malformed401Spy.fetchImpl,
+}).complete(classifyRequest);
+assert(malformed401.error.code === "provider-auth-failed", "Malformed 401 JSON must keep HTTP status mapping");
+assert(malformed401.telemetry.providerErrorType === null, "Malformed 401 JSON must leave providerErrorType null");
+assert(malformed401.telemetry.providerErrorCode === null, "Malformed 401 JSON must leave providerErrorCode null");
+assert(malformed401Spy.calls.length === 1, "Malformed 401 JSON must not retry");
+
+const missingErrorSpy = createFetchSpy(() => jsonResponse({ ok: false }, { status: 401 }));
+const missingError = await createOpenAiAdapter({
+  env: enabledEnv(),
+  fetchImpl: missingErrorSpy.fetchImpl,
+}).complete(classifyRequest);
+assert(missingError.error.code === "provider-auth-failed", "Missing error object must keep HTTP status mapping");
+assert(missingError.telemetry.providerErrorType === null, "Missing error object must leave providerErrorType null");
+assert(missingError.telemetry.providerErrorCode === null, "Missing error object must leave providerErrorCode null");
+
+const nonStringErrorSpy = createFetchSpy(() => jsonResponse({
+  error: { message: SENSITIVE_PROVIDER_MESSAGE, type: 12, code: { id: "nope" } },
+}, { status: 401 }));
+const nonStringError = await createOpenAiAdapter({
+  env: enabledEnv(),
+  fetchImpl: nonStringErrorSpy.fetchImpl,
+}).complete(classifyRequest);
+assert(nonStringError.error.code === "provider-auth-failed", "Non-string error fields must keep HTTP status mapping");
+assert(nonStringError.telemetry.providerErrorType === null, "Non-string error.type must be ignored");
+assert(nonStringError.telemetry.providerErrorCode === null, "Non-string error.code must be ignored");
+assert(!JSON.stringify(nonStringError).includes(SENSITIVE_PROVIDER_MESSAGE), "Non-string error case must not leak message");
+
 const malformedSpy = createFetchSpy(() => jsonResponse({
   output: [{ type: "message", content: [{ type: "output_text", text: "{not-json" }] }],
 }));

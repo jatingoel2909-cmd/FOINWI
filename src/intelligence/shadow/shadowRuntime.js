@@ -81,6 +81,8 @@ export async function runShadowIntelligence(request = {}, options = {}) {
       validationOk: false,
       validationReason: null,
       errorCode: null,
+      providerErrorType: null,
+      providerErrorCode: null,
       latencyMs: null,
       timedOut: false,
     },
@@ -131,6 +133,12 @@ export async function runShadowIntelligence(request = {}, options = {}) {
       base.candidate = {
         ...base.candidate,
         errorCode,
+        providerErrorType: typeof provider?.telemetry?.providerErrorType === "string"
+          ? provider.telemetry.providerErrorType
+          : null,
+        providerErrorCode: typeof provider?.telemetry?.providerErrorCode === "string"
+          ? provider.telemetry.providerErrorCode
+          : null,
         latencyMs,
         timedOut,
       };
