@@ -70,6 +70,26 @@ function enabledEnv(extra = {}) {
   };
 }
 
+function jsonResponse(payload, status = 200) {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+function geminiCompletedPayload(draft) {
+  return {
+    id: "int_shadow_test",
+    status: "completed",
+    model: "gemini-3.6-flash",
+    object: "interaction",
+    steps: [
+      { type: "thought", content: [{ type: "text", text: "internal-reasoning" }] },
+      { type: "model_output", content: [{ type: "text", text: JSON.stringify(draft) }] },
+    ],
+  };
+}
+
 const apiSource = await readFile(new URL("../functions/api/intelligence.js", import.meta.url), "utf8");
 const hookSource = await readFile(new URL("../functions/lib/intelligence/shadowHook.js", import.meta.url), "utf8");
 const providerSource = await readFile(new URL("../functions/lib/intelligence/createShadowProvider.js", import.meta.url), "utf8");
@@ -84,7 +104,8 @@ const uiSources = await Promise.all([
 assert(apiSource.includes("../lib/intelligence/shadowHook.js"), "API must schedule shadow through a generic hook");
 assert(apiSource.includes("waitUntil"), "API may use waitUntil for shadow work");
 assert(!/\b(openai|anthropic|claude|gemini|groq|n8n)\b/iu.test(apiSource), "API file must not contain provider-specific names or n8n");
-assert(!apiSource.includes("lib/openai"), "API must not import a vendor adapter");
+assert(!apiSource.includes("lib/openai"), "API must not import a removed vendor adapter");
+assert(!apiSource.includes("lib/gemini"), "API must not import the Gemini adapter");
 assert(!apiSource.includes("intelligence/ai/"), "API must not import the guarded AI layer");
 assert(!apiSource.includes("intelligence/shadow/"), "API must not import Shadow Runtime directly");
 assert(!/\bFOINWI_AI_PUBLIC_ENABLED\b/u.test(`${apiSource}\n${hookSource}`), "No public AI environment flag may exist");
@@ -93,12 +114,17 @@ assert(!apiSource.includes("FOINWI_AI_PROVIDER_ENABLED"), "Production API must p
 assert(hookSource.includes("typeof waitUntil !== \"function\""), "Shadow hook must skip automatic work when waitUntil is unavailable");
 assert(!/\bn8n\b/iu.test(hookSource), "Shadow hook must not include n8n");
 assert(!/\bopenai\b/iu.test(`${hookSource}\n${providerSource}`), "Shadow hook and default provider must not hard-code OpenAI");
+assert(!/\bgemini\b/iu.test(hookSource), "Shadow hook must stay vendor-neutral");
+assert(providerSource.includes("createGeminiAdapter"), "Default composition may wire the Gemini adapter");
 assert(!/\b(OPENAI_API_KEY|OPENAI_MODEL|OPENAI_TIMEOUT_MS)\b/u.test(`${hookSource}\n${providerSource}`), "Shadow composition must not read OpenAI env vars");
+assert(!hookSource.includes("GEMINI_API_KEY"), "Shadow hook must not read GEMINI_API_KEY");
 assert(!/\bconsole\.log\b/u.test(apiSource), "API must not log in production");
-assert(uiSources.every((source) => !source.includes("lib/intelligence/") && !source.includes("lib/openai/")), "UI must not import server shadow wiring");
+assert(uiSources.every((source) => !source.includes("lib/intelligence/") && !source.includes("lib/openai/") && !source.includes("lib/gemini/")), "UI must not import server shadow wiring");
 assert(!packageJson.dependencies?.openai && !packageJson.devDependencies?.openai, "package.json must not add an OpenAI SDK");
+assert(!packageJson.dependencies?.["@google/genai"] && !packageJson.devDependencies?.["@google/genai"], "package.json must not add a Gemini SDK");
 assert(!packageJson.scripts["smoke:openai-shadow"], "package.json must not include an OpenAI smoke script");
 assert(!packageJson.scripts["validate:openai-adapter"], "package.json must not include an OpenAI adapter validator");
+assert(packageJson.scripts["validate:gemini-adapter"], "package.json must include a Gemini adapter validator");
 assert(MAX_SHADOW_PROVIDER_CALLS === 1, "Shadow must allow only one provider call per request");
 assert(isShadowModeEnabled() === true, "Shadow Mode must remain default ON");
 assert(isExternalProviderEnabled() === false, "External provider enablement must default false");
@@ -117,7 +143,7 @@ const failed = await postQuery(messyQuery, {
   env: enabledEnv(),
   fetchImpl: failingSpy.fetchImpl,
 });
-assert(failingSpy.calls.length === 0, "Default composition must not fetch when no vendor is wired");
+assert(failingSpy.calls.length === 0, "Provider enabled without GEMINI_API_KEY must create zero fetch");
 assert(JSON.stringify(failed.payload) === JSON.stringify(runIntelligence({ query: messyQuery })), "Shadow failure must never affect the public response");
 assert(failed.payload.usedModel === false, "Shadow failure must keep usedModel false");
 
@@ -224,7 +250,7 @@ const defaultResult = await defaultProvider.complete({
   approvedContext: { task: "CLASSIFY", userQuery: messyQuery, candidateIntentIds: ["invest-sip"], allowedIntentIds: ids, approvedCopy: [], constraints: { noAdvice: true } },
   constraints: { noAdvice: true },
 });
-assert(defaultResult.ok === false && defaultResult.error.code === "provider-not-configured", "Default composition must stay fail-closed without a vendor");
+assert(defaultResult.ok === false && defaultResult.error.code === "provider-not-configured", "Default composition must stay fail-closed without GEMINI_API_KEY");
 
 const configured = await runConfiguredShadowIntelligence({ query: messyQuery }, {
   env: enabledEnv(),
@@ -275,6 +301,37 @@ await scheduleShadowIntelligence({
   adapter: skipScheduleSpy,
 });
 assert(skipScheduleSpy.calls === 0, "scheduleShadowIntelligence without waitUntil must not start provider work");
+
+const geminiDraft = {
+  schemaVersion: "1.0.0",
+  task: "CLARIFY",
+  candidateIntentIds: ["invest-sip"],
+  text: "Are you looking for a starting point on regular investing?",
+  confidenceScore: 72,
+  flags: [],
+};
+const geminiSpy = createFetchSpy(() => jsonResponse(geminiCompletedPayload(geminiDraft)));
+const geminiLive = await postQuery(messyQuery, {
+  env: enabledEnv({ GEMINI_API_KEY: "test-placeholder-key" }),
+  fetchImpl: geminiSpy.fetchImpl,
+});
+assert(geminiSpy.calls.length === 1, "Enabled Gemini Shadow may make one provider call");
+assert(geminiSpy.calls[0].url === "https://generativelanguage.googleapis.com/v1beta/interactions", "Gemini composition must use the Interactions API");
+assert(geminiSpy.calls[0].init.headers["x-goog-api-key"] === "test-placeholder-key", "Gemini composition must authenticate with x-goog-api-key");
+assert(JSON.stringify(geminiLive.payload) === JSON.stringify(runIntelligence({ query: messyQuery })), "Gemini Shadow must keep the deterministic visitor body");
+assert(geminiLive.payload.usedModel === false, "Gemini Shadow must keep public usedModel false");
+assert(!JSON.stringify(geminiLive.payload).includes("gemini"), "Public JSON must not mention Gemini");
+assert(!JSON.stringify(geminiLive.payload).includes("draftHash"), "Shadow candidate must not leak into public JSON");
+assert(!JSON.stringify(geminiLive.payload).includes("test-placeholder-key"), "Public JSON must not leak GEMINI_API_KEY");
+
+const geminiShadow = await runConfiguredShadowIntelligence({ query: messyQuery }, {
+  env: enabledEnv({ GEMINI_API_KEY: "test-placeholder-key" }),
+  fetchImpl: createFetchSpy(() => jsonResponse(geminiCompletedPayload(geminiDraft))).fetchImpl,
+});
+assert(geminiShadow.review.usedForUserResponse === false, "Gemini Shadow must keep usedForUserResponse false");
+assert(geminiShadow.response.usedModel === false, "Gemini Shadow review path must keep usedModel false");
+assert(geminiShadow.review.decision === "recorded-candidate" || geminiShadow.review.decision === "validation-failed", "Gemini output must remain a Shadow candidate");
+assert(JSON.stringify(geminiShadow.response) === JSON.stringify(runIntelligence({ query: messyQuery })), "Gemini Shadow review must preserve the deterministic response");
 
 if (failures.length) {
   console.error(`Shadow API hook validation failed: ${failures.length} of ${checks} checks`);

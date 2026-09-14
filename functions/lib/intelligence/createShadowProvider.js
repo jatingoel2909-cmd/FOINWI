@@ -1,18 +1,19 @@
 /**
  * Server-only provider composition. Vendor details stay out of the API file.
  * One language-provider call maximum per shadow request. No retries.
- * No vendor is hard-coded. Default complete() stays fail-closed.
+ * Default vendor is Gemini when enabled and configured. Tests may inject an adapter.
  */
 
-import { complete as defaultComplete, createProviderFailure } from "../../../src/intelligence/ai/aiProviderAdapter.js";
+import { createProviderFailure } from "../../../src/intelligence/ai/aiProviderAdapter.js";
 import { isExternalProviderEnabled } from "../../../src/intelligence/shadow/shadowPolicy.js";
+import { createGeminiAdapter } from "../gemini/geminiAdapter.js";
 
 export const MAX_SHADOW_PROVIDER_CALLS = 1;
 
-export function createShadowProvider({ env = {}, adapter } = {}) {
+export function createShadowProvider({ env = {}, adapter, fetchImpl } = {}) {
   const resolvedAdapter = adapter && typeof adapter.complete === "function"
     ? adapter
-    : { complete: defaultComplete };
+    : createGeminiAdapter({ env, fetchImpl });
   let calls = 0;
 
   return {

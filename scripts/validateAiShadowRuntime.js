@@ -89,7 +89,8 @@ assert(!JSON.parse(packageSource).scripts["validate:openai-adapter"], "package.j
 assert(!/\b(fetch|openai|anthropic|claude|gemini)\b/iu.test(engineSource), "runIntelligence must remain model-free");
 assert(!apiSource.includes("intelligence/shadow/"), "Production API must not import Shadow Runtime directly");
 assert(!apiSource.includes("intelligence/ai/"), "Production API must not import the guarded AI layer");
-assert(!apiSource.includes("lib/openai"), "Production API must not import the OpenAI adapter");
+assert(!apiSource.includes("lib/openai"), "Production API must not import a removed vendor adapter");
+assert(!apiSource.includes("lib/gemini"), "Production API must not import the Gemini adapter");
 assert(apiSource.includes("lib/intelligence/shadowHook.js"), "Production API may schedule shadow only through a generic hook");
 assert(uiSources.every((source) => !source.includes("intelligence/shadow/") && !source.includes("intelligence/ai/")), "UI must not import Shadow Runtime or guarded AI");
 assert(SHADOW_RECORD_KIND === "production-shadow-record", "Production shadow records must stay distinct from tester review");
