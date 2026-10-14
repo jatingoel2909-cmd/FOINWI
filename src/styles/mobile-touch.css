@@ -142,11 +142,6 @@ button.fi-search-card:focus-visible {
     -webkit-backdrop-filter: none;
   }
 
-  .shrix-nav-drawer {
-    padding: max(96px, calc(env(safe-area-inset-top, 0px) + 72px)) 28px
-      max(32px, env(safe-area-inset-bottom, 0px));
-  }
-
   .fi-search-overlay__dialog {
     max-height: 100dvh;
     height: 100dvh;
