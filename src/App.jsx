@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import ScrollReveal from "./components/ScrollReveal";
+import DocumentSeo from "./components/DocumentSeo";
 import Home from "./pages/Home";
 import SipCalculatorPage from "./pages/SipCalculatorPage";
 import EmiCalculatorPage from "./pages/EmiCalculatorPage";
@@ -40,6 +41,7 @@ import ExchangeRatesPage from "./pages/ExchangeRatesPage";
 function App() {
   return (
     <BrowserRouter>
+      <DocumentSeo />
       <ScrollToTop />
       <ScrollReveal />
       <Routes>
