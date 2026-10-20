@@ -44,7 +44,11 @@ assert(source.robots.includes("Sitemap: https://foinwi.com/sitemap.xml"), "robot
 assert(source.robots.includes("Disallow: /api/"), "robots.txt must block API paths");
 assert(!/^Disallow: \/$/m.test(source.robots), "robots.txt must not disallow the whole site");
 assert(source.headers.includes("Content-Security-Policy:"), "CSP header must remain");
-assert(source.headers.includes("connect-src 'self'"), "CSP connect-src must stay same-origin");
+assert(source.headers.includes("connect-src 'self'"), "CSP connect-src must keep 'self'");
+assert(source.headers.includes("'sha256-t65yTLilvzBYFDeBuZ1UY2+E09yuu15BJ3muW9pFfwA='"), "CSP must keep the first JSON-LD hash");
+assert(source.headers.includes("'sha256-BVYNLGYlxclZS/kThn5NsTXOhE2CSJf0DO0yiHg0pO0='"), "CSP must keep the second JSON-LD hash");
+assert(!/script-src[^;]*'unsafe-inline'/u.test(source.headers), "CSP script-src must not allow unsafe-inline");
+assert(!/script-src[^;]*'unsafe-eval'/u.test(source.headers), "CSP script-src must not allow unsafe-eval");
 assert(
   /^\/guide-trial\s*\n[ \t]+X-Robots-Tag: noindex, nofollow/m.test(source.headers),
   "public/_headers must send X-Robots-Tag: noindex, nofollow for /guide-trial",

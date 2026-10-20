@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import BrandWordmark from "./BrandWordmark";
+import { useAnalyticsConsent } from "./analyticsConsentContext";
 
 function Footer() {
+  const analytics = useAnalyticsConsent();
+
   return (
     <footer className="shrix-footer">
       <BrandWordmark className="foinwi-wordmark--footer" />
@@ -9,6 +12,14 @@ function Footer() {
       <nav className="shrix-footer__links" aria-label="Footer links">
         <Link to="/about">About</Link>
         <Link to="/privacy-policy">Privacy Policy</Link>
+        <button
+          type="button"
+          className="shrix-footer__privacy"
+          aria-haspopup="dialog"
+          onClick={(event) => analytics?.openSettings(event.currentTarget)}
+        >
+          Privacy settings
+        </button>
         <Link to="/terms-and-conditions">Terms & Conditions</Link>
         <Link to="/disclaimer">Disclaimer</Link>
         <Link to="/#contact">Contact</Link>

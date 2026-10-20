@@ -4,7 +4,7 @@
 # foinwi.com / www.foinwi.com (and any subdomains) is verified in Cloudflare.
 
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; worker-src 'none'; script-src 'self' 'sha256-t65yTLilvzBYFDeBuZ1UY2+E09yuu15BJ3muW9pFfwA=' 'sha256-BVYNLGYlxclZS/kThn5NsTXOhE2CSJf0DO0yiHg0pO0='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; worker-src 'none'; script-src 'self' 'sha256-t65yTLilvzBYFDeBuZ1UY2+E09yuu15BJ3muW9pFfwA=' 'sha256-BVYNLGYlxclZS/kThn5NsTXOhE2CSJf0DO0yiHg0pO0=' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
