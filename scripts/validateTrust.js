@@ -50,7 +50,17 @@ assert(!/\bai-powered\b/iu.test(source.indexHtml), "index.html must not claim cu
 assert(!/\bguaranteed returns?\b/iu.test(publicTrustSource), "Trust surfaces must not promise guaranteed returns");
 assert(!/\b(?:loan )?approval for you\b|\bsuitable for you\b/iu.test(publicTrustSource), "Trust surfaces must not imply approval or suitability");
 assert(source.privacy.includes("contact us by email"), "Privacy policy must describe current email contact");
-assert(source.privacy.includes("not currently enabled"), "Privacy policy must state current analytics status");
+assert(source.privacy.includes("Google Analytics 4"), "Privacy policy must name Google Analytics 4");
+assert(source.privacy.includes("Google is the recipient"), "Privacy policy must name Google as the analytics recipient");
+assert(source.privacy.includes("analytics cookies"), "Privacy policy must describe analytics cookies");
+assert(source.privacy.includes("opt out"), "Privacy policy must describe opt-out");
+assert(source.privacy.includes("Reject"), "Privacy policy must describe rejection");
+assert(source.privacy.includes("withdraw"), "Privacy policy must describe withdrawal");
+assert(source.privacy.includes("Privacy settings"), "Privacy policy must point to privacy settings");
+assert(source.privacy.includes("retention"), "Privacy policy must describe retention limitations");
+assert(source.privacy.includes("query strings"), "Privacy policy must say query strings are not sent");
+assert(!source.privacy.includes("not currently enabled"), "Privacy policy must not keep the old analytics-off claim");
+assert(!/\bGDPR\b|\bDPDP\b|\bfully compliant\b|\bguaranteed deletion\b|\bcompletely anonymous\b/iu.test(source.privacy), "Privacy policy must not make unsupported compliance claims");
 assert(source.privacy.includes("not saved after refresh"), "Privacy policy must describe Guide Trial persistence");
 assert(!/\bforms on the website\b/iu.test(source.privacy), "Privacy policy must not claim current website forms");
 assert(!/\bTODO\b|\blorem ipsum\b|\bplaceholder\b/iu.test(publicTrustSource), "Trust surfaces contain placeholder content");

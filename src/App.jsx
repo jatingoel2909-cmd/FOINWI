@@ -37,50 +37,53 @@ import FinancialHealthScorePage from "./pages/FinancialHealthScorePage";
 import GuideTrialPage from "./guide-trial/GuideTrialPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ExchangeRatesPage from "./pages/ExchangeRatesPage";
+import AnalyticsConsentProvider from "./components/AnalyticsConsent";
 
 function App() {
   return (
     <BrowserRouter>
-      <DocumentSeo />
-      <ScrollToTop />
-      <ScrollReveal />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/calculators" element={<CalculatorsPage />} />
-        <Route path="/learn" element={<LearnPage />} />
-        <Route path="/learn/:pathSlug/:lessonSlug" element={<LearnLessonPage />} />
-        <Route path="/learn/:slug" element={<LearnPathPage />} />
-        <Route path="/ai-tools" element={<AiToolsPage />} />
-        <Route path="/guide-trial" element={<GuideTrialPage />} />
-        <Route path="/exchange-rates" element={<ExchangeRatesPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/financial-health-score" element={<FinancialHealthScorePage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
-        <Route path="/disclaimer" element={<DisclaimerPage />} />
-        <Route path="/journeys/:slug" element={<JourneyPage />} />
-        <Route path="/sip-calculator" element={<SipCalculatorPage />} />
-        <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
-        <Route path="/fd-calculator" element={<FdCalculatorPage />} />
-        <Route path="/ppf-calculator" element={<PpfCalculatorPage />} />
-        <Route path="/cagr-calculator" element={<CagrCalculatorPage />} />
-        <Route path="/lumpsum-calculator" element={<LumpsumCalculatorPage />} />
-        <Route path="/swp-calculator" element={<SwpCalculatorPage />} />
-        <Route path="/rd-calculator" element={<RdCalculatorPage />} />
-        <Route path="/inflation-calculator" element={<InflationCalculatorPage />} />
-        <Route path="/gratuity-calculator" element={<GratuityCalculatorPage />} />
-        <Route path="/epf-calculator" element={<EpfCalculatorPage />} />
-        <Route path="/nps-calculator" element={<NpsCalculatorPage />} />
-        <Route path="/goal-planner" element={<GoalPlannerCalculatorPage />} />
-        <Route path="/retirement-calculator" element={<RetirementCalculatorPage />} />
-        <Route path="/home-loan-eligibility-calculator" element={<HomeLoanEligibilityCalculatorPage />} />
-        <Route path="/loan-prepayment-calculator" element={<LoanPrepaymentCalculatorPage />} />
-        <Route path="/gst-calculator" element={<GstCalculatorPage />} />
-        <Route path="/income-tax-calculator" element={<IncomeTaxCalculatorPage />} />
-        <Route path="/hra-calculator" element={<HraCalculatorPage />} />
-        <Route path="/compound-interest-calculator" element={<CompoundInterestCalculatorPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <AnalyticsConsentProvider>
+        <DocumentSeo />
+        <ScrollToTop />
+        <ScrollReveal />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/calculators" element={<CalculatorsPage />} />
+          <Route path="/learn" element={<LearnPage />} />
+          <Route path="/learn/:pathSlug/:lessonSlug" element={<LearnLessonPage />} />
+          <Route path="/learn/:slug" element={<LearnPathPage />} />
+          <Route path="/ai-tools" element={<AiToolsPage />} />
+          <Route path="/guide-trial" element={<GuideTrialPage />} />
+          <Route path="/exchange-rates" element={<ExchangeRatesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/financial-health-score" element={<FinancialHealthScorePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+          <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="/journeys/:slug" element={<JourneyPage />} />
+          <Route path="/sip-calculator" element={<SipCalculatorPage />} />
+          <Route path="/emi-calculator" element={<EmiCalculatorPage />} />
+          <Route path="/fd-calculator" element={<FdCalculatorPage />} />
+          <Route path="/ppf-calculator" element={<PpfCalculatorPage />} />
+          <Route path="/cagr-calculator" element={<CagrCalculatorPage />} />
+          <Route path="/lumpsum-calculator" element={<LumpsumCalculatorPage />} />
+          <Route path="/swp-calculator" element={<SwpCalculatorPage />} />
+          <Route path="/rd-calculator" element={<RdCalculatorPage />} />
+          <Route path="/inflation-calculator" element={<InflationCalculatorPage />} />
+          <Route path="/gratuity-calculator" element={<GratuityCalculatorPage />} />
+          <Route path="/epf-calculator" element={<EpfCalculatorPage />} />
+          <Route path="/nps-calculator" element={<NpsCalculatorPage />} />
+          <Route path="/goal-planner" element={<GoalPlannerCalculatorPage />} />
+          <Route path="/retirement-calculator" element={<RetirementCalculatorPage />} />
+          <Route path="/home-loan-eligibility-calculator" element={<HomeLoanEligibilityCalculatorPage />} />
+          <Route path="/loan-prepayment-calculator" element={<LoanPrepaymentCalculatorPage />} />
+          <Route path="/gst-calculator" element={<GstCalculatorPage />} />
+          <Route path="/income-tax-calculator" element={<IncomeTaxCalculatorPage />} />
+          <Route path="/hra-calculator" element={<HraCalculatorPage />} />
+          <Route path="/compound-interest-calculator" element={<CompoundInterestCalculatorPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </AnalyticsConsentProvider>
     </BrowserRouter>
   );
 }

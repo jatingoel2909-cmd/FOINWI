@@ -38,6 +38,7 @@
     "validate:homepage": "node scripts/validateHomepage.js",
     "validate:shell": "node scripts/validateShell.js",
     "validate:seo": "node scripts/validateSeo.js",
+    "validate:analytics": "node scripts/validateAnalytics.js",
     "preview": "vite preview"
   },
   "dependencies": {
