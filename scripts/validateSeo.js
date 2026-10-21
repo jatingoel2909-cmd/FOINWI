@@ -1,9 +1,11 @@
 /* global process */
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { ALL_CALCULATORS } from "../src/data/calculators.js";
 import { FINANCIAL_JOURNEYS } from "../src/data/journeys.js";
 import { LEARNING_PATHS } from "../src/data/learnAcademy.js";
 import {
+  HOME_DESCRIPTION,
   INDEXABLE_ROBOTS,
   NOINDEX_ROBOTS,
   SITE_ORIGIN,
@@ -39,7 +41,23 @@ assert(source.documentSeo.includes("canonical"), "DocumentSeo must set canonical
 assert(!/gtag|googletagmanager|G-[A-Z0-9]{6,}/u.test(`${source.indexHtml}\n${source.app}\n${source.documentSeo}`), "SEO files must not add Google Analytics");
 
 assert(source.indexHtml.includes('content="index, follow"'), "HTML shell must allow public indexing");
-assert(source.indexHtml.includes('href="https://foinwi.com"'), "HTML shell must keep the homepage canonical");
+assert(!source.indexHtml.includes('name="keywords"'), "HTML shell must not include an obsolete meta keywords tag");
+assert(source.indexHtml.includes('href="https://foinwi.com/"'), "HTML shell must keep the trailing-slash homepage canonical");
+assert(source.indexHtml.includes('content="https://foinwi.com/"'), "HTML shell og:url must use the trailing-slash homepage canonical");
+assert(source.indexHtml.includes(HOME_DESCRIPTION), "HTML shell must use the approved homepage description");
+assert(
+  source.indexHtml.includes('"legalName": "FOINWI INDIA DIGITAL TOOLS LLP"'),
+  "Organization JSON-LD must include the legal name",
+);
+const jsonLdBodies = [...source.indexHtml.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(
+  (match) => match[1],
+);
+assert(jsonLdBodies.length === 2, "Homepage must keep Organization and WebSite JSON-LD scripts");
+jsonLdBodies.forEach((body) => {
+  const crlfBody = body.replace(/\r\n/g, "\n").replace(/\n/g, "\r\n");
+  const digest = createHash("sha256").update(crlfBody).digest("base64");
+  assert(source.headers.includes(`'sha256-${digest}'`), `CSP must allow the JSON-LD script hash sha256-${digest}`);
+});
 assert(source.robots.includes("Sitemap: https://foinwi.com/sitemap.xml"), "robots.txt must list the sitemap");
 assert(source.robots.includes("Disallow: /api/"), "robots.txt must block API paths");
 assert(!/^Disallow: \/$/m.test(source.robots), "robots.txt must not disallow the whole site");
@@ -99,7 +117,11 @@ publicPaths.forEach((path) => {
   const seo = resolvePublicSeo(path);
   assert(!forbidden.test(seo.title), `${path} title must follow FOINWI trust language`);
   assert(!forbidden.test(seo.description), `${path} description must follow FOINWI trust language`);
-  assert(seo.description.length <= 160, `${path} description must stay within 160 characters`);
+  if (path === "/") {
+    assert(seo.description === HOME_DESCRIPTION, "Homepage description must use the approved brand description");
+  } else {
+    assert(seo.description.length <= 160, `${path} description must stay within 160 characters`);
+  }
 });
 
 if (failures.length) {

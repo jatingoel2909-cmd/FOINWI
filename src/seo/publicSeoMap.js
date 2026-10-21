@@ -5,6 +5,8 @@ import { LEARNING_PATHS } from "../data/learnAcademy.js";
 export const SITE_ORIGIN = "https://foinwi.com";
 export const INDEXABLE_ROBOTS = "index, follow";
 export const NOINDEX_ROBOTS = "noindex, nofollow";
+export const HOME_DESCRIPTION =
+  "Explore financial learning, educational calculators, Financial Health Score and guided planning journeys with FOINWI, an educational financial intelligence platform.";
 
 const PRIVATE_PATHS = new Set(["/guide-trial"]);
 
@@ -36,10 +38,11 @@ function entry(title, description, { robots = INDEXABLE_ROBOTS } = {}) {
 }
 
 const STATIC_PAGES = {
-  "/": entry(
-    "FOINWI | Grow Beyond Numbers",
-    "FOINWI offers educational financial calculators, learning content, and planned AI guidance tools for Indian users.",
-  ),
+  "/": {
+    title: "FOINWI | Grow Beyond Numbers",
+    description: HOME_DESCRIPTION,
+    robots: INDEXABLE_ROBOTS,
+  },
   "/calculators": entry(
     "Financial Calculators | FOINWI",
     "Explore educational SIP, EMI, tax, retirement, and savings calculators for Indian users. Results are estimates only.",
@@ -58,7 +61,7 @@ const STATIC_PAGES = {
   ),
   "/about": entry(
     "About FOINWI | Financial Clarity for Every Indian",
-    "FOINWI is an educational finance platform with calculators and learning tools for Indian users. Not financial advice.",
+    "FOINWI is an educational financial intelligence platform with learning, calculators, Financial Health Score, and guided journeys. Not financial advice.",
   ),
   "/financial-health-score": entry(
     "Financial Health Score | FOINWI",

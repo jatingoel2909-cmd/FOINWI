@@ -28,7 +28,7 @@ function AboutPage() {
       <InfoPageLayout
         label="About FOINWI"
         title="Financial Clarity for Every Indian"
-        subtitle="Premium calculators and educational tools from foinwi.com — designed to help you understand money, not overwhelm you with it."
+        subtitle="An educational financial intelligence platform — learning, calculators, Financial Health Score, and guided journeys to help you understand money."
       >
         <article className="shrix-info-card shrix-info-card--wide">
           <h2>Who We Are</h2>
