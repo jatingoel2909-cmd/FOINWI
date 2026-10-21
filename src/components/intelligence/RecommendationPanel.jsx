@@ -38,6 +38,18 @@ const GROUP_DEFS = [
 
 const MAX_PER_GROUP = 3;
 
+/** Learn-page fallback trio. Layout-only; card data stays in the recommendation engine. */
+const FEATURED_TRIO_IDS = [
+  "lesson:money-basics",
+  "calculator:/goal-planner",
+  "journey:build-wealth",
+];
+
+function isFeaturedTrio(groups) {
+  const items = groups.flatMap((group) => group.items);
+  return items.length === 3 && FEATURED_TRIO_IDS.every((id, index) => items[index]?.id === id);
+}
+
 function collectItems(result) {
   if (!result) return [];
   return [
@@ -118,6 +130,8 @@ function RecommendationPanel({
 
   if (!groups.length) return null;
 
+  const featuredTrio = isFeaturedTrio(groups);
+
   return (
     <section
       className={`fi-rec-panel${compact ? " fi-rec-panel--compact" : ""}${className ? ` ${className}` : ""}`}
@@ -132,7 +146,7 @@ function RecommendationPanel({
           </p>
         </header>
 
-        <div className="fi-rec-panel__groups">
+        <div className={`fi-rec-panel__groups${featuredTrio ? " fi-rec-panel__groups--trio" : ""}`}>
           {groups.map((group) => (
             <RecommendationGroup key={group.key} title={group.title} items={group.items} />
           ))}

@@ -77,6 +77,34 @@
   gap: 28px;
 }
 
+/* Money Basics, Goal Planner, then Build Wealth centered on the next row. */
+@media (min-width: 641px) {
+  .fi-rec-panel__groups--trio {
+    --fi-rec-trio-gap: var(--fw-space-gap, 24px);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--fi-rec-trio-gap);
+    align-items: stretch;
+  }
+
+  .fi-rec-panel__groups--trio > .fi-rec-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .fi-rec-panel__groups--trio > .fi-rec-group:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - var(--fi-rec-trio-gap)) / 2);
+  }
+
+  .fi-rec-panel__groups--trio .fi-rec-group__grid {
+    grid-template-columns: minmax(0, 1fr);
+    flex: 1;
+  }
+}
+
 .fi-rec-group__title {
   margin: 0 0 14px;
   font-size: 13px;
