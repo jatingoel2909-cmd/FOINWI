@@ -50,19 +50,82 @@ function PrivacyPolicyPage() {
         <article className="shrix-info-card shrix-info-card--wide">
           <h2>Analytics, Cookies and Advertising</h2>
           <p>
-            FOINWI may introduce website analytics and advertising services to
-            understand website usage, improve our educational platform, and
-            support its operation.
+            Advertising on FOINWI is not currently enabled. foinwi.com does not
+            load Google ad scripts, and FOINWI does not currently show
+            advertisements. FOINWI also does not use Google Analytics.
           </p>
           <p className="shrix-info-card__follow">
-            Certain educational features may store selections locally in your
-            browser. Our hosting and security providers may also process
-            technical information necessary to operate and protect the website.
+            Some educational features may store your own selections locally in
+            your browser. That on-device storage is not an advertising cookie.
+            Our hosting and security providers may also process technical
+            information necessary to operate and protect the website.
+          </p>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>Google AdSense verification is not advertising</h2>
+          <p>
+            The FOINWI homepage includes a Google AdSense site-ownership tag for
+            publisher ID ca-pub-5613519608688017.             The tag lets Google check that
+            FOINWI controls foinwi.com. It does not display ads or set an
+            advertising cookie. The tag does not mean that advertisements are
+            active.
           </p>
           <p className="shrix-info-card__follow">
-            Before activating new analytics or advertising technologies, we will
-            update this Privacy Policy and implement any notices or consent
-            mechanisms required by applicable law.
+            If FOINWI later enables Google AdSense, Google and other advertising
+            partners may use cookies and similar technologies to serve ads,
+            measure ads, limit how often an ad appears, and help detect invalid
+            traffic. Personalized ads may use information about sites you have
+            visited. Non-personalized ads are not based on that activity
+            profile, but they can still use cookies for measurement, frequency
+            limits, and fraud prevention.
+          </p>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>Advertising choices</h2>
+          <p>
+            If ads are enabled later, you can review personalization in your
+            Google account at{" "}
+            <a href="https://adssettings.google.com/">Google Ads Settings</a>.
+            Google describes these technologies in{" "}
+            <a href="https://policies.google.com/technologies/ads">
+              How Google uses information from sites or apps that use its
+              services
+            </a>
+            . Industry choice pages include{" "}
+            <a href="https://www.aboutads.info/choices">aboutads.info</a> and{" "}
+            <a href="https://www.youronlinechoices.com/">Your Online Choices</a>.
+            Those sites are operated by Google or industry groups, not by
+            FOINWI.
+          </p>
+          <p className="shrix-info-card__follow">
+            A cookie-consent tool is not currently enabled on foinwi.com. FOINWI
+            does not show a consent banner. This Privacy Policy does not collect
+            advertising consent. Before ads are enabled for visitors in the
+            European Economic Area, the United Kingdom, or Switzerland, FOINWI
+            must add any consent mechanism required by applicable law and by
+            Google&apos;s advertising policies.
+          </p>
+        </article>
+
+        <article className="shrix-info-card shrix-info-card--wide">
+          <h2>Cloudflare Web Analytics</h2>
+          <p>
+            FOINWI&apos;s Cloudflare hosting configuration includes Cloudflare Web
+            Analytics. Cloudflare adds a beacon script from
+            static.cloudflareinsights.com to pages it delivers. FOINWI&apos;s
+            current Content-Security-Policy does not allow that script to load,
+            so the beacon cannot run and is not collecting browser analytics
+            while that policy stays in place.
+          </p>
+          <p className="shrix-info-card__follow">
+            When Cloudflare Web Analytics is allowed to run, it is designed to
+            count page visits without setting an advertising cookie. It is
+            separate from Google advertising. Before FOINWI allows that beacon
+            to run, or enables advertisements, FOINWI will update this Privacy
+            Policy if those practices change and will implement any consent
+            mechanism required by applicable law.
           </p>
         </article>
 
@@ -96,6 +159,11 @@ function PrivacyPolicyPage() {
             website. During normal website use, technical information such as IP
             addresses and browser details may be processed for operational and
             security purposes.
+          </p>
+          <p className="shrix-info-card__follow">
+            That security processing is separate from Cloudflare Web Analytics,
+            described above. It can continue when the analytics beacon does not
+            run.
           </p>
         </article>
 
