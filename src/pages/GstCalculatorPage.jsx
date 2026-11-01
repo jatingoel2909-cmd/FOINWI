@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import GstCalculator from "../components/GstCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function GstCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <GstCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

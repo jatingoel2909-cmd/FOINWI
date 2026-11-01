@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import CompoundInterestCalculator from "../components/CompoundInterestCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function CompoundInterestCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <CompoundInterestCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

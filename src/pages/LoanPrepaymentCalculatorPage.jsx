@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import LoanPrepaymentCalculator from "../components/LoanPrepaymentCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function LoanPrepaymentCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <LoanPrepaymentCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

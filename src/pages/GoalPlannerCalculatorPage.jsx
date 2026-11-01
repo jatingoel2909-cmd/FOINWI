@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import GoalPlannerCalculator from "../components/GoalPlannerCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function GoalPlannerCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <GoalPlannerCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

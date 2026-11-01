@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import NpsCalculator from "../components/NpsCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function NpsCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <NpsCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

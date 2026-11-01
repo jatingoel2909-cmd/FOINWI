@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import GratuityCalculator from "../components/GratuityCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function GratuityCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <GratuityCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

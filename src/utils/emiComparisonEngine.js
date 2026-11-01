@@ -78,10 +78,10 @@ export function buildDecisionSummary(comparison) {
 
   if (shortest && longest) {
     statements.push(
-      `The shortest tenure (${shortest.tenureLabel}) has the highest EMI (${formatCurrency(shortest.monthlyEmi)}) but the lowest estimated interest (${formatCurrency(shortest.totalInterest)}).`,
+      `Among these tenures, ${shortest.tenureLabel} has the higher estimated EMI (${formatCurrency(shortest.monthlyEmi)}) and the lower estimated interest (${formatCurrency(shortest.totalInterest)}).`,
     );
     statements.push(
-      `The longest tenure (${longest.tenureLabel}) has the lowest EMI (${formatCurrency(longest.monthlyEmi)}) but the highest estimated interest (${formatCurrency(longest.totalInterest)}).`,
+      `Among these tenures, ${longest.tenureLabel} has the lower estimated EMI (${formatCurrency(longest.monthlyEmi)}) and the higher estimated interest (${formatCurrency(longest.totalInterest)}).`,
     );
   }
 
@@ -220,8 +220,8 @@ export function buildTenureComparison({ principal, annualRate, loanTypeId }) {
     badgeMap.set(option.id, list);
   };
 
-  assignBadge(lowestEmi, "Lowest EMI");
-  assignBadge(lowestInterest, "Lowest Total Interest");
+  assignBadge(lowestEmi, "Lower estimated EMI");
+  assignBadge(lowestInterest, "Lower estimated interest");
   assignBadge(fastest, "Fastest Payoff");
   assignBadge(balanced, "Balanced Option");
 

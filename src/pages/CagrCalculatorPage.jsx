@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import CagrCalculator from "../components/CagrCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function CagrCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <CagrCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import HraCalculator from "../components/HraCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function HraCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <HraCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

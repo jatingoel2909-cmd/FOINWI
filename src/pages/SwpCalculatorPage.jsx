@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import SwpCalculator from "../components/SwpCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function SwpCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <SwpCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

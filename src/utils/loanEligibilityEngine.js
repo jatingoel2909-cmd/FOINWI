@@ -297,7 +297,7 @@ export function buildEligibilityTenureComparison({
       option.id === highestEligibility.id ? "Highest calculated eligibility" : null,
       option.id === shortest.id ? "Shortest displayed tenure" : null,
       lowestInterest && option.id === lowestInterest.id
-        ? "Lowest calculated total interest"
+        ? "Lower calculated total interest among these tenures"
         : null,
     ].filter(Boolean),
   }));

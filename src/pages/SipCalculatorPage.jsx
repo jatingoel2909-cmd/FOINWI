@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import SipCalculator from "../components/SipCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function SipCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <SipCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

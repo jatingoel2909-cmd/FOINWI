@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import HomeLoanEligibilityCalculator from "../components/HomeLoanEligibilityCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function HomeLoanEligibilityCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <HomeLoanEligibilityCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

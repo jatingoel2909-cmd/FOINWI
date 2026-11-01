@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import EmiCalculator from "../components/EmiCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function EmiCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <EmiCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

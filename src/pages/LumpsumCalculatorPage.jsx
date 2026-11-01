@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import LumpsumCalculator from "../components/LumpsumCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function LumpsumCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <LumpsumCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

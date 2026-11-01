@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import IncomeTaxCalculator from "../components/IncomeTaxCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function IncomeTaxCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <IncomeTaxCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

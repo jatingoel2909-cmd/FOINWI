@@ -242,7 +242,17 @@ const rulesSource = readFileSync(join(sourceRoot, "src/utils/epf/epfRules.js"), 
 const insightsSource = readFileSync(join(sourceRoot, "src/data/calculatorInsights.js"), "utf8");
 const explainsSource = readFileSync(join(sourceRoot, "src/data/calculatorExplains.js"), "utf8");
 const calculatorsSource = readFileSync(join(sourceRoot, "src/data/calculators.js"), "utf8");
-const publicCopy = `${calculatorSource}\n${insightsSource}\n${explainsSource}\n${calculatorsSource}`;
+
+function extractExplainEntry(source, path) {
+  const marker = `"${path}": {`;
+  const start = source.indexOf(marker);
+  if (start < 0) return "";
+  const nextKey = source.indexOf('\n  "/', start + marker.length);
+  return nextKey === -1 ? source.slice(start) : source.slice(start, nextKey);
+}
+
+const epfExplainSource = extractExplainEntry(explainsSource, "/epf-calculator");
+const publicCopy = `${calculatorSource}\n${insightsSource}\n${epfExplainSource}\n${calculatorsSource}`;
 
 assert(calculatorSource.includes("calculateEpfEstimate"), "EPF UI must use the centralized engine");
 assert(calculatorSource.includes("monthlyPFWages"), "EPF UI must pass monthly PF wages into the engine");
@@ -292,11 +302,16 @@ assert(insightsSource.includes("10%"), "Insights must keep 10% establishments ou
 assert(!insightsSource.includes("Monthly EPF = Basic × (12% + 3.67%)"), "Insights must not keep the old 12% + 3.67% formula");
 assert(!/employer contribution = 3\.67%/i.test(insightsSource), "Insights must not say employer contribution = 3.67%");
 
-assert(explainsSource.includes("Monthly PF wages"), "Explains must use Monthly PF wages");
-assert(explainsSource.includes("FY 2024-25"), "Explains must identify FY 2024-25");
-assert(explainsSource.includes("₹15,000"), "Explains must disclose the ₹15,000 ceiling");
-assert(explainsSource.includes("not an EPS member"), "Explains must keep the new joiner / no-EPS case outside scope");
-assert(!explainsSource.includes("Monthly basic salary"), "Explains must not treat Basic salary as the wage input");
+assert(epfExplainSource.startsWith('"/epf-calculator"'), "EPF explanation entry must be checked on its own");
+assert(epfExplainSource.includes("Monthly PF wages"), "EPF explanation must use Monthly PF wages");
+assert(epfExplainSource.includes("FY 2024-25"), "EPF explanation must identify FY 2024-25");
+assert(epfExplainSource.includes("₹15,000"), "EPF explanation must disclose the ₹15,000 ceiling");
+assert(epfExplainSource.includes("not an EPS member"), "EPF explanation must keep the new joiner / no-EPS case outside scope");
+assert(!epfExplainSource.includes("Monthly basic salary"), "EPF explanation must not treat Basic salary as the wage input");
+assert(
+  extractExplainEntry(explainsSource, "/hra-calculator").includes("Monthly basic salary"),
+  "HRA explanation must keep its basic-salary description",
+);
 
 const statutoryOnly = calculateStatutoryContributions(15000);
 assert(statutoryOnly.employeeEPF === 1800, "Dedicated contribution helper must match the engine at ₹15,000");

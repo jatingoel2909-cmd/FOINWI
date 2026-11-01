@@ -65,15 +65,15 @@ function QuickSummaryCards({ highlights }) {
   const cards = [
     {
       id: "lowest-emi",
-      title: "Lowest Monthly EMI",
+      title: "Lower estimated EMI",
       option: highlights.lowestEmi,
-      explanation: "Lowest monthly payment among the displayed tenures.",
+      explanation: "Lower estimated monthly payment among these tenures.",
     },
     {
       id: "lowest-interest",
-      title: "Lowest Total Interest",
+      title: "Lower estimated interest",
       option: highlights.lowestInterest,
-      explanation: "Lowest estimated interest cost among the displayed tenures.",
+      explanation: "Lower estimated interest among these tenures.",
     },
     {
       id: "balanced",
@@ -123,23 +123,23 @@ function EmiComparisonVisuals({ comparison }) {
 
   const getEmiMarkers = (option) => {
     const markers = [];
-    if (option.isLowestEmi) markers.push("Lowest EMI");
+    if (option.isLowestEmi) markers.push("Lower estimated EMI");
     if (option.isBalanced) markers.push("Balanced Option");
     return markers;
   };
 
   const getInterestMarkers = (option) => {
     const markers = [];
-    if (option.isLowestInterest) markers.push("Lowest Interest");
+    if (option.isLowestInterest) markers.push("Lower estimated interest");
     if (option.isBalanced) markers.push("Balanced Option");
     return markers;
   };
 
   const getRepaymentMarkers = (option) => {
     const markers = [];
-    if (option.isLowestInterest) markers.push("Lowest Interest");
+    if (option.isLowestInterest) markers.push("Lower estimated interest");
     if (option.isBalanced) markers.push("Balanced Option");
-    if (option.isLowestEmi) markers.push("Lowest EMI");
+    if (option.isLowestEmi) markers.push("Lower estimated EMI");
     return markers;
   };
 

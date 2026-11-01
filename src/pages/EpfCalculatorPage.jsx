@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import EpfCalculator from "../components/EpfCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function EpfCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <EpfCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

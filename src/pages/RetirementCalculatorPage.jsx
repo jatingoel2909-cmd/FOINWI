@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import RetirementCalculator from "../components/RetirementCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function RetirementCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <RetirementCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

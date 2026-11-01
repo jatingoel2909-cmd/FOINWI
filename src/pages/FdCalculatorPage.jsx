@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import FdCalculator from "../components/FdCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function FdCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <FdCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

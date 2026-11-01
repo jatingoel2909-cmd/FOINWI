@@ -1,15 +1,12 @@
-import Navbar from "../components/Navbar";
 import InflationCalculator from "../components/InflationCalculator";
-import Footer from "../components/Footer";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function InflationCalculatorPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <InflationCalculator />
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

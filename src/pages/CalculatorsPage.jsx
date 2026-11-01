@@ -1,13 +1,11 @@
-import Navbar from "../components/Navbar";
 import CalculatorGrid from "../components/CalculatorGrid";
-import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import CalculatorPageFrame from "../components/ui/CalculatorPageFrame";
 import "../styles/global.css";
 
 function CalculatorsPage() {
   return (
-    <div className="shrix-app">
-      <Navbar />
+    <CalculatorPageFrame>
       <CalculatorGrid
         sectionLabel="Complete Toolkit"
         title="All Financial Calculators"
@@ -29,8 +27,7 @@ function CalculatorsPage() {
         Calculator results are estimates only and depend on your inputs and assumptions.
         For educational purposes only. Not financial, tax, investment, or loan advice.
       </p>
-      <Footer />
-    </div>
+    </CalculatorPageFrame>
   );
 }
 

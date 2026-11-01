@@ -88,10 +88,10 @@ function EmiTenureComparison({ comparison }) {
       </header>
 
       <p className="emi-compare__highlights">
-        Lowest EMI: {highlights.lowestEmi.tenureLabel} (
+        Lower estimated EMI among these tenures: {highlights.lowestEmi.tenureLabel} (
         {formatCurrency(highlights.lowestEmi.monthlyEmi)})
         {" · "}
-        Lowest Total Interest: {highlights.lowestInterest.tenureLabel} (
+        Lower estimated interest among these tenures: {highlights.lowestInterest.tenureLabel} (
         {formatCurrency(highlights.lowestInterest.totalInterest)})
         {" · "}
         Fastest Payoff: {highlights.fastest.tenureLabel}
