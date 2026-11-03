@@ -1,6 +1,9 @@
 /* global process */
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { decodeHtml, routeHtmlPath } from "./prerenderSeoHeads.js";
 import { ALL_CALCULATORS } from "../src/data/calculators.js";
 import { FINANCIAL_JOURNEYS } from "../src/data/journeys.js";
 import { LEARNING_PATHS } from "../src/data/learnAcademy.js";
@@ -123,6 +126,147 @@ publicPaths.forEach((path) => {
     assert(seo.description.length <= 160, `${path} description must stay within 160 characters`);
   }
 });
+
+const distDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../dist");
+
+async function exists(filePath) {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function collectTags(html, pattern) {
+  return [...html.matchAll(pattern)].map((match) => match[0]);
+}
+
+function oneTag(html, pattern, predicate, label) {
+  const hits = collectTags(html, pattern).filter(predicate);
+  assert(hits.length === 1, `${label} must appear exactly once`);
+  return hits[0] ?? "";
+}
+
+function metaContent(html, attribute, key, label) {
+  const tag = oneTag(
+    html,
+    /<meta\b[\s\S]*?>/gi,
+    (item) => new RegExp(`\\b${attribute}\\s*=\\s*"${key}"`, "i").test(item),
+    label,
+  );
+  const content = tag.match(/\bcontent\s*=\s*"([^"]*)"/i);
+  assert(Boolean(content), `${label} must include a content attribute`);
+  return content ? decodeHtml(content[1]) : "";
+}
+
+function canonicalHref(html, label) {
+  const tag = oneTag(
+    html,
+    /<link\b[\s\S]*?>/gi,
+    (item) => /\brel\s*=\s*"canonical"/i.test(item),
+    label,
+  );
+  const href = tag.match(/\bhref\s*=\s*"([^"]*)"/i);
+  assert(Boolean(href), `${label} must include an href`);
+  return href ? decodeHtml(href[1]) : "";
+}
+
+function titleText(html, label) {
+  const titles = collectTags(html, /<title\b[\s\S]*?<\/title>/gi);
+  assert(titles.length === 1, `${label} must include exactly one title`);
+  const text = titles[0]?.match(/<title>([\s\S]*?)<\/title>/i);
+  return text ? decodeHtml(text[1]) : "";
+}
+
+async function listBuiltHtmlFiles(directory) {
+  const found = [];
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === "assets") continue;
+      found.push(...await listBuiltHtmlFiles(fullPath));
+    } else if (entry.name.endsWith(".html")) {
+      found.push(fullPath);
+    }
+  }
+  return found;
+}
+
+const builtHomePath = path.join(distDir, "index.html");
+assert(await exists(builtHomePath), "Built homepage HTML is missing. Run npm run build before validate:seo.");
+
+if (await exists(builtHomePath)) {
+  const builtHome = await readFile(builtHomePath, "utf8");
+  const homeSeo = resolvePublicSeo("/");
+  assert(titleText(builtHome, "Built homepage") === homeSeo.title, "Built homepage title must stay the approved homepage title");
+  assert(metaContent(builtHome, "name", "description", "Built homepage description") === homeSeo.description, "Built homepage description must stay the approved homepage description");
+  assert(canonicalHref(builtHome, "Built homepage canonical") === homeSeo.canonical, "Built homepage canonical must stay https://foinwi.com/");
+  assert(metaContent(builtHome, "name", "robots", "Built homepage robots") === homeSeo.robots, "Built homepage robots must stay index, follow");
+  assert(metaContent(builtHome, "property", "og:url", "Built homepage og:url") === homeSeo.canonical, "Built homepage og:url must stay the homepage canonical");
+  assert(builtHome.includes('<div id="root"></div>'), "Built homepage must keep the empty React root");
+
+  const sourceJsonLd = collectTags(source.indexHtml, /<script type="application\/ld\+json">[\s\S]*?<\/script>/g);
+  const builtJsonLd = collectTags(builtHome, /<script type="application\/ld\+json">[\s\S]*?<\/script>/g);
+  assert(builtJsonLd.length === sourceJsonLd.length, "Built homepage must keep both JSON-LD scripts");
+  builtJsonLd.forEach((body, index) => {
+    assert(body === sourceJsonLd[index], "Built homepage JSON-LD must match the source shell");
+  });
+
+  for (const routePath of publicPaths.filter((item) => item !== "/")) {
+    const routeFile = routeHtmlPath(distDir, routePath);
+    const staleDirectoryIndex = path.join(distDir, ...routePath.slice(1).split("/"), "index.html");
+    assert(path.basename(routeFile) !== "index.html", `${routePath} must use a slashless HTML file`);
+    assert(!(await exists(staleDirectoryIndex)), `${routePath} must not keep a directory index`);
+    assert(await exists(routeFile), `Built route HTML is missing for ${routePath}`);
+    if (!(await exists(routeFile))) continue;
+    const html = await readFile(routeFile, "utf8");
+    const seo = resolvePublicSeo(routePath);
+    const label = `Built ${routePath}`;
+    assert(titleText(html, label) === seo.title, `${label} title must match the SEO map`);
+    assert(metaContent(html, "name", "description", `${label} description`) === seo.description, `${label} description must match the SEO map`);
+    assert(metaContent(html, "name", "robots", `${label} robots`) === seo.robots, `${label} robots must match the SEO map`);
+    assert(canonicalHref(html, `${label} canonical`) === seo.canonical, `${label} canonical must match the SEO map`);
+    assert(metaContent(html, "property", "og:title", `${label} og:title`) === seo.title, `${label} og:title must match the SEO map`);
+    assert(metaContent(html, "property", "og:description", `${label} og:description`) === seo.description, `${label} og:description must match the SEO map`);
+    assert(metaContent(html, "property", "og:url", `${label} og:url`) === seo.canonical, `${label} og:url must match the canonical URL`);
+    assert(metaContent(html, "name", "twitter:title", `${label} twitter:title`) === seo.title, `${label} twitter:title must match the SEO map`);
+    assert(metaContent(html, "name", "twitter:description", `${label} twitter:description`) === seo.description, `${label} twitter:description must match the SEO map`);
+    assert(metaContent(html, "name", "twitter:card", `${label} twitter:card`) === "summary_large_image", `${label} must keep the existing Twitter card`);
+    assert(metaContent(html, "property", "og:type", `${label} og:type`) === "website", `${label} must keep og:type`);
+    assert(html.includes('<div id="root"></div>'), `${label} must keep the empty React root`);
+    const routeJsonLd = collectTags(html, /<script type="application\/ld\+json">[\s\S]*?<\/script>/g);
+    assert(routeJsonLd.length === builtJsonLd.length, `${label} must keep the homepage JSON-LD scripts`);
+    routeJsonLd.forEach((body, index) => {
+      assert(body === builtJsonLd[index], `${label} JSON-LD must match the homepage shell`);
+    });
+  }
+
+  assert(!(await exists(path.join(distDir, "guide-trial.html"))), "Guide Trial must not receive route HTML");
+  assert(!(await exists(path.join(distDir, "guide-trial", "index.html"))), "Guide Trial must not receive a directory index");
+  assert(!(await exists(path.join(distDir, "api.html"))), "API paths must not receive route HTML");
+  assert(!(await exists(path.join(distDir, "api", "index.html"))), "API paths must not receive a directory index");
+
+  const expectedFiles = new Set([
+    path.resolve(builtHomePath),
+    ...publicPaths
+      .filter((item) => item !== "/")
+      .map((item) => path.resolve(routeHtmlPath(distDir, item))),
+  ]);
+  const builtFiles = await listBuiltHtmlFiles(distDir);
+  assert(builtFiles.length === expectedFiles.size, `Built HTML count must stay ${expectedFiles.size}`);
+  builtFiles.forEach((filePath) => {
+    assert(expectedFiles.has(path.resolve(filePath)), `Unexpected built HTML: ${path.relative(distDir, filePath)}`);
+  });
+
+  const publicDir = path.resolve(distDir, "../public");
+  for (const fileName of ["robots.txt", "sitemap.xml", "ads.txt", "_headers"]) {
+    const published = await readFile(path.join(publicDir, fileName));
+    const built = await readFile(path.join(distDir, fileName));
+    assert(published.equals(built), `Built ${fileName} must match public/${fileName}`);
+  }
+}
 
 if (failures.length) {
   console.error(`SEO validation failed: ${failures.length} of ${checks} checks`);
