@@ -217,7 +217,7 @@ const rulesSource = readFileSync(join(sourceRoot, "src/utils/gst/gstRules.js"), 
 const insightsSource = readFileSync(join(sourceRoot, "src/data/calculatorInsights.js"), "utf8");
 const explainsSource = readFileSync(join(sourceRoot, "src/data/calculatorExplains.js"), "utf8");
 const calculatorsSource = readFileSync(join(sourceRoot, "src/data/calculators.js"), "utf8");
-const learnSource = readFileSync(join(sourceRoot, "src/data/learnAcademy.js"), "utf8");
+const learnSource = readFileSync(join(sourceRoot, "src/data/learnLessonContent.js"), "utf8");
 const journeysSource = readFileSync(join(sourceRoot, "src/data/journeys.js"), "utf8");
 const intentsSource = readFileSync(join(sourceRoot, "src/intelligence/guide/guideIntents.js"), "utf8");
 const resourcesSource = readFileSync(join(sourceRoot, "src/intelligence/guide/guideResources.js"), "utf8");
@@ -229,7 +229,7 @@ const explainsEnd = explainsSource.indexOf('"/income-tax-calculator": {');
 const gstInsights = insightsSource.slice(insightsStart, insightsEnd);
 const gstExplains = explainsSource.slice(explainsStart, explainsEnd);
 const gstLearnStart = learnSource.indexOf('"income-tax-basics/gst-in-everyday-purchases"');
-const gstLearnEnd = learnSource.indexOf('"insurance-planning/why-insurance-matters"');
+const gstLearnEnd = learnSource.indexOf('"loans-emi/how-loans-work"');
 const gstLesson = learnSource.slice(gstLearnStart, gstLearnEnd);
 const publicCopy = [
   calculatorSource,

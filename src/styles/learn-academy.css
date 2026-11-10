@@ -639,6 +639,10 @@
   margin: 0;
 }
 
+.la-lesson p + p {
+  margin-top: 12px;
+}
+
 .la-lesson ul {
   margin: 0;
   padding-left: 22px;

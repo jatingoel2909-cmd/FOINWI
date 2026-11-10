@@ -65,6 +65,11 @@ LEARNING_PATHS.forEach((path) => {
       ...lesson.keyIdeas,
       lesson.deeperExplanation ?? "",
       lesson.example ?? "",
+      lesson.workedIllustration ?? "",
+      ...lesson.assumptions,
+      ...lesson.commonMistakes,
+      ...lesson.limitations,
+      ...lesson.sources,
       ...lesson.nextSteps,
     ].join(" ");
     assert(!placeholderContent.test(content), `Placeholder content found in ${lesson.id}`);
@@ -75,6 +80,11 @@ LEARNING_PATHS.forEach((path) => {
       ...lesson.keyIdeas,
       lesson.deeperExplanation ?? "",
       lesson.example ?? "",
+      lesson.workedIllustration ?? "",
+      ...lesson.assumptions,
+      ...lesson.commonMistakes,
+      ...lesson.limitations,
+      ...lesson.sources,
       ...lesson.nextSteps,
     ].join(" ");
     assert(!currentRateClaim.test(fullContent), `Current rate claim found in ${lesson.id}`);

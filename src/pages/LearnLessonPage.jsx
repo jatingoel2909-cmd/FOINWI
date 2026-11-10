@@ -6,6 +6,25 @@ import { getCalculatorsByPaths } from "../utils/learnHelpers";
 import "../styles/global.css";
 import "../styles/learn-academy.css";
 
+function LessonCopy({ text }) {
+  const blocks = String(text ?? "")
+    .split(/\n\n+/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+  return blocks.map((paragraph) => <p key={paragraph}>{paragraph}</p>);
+}
+
+function LessonList({ items }) {
+  if (!items?.length) return null;
+
+  return (
+    <ul>
+      {items.map((item) => <li key={item}>{item}</li>)}
+    </ul>
+  );
+}
+
 function LearnLessonPage() {
   const { pathSlug, lessonSlug } = useParams();
   const path = getLearningPathBySlug(pathSlug);
@@ -40,26 +59,55 @@ function LearnLessonPage() {
           <article className="la-lesson">
             <section aria-labelledby="lesson-means">
               <h2 id="lesson-means">What this means</h2>
-              <p>{lesson.simpleExplanation}</p>
+              <LessonCopy text={lesson.simpleExplanation} />
             </section>
             <section aria-labelledby="lesson-matters">
               <h2 id="lesson-matters">Why it matters</h2>
-              <p>{lesson.whyItMatters}</p>
+              <LessonCopy text={lesson.whyItMatters} />
             </section>
             <section aria-labelledby="lesson-ideas">
               <h2 id="lesson-ideas">Key ideas</h2>
-              <ul>
-                {lesson.keyIdeas.map((idea) => <li key={idea}>{idea}</li>)}
-              </ul>
+              <LessonList items={lesson.keyIdeas} />
             </section>
             <section aria-labelledby="lesson-example">
               <h2 id="lesson-example">Simple example</h2>
-              <p>{lesson.example}</p>
+              <LessonCopy text={lesson.example} />
             </section>
-            <details className="la-lesson__deeper">
-              <summary>Go deeper</summary>
-              <p>{lesson.deeperExplanation}</p>
-            </details>
+            {lesson.workedIllustration ? (
+              <section aria-labelledby="lesson-worked">
+                <h2 id="lesson-worked">Worked illustration</h2>
+                <LessonCopy text={lesson.workedIllustration} />
+              </section>
+            ) : null}
+            {lesson.assumptions?.length ? (
+              <section aria-labelledby="lesson-assumptions">
+                <h2 id="lesson-assumptions">Assumptions</h2>
+                <LessonList items={lesson.assumptions} />
+              </section>
+            ) : null}
+            {lesson.commonMistakes?.length ? (
+              <section aria-labelledby="lesson-mistakes">
+                <h2 id="lesson-mistakes">Common mistakes</h2>
+                <LessonList items={lesson.commonMistakes} />
+              </section>
+            ) : null}
+            <section aria-labelledby="lesson-deeper">
+              <h2 id="lesson-deeper">A closer look</h2>
+              <LessonCopy text={lesson.deeperExplanation} />
+            </section>
+            {lesson.limitations?.length ? (
+              <section aria-labelledby="lesson-limits">
+                <h2 id="lesson-limits">Limitations</h2>
+                <LessonList items={lesson.limitations} />
+              </section>
+            ) : null}
+            {lesson.sources?.length ? (
+              <section aria-labelledby="lesson-sources">
+                <h2 id="lesson-sources">Sources to check</h2>
+                <p>These are starting points for the named authority or for the FOINWI notes already on a calculator. They are not a filing position.</p>
+                <LessonList items={lesson.sources} />
+              </section>
+            ) : null}
           </article>
 
           {calculators.length > 0 ? (
