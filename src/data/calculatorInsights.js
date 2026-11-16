@@ -116,7 +116,7 @@ export const CALCULATOR_INSIGHTS = {
         },
       ],
       estimateNote:
-        "Educational PPF accumulation estimate using an annual contribution assumed deposited on or before 5 April of each financial year and a constant illustrative interest-rate assumption. 7.1% is the latest rate verified for 1 July–30 September 2026. Government-notified PPF rates can change, including quarter by quarter. PPF interest is based on the lowest balance between the close of the 5th day and month-end and is credited annually. PPF maturity is not simply 15 calendar years from the opening date. Under the current scheme, closure becomes available after 15 complete financial years from the end of the financial year in which the account was opened. This estimate assumes no loans, withdrawals, premature closure or missed annual contributions. Tax treatment can depend on the applicable income-tax rules and tax regime. This calculator does not estimate tax benefits.",
+        "Educational PPF accumulation estimate using an annual contribution assumed deposited on or before 5 April of each financial year and a constant illustrative interest-rate assumption. 7.1% remains the illustrative rate for 1 October–31 December 2026, because small-savings rates were left unchanged from 1 July–30 September 2026. Government-notified PPF rates can change, including quarter by quarter. PPF interest is based on the lowest balance between the close of the 5th day and month-end and is credited annually. PPF maturity is not simply 15 calendar years from the opening date. Under the current scheme, closure becomes available after 15 complete financial years from the end of the financial year in which the account was opened. This estimate assumes no loans, withdrawals, premature closure or missed annual contributions. Tax treatment can depend on the applicable income-tax rules and tax regime. This calculator does not estimate tax benefits.",
       summary:
         "Each modelled year adds the annual contribution, then applies the selected illustrative annual rate once. That matches the official 5th-day lowest-balance method when the full yearly amount is in by 5 April and the selected rate is held constant. Interest is credited once a year in this model. The calculator does not add interest to the balance month by month, and it does not model arbitrary deposit dates.",
       inputs: [
@@ -624,7 +624,7 @@ export const CALCULATOR_INSIGHTS = {
         },
         {
           symbol: "Salary standard deduction",
-          meaning: "Amount limited to salary under the current Income-tax Act, 2025 salary-deduction table: up to ₹75,000 in the new/default regime and up to ₹50,000 in the old/opt-out regime for AY 2026-27",
+          meaning: "Amount limited to salary under the Income-tax Act, 1961, section 16(ia), for FY 2025-26 (AY 2026-27): up to ₹75,000 where tax is computed under section 115BAC(1A), and up to ₹50,000 otherwise. The Income-tax Act, 2025 applies from 1 April 2026 to tax year 2026-27 and is not the statute for this estimate.",
         },
         {
           symbol: "Entered deductions",
@@ -648,7 +648,7 @@ export const CALCULATOR_INSIGHTS = {
         },
       ],
       estimateNote:
-        "This is a simplified FY 2025-26 (AY 2026-27) educational estimate for salary income. Old-regime slabs are for an individual below 60 years. Surcharge is not modelled. Special-rate income such as capital gains is outside this calculator's scope. A salary standard deduction of up to ₹75,000 (new) or ₹50,000 (old), limited to salary, is applied. New-regime Section 87A rebate may apply up to ₹12,00,000 taxable income. Section 87A marginal relief may apply just above that threshold for eligible normal-rate income.",
+        "This is a simplified FY 2025-26 (AY 2026-27) educational estimate for salary income under the Income-tax Act, 1961. Old-regime slabs are for an individual below 60 years. Surcharge is not modelled. Special-rate income such as capital gains is outside this calculator's scope. A salary standard deduction under section 16(ia) of up to ₹75,000, where tax is computed under section 115BAC(1A), or up to ₹50,000 otherwise, limited to salary, is applied. New-regime Section 87A rebate may apply up to ₹12,00,000 taxable income. Section 87A marginal relief may apply just above that threshold for eligible normal-rate income. The Income-tax Act, 2025 applies from 1 April 2026 to tax year 2026-27 and is not the statute for this estimate.",
       summary:
         "This calculator estimates income tax for FY 2025-26 (AY 2026-27) using supported salary deductions, progressive slabs, an educational 87A rebate or marginal-relief step, and 4% cess.",
       inputs: [

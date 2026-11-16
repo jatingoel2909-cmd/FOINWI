@@ -55,7 +55,7 @@ export const CALCULATOR_GUIDANCE = {
       "Contribution years: 15",
     ],
     outcome:
-      "Estimated PPF balance ₹40,68,209. Total contributed ₹22,50,000. Illustrative interest ₹18,18,209. The 7.1% figure is the illustrative rate already shown on this page for 1 July–30 September 2026.",
+      "Estimated PPF balance ₹40,68,209. Total contributed ₹22,50,000. Illustrative interest ₹18,18,209. The 7.1% figure is the illustrative rate already shown on this page for 1 October–31 December 2026.",
     lesson: {
       path: "/learn/investing-fundamentals/asset-classes-in-india",
       title: "Asset Classes in India",

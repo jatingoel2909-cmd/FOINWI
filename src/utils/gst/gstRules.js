@@ -54,7 +54,7 @@ export const GST_ADD_AMOUNT_HELPER = "Enter the amount before GST.";
 export const GST_EXTRACT_AMOUNT_HELPER = "Enter the total amount that already includes GST.";
 
 export const GST_PRESET_HELPER_NOTE =
-  "These are convenience presets for illustration, not a complete GST rate schedule. Other notified rates can be entered manually.";
+  "These are convenience presets for illustration, not a complete GST rate schedule. From 22 September 2025, 5% and 18% are the main rates. 28% and 40% are not general-purpose rates. They are relevant only where a notified rate schedule still specifies them. Other notified rates can be entered manually.";
 
 export const GST_ARITHMETIC_SCOPE_NOTE =
   "This calculator estimates transaction-level GST arithmetic only. It does not calculate GST return liability or input tax credit.";

@@ -470,21 +470,40 @@ const rulesSource = readFileSync(join(sourceRoot, "src/utils/incomeTax/incomeTax
 const explainsSource = readFileSync(join(sourceRoot, "src/data/calculatorExplains.js"), "utf8");
 const insightsSource = readFileSync(join(sourceRoot, "src/data/calculatorInsights.js"), "utf8");
 assert(
-  SALARY_STANDARD_DEDUCTION_CITATION.includes("section 19(1)")
-    && SALARY_STANDARD_DEDUCTION_CITATION.includes("Table Sl. No. 2"),
-  "Central rules must cite Income-tax Act, 2025, section 19(1), Table Sl. No. 2",
+  SALARY_STANDARD_DEDUCTION_CITATION.includes("Income-tax Act, 1961")
+    && SALARY_STANDARD_DEDUCTION_CITATION.includes("section 16(ia)")
+    && SALARY_STANDARD_DEDUCTION_CITATION.includes("section 115BAC(1A)")
+    && SALARY_STANDARD_DEDUCTION_CITATION.includes("FY 2025-26")
+    && SALARY_STANDARD_DEDUCTION_CITATION.includes("1 April 2026"),
+  "Central rules must cite the 1961 Act for FY 2025-26 and distinguish tax year 2026-27",
+);
+assert(
+  !SALARY_STANDARD_DEDUCTION_CITATION.includes("section 19(1)"),
+  "This FY 2025-26 citation must not use Income-tax Act, 2025 section 19(1)",
 );
 assert(
   rulesSource.includes(SALARY_STANDARD_DEDUCTION_CITATION),
-  "incomeTaxRules.js must carry the current-law standard-deduction citation",
+  "incomeTaxRules.js must carry the FY 2025-26 standard-deduction citation",
 );
 assert(
-  !rulesSource.includes("16(ia)")
-    && !calculatorSource.includes("16(ia)")
-    && !engineSource.includes("16(ia)")
-    && !explainsSource.includes("16(ia)")
-    && !insightsSource.includes("16(ia)"),
-  "Current-law Income Tax surfaces must not cite Section 16(ia) as the Act 2025 standard-deduction provision",
+  insightsSource.includes("section 16(ia)")
+    && insightsSource.includes("Income-tax Act, 1961")
+    && insightsSource.includes("1 April 2026"),
+  "Income-tax guidance must cite section 16(ia) for FY 2025-26 and distinguish tax year 2026-27",
+);
+assert(
+  calculatorSource.includes("section 16(ia)")
+    && calculatorSource.includes("Income-tax Act, 1961")
+    && calculatorSource.includes("FY 2025-26 (AY 2026-27)")
+    && calculatorSource.includes("1 April 2026"),
+  "Income-tax page must keep FY 2025-26 and distinguish the 2025 Act",
+);
+assert(
+  !insightsSource.includes("section 19(1)")
+    && !explainsSource.includes("section 19(1)")
+    && !calculatorSource.includes("section 19(1)")
+    && !rulesSource.includes("section 19(1)"),
+  "FY 2025-26 income-tax surfaces must not cite Act 2025 section 19(1)",
 );
 assert(NEW_STANDARD_DEDUCTION === 75000, "Citation correction must not change the ₹75,000 new-regime cap");
 assert(OLD_STANDARD_DEDUCTION === 50000, "Citation correction must not change the ₹50,000 old-regime cap");

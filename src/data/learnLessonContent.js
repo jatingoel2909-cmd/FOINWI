@@ -20,7 +20,7 @@ export const LESSON_REVIEW_FLAGS = Object.freeze([
   {
     route: "/learn/income-tax-basics/section-80c-deductions",
     statement: "The previous summary said section 80C allows deductions up to ₹1.5 lakh. That figure was removed from the public lesson.",
-    why: "The income-tax estimator's comments use Income-tax Act, 2025 section numbering. The cap, the section number, and the eligible list need owner verification before a rupee limit is stated again.",
+    why: "The income-tax estimator for FY 2025-26 follows Income-tax Act, 1961 section numbering. The cap, the section number, and the eligible list need owner verification before a rupee limit is stated again.",
   },
   {
     route: "/learn/income-tax-basics/hra-exemption-basics",

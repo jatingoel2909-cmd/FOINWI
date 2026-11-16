@@ -56,7 +56,7 @@ assert(PPF_MIN_ANNUAL_CONTRIBUTION === 500, "Minimum annual contribution must be
 assert(PPF_MAX_ANNUAL_CONTRIBUTION === 150000, "Maximum annual contribution must be ₹1,50,000");
 assert(PPF_CONTRIBUTION_STEP === 50, "Contribution step must be ₹50");
 assert(PPF_ILLUSTRATIVE_INTEREST_RATE === 7.1, "Default illustrative rate must be 7.1");
-assert(PPF_ILLUSTRATIVE_RATE_PERIOD === "1 July–30 September 2026", "Rate period must be 1 July–30 September 2026");
+assert(PPF_ILLUSTRATIVE_RATE_PERIOD === "1 October–31 December 2026", "Rate period must be 1 October–31 December 2026");
 assert(PPF_STANDARD_CONTRIBUTION_YEARS === 15, "Standard contribution years must be 15");
 assert(PPF_CONTRIBUTION_LABEL === "Annual contribution", "Contribution label must be Annual contribution");
 assert(PPF_YEARS_LABEL === "Contribution years", "Years label must be Contribution years");
@@ -65,7 +65,9 @@ assert(PPF_PRIMARY_RESULT_LABEL === "Estimated PPF balance", "Primary result mus
 assert(PPF_INPUT_LIMITS.annualContribution.step === 50, "UI contribution step must be ₹50");
 assert(PPF_SCOPE_NOTE.includes("on or before 5 April"), "Scope must state the 5 April deposit-timing assumption");
 assert(PPF_SCOPE_NOTE.includes("not an official PPF passbook"), "Scope must say this is not an official passbook");
-assert(PPF_INTEREST_HELPER_NOTE.includes("1 July–30 September 2026"), "Rate helper must identify Jul–Sep 2026");
+assert(PPF_INTEREST_HELPER_NOTE.includes("1 October–31 December 2026"), "Rate helper must identify Oct–Dec 2026");
+assert(PPF_INTEREST_HELPER_NOTE.includes("left unchanged from 1 July–30 September 2026"), "Rate helper must record that Q3 continued the previous quarter");
+assert(PPF_ILLUSTRATIVE_INTEREST_RATE === 7.1, "Quarter label change must keep the 7.1% illustrative rate");
 assert(PPF_INTEREST_HELPER_NOTE.includes("can change, including quarter by quarter"), "Rate helper must disclose future rate changes");
 assert(PPF_DEPOSIT_TIMING_NOTE.includes("on or before 5 April"), "Timing note must be visible as a 5 April assumption");
 assert(PPF_INTEREST_METHOD_NOTE.includes("lowest balance between the close of the 5th day"), "Interest method must describe the 5th-day rule");
@@ -251,12 +253,13 @@ assert(!engineSource.includes("((1 + rate) ** years - 1) / rate"), "Engine must 
 assert(!/monthly compounding/i.test(engineSource), "Engine must not describe monthly compounding");
 
 assert(rulesSource.includes("G.S.R. 915(E)"), "Rules must document G.S.R. 915(E)");
-assert(rulesSource.includes("1 July–30 September 2026"), "Rules must document the Jul–Sep 2026 rate period");
+assert(rulesSource.includes("1 October–31 December 2026"), "Rules must document the Oct–Dec 2026 rate period");
+assert(rulesSource.includes("SB Order No. 12/2026"), "Rules must document the October 2026 small-savings order");
 
 assert(formatSource.includes("maximumFractionDigits: 2"), "Percent display must keep one-decimal rates such as 7.1%");
 
 assert(publicCopy.includes("Explore an illustrative PPF accumulation estimate") || publicCopy.includes("Explore how PPF contributions may accumulate"), "Card/title copy must stay educational");
-assert(publicCopy.includes("1 July–30 September 2026"), "Copy must show the Jul–Sep 2026 rate basis");
+assert(publicCopy.includes("1 October–31 December 2026"), "Copy must show the Oct–Dec 2026 rate basis");
 assert(publicCopy.includes("on or before 5 April"), "Copy must show the 5 April timing assumption");
 assert(publicCopy.includes("15 complete financial years"), "Copy must distinguish statutory maturity");
 assert(publicCopy.includes("no loans, withdrawals, premature closure"), "Copy must disclose no-loan / no-withdrawal assumptions");
@@ -275,7 +278,7 @@ assert(!journeysSource.includes("long-term tax-efficient savings options"), "Jou
 
 assert(ppfInsights.includes("Estimated PPF balance"), "Insights must use Estimated PPF balance");
 assert(ppfInsights.includes("Illustrative interest rate assumption"), "Insights must use illustrative interest rate assumption");
-assert(ppfExplains.includes("1 July–30 September 2026"), "Explains must identify Jul–Sep 2026");
+assert(ppfExplains.includes("1 October–31 December 2026"), "Explains must identify Oct–Dec 2026");
 assert(ppfExplains.includes("15 contribution years"), "Explains must describe 15 contribution years");
 
 if (failures.length) {

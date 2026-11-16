@@ -3,11 +3,16 @@
  * Assessment Year AY 2026-27 · Financial Year FY 2025-26.
  * Centralized statutory-looking constants. Do not duplicate these elsewhere.
  *
+ * This estimator stays on FY 2025-26 / AY 2026-27 and follows the
+ * Income-tax Act, 1961. The Income-tax Act, 2025 comes into force on
+ * 1 April 2026 and applies to tax year 2026-27. It is not the statute
+ * for this estimate.
+ *
  * Scope (this estimator only):
  * - Salary income for a resident individual
- * - Salary standard deduction under Income-tax Act, 2025, section 19(1),
- *   Table Sl. No. 2: ₹75,000 or salary, whichever is less, where tax is
- *   computed under section 202(1) (this estimator's new/default regime);
+ * - Salary standard deduction under Income-tax Act, 1961, section 16(ia):
+ *   ₹75,000 or salary, whichever is less, where tax is computed under
+ *   section 115BAC(1A) (this estimator's new/default regime);
  *   ₹50,000 or salary, whichever is less, otherwise (this estimator's
  *   old/opt-out regime)
  * - Old regime: individual below 60 years
@@ -31,15 +36,13 @@ export const INCOME_TAX_REGIMES = Object.freeze({
 });
 
 /**
- * Salary standard deduction under Income-tax Act, 2025, section 19(1),
- * Table Sl. No. 2.
+ * Salary standard deduction under Income-tax Act, 1961, section 16(ia),
+ * for FY 2025-26 (AY 2026-27).
  * Applied only because this estimator is scoped to Annual Salary Income.
  * Amount is limited to salary: min(annualSalaryIncome, regime cap).
- * Act 2025 section 16 defines "salary" for this Part; it is not the
- * standard-deduction provision.
  */
 export const SALARY_STANDARD_DEDUCTION_CITATION =
-  "Income-tax Act, 2025, section 19(1), Table Sl. No. 2";
+  "Income-tax Act, 1961, section 16(ia), for FY 2025-26 (AY 2026-27): up to ₹75,000 where tax is computed under section 115BAC(1A), and up to ₹50,000 otherwise. The Income-tax Act, 2025 applies from 1 April 2026 to tax year 2026-27 and is not the statute for this estimate.";
 export const OLD_STANDARD_DEDUCTION = 50000;
 export const NEW_STANDARD_DEDUCTION = 75000;
 export const OLD_REGIME_STANDARD_DEDUCTION = OLD_STANDARD_DEDUCTION;

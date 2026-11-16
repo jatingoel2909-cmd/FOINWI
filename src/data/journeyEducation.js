@@ -73,7 +73,7 @@ export const JOURNEY_EDUCATION = {
     limitations: [
       "Bonus, perquisites, and other income can change the figure that belongs in the calculator.",
       "A named deduction applies only when the selected regime and the relevant conditions allow it. Paying into PPF is not, by itself, a tax refund.",
-      "The PPF calculator's 7.1% figure is the illustrative rate already shown on that page for 1 July–30 September 2026.",
+      "The PPF calculator's 7.1% figure is the illustrative rate already shown on that page for 1 October–31 December 2026.",
       "These pages do not prepare a return.",
     ],
     mistakes: [

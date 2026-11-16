@@ -82,6 +82,10 @@ assert(GST_STARTING_VALUE_NOTE.includes("not FOINWI's classification"), "18% not
 assert(GST_ADD_AMOUNT_HELPER.includes("before GST"), "Add amount helper must say before GST");
 assert(GST_EXTRACT_AMOUNT_HELPER.includes("already includes GST"), "Extract amount helper must say already includes GST");
 assert(GST_PRESET_HELPER_NOTE.includes("not a complete GST rate schedule"), "Presets must not claim a complete schedule");
+assert(GST_PRESET_HELPER_NOTE.includes("22 September 2025"), "Preset note must give the 22 September 2025 effective-date context");
+assert(GST_PRESET_HELPER_NOTE.includes("5% and 18% are the main rates"), "Preset note must identify 5% and 18% as the main rates");
+assert(GST_PRESET_HELPER_NOTE.includes("28% and 40% are not general-purpose rates"), "Preset note must say 28% and 40% are not general-purpose rates");
+assert(GST_PRESET_HELPER_NOTE.includes("only where a notified rate schedule still specifies them"), "Preset note must limit 28% and 40% to notified schedules");
 assert(GST_ARITHMETIC_SCOPE_NOTE.includes("transaction-level GST arithmetic only"), "Must deny return liability computation");
 assert(GST_ARITHMETIC_SCOPE_NOTE.includes("does not calculate GST return liability or input tax credit"), "Must deny ITC and return liability");
 assert(GST_CESS_NOTE.includes("Compensation cess"), "Cess note must say compensation cess is not included");

@@ -57,7 +57,7 @@ function IncomeTaxCalculator({
     <CalculatorLayout
       label="Income Tax Calculator"
       title="Educational tax estimate"
-      description="This calculator provides a simplified estimate for FY 2025-26 (AY 2026-27). Actual tax liability can differ based on residency, age, income type, exemptions, deductions, special-rate income, rebate eligibility, surcharge, marginal relief and other provisions."
+      description="This calculator provides a simplified estimate for FY 2025-26 (AY 2026-27) under the Income-tax Act, 1961, including section 16(ia) and section 87A. The Income-tax Act, 2025 applies from 1 April 2026 to tax year 2026-27 and is not used here. Actual tax liability can differ based on residency, age, income type, exemptions, deductions, special-rate income, rebate eligibility, surcharge, marginal relief and other provisions."
       showHeader={showHeader}
       variant="alt"
       className={className}

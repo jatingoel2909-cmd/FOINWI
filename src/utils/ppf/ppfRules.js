@@ -16,9 +16,11 @@
  *   of the financial year in which the account was opened
  *
  * Latest verified notified rate used only as the default illustrative
- * assumption: 7.1% for 1 July–30 September 2026 (DEA F.No.1/4/2019-NS
- * dated 30.06.2026, unchanged from the prior quarter; NSI scheme-wise
- * table). Government-notified PPF rates can change, including quarterly.
+ * assumption: 7.1% for 1 October–31 December 2026. Department of Posts
+ * SB Order No. 12/2026, 30 September 2026, records that the Department of
+ * Economic Affairs left small-savings rates unchanged from 1 July–
+ * 30 September 2026 (DEA F.No.1/4/2019-NS dated 30.06.2026). Government-
+ * notified PPF rates can change, including quarterly.
  *
  * Not modelled: official passbook, personal maturity date, loans,
  * withdrawals, premature closure, missed years, discontinued-account
@@ -32,7 +34,7 @@ export const PPF_MAX_ANNUAL_CONTRIBUTION = 150000;
 export const PPF_CONTRIBUTION_STEP = 50;
 
 export const PPF_ILLUSTRATIVE_INTEREST_RATE = 7.1;
-export const PPF_ILLUSTRATIVE_RATE_PERIOD = "1 July–30 September 2026";
+export const PPF_ILLUSTRATIVE_RATE_PERIOD = "1 October–31 December 2026";
 
 export const PPF_STANDARD_CONTRIBUTION_YEARS = 15;
 
@@ -54,7 +56,7 @@ export const PPF_SCOPE_NOTE =
   "Educational PPF accumulation estimate using an annual contribution assumed deposited on or before 5 April of each financial year and a constant illustrative interest-rate assumption. This is not an official PPF passbook, an exact statutory maturity calculation, a promise of future returns, or tax advice.";
 
 export const PPF_INTEREST_HELPER_NOTE =
-  "7.1% is the latest rate verified for 1 July–30 September 2026. Government-notified PPF rates can change, including quarter by quarter. This calculator applies the selected rate unchanged throughout the projection only for illustration.";
+  "7.1% remains the illustrative rate for 1 October–31 December 2026, because small-savings rates were left unchanged from 1 July–30 September 2026. Government-notified PPF rates can change, including quarter by quarter. This calculator applies the selected rate unchanged throughout the projection only for illustration.";
 
 export const PPF_DEPOSIT_TIMING_NOTE =
   "The full yearly contribution is deposited on or before 5 April of each financial year.";

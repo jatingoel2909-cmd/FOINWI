@@ -79,7 +79,7 @@ export const CALCULATOR_EXPLAINS = {
       "This is an educational PPF accumulation estimate using an annual contribution assumed deposited on or before 5 April of each financial year and a constant illustrative interest-rate assumption. It is not an official PPF passbook, an exact statutory maturity calculation, or tax advice.",
     keyInputs: [
       "Annual contribution — ₹500 to ₹1,50,000 in multiples of ₹50; the ₹1.5 lakh annual limit can include own-account and minor-account deposits where applicable",
-      "Illustrative interest rate assumption — 7.1% is the latest rate verified for 1 July–30 September 2026 and is applied unchanged only for illustration",
+      "Illustrative interest rate assumption — 7.1% remains the illustrative rate for 1 October–31 December 2026, because small-savings rates were left unchanged from 1 July–30 September 2026, and is applied unchanged only for illustration",
       "Contribution years — this estimate models 15 contribution years as the standard scenario, which is not the same as statutory PPF maturity",
     ],
     ifInputsChange: [
