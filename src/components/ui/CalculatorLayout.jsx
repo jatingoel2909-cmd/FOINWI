@@ -1,4 +1,5 @@
 import CalculatorExplainEngine from "./CalculatorExplainEngine";
+import CalculatorGuidance from "./CalculatorGuidance";
 import CalculatorResultSupport from "./CalculatorResultSupport";
 import ContinueJourneyCard from "./ContinueJourneyCard";
 import DailyInsightCard from "../intelligence/DailyInsightCard";
@@ -75,6 +76,8 @@ function CalculatorLayout({
       {extension}
 
       {resultSupport}
+
+      {calculatorId ? <CalculatorGuidance calculatorId={calculatorId} /> : null}
 
       {explain ? <CalculatorExplainEngine explain={explain} /> : null}
 
