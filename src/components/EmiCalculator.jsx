@@ -11,6 +11,7 @@ import EmiPrepaymentCalculator from "./emi/EmiPrepaymentCalculator";
 import AmortizationSchedule from "./emi/AmortizationSchedule";
 import LoanEligibilityCalculator from "./emi/LoanEligibilityCalculator";
 import { DEFAULT_LOAN_TYPE_ID, getLoanTypeById } from "../data/loanTypes";
+import { ENABLE_LENDER_COMPARISON } from "../config/featureFlags";
 import { calculateEmi } from "../utils/emiFormula";
 import { buildTenureComparison } from "../utils/emiComparisonEngine";
 import { formatCurrency } from "../utils/calculatorFormat";
@@ -199,8 +200,16 @@ function EmiCalculator({
 
           <CalcSectionAccordion
             id="emi-lender"
-            title="Compare Illustrative Lender Scenarios"
-            description="See how small rate differences can change estimated EMI cost."
+            title={
+              ENABLE_LENDER_COMPARISON
+                ? "Compare Illustrative Lender Scenarios"
+                : "What this EMI illustration includes"
+            }
+            description={
+              ENABLE_LENDER_COMPARISON
+                ? "See how small rate differences can change estimated EMI cost."
+                : "The estimate and schedule on this page cover one loan. They do not compare lenders."
+            }
           >
             <EmiLenderComparison
               principal={principal}

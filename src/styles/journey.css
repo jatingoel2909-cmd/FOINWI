@@ -102,6 +102,8 @@
   background: var(--fw-bg-page);
   display: grid;
   gap: var(--fw-space-stack);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .shrix-mission-block--brief {
@@ -123,6 +125,8 @@
   border: 1px solid var(--fw-border-strong);
   border-radius: var(--fw-radius-lg);
   box-shadow: var(--fw-shadow-card);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .shrix-mission-block h2 {
@@ -333,6 +337,79 @@
 
 .shrix-mission-inline-link:hover {
   color: var(--fw-accent-bright);
+}
+
+.shrix-mission-learn-card__lesson {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--fw-accent);
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.shrix-mission-learn-card__lesson:hover {
+  color: var(--fw-accent-bright);
+}
+
+.shrix-mission-guidance h3 {
+  margin: 18px 0 8px;
+  color: var(--fw-accent);
+  font-size: 16px;
+  letter-spacing: -0.2px;
+}
+
+.shrix-mission-guidance p,
+.shrix-mission-guidance li {
+  color: var(--fw-text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.shrix-mission-guidance p {
+  margin: 0 0 12px;
+}
+
+.shrix-mission-guidance ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.shrix-mission-guidance li + li {
+  margin-top: 6px;
+}
+
+.shrix-mission-scenario {
+  padding: 16px 18px 4px;
+  border-radius: 16px;
+  border: 1px solid var(--fw-border);
+  background: rgba(255, 252, 247, 0.8);
+}
+
+.shrix-mission-guidance__links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.shrix-mission-guidance__links .shrix-mission-inline-link {
+  margin-top: 0;
+}
+
+.shrix-mission-ai-note {
+  margin: 0;
+  color: var(--fw-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.shrix-mission-ai-note a {
+  color: var(--fw-accent);
+  font-weight: 800;
+  text-decoration: none;
 }
 
 .shrix-mission-block--ai {

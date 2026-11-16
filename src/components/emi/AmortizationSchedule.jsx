@@ -314,21 +314,6 @@ function AmortizationSchedule({
         </div>
       </div>
 
-      <div className="emi-amort__csv-wrap">
-        <button
-          type="button"
-          className="emi-amort__csv"
-          disabled={true}
-          aria-disabled="true"
-          aria-describedby="emi-amort-csv-help"
-        >
-          🔒 Download CSV — Coming Soon
-        </button>
-        <p className="emi-amort__csv-help" id="emi-amort-csv-help">
-          CSV export will be available as an optional premium feature in a future release.
-        </p>
-      </div>
-
       <div
         id="emi-amort-view-panel"
         role="tabpanel"

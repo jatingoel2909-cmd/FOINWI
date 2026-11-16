@@ -24,13 +24,13 @@ const MISSION_META = {
     ],
     learningDetails: {
       "How home loan eligibility is assessed in India":
-        "Learn how banks evaluate income, existing EMIs, credit score, and co-applicant strength.",
-      "Down payment, registration, and hidden home-buying costs":
-        "Understand costs beyond property price that affect your upfront cash need.",
+        "The linked lesson explains principal, interest, tenure, and fees. The eligibility calculator is an illustration, not a lender decision.",
+      "Cash a buyer still needs before borrowing":
+        "The linked lesson is about naming a goal. Registration, stamp duty, and setup costs are outside the EMI figure.",
       "Fixed vs floating interest rates for home loans":
-        "Compare rate stability, EMI predictability, and long-term interest cost.",
-      "When to prepay vs invest surplus cash":
-        "Decide whether extra payments or investments fit your situation better.",
+        "The linked lesson explains a rate that stays fixed for a period and a rate that can change later.",
+      "What one prepayment changes on a loan":
+        "The linked lesson explains an extra principal payment. It does not compare that payment with an investment.",
     },
   },
   "build-wealth": {
@@ -70,7 +70,7 @@ const MISSION_META = {
     nextMission: {
       slug: "build-wealth",
       title: "Build Wealth",
-      description: "After optimising tax savings, redirect surplus into long-term wealth-building plans.",
+      description: "After the tax illustrations, the Build Wealth journey covers long-term investing.",
     },
     aiGuide: {
       intro: "FOINWI AI will simplify tax concepts and calculator outputs for salaried Indian earners.",
@@ -86,14 +86,14 @@ const MISSION_META = {
       { title: "Collect deduction proofs", detail: "Organise 80C, 80D, and rent documents early." },
     ],
     learningDetails: {
-      "Old vs New tax regime — which fits your profile":
-        "Compare liability with and without deductions to pick the better regime.",
-      "Section 80C, 80D, and common salary deductions":
-        "Learn eligible investments and expenses that reduce taxable income.",
+      "How two tax-regime illustrations differ":
+        "The linked lesson shows how two regime illustrations can diverge. It does not choose a regime.",
+      "How a named deduction appears in an estimate":
+        "The linked lesson explains a named deduction. Paying it is not a cash refund.",
       "HRA exemption under Rule 279 for FY 2026-27":
-        "Understand monthly rent, Rule 279 salary, and the eight 50% cities versus any other place.",
-      "Tax planning vs tax evasion — staying compliant":
-        "Use legitimate planning tools while meeting disclosure requirements.",
+        "The linked lesson explains the monthly HRA estimate and the conditions printed with it.",
+      "How a salary estimate differs from take-home pay":
+        "The linked lesson explains that difference. It is not a filing guide.",
     },
   },
   "child-education": {
@@ -101,7 +101,7 @@ const MISSION_META = {
     nextMission: {
       slug: "protect-your-family",
       title: "Protect Your Family",
-      description: "Education planning works best alongside adequate family protection and emergency savings.",
+      description: "After an education target, the Protect Your Family journey separates cover from a cash reserve.",
     },
     aiGuide: {
       intro: "FOINWI AI will help parents understand education costs, inflation, and savings gaps clearly.",
@@ -117,14 +117,14 @@ const MISSION_META = {
       { title: "Set annual review date", detail: "Update targets when fees or courses change." },
     ],
     learningDetails: {
-      "Projecting school and college fees 10–15 years ahead":
-        "Apply education inflation to today’s fees for realistic future targets.",
-      "SIP-based education funds vs traditional deposits":
-        "Compare growth potential and liquidity for long education horizons.",
-      "Balancing child education with retirement savings":
-        "Avoid sacrificing your own retirement while funding education goals.",
-      "Insurance and contingency planning for education goals":
-        "Protect the plan against income disruption or emergencies.",
+      "How a typed inflation rate changes an amount":
+        "The linked lesson shows what a typed inflation rate does to an amount. It is not a school-fee forecast.",
+      "How a monthly investment differs from a deposit":
+        "The linked lesson explains a monthly investment pattern. A deposit is a different kind of product.",
+      "Keeping an education target separate from retirement":
+        "The linked lesson is a retirement timeline. Keeping that target separate from the education target makes both easier to read.",
+      "Why insurance is a different question from the savings target":
+        "The linked lesson explains why insurance is separate from the savings target. It does not set a cover amount.",
     },
   },
   "buy-your-car": {
@@ -148,14 +148,14 @@ const MISSION_META = {
       { title: "Budget running costs", detail: "Plan fuel, service, insurance, and parking expenses." },
     ],
     learningDetails: {
-      "On-road price vs ex-showroom — full cost breakdown":
-        "Understand every charge that makes up the final car purchase price.",
-      "New vs used car loan considerations":
-        "Compare loan terms, interest rates, and depreciation trade-offs.",
-      "Ideal EMI-to-income ratio for car loans":
-        "Keep vehicle EMIs from crowding out savings and essentials.",
-      "Total cost of ownership over 5 years":
-        "See the full financial picture beyond the monthly EMI.",
+      "What a loan illustration leaves out of a vehicle price":
+        "The linked lesson explains rate, tenure, and fees. It does not list vehicle charges.",
+      "Why a new or used label does not change the EMI formula":
+        "The linked lesson explains the instalment. It does not compare vehicle prices.",
+      "How an instalment sits beside other monthly costs":
+        "The linked lesson discusses keeping instalments within a comfortable share of income. A comfortable share can differ.",
+      "Why a rupee now and a rupee later differ":
+        "The linked lesson explains that difference. It does not add fuel or insurance.",
     },
   },
   "retirement-planning": {
@@ -180,14 +180,14 @@ const MISSION_META = {
       { title: "Document pension accounts", detail: "Track EPF, NPS, and other retirement balances centrally." },
     ],
     learningDetails: {
-      "How much corpus do you need for retirement in India":
-        "Estimate replacement income needs using lifestyle and inflation assumptions.",
+      "How a retirement corpus estimate can be illustrated":
+        "The linked lesson explains a corpus illustration built from future spending, inflation, and a chosen number of years.",
       "EPF, NPS, and PPF roles in retirement planning":
-        "Understand how each instrument contributes to your retirement stack.",
+        "The linked lesson explains an EPF illustration. NPS has its own lesson, linked in the guidance below.",
       "Inflation impact on post-retirement expenses":
-        "See why today’s expenses underestimate tomorrow’s needs.",
-      "Creating income from corpus with SWP strategies":
-        "Learn how systematic withdrawals can fund monthly retirement income.",
+        "The linked lesson shows what a typed inflation rate does to an amount. It is not a personal spending forecast.",
+      "How a systematic withdrawal differs from a pension":
+        "The linked lesson explains a systematic withdrawal. It is not a pension.",
     },
   },
   "become-debt-free": {
@@ -211,14 +211,14 @@ const MISSION_META = {
       { title: "Close highest-cost loan", detail: "Eliminate the most expensive debt first." },
     ],
     learningDetails: {
-      "Good debt vs bad debt — prioritisation framework":
-        "Separate productive loans from high-cost consumer debt.",
-      "Avalanche vs snowball debt repayment methods":
-        "Choose between mathematical efficiency and motivational wins.",
-      "When prepayment makes sense over investing":
-        "Compare interest saved from prepayment vs potential investment returns.",
-      "Rebuilding credit health after debt clearance":
-        "Restore financial flexibility and healthy borrowing habits.",
+      "How a lesson discusses repayment order":
+        "The linked lesson discusses keeping instalments within a comfortable share of income and a repayment order. It does not label a loan good or bad.",
+      "Payoff method names this page does not define":
+        "FOINWI does not define avalanche or snowball in a lesson. The linked lesson discusses repayment order.",
+      "What an extra principal payment changes":
+        "The linked lesson explains an extra principal payment. It does not compare that payment with an investment return.",
+      "Listing balances, without a credit score":
+        "FOINWI does not publish a credit-score lesson or a score. This card is a reminder to list each balance, rate, and remaining time separately.",
     },
   },
   "protect-your-family": {
@@ -242,14 +242,14 @@ const MISSION_META = {
       { title: "Store documents securely", detail: "Keep policies and key records accessible to family." },
     ],
     learningDetails: {
-      "How much term insurance cover families typically need":
-        "Estimate cover based on income replacement and outstanding liabilities.",
-      "Building a 6–12 month emergency fund":
-        "Set a liquid buffer for job loss, medical events, or repairs.",
-      "Health insurance vs medical emergency savings":
-        "Combine insurance with cash reserves for deductibles and gaps.",
-      "Estate planning basics for Indian families":
-        "Organise nominees, wills, and account access for dependents.",
+      "What a term benefit covers during the policy term":
+        "The linked lesson explains a term benefit during the policy term. It does not set a cover amount.",
+      "What a cash reserve is for":
+        "The linked lesson discusses a cash reserve. The 6–12 month line on this page is a checklist prompt, not a requirement.",
+      "What a health policy limit does not promise":
+        "The linked lesson says a headline sum is not a promise that every bill is paid.",
+      "Recording documents, without drafting a will":
+        "FOINWI does not have a lesson that drafts a will or names a lawyer. The checklist asks you to record policies, nominees, and where documents are kept.",
     },
   },
 };

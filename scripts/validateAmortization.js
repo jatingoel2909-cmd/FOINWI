@@ -159,8 +159,8 @@ console.log("\n=== H. Remaining balance ends at zero ===");
   );
 });
 
-// I. CSV generation remains available; public download is disabled
-console.log("\n=== I. CSV generation + public download disabled ===");
+// I. CSV helpers remain in the engine. The public page no longer shows a download control.
+console.log("\n=== I. CSV generation kept in engine; public control removed ===");
 const csv = amortizationToCsv(mid);
 assert(countCsvDataRows(csv) === mid.rows.length, "CSV data rows must match schedule length");
 const yearlyCsv = yearlySummaryToCsv(buildYearlySummary(mid));
@@ -175,14 +175,12 @@ const scheduleUi = readFileSync(
   "utf8",
 );
 assert(
-  /Download CSV — Coming Soon/.test(scheduleUi),
-  "Public UI must show Coming Soon CSV button text",
+  !/Download CSV — Coming Soon/.test(scheduleUi),
+  "Public UI must not show a Coming Soon CSV download control",
 );
 assert(
-  /disabled\s*\n\s*aria-disabled="true"/.test(scheduleUi) ||
-    /disabled\s+aria-disabled="true"/.test(scheduleUi) ||
-    (scheduleUi.includes("disabled") && scheduleUi.includes('aria-disabled="true"')),
-  "CSV button must be disabled with aria-disabled",
+  !scheduleUi.includes("emi-amort__csv"),
+  "Public amortization UI must not render the CSV control",
 );
 assert(
   !/onClick=\{handleDownloadCsv\}/.test(scheduleUi),
@@ -193,10 +191,10 @@ assert(
   "Public amortization UI must not include active browser download glue",
 );
 assert(
-  scheduleUi.includes(
+  !scheduleUi.includes(
     "CSV export will be available as an optional premium feature in a future release.",
   ),
-  "Helper text for future premium CSV export must be present",
+  "Public UI must not advertise a future premium CSV export",
 );
 assert(
   typeof amortizationToCsv === "function" && typeof yearlySummaryToCsv === "function",

@@ -197,6 +197,7 @@ function AiToolsPage() {
             <p className="shrix-section-label">Planned Assistance</p>
             <h2 id="fi-ai-assist-title">How FOINWI Intelligence Will Assist</h2>
             <p>FOINWI Intelligence is planned to explain financial concepts, calculator results, and next steps in a calm, educational way.</p>
+            <p>That assistant is not available today. The links in this section open calculators, lessons, and journeys you can use now. They are not a chatbot and not live AI assistance.</p>
           </div>
           <div className="fi-ai__assist-grid">
             <article className="fi-ai__assist-card">

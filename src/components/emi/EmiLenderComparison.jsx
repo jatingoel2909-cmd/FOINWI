@@ -118,15 +118,23 @@ function LenderTable({ comparisons }) {
   );
 }
 
-function EmiLenderComparisonComingSoon() {
+function EmiIllustrationNote() {
   return (
-    <section className="emi-lender emi-lender--coming-soon" aria-labelledby="emi-lender-title">
+    <section className="emi-lender" aria-labelledby="emi-lender-title">
       <header className="emi-lender__header">
         <div className="emi-lender__header-text">
-          <h3 id="emi-lender-title">Compare Illustrative Lender Scenarios</h3>
+          <h3 id="emi-lender-title">What this EMI illustration includes</h3>
+          <p>
+            This page estimates one loan at a time from the amount, annual interest rate, and tenure you enter.
+          </p>
         </div>
       </header>
-      <p className="emi-lender__coming-soon">Verified lender comparisons are coming soon.</p>
+      <p className="emi-lender__empty">
+        The estimate can show EMI, total interest, and total repayment. The schedule on this page
+        splits each instalment between interest and principal, by month or by year. It does not
+        compare lenders or quote a live interest rate. Explain My Result stays available for the
+        same illustration.
+      </p>
     </section>
   );
 }
@@ -194,7 +202,7 @@ function EmiLenderComparisonEnabled({ principal, tenureMonths, loanTypeId }) {
 
 function EmiLenderComparison(props) {
   if (!ENABLE_LENDER_COMPARISON) {
-    return <EmiLenderComparisonComingSoon />;
+    return <EmiIllustrationNote />;
   }
   return <EmiLenderComparisonEnabled {...props} />;
 }

@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { getMissionBySlug } from "../utils/missionHelpers";
+import { getJourneyEducation } from "../data/journeyEducation";
 import RecommendationPanel from "../components/intelligence/RecommendationPanel";
 import "../styles/global.css";
 import "../styles/journey.css";
@@ -11,8 +12,74 @@ function getChecklistStorageKey(slug) {
   return `foinwi-mission-checklist-${slug}`;
 }
 
+function EducationList({ items }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function JourneyEducation({ mission, education }) {
+  if (!education) return null;
+
+  return (
+    <section
+      className="shrix-mission-block shrix-mission-guidance shrix-mission-animate"
+      aria-labelledby="mission-education-title"
+    >
+      <h2 id="mission-education-title">How to read this mission</h2>
+      {education.purpose.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+
+      <h3>Assumptions</h3>
+      <EducationList items={education.assumptions} />
+
+      <h3>Illustrative scenario</h3>
+      <div className="shrix-mission-scenario">
+        {education.scenario.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+
+      <h3>Risks and limitations</h3>
+      <EducationList items={education.limitations} />
+
+      <h3>Common planning mistakes</h3>
+      <EducationList items={education.mistakes} />
+
+      <h3>Next learning step</h3>
+      <p>{education.nextLesson.note}</p>
+      <div className="shrix-mission-guidance__links">
+        <Link to={education.nextLesson.path} className="shrix-mission-inline-link">
+          {education.nextLesson.title} →
+        </Link>
+        {education.alsoRead?.map((lesson) => (
+          <Link key={lesson.path} to={lesson.path} className="shrix-mission-inline-link">
+            {lesson.title} →
+          </Link>
+        ))}
+      </div>
+      {mission.nextStep ? (
+        <>
+          <p>{mission.nextStep.text}</p>
+          <div className="shrix-mission-guidance__links">
+            <Link to={mission.nextStep.path} className="shrix-mission-inline-link">
+              {mission.nextStep.cta}
+            </Link>
+          </div>
+        </>
+      ) : null}
+    </section>
+  );
+}
+
 function MissionJourneyPage({ slug }) {
   const mission = getMissionBySlug(slug);
+  const education = getJourneyEducation(slug);
   const progressRef = useRef(null);
 
   const [checkedItems, setCheckedItems] = useState(() => {
@@ -155,36 +222,33 @@ function MissionJourneyPage({ slug }) {
 
         <section className="shrix-mission-block shrix-mission-animate">
           <h2>Learning Modules</h2>
+          {education ? (
+            <p className="shrix-mission-block__intro">
+              Open a related lesson where FOINWI already teaches this topic.
+            </p>
+          ) : null}
           <div className="shrix-mission-learn-grid">
-            {mission.learningModules.map((module) => (
-              <article className="shrix-mission-learn-card" key={module.title}>
-                <h3>{module.title}</h3>
-                <p>{module.description}</p>
-              </article>
-            ))}
+            {mission.learningModules.map((module) => {
+              const lesson = education?.moduleLessons?.[module.title];
+              return (
+                <article className="shrix-mission-learn-card" key={module.title}>
+                  <h3>{module.title}</h3>
+                  <p>{module.description}</p>
+                  {lesson ? (
+                    <Link to={lesson.path} className="shrix-mission-learn-card__lesson">
+                      {lesson.title} →
+                    </Link>
+                  ) : null}
+                </article>
+              );
+            })}
           </div>
           <Link to="/learn" className="shrix-mission-inline-link">
             Explore learning paths →
           </Link>
         </section>
 
-        <section className="shrix-mission-block shrix-mission-block--ai shrix-mission-animate">
-          <span className="shrix-mission-ai__badge">Coming Soon</span>
-          <h2>AI Guide</h2>
-          <p className="shrix-mission-ai__intro">{mission.aiGuide.intro}</p>
-          <ul className="shrix-mission-ai__list">
-            {mission.aiGuide.points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-          <p className="shrix-mission-ai__note">
-            Coming Soon preview only — not live advice, not a chatbot, and not
-            financial, tax, investment, or loan advice.
-          </p>
-          <Link to="/ai-tools" className="shrix-mission-inline-link">
-            View AI Roadmap →
-          </Link>
-        </section>
+        <JourneyEducation mission={mission} education={education} />
 
         <section className="shrix-mission-block shrix-mission-animate">
           <h2>Mission Checklist</h2>
@@ -209,6 +273,13 @@ function MissionJourneyPage({ slug }) {
             })}
           </ul>
         </section>
+
+        <p className="shrix-mission-ai-note">
+          A future assistant is not available on this page. The calculators and
+          lessons above are what you can use today. This is not a chatbot and
+          not live advice.{" "}
+          <Link to="/ai-tools">AI Tools shows the live map and what remains planned.</Link>
+        </p>
 
         {mission.nextMission && (
           <section className="shrix-mission-next shrix-mission-animate">

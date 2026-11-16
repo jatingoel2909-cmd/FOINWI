@@ -17,9 +17,9 @@ export const FINANCIAL_JOURNEYS = [
     ],
     learningModules: [
       "How home loan eligibility is assessed in India",
-      "Down payment, registration, and hidden home-buying costs",
+      "Cash a buyer still needs before borrowing",
       "Fixed vs floating interest rates for home loans",
-      "When to prepay vs invest surplus cash",
+      "What one prepayment changes on a loan",
     ],
     aiPreview:
       "Soon, FOINWI AI will help compare property budget, EMI stress, and down payment timelines in plain language — educational guidance only.",
@@ -98,7 +98,7 @@ export const FINANCIAL_JOURNEYS = [
     heroSubtitle:
       "Navigate Old vs New tax regime, HRA exemption, and common deductions with clarity — not confusion.",
     overview:
-      "Tax planning for salaried professionals in India involves choosing the right regime, maximising eligible deductions, understanding HRA rules, and planning investments under sections like 80C. This mission helps you estimate liability and identify planning levers without overcomplicating returns filing.",
+      "A salaried tax estimate depends on the year, the regime, the income entered, and any deductions that regime allows. This mission walks through those inputs on the income-tax, HRA, GST, and PPF calculators. It does not file a return or choose a regime for you.",
     calculators: [
       { title: "Income Tax Calculator", path: "/income-tax-calculator", desc: "Compare Old and New regime tax estimates." },
       { title: "HRA Calculator", path: "/hra-calculator", desc: "Explore an educational monthly HRA exemption estimate for FY 2026-27." },
@@ -106,10 +106,10 @@ export const FINANCIAL_JOURNEYS = [
       { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore an illustrative PPF accumulation estimate." },
     ],
     learningModules: [
-      "Old vs New tax regime — which fits your profile",
-      "Section 80C, 80D, and common salary deductions",
+      "How two tax-regime illustrations differ",
+      "How a named deduction appears in an estimate",
       "HRA exemption under Rule 279 for FY 2026-27",
-      "Tax planning vs tax evasion — staying compliant",
+      "How a salary estimate differs from take-home pay",
     ],
     aiPreview:
       "Soon, FOINWI AI will help explain tax calculator results, regime trade-offs, and deduction concepts in simple language.",
@@ -129,9 +129,9 @@ export const FINANCIAL_JOURNEYS = [
     timeline: [
       { title: "Gather income details", detail: "Salary, bonus, other income, and existing deductions." },
       { title: "Compare tax regimes", detail: "Estimate liability under Old and New regime." },
-      { title: "Optimise deductions", detail: "Review HRA, 80C, 80D, and NPS contributions." },
-      { title: "Plan year-end actions", detail: "Align investments and proofs before March." },
-      { title: "File with confidence", detail: "Use estimates to prepare documentation for filing." },
+      { title: "Review deductions", detail: "Look at HRA, 80C, 80D, and NPS only where that regime asks for them." },
+      { title: "Plan year-end actions", detail: "List investments and proofs before the year shown on the calculator." },
+      { title: "Prepare for filing", detail: "Use the estimates to organise papers. The estimates are not a filed return." },
     ],
   },
   {
@@ -141,9 +141,9 @@ export const FINANCIAL_JOURNEYS = [
     description: "Plan school, college, and study-abroad costs with inflation-aware savings.",
     duration: "6–12 months to start",
     heroSubtitle:
-      "Estimate future education costs and build a savings plan that keeps pace with rising fees.",
+      "Put a date and a monthly contribution next to an education target, then read the gap the calculators show.",
     overview:
-      "Education costs in India rise faster than general inflation, especially for professional degrees and study abroad. This mission helps you project future fees, calculate required SIP or lumpsum savings, and align investments with your child's timeline.",
+      "School, college, and study-abroad bills can differ from today's fees by the time they arrive. This mission helps you enter a target, a date, and a monthly contribution, then read the illustrated gap. It does not forecast a fee or an investment result.",
     calculators: [
       { title: "Goal Planner", path: "/goal-planner", desc: "Plan education corpus with target date and amount." },
       { title: "SIP Calculator", path: "/sip-calculator", desc: "Estimate monthly savings needed for the goal." },
@@ -151,10 +151,10 @@ export const FINANCIAL_JOURNEYS = [
       { title: "PPF Calculator", path: "/ppf-calculator", desc: "Explore an illustrative PPF accumulation estimate." },
     ],
     learningModules: [
-      "Projecting school and college fees 10–15 years ahead",
-      "SIP-based education funds vs traditional deposits",
-      "Balancing child education with retirement savings",
-      "Insurance and contingency planning for education goals",
+      "How a typed inflation rate changes an amount",
+      "How a monthly investment differs from a deposit",
+      "Keeping an education target separate from retirement",
+      "Why insurance is a different question from the savings target",
     ],
     aiPreview:
       "Soon, FOINWI AI will help estimate education gaps, explain inflation impact, and suggest planning steps for parents.",
@@ -196,10 +196,10 @@ export const FINANCIAL_JOURNEYS = [
       { title: "Compound Interest", path: "/compound-interest-calculator", desc: "Compare saving vs borrowing for the purchase." },
     ],
     learningModules: [
-      "On-road price vs ex-showroom — full cost breakdown",
-      "New vs used car loan considerations",
-      "Ideal EMI-to-income ratio for car loans",
-      "Total cost of ownership over 5 years",
+      "What a loan illustration leaves out of a vehicle price",
+      "Why a new or used label does not change the EMI formula",
+      "How an instalment sits beside other monthly costs",
+      "Why a rupee now and a rupee later differ",
     ],
     aiPreview:
       "Soon, FOINWI AI will help compare car loan EMI options and explain affordability in simple terms.",
@@ -244,7 +244,7 @@ export const FINANCIAL_JOURNEYS = [
       "How a retirement corpus estimate can be illustrated",
       "EPF, NPS, and PPF roles in retirement planning",
       "Inflation impact on post-retirement expenses",
-      "Creating income from corpus with SWP strategies",
+      "How a systematic withdrawal differs from a pension",
     ],
     aiPreview:
       "Soon, FOINWI AI will help explain retirement gaps, inflation impact, and savings direction for long-term planning.",
@@ -286,10 +286,10 @@ export const FINANCIAL_JOURNEYS = [
       { title: "Goal Planner", path: "/goal-planner", desc: "Plan targeted savings for loan closure." },
     ],
     learningModules: [
-      "Good debt vs bad debt — prioritisation framework",
-      "Avalanche vs snowball debt repayment methods",
-      "When prepayment makes sense over investing",
-      "Rebuilding credit health after debt clearance",
+      "How a lesson discusses repayment order",
+      "Payoff method names this page does not define",
+      "What an extra principal payment changes",
+      "Listing balances, without a credit score",
     ],
     aiPreview:
       "Soon, FOINWI AI will help compare loan scenarios, prepayment trade-offs, and debt-free timelines.",
@@ -321,9 +321,9 @@ export const FINANCIAL_JOURNEYS = [
     description: "Plan term cover, health buffer, and emergency funds for financial security.",
     duration: "3–4 weeks",
     heroSubtitle:
-      "Ensure your family is financially protected with the right insurance mindset, emergency fund, and goal planning.",
+      "Separate term cover, health cover, and a cash reserve before treating one policy as a complete plan.",
     overview:
-      "Financial protection goes beyond buying policies — it means adequate term life cover, health emergency buffer, income replacement planning, and organised family goals. This mission helps you quantify protection needs and align savings with family security.",
+      "Family protection starts by separating a term-life benefit, a health policy, and money kept aside for short-term shocks. This mission explains those differences and points to the lessons that already cover them. It does not calculate a personal cover amount.",
     calculators: [
       { title: "Goal Planner", path: "/goal-planner", desc: "Plan emergency fund and protection targets." },
       { title: "Retirement Calculator", path: "/retirement-calculator", desc: "Explore an illustrative long-term savings estimate alongside family planning." },
@@ -331,10 +331,10 @@ export const FINANCIAL_JOURNEYS = [
       { title: "SIP Calculator", path: "/sip-calculator", desc: "Build long-term family wealth alongside protection." },
     ],
     learningModules: [
-      "How much term insurance cover families typically need",
-      "Building a 6–12 month emergency fund",
-      "Health insurance vs medical emergency savings",
-      "Estate planning basics for Indian families",
+      "What a term benefit covers during the policy term",
+      "What a cash reserve is for",
+      "What a health policy limit does not promise",
+      "Recording documents, without drafting a will",
     ],
     aiPreview:
       "Soon, FOINWI AI will help explain protection gaps, emergency fund targets, and family planning priorities.",
