@@ -182,7 +182,7 @@ learnPages.forEach(([name, source]) => {
   assert(source.includes('href="#main-content"'), `A: ${name} skip link must target #main-content`);
   assert((source.match(/id="main-content"/g) || []).length === 1, `B: ${name} must have exactly one #main-content target`);
   assert((source.match(/<main\b/g) || []).length === 1, `B: ${name} must have exactly one main landmark`);
-  assert(source.includes('<main id="main-content">'), `B: ${name} main landmark must use id=main-content`);
+  assert(/<main id="main-content"(?: tabIndex=\{-1\})?>/u.test(source), `B: ${name} main landmark must use id=main-content`);
   assert(source.indexOf("<main") < source.indexOf("<h1"), `C: ${name} h1 must appear after main`);
   assert(!/<header\b[^>]*la-hero/u.test(source), `C: ${name} must not use a header landmark for the Learn hero`);
   assert(/<section className="la-hero/u.test(source), `C: ${name} hero must be a section inside main`);
@@ -210,6 +210,7 @@ assert(/Lessons in this path/u.test(pathPage), "K: Path pages must use live curr
 assert(/preview-only/u.test(pathPage), "L: Completion indicators must remain preview-only");
 assert(/no account or progress tracking required/u.test(pathPage), "L: Path pages must disclose that progress is not persisted");
 
+assert(lessonPage.includes('<main id="main-content" tabIndex={-1}>'), "B: Lesson skip link must focus the main landmark");
 assert(lessonPage.includes("const previousLesson = lessonIndex > 0 ? path.lessons[lessonIndex - 1] : null"), "M: Previous lesson must come from the prior index only");
 assert(lessonPage.includes("{previousLesson ? ("), "M: Previous lesson navigation must render only when a previous lesson exists");
 assert(lessonPage.includes("to={`/learn/${path.slug}/${previousLesson.slug}`}"), "M: Previous lesson must use the real prior lesson slug");

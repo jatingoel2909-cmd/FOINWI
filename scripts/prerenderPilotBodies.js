@@ -1,18 +1,30 @@
 /**
- * Inserts build-time React markup into the three approved route files
+ * Inserts build-time React markup into the approved route files
  * after the existing SEO head rewrite. Every other route stays an empty root.
  */
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { PILOT_ROUTES } from "../src/pilot/pilotRoutes.js";
+import { LEARN_LESSON_ROUTES, PILOT_ROUTES, RETAINED_PILOT_ROUTES, pilotBodyMarkers } from "../src/pilot/pilotRoutes.js";
 import { routeHtmlPath } from "./prerenderSeoHeads.js";
 
 const distDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../dist");
 
 function assertSafeBody(routePath, html) {
+  const markers = pilotBodyMarkers(routePath);
+  if (!markers) {
+    throw new Error(`Pilot HTML for ${routePath} is not an approved initial-HTML route`);
+  }
+  if (routePath.startsWith("/learn/") && (html.match(/<h1\b/g) || []).length !== 1) {
+    throw new Error(`Pilot HTML for ${routePath} must contain one h1`);
+  }
   if (!html.includes("<h1") && !html.includes("<h2")) {
     throw new Error(`Pilot HTML for ${routePath} has no heading`);
+  }
+  for (const marker of markers) {
+    if (!html.includes(marker)) {
+      throw new Error(`Pilot HTML for ${routePath} is missing “${marker}”`);
+    }
   }
   if (/<script\b/i.test(html)) {
     throw new Error(`Pilot HTML for ${routePath} contains a script element`);
@@ -23,6 +35,12 @@ function assertSafeBody(routePath, html) {
 }
 
 export async function writePilotBodies({ distRoot = distDir } = {}) {
+  if (LEARN_LESSON_ROUTES.length !== 39) {
+    throw new Error(`Expected 39 completed Learn lessons, found ${LEARN_LESSON_ROUTES.length}`);
+  }
+  if (RETAINED_PILOT_ROUTES.length !== 2) {
+    throw new Error("Save Tax and GST must remain the only retained non-lesson routes");
+  }
   const serverEntry = path.join(distRoot, "server", "entry-server.js");
   const serverModule = await import(pathToFileURL(serverEntry).href);
   const written = [];

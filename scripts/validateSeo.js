@@ -4,7 +4,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeHtml, routeHtmlPath } from "./prerenderSeoHeads.js";
-import { PILOT_ROUTES } from "../src/pilot/pilotRoutes.js";
+import { PILOT_ROUTES, RETAINED_PILOT_ROUTES, LEARN_LESSON_ROUTES, pilotBodyMarkers } from "../src/pilot/pilotRoutes.js";
 import { ALL_CALCULATORS } from "../src/data/calculators.js";
 import { FINANCIAL_JOURNEYS } from "../src/data/journeys.js";
 import { LEARNING_PATHS } from "../src/data/learnAcademy.js";
@@ -20,26 +20,11 @@ import {
 const failures = [];
 let checks = 0;
 const pilotRouteSet = new Set(PILOT_ROUTES);
-const PILOT_BODY_MARKERS = {
-  "/learn/income-tax-basics/income-tax-overview-in-india": [
-    "Income Tax Overview in India",
-    "What this means",
-    "Why it matters",
-  ],
-  "/journeys/save-tax": [
-    "Save Tax",
-    "How to read this mission",
-    "Mission Checklist",
-  ],
-  "/gst-calculator": [
-    "GST arithmetic calculator",
-    "How to read this estimate",
-    "Worked example",
-  ],
-};
 
 function assertPilotBody(routePath, html) {
   const label = `Built ${routePath}`;
+  const markers = pilotBodyMarkers(routePath);
+  assert(Array.isArray(markers), `${label} must be an approved initial-HTML route`);
   assert(html.includes('data-foinwi-hydrate="1"'), `${label} must mark the root for hydration`);
   assert(/data-foinwi-insight-date="\d{4}-\d{2}-\d{2}"/.test(html), `${label} must stamp a calendar insight date`);
   assert(!html.includes('<div id="root"></div>'), `${label} must replace the empty React root`);
@@ -49,7 +34,10 @@ function assertPilotBody(routePath, html) {
   const rootHtml = html.slice(rootAt, bodyEnd);
   assert(!/<script\b/i.test(rootHtml), `${label} root must not contain a script`);
   assert(!/display\s*:\s*none/i.test(rootHtml), `${label} must not hide the initial article`);
-  for (const marker of PILOT_BODY_MARKERS[routePath]) {
+  if (routePath.startsWith("/learn/")) {
+    assert((rootHtml.match(/<h1\b/g) || []).length === 1, `${label} must contain one h1`);
+  }
+  for (const marker of markers) {
     assert(rootHtml.includes(marker), `${label} must include “${marker}”`);
   }
 }
@@ -113,6 +101,15 @@ assert(
 assert(!/api\.groq\.com/iu.test(source.headers), "CSP must not whitelist Groq");
 
 const publicPaths = listPublicSitemapPaths();
+assert(LEARN_LESSON_ROUTES.length === 39, "Initial HTML must include the 39 completed Learn lessons");
+assert(
+  RETAINED_PILOT_ROUTES.length === 2
+  && RETAINED_PILOT_ROUTES.includes("/journeys/save-tax")
+  && RETAINED_PILOT_ROUTES.includes("/gst-calculator"),
+  "Initial HTML must retain only Save Tax and the GST calculator",
+);
+assert(PILOT_ROUTES.length === 41, "Initial HTML must cover 41 routes");
+assert(LEARN_LESSON_ROUTES.every((routePath) => publicPaths.includes(routePath)), "Every prerendered lesson must stay on the public sitemap");
 assert(publicPaths.includes("/"), "Sitemap path list must include the homepage");
 assert(publicPaths.includes("/calculators"), "Sitemap path list must include the calculator hub");
 assert(publicPaths.includes("/learn"), "Sitemap path list must include Learn");

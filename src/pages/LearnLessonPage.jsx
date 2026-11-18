@@ -45,7 +45,7 @@ function LearnLessonPage() {
       <a className="shrix-skip-link" href="#main-content">Skip to main content</a>
       <Navbar />
 
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="la-hero la-hero--path" aria-labelledby="learn-lesson-title">
           <div className="la-hero__inner">
             <Link to={`/learn/${path.slug}`} className="la-back-link">← {path.title}</Link>
