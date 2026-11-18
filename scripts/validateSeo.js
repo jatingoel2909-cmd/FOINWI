@@ -4,6 +4,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeHtml, routeHtmlPath } from "./prerenderSeoHeads.js";
+import { PILOT_ROUTES } from "../src/pilot/pilotRoutes.js";
 import { ALL_CALCULATORS } from "../src/data/calculators.js";
 import { FINANCIAL_JOURNEYS } from "../src/data/journeys.js";
 import { LEARNING_PATHS } from "../src/data/learnAcademy.js";
@@ -18,6 +19,40 @@ import {
 
 const failures = [];
 let checks = 0;
+const pilotRouteSet = new Set(PILOT_ROUTES);
+const PILOT_BODY_MARKERS = {
+  "/learn/income-tax-basics/income-tax-overview-in-india": [
+    "Income Tax Overview in India",
+    "What this means",
+    "Why it matters",
+  ],
+  "/journeys/save-tax": [
+    "Save Tax",
+    "How to read this mission",
+    "Mission Checklist",
+  ],
+  "/gst-calculator": [
+    "GST arithmetic calculator",
+    "How to read this estimate",
+    "Worked example",
+  ],
+};
+
+function assertPilotBody(routePath, html) {
+  const label = `Built ${routePath}`;
+  assert(html.includes('data-foinwi-hydrate="1"'), `${label} must mark the root for hydration`);
+  assert(/data-foinwi-insight-date="\d{4}-\d{2}-\d{2}"/.test(html), `${label} must stamp a calendar insight date`);
+  assert(!html.includes('<div id="root"></div>'), `${label} must replace the empty React root`);
+  const rootAt = html.indexOf('<div id="root"');
+  const bodyEnd = html.lastIndexOf("</body>");
+  assert(rootAt !== -1 && bodyEnd > rootAt, `${label} must keep the root inside the body`);
+  const rootHtml = html.slice(rootAt, bodyEnd);
+  assert(!/<script\b/i.test(rootHtml), `${label} root must not contain a script`);
+  assert(!/display\s*:\s*none/i.test(rootHtml), `${label} must not hide the initial article`);
+  for (const marker of PILOT_BODY_MARKERS[routePath]) {
+    assert(rootHtml.includes(marker), `${label} must include “${marker}”`);
+  }
+}
 
 function assert(condition, message) {
   checks += 1;
@@ -37,7 +72,8 @@ const source = Object.fromEntries(
   await Promise.all(Object.entries(files).map(async ([name, file]) => [name, await readFile(file, "utf8")])),
 );
 
-assert(source.app.includes("<DocumentSeo />"), "App must apply DocumentSeo inside the router");
+assert(source.app.includes("<BrowserRouter>") && source.app.includes("<AppShell />"), "App must render the shell inside the router");
+assert(source.app.includes("<DocumentSeo />"), "App shell must apply DocumentSeo inside the router");
 assert(source.documentSeo.includes("resolvePublicSeo"), "DocumentSeo must read the public SEO map");
 assert(source.documentSeo.includes('"robots"'), "DocumentSeo must set robots");
 assert(source.documentSeo.includes("canonical"), "DocumentSeo must set canonical URLs");
@@ -185,7 +221,7 @@ async function listBuiltHtmlFiles(directory) {
   for (const entry of entries) {
     const fullPath = path.join(directory, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name === "assets") continue;
+      if (entry.name === "assets" || entry.name === "server") continue;
       found.push(...await listBuiltHtmlFiles(fullPath));
     } else if (entry.name.endsWith(".html")) {
       found.push(fullPath);
@@ -235,7 +271,12 @@ if (await exists(builtHomePath)) {
     assert(metaContent(html, "name", "twitter:description", `${label} twitter:description`) === seo.description, `${label} twitter:description must match the SEO map`);
     assert(metaContent(html, "name", "twitter:card", `${label} twitter:card`) === "summary_large_image", `${label} must keep the existing Twitter card`);
     assert(metaContent(html, "property", "og:type", `${label} og:type`) === "website", `${label} must keep og:type`);
-    assert(html.includes('<div id="root"></div>'), `${label} must keep the empty React root`);
+    if (pilotRouteSet.has(routePath)) {
+      assertPilotBody(routePath, html);
+    } else {
+      assert(html.includes('<div id="root"></div>'), `${label} must keep the empty React root`);
+      assert(!html.includes("data-foinwi-hydrate"), `${label} must not receive pilot hydration markup`);
+    }
     const routeJsonLd = collectTags(html, /<script type="application\/ld\+json">[\s\S]*?<\/script>/g);
     assert(routeJsonLd.length === builtJsonLd.length, `${label} must keep the homepage JSON-LD scripts`);
     routeJsonLd.forEach((body, index) => {

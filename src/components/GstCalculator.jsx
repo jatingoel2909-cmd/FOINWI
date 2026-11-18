@@ -99,6 +99,7 @@ function GstCalculator({
     <CalculatorLayout
       label="Goods and Services Tax (GST) Calculator"
       title={GST_TITLE}
+      titleAs="h1"
       description={GST_PAGE_DESCRIPTION}
       showHeader={showHeader}
       variant="default"

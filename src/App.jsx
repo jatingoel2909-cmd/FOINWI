@@ -38,9 +38,9 @@ import GuideTrialPage from "./guide-trial/GuideTrialPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ExchangeRatesPage from "./pages/ExchangeRatesPage";
 
-function App() {
+export function AppShell() {
   return (
-    <BrowserRouter>
+    <>
       <DocumentSeo />
       <ScrollToTop />
       <ScrollReveal />
@@ -81,6 +81,14 @@ function App() {
         <Route path="/compound-interest-calculator" element={<CompoundInterestCalculatorPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
     </BrowserRouter>
   );
 }

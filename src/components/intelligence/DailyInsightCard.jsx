@@ -3,10 +3,17 @@
  * Educational display only. No advice language. No persistence.
  */
 
-import { useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { getDailyInsight } from "../../intelligence/insight/insightEngine.js";
+import { getDateKey } from "../../intelligence/insight/insightHelpers.js";
+import { PilotHydrationContext } from "../../pilot/PilotHydrationContext.js";
 import "./intelligence-ui.css";
+
+function msUntilNextUtcDate(now = new Date()) {
+  const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
+  return Math.max(1000, next - now.getTime() + 20);
+}
 
 function DailyInsightCard({
   pathname,
@@ -16,6 +23,33 @@ function DailyInsightCard({
   compact = false,
   title = "Today's Financial Insight",
 }) {
+  const pilot = useContext(PilotHydrationContext);
+  const stampedDate = pilot?.route && pathname === pilot.route ? pilot.insightDate : null;
+  const [freshDate, setFreshDate] = useState(null);
+  const activeDate = freshDate || stampedDate || null;
+  const renderedDateRef = useRef(activeDate);
+  renderedDateRef.current = activeDate || getDateKey(new Date());
+
+  useEffect(() => {
+    let timer = 0;
+    let stopped = false;
+
+    const reconcile = () => {
+      if (stopped) return;
+      const today = getDateKey(new Date());
+      if (renderedDateRef.current !== today) {
+        setFreshDate(today);
+      }
+      timer = window.setTimeout(reconcile, msUntilNextUtcDate(new Date()));
+    };
+
+    reconcile();
+    return () => {
+      stopped = true;
+      window.clearTimeout(timer);
+    };
+  }, [stampedDate]);
+
   const result = useMemo(
     () =>
       getDailyInsight({
@@ -23,8 +57,9 @@ function DailyInsightCard({
         conceptId,
         healthTopic,
         difficulty,
+        ...(activeDate ? { date: activeDate } : {}),
       }),
-    [pathname, conceptId, healthTopic, difficulty],
+    [pathname, conceptId, healthTopic, difficulty, activeDate],
   );
 
   const insight = result?.insight;

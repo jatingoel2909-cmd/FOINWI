@@ -17,6 +17,7 @@ const SIMPLIFIED_MODEL_NOTICE =
 function CalculatorLayout({
   label,
   title,
+  titleAs = "h2",
   description,
   showHeader = true,
   variant = "default",
@@ -57,7 +58,7 @@ function CalculatorLayout({
       {showHeader && (
         <div className="calc-layout__header">
           <p className="shrix-section-label">{label}</p>
-          <h2>{title}</h2>
+          {titleAs === "h1" ? <h1>{title}</h1> : <h2>{title}</h2>}
           <p>{description}</p>
         </div>
       )}

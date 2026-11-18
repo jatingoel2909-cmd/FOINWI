@@ -121,6 +121,7 @@ h3 {
 .shrix-info-section__title,
 .la-section__head h2,
 .fhs-dashboard__section h3,
+.calc-layout__header h1,
 .calc-layout__header h2 {
   font-size: var(--fw-type-h2);
   letter-spacing: -0.4px;

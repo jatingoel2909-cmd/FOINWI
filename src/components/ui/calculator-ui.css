@@ -13,6 +13,7 @@
   background: var(--fw-bg-page);
 }
 
+.calc-layout__header h1,
 .calc-layout__header h2 {
   font-size: var(--fw-type-h2);
   margin: 12px 0 18px;
@@ -403,6 +404,7 @@
     padding: var(--fw-space-section-y-md) var(--fw-space-inline-sm);
   }
 
+  .calc-layout__header h1,
   .calc-layout__header h2 {
     font-size: 26px;
   }

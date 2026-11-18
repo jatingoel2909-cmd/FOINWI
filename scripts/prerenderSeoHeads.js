@@ -166,7 +166,10 @@ export async function writeRouteSeoHeads({ distRoot = distDir } = {}) {
 
 async function main() {
   const written = await writeRouteSeoHeads();
+  const { writePilotBodies } = await import("./prerenderPilotBodies.js");
+  const pilotRoutes = await writePilotBodies();
   console.log(`SEO route HTML written for ${written.length} public routes.`);
+  console.log(`Initial HTML written for ${pilotRoutes.length} pilot routes.`);
 }
 
 function isDirectRun() {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -82,20 +82,41 @@ function MissionJourneyPage({ slug }) {
   const education = getJourneyEducation(slug);
   const progressRef = useRef(null);
 
-  const [checkedItems, setCheckedItems] = useState(() => {
-    if (!slug) return {};
+  const [checkedItems, setCheckedItems] = useState({});
+  const [checklistReady, setChecklistReady] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!slug) {
+      setChecklistReady(true);
+      return undefined;
+    }
+
+    let restored = {};
     try {
       const stored = localStorage.getItem(getChecklistStorageKey(slug));
-      return stored ? JSON.parse(stored) : {};
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+          restored = parsed;
+        }
+      }
     } catch {
-      return {};
+      restored = {};
     }
-  });
+
+    setCheckedItems(restored);
+    setChecklistReady(true);
+    return undefined;
+  }, [slug]);
 
   useEffect(() => {
-    if (!slug) return;
-    localStorage.setItem(getChecklistStorageKey(slug), JSON.stringify(checkedItems));
-  }, [checkedItems, slug]);
+    if (!slug || !checklistReady) return;
+    try {
+      localStorage.setItem(getChecklistStorageKey(slug), JSON.stringify(checkedItems));
+    } catch {
+      // Persistence is best-effort when storage is blocked.
+    }
+  }, [checkedItems, slug, checklistReady]);
 
   const completedCount = useMemo(() => {
     if (!mission) return 0;
@@ -129,6 +150,9 @@ function MissionJourneyPage({ slug }) {
 
   return (
     <div className="shrix-app">
+      <a className="shrix-skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <Navbar />
 
       <header className="shrix-mission-hero">
@@ -158,7 +182,7 @@ function MissionJourneyPage({ slug }) {
         </div>
       </header>
 
-      <main className="shrix-mission-page">
+      <main id="main-content" tabIndex={-1} className="shrix-mission-page">
         <section className="shrix-mission-block shrix-mission-block--brief shrix-mission-animate">
           <h2>Mission Brief</h2>
           <p>{mission.overview}</p>
@@ -172,7 +196,13 @@ function MissionJourneyPage({ slug }) {
           <div className="shrix-mission-block__head">
             <h2>Mission Progress</h2>
             <span className="shrix-mission-progress__count">
-              {completedCount}/{mission.checklist.length} tasks complete
+              <span
+                className="shrix-mission-progress__value"
+                style={{ minWidth: `${String(mission.checklist.length).length}ch` }}
+              >
+                {completedCount}
+              </span>
+              /{mission.checklist.length} tasks complete
             </span>
           </div>
           <div className="shrix-mission-track">
