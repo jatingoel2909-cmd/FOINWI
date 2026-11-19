@@ -69,17 +69,17 @@ export async function writePilotBodies({ distRoot = distDir } = {}) {
     throw new Error("The GST calculator must remain the retained calculator route");
   }
   if (
-    CALCULATOR_HTML_ROUTES.length !== 19
+    CALCULATOR_HTML_ROUTES.length !== 20
     || !CALCULATOR_HTML_ROUTES.includes("/gst-calculator")
-    || CALCULATOR_HTML_ROUTES.includes("/emi-calculator")
+    || !CALCULATOR_HTML_ROUTES.includes("/emi-calculator")
   ) {
-    throw new Error(`Expected 19 safe calculator routes including GST, found ${CALCULATOR_HTML_ROUTES.length}`);
+    throw new Error(`Expected 20 calculator routes including GST and EMI, found ${CALCULATOR_HTML_ROUTES.length}`);
   }
-  if (EXCLUDED_CALCULATOR_ROUTES.length !== 1 || EXCLUDED_CALCULATOR_ROUTES[0] !== "/emi-calculator") {
-    throw new Error("EMI must stay excluded from initial HTML");
+  if (EXCLUDED_CALCULATOR_ROUTES.length !== 0) {
+    throw new Error("Safe public calculators must stay in the initial HTML allowlist");
   }
-  if (PILOT_ROUTES.includes("/emi-calculator") || new Set(PILOT_ROUTES).size !== PILOT_ROUTES.length) {
-    throw new Error("Initial HTML routes must stay unique and must not include EMI");
+  if (new Set(PILOT_ROUTES).size !== PILOT_ROUTES.length) {
+    throw new Error("Initial HTML routes must stay unique");
   }
   const serverEntry = path.join(distRoot, "server", "entry-server.js");
   const serverModule = await import(pathToFileURL(serverEntry).href);

@@ -137,20 +137,19 @@ assert(
   "Initial HTML must retain the GST calculator",
 );
 assert(
-  CALCULATOR_HTML_ROUTES.length === 19
-  && !CALCULATOR_HTML_ROUTES.includes("/emi-calculator")
+  CALCULATOR_HTML_ROUTES.length === 20
+  && CALCULATOR_HTML_ROUTES.includes("/emi-calculator")
+  && CALCULATOR_HTML_ROUTES.includes("/gst-calculator")
   && CALCULATOR_HTML_ROUTES.every((routePath) => publicPaths.includes(routePath)),
-  "Initial HTML must include the 19 safe public calculators",
+  "Initial HTML must include all 20 public calculators",
 );
 assert(
-  EXCLUDED_CALCULATOR_ROUTES.length === 1
-  && EXCLUDED_CALCULATOR_ROUTES[0] === "/emi-calculator"
-  && publicPaths.includes("/emi-calculator")
-  && !PILOT_ROUTES.includes("/emi-calculator"),
-  "EMI must stay public and out of the initial HTML allowlist",
+  EXCLUDED_CALCULATOR_ROUTES.length === 0
+  && PILOT_ROUTES.includes("/emi-calculator"),
+  "EMI must be included once its first render is deterministic",
 );
 assert(new Set(PILOT_ROUTES).size === PILOT_ROUTES.length, "Initial HTML routes must be unique");
-assert(PILOT_ROUTES.length === 65, "Initial HTML must cover 65 routes");
+assert(PILOT_ROUTES.length === 66, "Initial HTML must cover 66 routes");
 assert(LEARN_LESSON_ROUTES.every((routePath) => publicPaths.includes(routePath)), "Every prerendered lesson must stay on the public sitemap");
 assert(publicPaths.includes("/"), "Sitemap path list must include the homepage");
 assert(publicPaths.includes("/calculators"), "Sitemap path list must include the calculator hub");

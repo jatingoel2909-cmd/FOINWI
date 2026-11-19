@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useLayoutEffect, useState } from "react";
 
 const MOBILE_MQ = "(max-width: 899px)";
 
@@ -25,11 +25,12 @@ function CalcSectionAccordion({
   const triggerId = `calc-section-trigger-${safeId}`;
   const panelId = `calc-section-panel-${safeId}`;
 
-  const [open, setOpen] = useState(() => {
-    if (defaultOpen) return true;
-    if (defaultOpenOnDesktop) return getIsDesktopViewport();
-    return false;
-  });
+  const [open, setOpen] = useState(Boolean(defaultOpen));
+
+  useLayoutEffect(() => {
+    if (defaultOpen || !defaultOpenOnDesktop || !getIsDesktopViewport()) return;
+    setOpen(true);
+  }, [defaultOpen, defaultOpenOnDesktop]);
 
   return (
     <section

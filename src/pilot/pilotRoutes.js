@@ -24,14 +24,12 @@ export const JOURNEY_HTML_ROUTES = FINANCIAL_JOURNEYS
   .map((journey) => `/journeys/${journey.slug}`)
   .filter((routePath) => !EXCLUDED_JOURNEY_ROUTES.includes(routePath));
 
-/**
- * EMI reads the viewport while computing its first open/closed sections.
- * That first render differs between the server and a phone-width browser.
- */
-export const EXCLUDED_CALCULATOR_ROUTES = ["/emi-calculator"];
+/** No public calculator is excluded. EMI opens its desktop section after the first render. */
+export const EXCLUDED_CALCULATOR_ROUTES = [];
 
 const CALCULATOR_HEADINGS = {
   "/sip-calculator": "Plan your wealth with clarity",
+  "/emi-calculator": "Plan your loan with clarity",
   "/fd-calculator": "Estimate your fixed deposit maturity",
   "/ppf-calculator": "Explore how PPF contributions may accumulate",
   "/retirement-calculator": "Illustrative retirement corpus estimate",
