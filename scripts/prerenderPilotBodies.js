@@ -5,7 +5,14 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { LEARN_LESSON_ROUTES, PILOT_ROUTES, RETAINED_PILOT_ROUTES, pilotBodyMarkers } from "../src/pilot/pilotRoutes.js";
+import {
+  EXCLUDED_JOURNEY_ROUTES,
+  JOURNEY_HTML_ROUTES,
+  LEARN_LESSON_ROUTES,
+  PILOT_ROUTES,
+  RETAINED_PILOT_ROUTES,
+  pilotBodyMarkers,
+} from "../src/pilot/pilotRoutes.js";
 import { routeHtmlPath } from "./prerenderSeoHeads.js";
 
 const distDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../dist");
@@ -15,8 +22,14 @@ function assertSafeBody(routePath, html) {
   if (!markers) {
     throw new Error(`Pilot HTML for ${routePath} is not an approved initial-HTML route`);
   }
-  if (routePath.startsWith("/learn/") && (html.match(/<h1\b/g) || []).length !== 1) {
+  if (
+    (routePath.startsWith("/learn/") || routePath.startsWith("/journeys/"))
+    && (html.match(/<h1\b/g) || []).length !== 1
+  ) {
     throw new Error(`Pilot HTML for ${routePath} must contain one h1`);
+  }
+  if (routePath.startsWith("/journeys/") && (html.match(/<main\b/g) || []).length !== 1) {
+    throw new Error(`Pilot HTML for ${routePath} must contain one main`);
   }
   if (!html.includes("<h1") && !html.includes("<h2")) {
     throw new Error(`Pilot HTML for ${routePath} has no heading`);
@@ -38,8 +51,17 @@ export async function writePilotBodies({ distRoot = distDir } = {}) {
   if (LEARN_LESSON_ROUTES.length !== 39) {
     throw new Error(`Expected 39 completed Learn lessons, found ${LEARN_LESSON_ROUTES.length}`);
   }
-  if (RETAINED_PILOT_ROUTES.length !== 2) {
-    throw new Error("Save Tax and GST must remain the only retained non-lesson routes");
+  if (JOURNEY_HTML_ROUTES.length !== 7 || !JOURNEY_HTML_ROUTES.includes("/journeys/save-tax")) {
+    throw new Error(`Expected 7 safe journey routes including Save Tax, found ${JOURNEY_HTML_ROUTES.length}`);
+  }
+  if (EXCLUDED_JOURNEY_ROUTES.length !== 1 || EXCLUDED_JOURNEY_ROUTES[0] !== "/journeys/build-wealth") {
+    throw new Error("Build Wealth must stay excluded from initial HTML");
+  }
+  if (PILOT_ROUTES.includes("/journeys/build-wealth")) {
+    throw new Error("Build Wealth must not receive initial HTML");
+  }
+  if (RETAINED_PILOT_ROUTES.length !== 1 || RETAINED_PILOT_ROUTES[0] !== "/gst-calculator") {
+    throw new Error("The GST calculator must remain the retained calculator route");
   }
   const serverEntry = path.join(distRoot, "server", "entry-server.js");
   const serverModule = await import(pathToFileURL(serverEntry).href);

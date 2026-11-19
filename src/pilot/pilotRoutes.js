@@ -1,3 +1,4 @@
+import { FINANCIAL_JOURNEYS } from "../data/journeys.js";
 import { LEARNING_PATHS } from "../data/learnAcademy.js";
 
 /**
@@ -10,13 +11,28 @@ export const LEARN_LESSON_ROUTES = LEARNING_PATHS.flatMap((path) =>
     .map((lesson) => `/learn/${path.slug}/${lesson.slug}`),
 );
 
+/**
+ * Build Wealth reads localStorage while computing its first render.
+ * A saved checklist would then differ from the server HTML.
+ * The other public journeys share MissionJourneyPage, which paints an
+ * empty checklist and restores storage after that first render.
+ */
+export const EXCLUDED_JOURNEY_ROUTES = ["/journeys/build-wealth"];
+
+export const JOURNEY_HTML_ROUTES = FINANCIAL_JOURNEYS
+  .map((journey) => `/journeys/${journey.slug}`)
+  .filter((routePath) => !EXCLUDED_JOURNEY_ROUTES.includes(routePath));
+
 /** Routes already accepted in the three-route pilot and retained here. */
 export const RETAINED_PILOT_ROUTES = [
-  "/journeys/save-tax",
   "/gst-calculator",
 ];
 
-export const PILOT_ROUTES = [...LEARN_LESSON_ROUTES, ...RETAINED_PILOT_ROUTES];
+export const PILOT_ROUTES = [
+  ...LEARN_LESSON_ROUTES,
+  ...JOURNEY_HTML_ROUTES,
+  ...RETAINED_PILOT_ROUTES,
+];
 
 export function isPilotRoute(pathname) {
   return PILOT_ROUTES.includes(pathname);
@@ -27,11 +43,15 @@ export function isPilotRoute(pathname) {
  * Lesson phrases come from the registry title plus the shared lesson headings.
  */
 export function pilotBodyMarkers(routePath) {
-  if (routePath === "/journeys/save-tax") {
-    return ["Save Tax", "How to read this mission", "Mission Checklist"];
-  }
   if (routePath === "/gst-calculator") {
     return ["GST arithmetic calculator", "How to read this estimate", "Worked example"];
+  }
+  if (routePath.startsWith("/journeys/")) {
+    if (EXCLUDED_JOURNEY_ROUTES.includes(routePath)) return null;
+    const slug = routePath.slice("/journeys/".length);
+    const journey = FINANCIAL_JOURNEYS.find((item) => item.slug === slug);
+    if (!journey || !JOURNEY_HTML_ROUTES.includes(routePath)) return null;
+    return [journey.title, "How to read this mission", "Mission Checklist"];
   }
 
   const match = /^\/learn\/([^/]+)\/([^/]+)$/u.exec(routePath);

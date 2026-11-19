@@ -4,7 +4,14 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeHtml, routeHtmlPath } from "./prerenderSeoHeads.js";
-import { PILOT_ROUTES, RETAINED_PILOT_ROUTES, LEARN_LESSON_ROUTES, pilotBodyMarkers } from "../src/pilot/pilotRoutes.js";
+import {
+  EXCLUDED_JOURNEY_ROUTES,
+  JOURNEY_HTML_ROUTES,
+  LEARN_LESSON_ROUTES,
+  PILOT_ROUTES,
+  RETAINED_PILOT_ROUTES,
+  pilotBodyMarkers,
+} from "../src/pilot/pilotRoutes.js";
 import { ALL_CALCULATORS } from "../src/data/calculators.js";
 import { FINANCIAL_JOURNEYS } from "../src/data/journeys.js";
 import { LEARNING_PATHS } from "../src/data/learnAcademy.js";
@@ -34,8 +41,11 @@ function assertPilotBody(routePath, html) {
   const rootHtml = html.slice(rootAt, bodyEnd);
   assert(!/<script\b/i.test(rootHtml), `${label} root must not contain a script`);
   assert(!/display\s*:\s*none/i.test(rootHtml), `${label} must not hide the initial article`);
-  if (routePath.startsWith("/learn/")) {
+  if (routePath.startsWith("/learn/") || routePath.startsWith("/journeys/")) {
     assert((rootHtml.match(/<h1\b/g) || []).length === 1, `${label} must contain one h1`);
+  }
+  if (routePath.startsWith("/journeys/")) {
+    assert((rootHtml.match(/<main\b/g) || []).length === 1, `${label} must contain one main`);
   }
   for (const marker of markers) {
     assert(rootHtml.includes(marker), `${label} must include “${marker}”`);
@@ -103,12 +113,22 @@ assert(!/api\.groq\.com/iu.test(source.headers), "CSP must not whitelist Groq");
 const publicPaths = listPublicSitemapPaths();
 assert(LEARN_LESSON_ROUTES.length === 39, "Initial HTML must include the 39 completed Learn lessons");
 assert(
-  RETAINED_PILOT_ROUTES.length === 2
-  && RETAINED_PILOT_ROUTES.includes("/journeys/save-tax")
-  && RETAINED_PILOT_ROUTES.includes("/gst-calculator"),
-  "Initial HTML must retain only Save Tax and the GST calculator",
+  JOURNEY_HTML_ROUTES.length === 7
+  && JOURNEY_HTML_ROUTES.includes("/journeys/save-tax")
+  && JOURNEY_HTML_ROUTES.every((routePath) => publicPaths.includes(routePath)),
+  "Initial HTML must include the seven safe public journeys, including Save Tax",
 );
-assert(PILOT_ROUTES.length === 41, "Initial HTML must cover 41 routes");
+assert(
+  EXCLUDED_JOURNEY_ROUTES.length === 1
+  && EXCLUDED_JOURNEY_ROUTES[0] === "/journeys/build-wealth"
+  && !PILOT_ROUTES.includes("/journeys/build-wealth"),
+  "Build Wealth must stay out of the initial HTML allowlist",
+);
+assert(
+  RETAINED_PILOT_ROUTES.length === 1 && RETAINED_PILOT_ROUTES[0] === "/gst-calculator",
+  "Initial HTML must retain the GST calculator",
+);
+assert(PILOT_ROUTES.length === 47, "Initial HTML must cover 47 routes");
 assert(LEARN_LESSON_ROUTES.every((routePath) => publicPaths.includes(routePath)), "Every prerendered lesson must stay on the public sitemap");
 assert(publicPaths.includes("/"), "Sitemap path list must include the homepage");
 assert(publicPaths.includes("/calculators"), "Sitemap path list must include the calculator hub");
