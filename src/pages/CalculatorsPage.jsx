@@ -11,6 +11,7 @@ function CalculatorsPage() {
         title="All Financial Calculators"
         subtitle="Explore financial planning, investment, loan, retirement, and tax calculators for educational estimates."
         sectionId={null}
+        titleAs="h1"
       />
       <section className="shrix-live-tool" aria-labelledby="live-tool-title">
         <p className="shrix-section-label">Live Financial Tool</p>

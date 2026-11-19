@@ -13,12 +13,10 @@ export const LEARN_LESSON_ROUTES = LEARNING_PATHS.flatMap((path) =>
 );
 
 /**
- * Build Wealth reads localStorage while computing its first render.
- * A saved checklist would then differ from the server HTML.
- * The other public journeys share MissionJourneyPage, which paints an
- * empty checklist and restores storage after that first render.
+ * Build Wealth now paints an empty checklist first, then restores
+ * localStorage after that render. No public journey stays excluded.
  */
-export const EXCLUDED_JOURNEY_ROUTES = ["/journeys/build-wealth"];
+export const EXCLUDED_JOURNEY_ROUTES = [];
 
 export const JOURNEY_HTML_ROUTES = FINANCIAL_JOURNEYS
   .map((journey) => `/journeys/${journey.slug}`)
@@ -59,7 +57,42 @@ export const RETAINED_PILOT_ROUTES = [
   "/gst-calculator",
 ];
 
+export const LEARN_PATH_ROUTES = LEARNING_PATHS.map((path) => `/learn/${path.slug}`);
+
+/**
+ * Indexable public pages whose first render does not read browser storage,
+ * the clock, or a network response. Guide Trial stays out: it is noindex
+ * and is not on the public sitemap.
+ */
+export const STATIC_HTML_ROUTES = [
+  "/",
+  "/about",
+  "/ai-tools",
+  "/calculators",
+  "/disclaimer",
+  "/exchange-rates",
+  "/financial-health-score",
+  "/learn",
+  "/privacy-policy",
+  "/terms-and-conditions",
+];
+
+const STATIC_HTML_MARKERS = {
+  "/": ["Grow Beyond", "Welcome to FOINWI", "Start with Useful Calculators"],
+  "/about": ["Financial Clarity for Every Indian", "Who We Are"],
+  "/ai-tools": ["FOINWI Intelligence", "Advanced AI assistance in development"],
+  "/calculators": ["All Financial Calculators", "Exchange Rates"],
+  "/disclaimer": ["Disclaimer", "Important information about how to use FOINWI responsibly."],
+  "/exchange-rates": ["FOINWI Exchange Rates", "Loading the latest available reference rate"],
+  "/financial-health-score": ["Understand Your Financial Wellness", "Start Assessment"],
+  "/learn": ["Learn Finance Step by Step", "FOINWI Learn Academy"],
+  "/privacy-policy": ["Privacy Policy", "Information We Collect"],
+  "/terms-and-conditions": ["Please read these terms before using FOINWI calculators and educational content."],
+};
+
 export const PILOT_ROUTES = [
+  ...STATIC_HTML_ROUTES,
+  ...LEARN_PATH_ROUTES,
   ...LEARN_LESSON_ROUTES,
   ...JOURNEY_HTML_ROUTES,
   ...CALCULATOR_HTML_ROUTES,
@@ -84,7 +117,21 @@ export function pilotBodyMarkers(routePath) {
     const slug = routePath.slice("/journeys/".length);
     const journey = FINANCIAL_JOURNEYS.find((item) => item.slug === slug);
     if (!journey || !JOURNEY_HTML_ROUTES.includes(routePath)) return null;
+    if (routePath === "/journeys/build-wealth") {
+      return [journey.title, "Journey Progress", "Mark a milestone when you have completed it."];
+    }
     return [journey.title, "How to read this mission", "Mission Checklist"];
+  }
+
+  if (LEARN_PATH_ROUTES.includes(routePath)) {
+    const slug = routePath.slice("/learn/".length);
+    const path = LEARNING_PATHS.find((item) => item.slug === slug);
+    if (!path) return null;
+    return [path.title.replaceAll("&", "&amp;"), "Learning Path", "Estimated time"];
+  }
+
+  if (Object.prototype.hasOwnProperty.call(STATIC_HTML_MARKERS, routePath)) {
+    return STATIC_HTML_MARKERS[routePath];
   }
 
   const match = /^\/learn\/([^/]+)\/([^/]+)$/u.exec(routePath);

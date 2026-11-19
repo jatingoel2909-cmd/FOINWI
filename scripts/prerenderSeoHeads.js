@@ -129,6 +129,7 @@ export function applySeoHead(templateHtml, seo) {
 }
 
 export function routeHtmlPath(distRoot, routePath) {
+  if (routePath === "/") return path.join(distRoot, "index.html");
   if (!PUBLIC_PATH.test(routePath) || routePath === "/guide-trial" || routePath.startsWith("/api/") || routePath === "/api") {
     throw new Error(`Refusing non-sitemap route HTML for ${routePath}`);
   }

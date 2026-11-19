@@ -11,8 +11,10 @@ import {
   EXCLUDED_JOURNEY_ROUTES,
   JOURNEY_HTML_ROUTES,
   LEARN_LESSON_ROUTES,
+  LEARN_PATH_ROUTES,
   PILOT_ROUTES,
   RETAINED_PILOT_ROUTES,
+  STATIC_HTML_ROUTES,
   pilotBodyMarkers,
 } from "../src/pilot/pilotRoutes.js";
 import { routeHtmlPath } from "./prerenderSeoHeads.js";
@@ -24,16 +26,10 @@ function assertSafeBody(routePath, html) {
   if (!markers) {
     throw new Error(`Pilot HTML for ${routePath} is not an approved initial-HTML route`);
   }
-  const requiresSingleHeading = routePath.startsWith("/learn/")
-    || routePath.startsWith("/journeys/")
-    || CALCULATOR_HTML_ROUTES.includes(routePath);
-  if (requiresSingleHeading && (html.match(/<h1\b/g) || []).length !== 1) {
+  if ((html.match(/<h1\b/g) || []).length !== 1) {
     throw new Error(`Pilot HTML for ${routePath} must contain one h1`);
   }
-  if (
-    (routePath.startsWith("/journeys/") || CALCULATOR_HTML_ROUTES.includes(routePath))
-    && (html.match(/<main\b/g) || []).length !== 1
-  ) {
+  if ((html.match(/<main\b/g) || []).length !== 1) {
     throw new Error(`Pilot HTML for ${routePath} must contain one main`);
   }
   if (!html.includes("<h1") && !html.includes("<h2")) {
@@ -56,14 +52,29 @@ export async function writePilotBodies({ distRoot = distDir } = {}) {
   if (LEARN_LESSON_ROUTES.length !== 39) {
     throw new Error(`Expected 39 completed Learn lessons, found ${LEARN_LESSON_ROUTES.length}`);
   }
-  if (JOURNEY_HTML_ROUTES.length !== 7 || !JOURNEY_HTML_ROUTES.includes("/journeys/save-tax")) {
-    throw new Error(`Expected 7 safe journey routes including Save Tax, found ${JOURNEY_HTML_ROUTES.length}`);
+  if (
+    JOURNEY_HTML_ROUTES.length !== 8
+    || !JOURNEY_HTML_ROUTES.includes("/journeys/save-tax")
+    || !JOURNEY_HTML_ROUTES.includes("/journeys/build-wealth")
+  ) {
+    throw new Error(`Expected 8 public journeys including Save Tax and Build Wealth, found ${JOURNEY_HTML_ROUTES.length}`);
   }
-  if (EXCLUDED_JOURNEY_ROUTES.length !== 1 || EXCLUDED_JOURNEY_ROUTES[0] !== "/journeys/build-wealth") {
-    throw new Error("Build Wealth must stay excluded from initial HTML");
+  if (EXCLUDED_JOURNEY_ROUTES.length !== 0) {
+    throw new Error("Public journeys must stay in the initial HTML allowlist");
   }
-  if (PILOT_ROUTES.includes("/journeys/build-wealth")) {
-    throw new Error("Build Wealth must not receive initial HTML");
+  if (LEARN_PATH_ROUTES.length !== 8) {
+    throw new Error(`Expected 8 Learn path pages, found ${LEARN_PATH_ROUTES.length}`);
+  }
+  if (
+    STATIC_HTML_ROUTES.length !== 10
+    || !STATIC_HTML_ROUTES.includes("/")
+    || !STATIC_HTML_ROUTES.includes("/calculators")
+    || STATIC_HTML_ROUTES.includes("/guide-trial")
+  ) {
+    throw new Error("Static initial HTML must cover the proven public pages and omit Guide Trial");
+  }
+  if (PILOT_ROUTES.length !== 85 || PILOT_ROUTES.includes("/guide-trial")) {
+    throw new Error(`Expected 85 initial HTML routes, found ${PILOT_ROUTES.length}`);
   }
   if (RETAINED_PILOT_ROUTES.length !== 1 || RETAINED_PILOT_ROUTES[0] !== "/gst-calculator") {
     throw new Error("The GST calculator must remain the retained calculator route");

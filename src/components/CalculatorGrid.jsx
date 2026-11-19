@@ -11,7 +11,9 @@ function CalculatorGrid({
   sectionId = "calculators",
   showViewAll = false,
   className = "",
+  titleAs = "h2",
 }) {
+  const TitleTag = titleAs === "h1" ? "h1" : "h2";
   return (
     <section
       id={sectionId || undefined}
@@ -20,7 +22,7 @@ function CalculatorGrid({
       {showSectionLabel && (
         <p className="shrix-section-label">{sectionLabel}</p>
       )}
-      <h2>{title}</h2>
+      <TitleTag>{title}</TitleTag>
       {subtitle && <p className="shrix-calculators__subtitle">{subtitle}</p>}
 
       <div className="shrix-grid">

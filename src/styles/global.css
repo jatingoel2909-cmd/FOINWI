@@ -367,6 +367,7 @@ body {
   border-top: 1px solid var(--fw-border);
 }
 
+.shrix-calculators h1,
 .shrix-calculators h2 {
   font-size: var(--fw-type-h2);
   margin: 12px 0 20px;

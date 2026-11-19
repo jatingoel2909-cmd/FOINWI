@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import JourneyHeader from "../components/journey-engine/JourneyHeader";
@@ -24,23 +24,35 @@ import {
 import "../styles/global.css";
 import "../styles/journey-engine.css";
 
+function readStoredJourneyProgress(slug) {
+  try {
+    const stored = localStorage.getItem(getJourneyProgressKey(slug));
+    if (!stored) return {};
+    const parsed = JSON.parse(stored);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    return parsed;
+  } catch {
+    return {};
+  }
+}
+
 function FinancialJourneyPage({ journey }) {
-  const [checkedItems, setCheckedItems] = useState(() => {
-    try {
-      const stored = localStorage.getItem(getJourneyProgressKey(journey.slug));
-      return stored ? JSON.parse(stored) : {};
-    } catch {
-      return {};
-    }
-  });
+  const [checkedItems, setCheckedItems] = useState({});
+  const [progressReady, setProgressReady] = useState(false);
+
+  useLayoutEffect(() => {
+    setCheckedItems(readStoredJourneyProgress(journey.slug));
+    setProgressReady(true);
+  }, [journey.slug]);
 
   useEffect(() => {
+    if (!progressReady) return;
     try {
       localStorage.setItem(getJourneyProgressKey(journey.slug), JSON.stringify(checkedItems));
     } catch {
       // Progress remains available for the current page when browser storage is unavailable.
     }
-  }, [checkedItems, journey.slug]);
+  }, [checkedItems, journey.slug, progressReady]);
 
   function toggleProgressStep(stepId) {
     setCheckedItems((current) => ({ ...current, [stepId]: !current[stepId] }));

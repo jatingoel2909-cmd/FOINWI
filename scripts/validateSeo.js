@@ -10,8 +10,10 @@ import {
   EXCLUDED_JOURNEY_ROUTES,
   JOURNEY_HTML_ROUTES,
   LEARN_LESSON_ROUTES,
+  LEARN_PATH_ROUTES,
   PILOT_ROUTES,
   RETAINED_PILOT_ROUTES,
+  STATIC_HTML_ROUTES,
   pilotBodyMarkers,
 } from "../src/pilot/pilotRoutes.js";
 import { ALL_CALCULATORS } from "../src/data/calculators.js";
@@ -43,16 +45,8 @@ function assertPilotBody(routePath, html) {
   const rootHtml = html.slice(rootAt, bodyEnd);
   assert(!/<script\b/i.test(rootHtml), `${label} root must not contain a script`);
   assert(!/display\s*:\s*none/i.test(rootHtml), `${label} must not hide the initial article`);
-  if (
-    routePath.startsWith("/learn/")
-    || routePath.startsWith("/journeys/")
-    || CALCULATOR_HTML_ROUTES.includes(routePath)
-  ) {
-    assert((rootHtml.match(/<h1\b/g) || []).length === 1, `${label} must contain one h1`);
-  }
-  if (routePath.startsWith("/journeys/") || CALCULATOR_HTML_ROUTES.includes(routePath)) {
-    assert((rootHtml.match(/<main\b/g) || []).length === 1, `${label} must contain one main`);
-  }
+  assert((rootHtml.match(/<h1\b/g) || []).length === 1, `${label} must contain one h1`);
+  assert((rootHtml.match(/<main\b/g) || []).length === 1, `${label} must contain one main`);
   for (const marker of markers) {
     assert(rootHtml.includes(marker), `${label} must include “${marker}”`);
   }
@@ -119,16 +113,29 @@ assert(!/api\.groq\.com/iu.test(source.headers), "CSP must not whitelist Groq");
 const publicPaths = listPublicSitemapPaths();
 assert(LEARN_LESSON_ROUTES.length === 39, "Initial HTML must include the 39 completed Learn lessons");
 assert(
-  JOURNEY_HTML_ROUTES.length === 7
+  JOURNEY_HTML_ROUTES.length === 8
   && JOURNEY_HTML_ROUTES.includes("/journeys/save-tax")
+  && JOURNEY_HTML_ROUTES.includes("/journeys/build-wealth")
   && JOURNEY_HTML_ROUTES.every((routePath) => publicPaths.includes(routePath)),
-  "Initial HTML must include the seven safe public journeys, including Save Tax",
+  "Initial HTML must include all eight public journeys",
 );
 assert(
-  EXCLUDED_JOURNEY_ROUTES.length === 1
-  && EXCLUDED_JOURNEY_ROUTES[0] === "/journeys/build-wealth"
-  && !PILOT_ROUTES.includes("/journeys/build-wealth"),
-  "Build Wealth must stay out of the initial HTML allowlist",
+  EXCLUDED_JOURNEY_ROUTES.length === 0
+  && PILOT_ROUTES.includes("/journeys/build-wealth"),
+  "Build Wealth must be included once its first render is deterministic",
+);
+assert(
+  LEARN_PATH_ROUTES.length === 8
+  && LEARN_PATH_ROUTES.every((routePath) => publicPaths.includes(routePath)),
+  "Initial HTML must include all eight Learn path pages",
+);
+assert(
+  STATIC_HTML_ROUTES.length === 10
+  && STATIC_HTML_ROUTES.includes("/")
+  && STATIC_HTML_ROUTES.includes("/calculators")
+  && !STATIC_HTML_ROUTES.includes("/guide-trial")
+  && STATIC_HTML_ROUTES.every((routePath) => publicPaths.includes(routePath)),
+  "Initial HTML must include the proven static public pages",
 );
 assert(
   RETAINED_PILOT_ROUTES.length === 1
@@ -149,7 +156,9 @@ assert(
   "EMI must be included once its first render is deterministic",
 );
 assert(new Set(PILOT_ROUTES).size === PILOT_ROUTES.length, "Initial HTML routes must be unique");
-assert(PILOT_ROUTES.length === 66, "Initial HTML must cover 66 routes");
+assert(PILOT_ROUTES.length === publicPaths.length, "Initial HTML must cover every public sitemap route");
+assert(PILOT_ROUTES.length === 85, "Initial HTML must cover 85 public routes");
+assert(!PILOT_ROUTES.includes("/guide-trial"), "Guide Trial must stay outside initial HTML");
 assert(LEARN_LESSON_ROUTES.every((routePath) => publicPaths.includes(routePath)), "Every prerendered lesson must stay on the public sitemap");
 assert(publicPaths.includes("/"), "Sitemap path list must include the homepage");
 assert(publicPaths.includes("/calculators"), "Sitemap path list must include the calculator hub");
@@ -279,7 +288,7 @@ if (await exists(builtHomePath)) {
   assert(canonicalHref(builtHome, "Built homepage canonical") === homeSeo.canonical, "Built homepage canonical must stay https://foinwi.com/");
   assert(metaContent(builtHome, "name", "robots", "Built homepage robots") === homeSeo.robots, "Built homepage robots must stay index, follow");
   assert(metaContent(builtHome, "property", "og:url", "Built homepage og:url") === homeSeo.canonical, "Built homepage og:url must stay the homepage canonical");
-  assert(builtHome.includes('<div id="root"></div>'), "Built homepage must keep the empty React root");
+  assertPilotBody("/", builtHome);
 
   const sourceJsonLd = collectTags(source.indexHtml, /<script type="application\/ld\+json">[\s\S]*?<\/script>/g);
   const builtJsonLd = collectTags(builtHome, /<script type="application\/ld\+json">[\s\S]*?<\/script>/g);
