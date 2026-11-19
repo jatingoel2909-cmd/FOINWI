@@ -1,3 +1,4 @@
+import { ALL_CALCULATORS } from "../data/calculators.js";
 import { FINANCIAL_JOURNEYS } from "../data/journeys.js";
 import { LEARNING_PATHS } from "../data/learnAcademy.js";
 
@@ -23,7 +24,39 @@ export const JOURNEY_HTML_ROUTES = FINANCIAL_JOURNEYS
   .map((journey) => `/journeys/${journey.slug}`)
   .filter((routePath) => !EXCLUDED_JOURNEY_ROUTES.includes(routePath));
 
-/** Routes already accepted in the three-route pilot and retained here. */
+/**
+ * EMI reads the viewport while computing its first open/closed sections.
+ * That first render differs between the server and a phone-width browser.
+ */
+export const EXCLUDED_CALCULATOR_ROUTES = ["/emi-calculator"];
+
+const CALCULATOR_HEADINGS = {
+  "/sip-calculator": "Plan your wealth with clarity",
+  "/fd-calculator": "Estimate your fixed deposit maturity",
+  "/ppf-calculator": "Explore how PPF contributions may accumulate",
+  "/retirement-calculator": "Illustrative retirement corpus estimate",
+  "/goal-planner": "Plan your financial goals with clarity",
+  "/cagr-calculator": "Measure your annualized return",
+  "/lumpsum-calculator": "Project one-time investment growth",
+  "/rd-calculator": "Plan your recurring deposit growth",
+  "/swp-calculator": "Plan systematic withdrawals wisely",
+  "/inflation-calculator": "Understand the rising cost of living",
+  "/gratuity-calculator": "Code on Social Security, 2020 — simplified gratuity estimate",
+  "/epf-calculator": "Explore an illustrative EPF accumulation estimate",
+  "/nps-calculator": "NPS accumulation and normal-exit illustration",
+  "/home-loan-eligibility-calculator": "Explore an illustrative home-loan affordability estimate",
+  "/loan-prepayment-calculator": "See how prepayment reduces interest",
+  "/gst-calculator": "GST arithmetic calculator",
+  "/income-tax-calculator": "Educational tax estimate",
+  "/hra-calculator": "HRA exemption — opt-out regime estimate",
+  "/compound-interest-calculator": "Watch your money grow with compounding",
+};
+
+export const CALCULATOR_HTML_ROUTES = ALL_CALCULATORS
+  .map((calculator) => calculator.path)
+  .filter((routePath) => !EXCLUDED_CALCULATOR_ROUTES.includes(routePath));
+
+/** GST remains inside the calculator allowlist. */
 export const RETAINED_PILOT_ROUTES = [
   "/gst-calculator",
 ];
@@ -31,7 +64,7 @@ export const RETAINED_PILOT_ROUTES = [
 export const PILOT_ROUTES = [
   ...LEARN_LESSON_ROUTES,
   ...JOURNEY_HTML_ROUTES,
-  ...RETAINED_PILOT_ROUTES,
+  ...CALCULATOR_HTML_ROUTES,
 ];
 
 export function isPilotRoute(pathname) {
@@ -43,8 +76,10 @@ export function isPilotRoute(pathname) {
  * Lesson phrases come from the registry title plus the shared lesson headings.
  */
 export function pilotBodyMarkers(routePath) {
-  if (routePath === "/gst-calculator") {
-    return ["GST arithmetic calculator", "How to read this estimate", "Worked example"];
+  if (CALCULATOR_HTML_ROUTES.includes(routePath)) {
+    const heading = CALCULATOR_HEADINGS[routePath];
+    if (!heading) return null;
+    return [heading, "How to read this estimate", "Worked example"];
   }
   if (routePath.startsWith("/journeys/")) {
     if (EXCLUDED_JOURNEY_ROUTES.includes(routePath)) return null;

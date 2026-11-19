@@ -6,6 +6,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
+  CALCULATOR_HTML_ROUTES,
+  EXCLUDED_CALCULATOR_ROUTES,
   EXCLUDED_JOURNEY_ROUTES,
   JOURNEY_HTML_ROUTES,
   LEARN_LESSON_ROUTES,
@@ -22,13 +24,16 @@ function assertSafeBody(routePath, html) {
   if (!markers) {
     throw new Error(`Pilot HTML for ${routePath} is not an approved initial-HTML route`);
   }
-  if (
-    (routePath.startsWith("/learn/") || routePath.startsWith("/journeys/"))
-    && (html.match(/<h1\b/g) || []).length !== 1
-  ) {
+  const requiresSingleHeading = routePath.startsWith("/learn/")
+    || routePath.startsWith("/journeys/")
+    || CALCULATOR_HTML_ROUTES.includes(routePath);
+  if (requiresSingleHeading && (html.match(/<h1\b/g) || []).length !== 1) {
     throw new Error(`Pilot HTML for ${routePath} must contain one h1`);
   }
-  if (routePath.startsWith("/journeys/") && (html.match(/<main\b/g) || []).length !== 1) {
+  if (
+    (routePath.startsWith("/journeys/") || CALCULATOR_HTML_ROUTES.includes(routePath))
+    && (html.match(/<main\b/g) || []).length !== 1
+  ) {
     throw new Error(`Pilot HTML for ${routePath} must contain one main`);
   }
   if (!html.includes("<h1") && !html.includes("<h2")) {
@@ -62,6 +67,19 @@ export async function writePilotBodies({ distRoot = distDir } = {}) {
   }
   if (RETAINED_PILOT_ROUTES.length !== 1 || RETAINED_PILOT_ROUTES[0] !== "/gst-calculator") {
     throw new Error("The GST calculator must remain the retained calculator route");
+  }
+  if (
+    CALCULATOR_HTML_ROUTES.length !== 19
+    || !CALCULATOR_HTML_ROUTES.includes("/gst-calculator")
+    || CALCULATOR_HTML_ROUTES.includes("/emi-calculator")
+  ) {
+    throw new Error(`Expected 19 safe calculator routes including GST, found ${CALCULATOR_HTML_ROUTES.length}`);
+  }
+  if (EXCLUDED_CALCULATOR_ROUTES.length !== 1 || EXCLUDED_CALCULATOR_ROUTES[0] !== "/emi-calculator") {
+    throw new Error("EMI must stay excluded from initial HTML");
+  }
+  if (PILOT_ROUTES.includes("/emi-calculator") || new Set(PILOT_ROUTES).size !== PILOT_ROUTES.length) {
+    throw new Error("Initial HTML routes must stay unique and must not include EMI");
   }
   const serverEntry = path.join(distRoot, "server", "entry-server.js");
   const serverModule = await import(pathToFileURL(serverEntry).href);

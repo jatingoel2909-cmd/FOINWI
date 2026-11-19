@@ -5,6 +5,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeHtml, routeHtmlPath } from "./prerenderSeoHeads.js";
 import {
+  CALCULATOR_HTML_ROUTES,
+  EXCLUDED_CALCULATOR_ROUTES,
   EXCLUDED_JOURNEY_ROUTES,
   JOURNEY_HTML_ROUTES,
   LEARN_LESSON_ROUTES,
@@ -41,10 +43,14 @@ function assertPilotBody(routePath, html) {
   const rootHtml = html.slice(rootAt, bodyEnd);
   assert(!/<script\b/i.test(rootHtml), `${label} root must not contain a script`);
   assert(!/display\s*:\s*none/i.test(rootHtml), `${label} must not hide the initial article`);
-  if (routePath.startsWith("/learn/") || routePath.startsWith("/journeys/")) {
+  if (
+    routePath.startsWith("/learn/")
+    || routePath.startsWith("/journeys/")
+    || CALCULATOR_HTML_ROUTES.includes(routePath)
+  ) {
     assert((rootHtml.match(/<h1\b/g) || []).length === 1, `${label} must contain one h1`);
   }
-  if (routePath.startsWith("/journeys/")) {
+  if (routePath.startsWith("/journeys/") || CALCULATOR_HTML_ROUTES.includes(routePath)) {
     assert((rootHtml.match(/<main\b/g) || []).length === 1, `${label} must contain one main`);
   }
   for (const marker of markers) {
@@ -125,10 +131,26 @@ assert(
   "Build Wealth must stay out of the initial HTML allowlist",
 );
 assert(
-  RETAINED_PILOT_ROUTES.length === 1 && RETAINED_PILOT_ROUTES[0] === "/gst-calculator",
+  RETAINED_PILOT_ROUTES.length === 1
+  && RETAINED_PILOT_ROUTES[0] === "/gst-calculator"
+  && CALCULATOR_HTML_ROUTES.includes("/gst-calculator"),
   "Initial HTML must retain the GST calculator",
 );
-assert(PILOT_ROUTES.length === 47, "Initial HTML must cover 47 routes");
+assert(
+  CALCULATOR_HTML_ROUTES.length === 19
+  && !CALCULATOR_HTML_ROUTES.includes("/emi-calculator")
+  && CALCULATOR_HTML_ROUTES.every((routePath) => publicPaths.includes(routePath)),
+  "Initial HTML must include the 19 safe public calculators",
+);
+assert(
+  EXCLUDED_CALCULATOR_ROUTES.length === 1
+  && EXCLUDED_CALCULATOR_ROUTES[0] === "/emi-calculator"
+  && publicPaths.includes("/emi-calculator")
+  && !PILOT_ROUTES.includes("/emi-calculator"),
+  "EMI must stay public and out of the initial HTML allowlist",
+);
+assert(new Set(PILOT_ROUTES).size === PILOT_ROUTES.length, "Initial HTML routes must be unique");
+assert(PILOT_ROUTES.length === 65, "Initial HTML must cover 65 routes");
 assert(LEARN_LESSON_ROUTES.every((routePath) => publicPaths.includes(routePath)), "Every prerendered lesson must stay on the public sitemap");
 assert(publicPaths.includes("/"), "Sitemap path list must include the homepage");
 assert(publicPaths.includes("/calculators"), "Sitemap path list must include the calculator hub");

@@ -8,6 +8,7 @@ import { getCalculatorExplain } from "../../data/calculatorExplains";
 import { getCalculatorInsights } from "../../data/calculatorInsights";
 import { CALCULATOR_CONCEPT_MAP } from "../../intelligence/recommendation/recommendationRules.js";
 import { getConceptById } from "../../intelligence/knowledge/financialConcepts.js";
+import { isPilotRoute } from "../../pilot/pilotRoutes.js";
 import { getPrimaryJourneyForCalculator } from "../../utils/journeyEngineHelpers";
 import "./calculator-ui.css";
 
@@ -58,7 +59,11 @@ function CalculatorLayout({
       {showHeader && (
         <div className="calc-layout__header">
           <p className="shrix-section-label">{label}</p>
-          {titleAs === "h1" ? <h1>{title}</h1> : <h2>{title}</h2>}
+          {titleAs === "h1" || (calculatorId && isPilotRoute(calculatorId)) ? (
+            <h1>{title}</h1>
+          ) : (
+            <h2>{title}</h2>
+          )}
           <p>{description}</p>
         </div>
       )}
