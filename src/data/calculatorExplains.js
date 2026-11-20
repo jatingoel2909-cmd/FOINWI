@@ -288,7 +288,7 @@ export const CALCULATOR_EXPLAINS = {
   },
   "/epf-calculator": {
     whyGenerated:
-      "This is an educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member using statutory contribution assumptions under the Code on Social Security, 2020. Contributions use Monthly PF wages up to the ₹15,000 statutory wage ceiling. Employer total contribution is 12% in this model; the EPS diversion is excluded from the projected EPF balance.",
+      "This is an educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member using statutory contribution assumptions under the Code on Social Security, 2020. Contributions use Monthly PF wages up to the ₹25,000 statutory wage ceiling. Employer total contribution is 12% in this model; the EPS diversion is excluded from the projected EPF balance.",
     keyInputs: [
       "Monthly PF wages — wage amount applicable for provident-fund contribution purposes; this may differ from Basic salary alone",
       "Current EPF balance — starting balance used in the estimate",
@@ -296,16 +296,16 @@ export const CALCULATOR_EXPLAINS = {
       "Illustrative EPF interest assumption — 8.25% is the last Government-approved/notified rate verified for FY 2024-25",
     ],
     ifInputsChange: [
-      "PF wages above ₹15,000 do not increase default statutory contributions in this estimate",
+      "PF wages above ₹25,000 do not increase default statutory contributions in this estimate",
       "A longer remaining period typically increases estimated contributions and illustrative growth",
       "A higher illustrative interest assumption typically increases the projected EPF balance",
     ],
     beginnerMistakes: [
       "Treating PF wages as always equal to Basic salary",
-      "Assuming contributions in this estimate are calculated on full wages above ₹15,000",
+      "Assuming contributions in this estimate are calculated on full wages above ₹25,000",
       "Treating the residual employer EPF amount as the full employer contribution",
       "Assuming this illustrative 8.25% rate is a guaranteed or future EPF rate",
-      "Using this default estimate for 10% establishments, VPF, higher-wage contribution, or a new joiner above ₹15,000 who is not an EPS member",
+      "Using this default estimate for 10% establishments, VPF, higher-wage contribution, or a new joiner above ₹25,000 who is not an EPS member",
     ],
     relatedCalculators: ["/nps-calculator", "/gratuity-calculator", "/retirement-calculator"],
     relatedLessons: ["retirement-planning"],

@@ -407,12 +407,12 @@ runValidation("EPF", () => {
     years: 20,
   });
   assertFields(result, ["projectedBalance", "totalEpfContributions", "interestEarned", "contributionWage", "employerEPS", "employerEPF"], "EPF");
-  assert(result.contributionWage === 15000, "EPF above-ceiling wages must use ₹15,000");
-  assert(result.employeeEPF === 1800, "EPF employee contribution at the ceiling");
-  assert(result.employerTotal === 1800, "EPF employer total at the ceiling");
-  assert(result.employerEPS === 1250, "EPF EPS diversion at the ceiling");
-  assert(result.employerEPF === 550, "EPF residual employer share at the ceiling");
-  assert(result.monthlyEpfEnteringCorpus === 2350, "EPF corpus contribution must exclude EPS");
+  assert(result.contributionWage === 25000, "EPF above-ceiling wages must use ₹25,000");
+  assert(result.employeeEPF === 3000, "EPF employee contribution at the ceiling");
+  assert(result.employerTotal === 3000, "EPF employer total at the ceiling");
+  assert(result.employerEPS === 2083, "EPF EPS diversion at the ceiling");
+  assert(result.employerEPF === 917, "EPF residual employer share at the ceiling");
+  assert(result.monthlyEpfEnteringCorpus === 3917, "EPF corpus contribution must exclude EPS");
   assert(result.annualInterestRate === 8.25, "EPF illustrative rate fixture");
   Object.values(result).forEach((value) => {
     if (typeof value === "number") assertNonNegative(value, "EPF output");

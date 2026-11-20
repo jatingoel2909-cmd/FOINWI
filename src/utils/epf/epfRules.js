@@ -9,20 +9,23 @@
  * Current statutory frame for this estimator:
  * - Code on Social Security, 2020, section 16 (10% default; 12% by
  *   notification / operational general treatment)
- * - Chapter III wage ceiling: S.O. 2702(E), 29 May 2026 — ₹15,000
+ * - Chapter III wage ceiling: S.O. 5109(E), 17 September 2026 — ₹25,000,
+ *   effective on publication. S.O. 2702(E), 29 May 2026 notified ₹15,000
+ *   and was superseded, except for things already done or omitted.
  * - EPS diversion: 8.33% of contribution wage, residual employer share
  *   enters EPF
  *
  * Maintainer notes (not visitor-facing claims):
- * - G.S.R. 525(E), 29 June 2026 issued the Employees' Provident Fund
- *   Scheme, 2026. This calculator does not quote unread Scheme clauses.
+ * - G.S.R. 525(E), 29 June 2026, Employees' Provident Funds Scheme, 2026,
+ *   paragraph 18(3), limits default contributions to the wage ceiling
+ *   notified from time to time. Paragraph 18(5) is the nearest-rupee rule.
  * - S.O. 320(E), 9 April 1997 is the historic 12%/10% class instrument
  *   still cited in EPFO material. 10% classes stay outside this scope.
  * - FY 2024-25 interest 8.25% was Government-approved under para 60(1).
  * - FY 2025-26 was CBT-recommended at 8.25%; final Government
  *   notification was not located in the FOINWI audit.
  *
- * Not modelled: 10% establishments/classes, new joiner above ₹15,000
+ * Not modelled: 10% establishments/classes, new joiner above ₹25,000
  * who is not an EPS member, higher-wage contribution, VPF, higher-pension
  * joint option, EPS after age-related exit, EDLI, administrative charges,
  * payroll wage reconstruction, tax treatment, or withdrawal rules.
@@ -30,8 +33,8 @@
 
 export const EPF_LEGAL_FRAMEWORK = "Code on Social Security, 2020";
 
-export const EPF_WAGE_CEILING = 15000;
-export const EPF_WAGE_CEILING_NOTIFICATION = "S.O. 2702(E), 29 May 2026";
+export const EPF_WAGE_CEILING = 25000;
+export const EPF_WAGE_CEILING_NOTIFICATION = "S.O. 5109(E), 17 September 2026";
 
 export const EPF_GENERAL_EMPLOYEE_RATE = 0.12;
 export const EPF_GENERAL_EMPLOYER_RATE = 0.12;
@@ -70,7 +73,7 @@ export const EPF_HIGHER_WAGE_SCOPE_NOTE =
   "Higher-wage contribution and voluntary provident-fund top-ups are outside this default estimate.";
 
 export const EPF_NEW_JOINER_SCOPE_NOTE =
-  "A new joiner with PF wages above ₹15,000 who is not an EPS member is outside this default estimate.";
+  "A new joiner with PF wages above ₹25,000 who is not an EPS member is outside this default estimate.";
 
 export const EPF_INTEREST_HELPER_NOTE =
   "8.25% is the last Government-approved/notified rate verified for FY 2024-25. This is an illustrative assumption, not a guaranteed or future EPF rate.";
@@ -85,4 +88,4 @@ export const EPF_SCOPE_NOTE =
   "Educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member using statutory contribution assumptions. Employer contributes 12% in this model. Part is diverted to EPS and is not added to the projected EPF balance. Only the residual employer EPF amount enters the projected corpus.";
 
 export const EPF_CEILING_NOTE =
-  "Statutory contributions in this estimate use wages up to ₹15,000, consistent with S.O. 2702(E), 29 May 2026. Amounts above that ceiling are not used for the default contribution calculation.";
+  "Statutory contributions in this estimate use wages up to ₹25,000, consistent with S.O. 5109(E), 17 September 2026. Amounts above that ceiling are not used for the default contribution calculation.";

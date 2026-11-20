@@ -52,8 +52,8 @@ function estimateAt(monthlyPFWages, currentBalance = 0, annualInterestRate = EPF
 }
 
 assert(EPF_LEGAL_FRAMEWORK === "Code on Social Security, 2020", "Legal framework must be Code on Social Security, 2020");
-assert(EPF_WAGE_CEILING === 15000, "Statutory wage ceiling must remain centralized at ₹15,000");
-assert(EPF_WAGE_CEILING_NOTIFICATION === "S.O. 2702(E), 29 May 2026", "Ceiling notification must be S.O. 2702(E), 29 May 2026");
+assert(EPF_WAGE_CEILING === 25000, "Statutory wage ceiling must remain centralized at ₹25,000");
+assert(EPF_WAGE_CEILING_NOTIFICATION === "S.O. 5109(E), 17 September 2026", "Ceiling notification must be S.O. 5109(E), 17 September 2026");
 assert(EPF_GENERAL_EMPLOYEE_RATE === 0.12, "General employee rate modelled must be 12%");
 assert(EPF_GENERAL_EMPLOYER_RATE === 0.12, "General employer rate modelled must be 12%");
 assert(EPF_ILLUSTRATIVE_INTEREST_RATE === 8.25, "Default illustrative rate must be 8.25");
@@ -66,12 +66,14 @@ assert(EPF_WAGE_HELPER_NOTE.includes("may differ from Basic salary alone"), "Wag
 assert(EPF_RATE_OPERATIONAL_NOTE.includes("current EPFO operational treatment"), "12% wording must be operational, not a Scheme 2026 notification claim");
 assert(EPF_TEN_PERCENT_SCOPE_NOTE.includes("10%"), "10% establishments must be outside default scope");
 assert(EPF_HIGHER_WAGE_SCOPE_NOTE.toLowerCase().includes("voluntary"), "VPF / higher-wage must be outside default scope");
-assert(EPF_NEW_JOINER_SCOPE_NOTE.includes("not an EPS member"), "New joiner above ₹15,000 / no-EPS must be outside default scope");
+assert(EPF_NEW_JOINER_SCOPE_NOTE.includes("₹25,000"), "New joiner note must use the current ₹25,000 ceiling");
+assert(EPF_NEW_JOINER_SCOPE_NOTE.includes("not an EPS member"), "New joiner above the ceiling / no-EPS must be outside default scope");
 assert(EPF_INTEREST_HELPER_NOTE.includes("FY 2024-25"), "Interest helper must identify FY 2024-25");
 assert(EPF_INTEREST_HELPER_NOTE.includes("Government-approved/notified"), "Interest helper must identify the last verified Government-approved rate");
 assert(EPF_PROJECTION_METHOD_NOTE.includes("monthly running-balance approximation"), "Projection method note must stay educational");
 assert(EPF_SCHEME_FRAMEWORK_NOTE.includes("Employees' Provident Fund Scheme, 2026"), "Framework note must mention Scheme 2026 without quoting unread clauses");
-assert(EPF_CEILING_NOTE.includes("₹15,000"), "Ceiling note must disclose ₹15,000");
+assert(EPF_CEILING_NOTE.includes("₹25,000"), "Ceiling note must disclose ₹25,000");
+assert(EPF_CEILING_NOTE.includes("S.O. 5109(E), 17 September 2026"), "Ceiling note must cite S.O. 5109(E)");
 assert(EPF_SCOPE_NOTE.includes("residual employer EPF"), "Scope note must explain that only residual employer EPF enters the corpus");
 
 assert(roundContribution(1.49) === 1, "₹1.49 must round down");
@@ -85,12 +87,14 @@ assert(roundContribution(0) === 0, "Zero contribution rounding must stay 0");
 assert(roundContribution(-10) === 0, "Negative contribution rounding must normalize to 0");
 assert(roundContribution(Number.NaN) === 0, "NaN contribution rounding must normalize to 0");
 assert(roundContribution(Number.POSITIVE_INFINITY) === 0, "Infinity contribution rounding must normalize to 0");
-assert(applyContributionRate(15000, 833, 10000) === 1250, "8.33% of ₹15,000 must round to ₹1,250");
+assert(applyContributionRate(15000, 833, 10000) === 1250, "Rounding fixture: 8.33% of ₹15,000 must round to ₹1,250");
+assert(applyContributionRate(25000, 833, 10000) === 2083, "8.33% of the ₹25,000 ceiling must round to ₹2,083");
 assert(applyContributionRate(10000, 833, 10000) === 833, "8.33% of ₹10,000 must stay ₹833");
 
 assert(calculateContributionWage(10000) === 10000, "₹10,000 PF wages must keep contribution wage ₹10,000");
-assert(calculateContributionWage(15000) === 15000, "₹15,000 PF wages must keep contribution wage ₹15,000");
-assert(calculateContributionWage(30000) === 15000, "₹30,000 PF wages must cap contribution wage at ₹15,000");
+assert(calculateContributionWage(15000) === 15000, "₹15,000 PF wages are below the current ceiling and must stay ₹15,000");
+assert(calculateContributionWage(25000) === 25000, "₹25,000 PF wages must keep contribution wage ₹25,000");
+assert(calculateContributionWage(30000) === 25000, "₹30,000 PF wages must cap contribution wage at ₹25,000");
 assert(calculateContributionWage(0) === 0, "Zero PF wages must produce zero contribution wage");
 assert(calculateContributionWage(-5000) === 0, "Negative PF wages must normalize to zero contribution wage");
 
@@ -110,12 +114,12 @@ assert(
 );
 assert(tenThousand.monthlyEpfEnteringCorpus !== tenThousand.employerTotal + tenThousand.employeeEPF, "Vector A must not add EPS into the projected EPF contribution");
 
-const ceilingWages = estimateAt(15000);
-assert(ceilingWages.contributionWage === 15000, "Vector B contribution wage must be ₹15,000");
-assert(ceilingWages.employeeEPF === 1800, "Vector B employee EPF must be ₹1,800");
-assert(ceilingWages.employerTotal === 1800, "Vector B employer total must be ₹1,800");
-assert(ceilingWages.employerEPS === 1250, "Vector B EPS must be ₹1,250");
-assert(ceilingWages.employerEPF === 550, "Vector B employer EPF must be ₹550");
+const ceilingWages = estimateAt(25000);
+assert(ceilingWages.contributionWage === 25000, "Vector B contribution wage must be ₹25,000");
+assert(ceilingWages.employeeEPF === 3000, "Vector B employee EPF must be ₹3,000");
+assert(ceilingWages.employerTotal === 3000, "Vector B employer total must be ₹3,000");
+assert(ceilingWages.employerEPS === 2083, "Vector B EPS must be ₹2,083");
+assert(ceilingWages.employerEPF === 917, "Vector B employer EPF must be ₹917");
 assert(
   ceilingWages.employerEPF + ceilingWages.employerEPS === ceilingWages.employerTotal,
   "Vector B employerEPF + employerEPS must equal employerTotal",
@@ -124,14 +128,14 @@ assert(
   ceilingWages.monthlyEpfEnteringCorpus === ceilingWages.employeeEPF + ceilingWages.employerEPF,
   "Vector B combined monthly EPF must be employeeEPF + employerEPF",
 );
-assert(ceilingWages.monthlyEpfEnteringCorpus === 2350, "Vector B monthly EPF entering corpus must exclude EPS");
+assert(ceilingWages.monthlyEpfEnteringCorpus === 3917, "Vector B monthly EPF entering corpus must exclude EPS");
 
 const aboveCeiling = estimateAt(30000);
-assert(aboveCeiling.contributionWage === 15000, "Vector C contribution wage must remain ₹15,000");
-assert(aboveCeiling.employeeEPF === ceilingWages.employeeEPF, "Vector C employee EPF must match the ₹15,000 vector");
-assert(aboveCeiling.employerTotal === ceilingWages.employerTotal, "Vector C employer total must match the ₹15,000 vector");
-assert(aboveCeiling.employerEPS === ceilingWages.employerEPS, "Vector C EPS must match the ₹15,000 vector");
-assert(aboveCeiling.employerEPF === ceilingWages.employerEPF, "Vector C employer EPF must match the ₹15,000 vector");
+assert(aboveCeiling.contributionWage === 25000, "Vector C contribution wage must remain ₹25,000");
+assert(aboveCeiling.employeeEPF === ceilingWages.employeeEPF, "Vector C employee EPF must match the ₹25,000 vector");
+assert(aboveCeiling.employerTotal === ceilingWages.employerTotal, "Vector C employer total must match the ₹25,000 vector");
+assert(aboveCeiling.employerEPS === ceilingWages.employerEPS, "Vector C EPS must match the ₹25,000 vector");
+assert(aboveCeiling.employerEPF === ceilingWages.employerEPF, "Vector C employer EPF must match the ₹25,000 vector");
 assert(aboveCeiling.ceilingApplied === true, "Vector C must flag that the statutory ceiling was applied");
 
 const zeroWages = estimateAt(0, 250000, 8.25, 10);
@@ -177,13 +181,15 @@ assert(preservedBalance.months === 0, "Zero remaining years must produce zero co
 assert(preservedBalance.totalEpfContributions === 0, "Zero remaining years must add no future EPF contributions");
 assert(preservedBalance.projectedBalance === 175000, "Existing balance must be preserved when remaining contributions are zero");
 assert(preservedBalance.interestEarned === 0, "Zero remaining years must earn no projected interest");
-assert(preservedBalance.monthlyEpfEnteringCorpus === 2350, "Zero-year path must still compute statutory monthly EPF without adding EPS");
+assert(preservedBalance.monthlyEpfEnteringCorpus === 3917, "Zero-year path must still compute statutory monthly EPF without adding EPS");
 
 const defaultRateEstimate = estimateAt(15000, 200000, undefined, 1);
 assert(defaultRateEstimate.annualInterestRate === 8.25, "Engine default illustrative rate must be 8.25");
 
-const projected = estimateAt(15000, 200000, 8.25, 20);
-assert(projected.monthlyEpfEnteringCorpus === 2350, "Projection must add only employee EPF + residual employer EPF");
+const projected = estimateAt(30000, 200000, 8.25, 20);
+assert(projected.contributionWage === 25000, "Starting illustration must cap ₹30,000 PF wages at ₹25,000");
+assert(projected.monthlyEpfEnteringCorpus === 3917, "Projection must add only employee EPF + residual employer EPF");
+assert(Math.round(projected.projectedBalance) === 3432102, "Starting illustration projected balance must match the engine");
 assert(projected.monthlyEpfEnteringCorpus === projected.employeeEPF + projected.employerEPF, "Projected monthly EPF must exclude EPS");
 assert(projected.employerEPS > 0, "EPS must be calculated");
 assert(
@@ -279,7 +285,10 @@ assert(!/FY 2025-26[^.]*notified/i.test(publicCopy), "Copy must not describe FY 
 assert(publicCopy.includes("FY 2024-25"), "Copy must identify FY 2024-25 as the last verified Government-approved 8.25% basis");
 assert(!/PF wages always equal Basic/i.test(publicCopy), "Copy must not say PF wages always equal Basic salary");
 assert(publicCopy.includes("may differ from Basic salary"), "Copy must state that PF wages may differ from Basic salary");
-assert(publicCopy.includes("₹15,000") || publicCopy.includes("15000"), "Copy must disclose the ₹15,000 ceiling");
+assert(publicCopy.includes("₹25,000"), "Copy must disclose the ₹25,000 ceiling");
+assert(publicCopy.includes("S.O. 5109(E), 17 September 2026"), "Copy must cite S.O. 5109(E)");
+assert(!publicCopy.includes("₹15,000"), "Copy must not present ₹15,000 as the current EPF ceiling");
+assert(!publicCopy.includes("S.O. 2702(E)"), "Copy must not cite the superseded S.O. 2702(E) ceiling");
 assert(publicCopy.includes("Explore an illustrative EPF accumulation estimate"), "Card/title copy must use the educational accumulation wording");
 assert(!publicCopy.includes("Project your EPF retirement corpus"), "Copy must not say Project your EPF retirement corpus");
 assert(!/freshly notified rate under EPF Scheme 2026/i.test(publicCopy), "Copy must not claim 12% is freshly notified under Scheme 2026");
@@ -289,14 +298,16 @@ assert(!/current guaranteed rate/i.test(publicCopy), "Copy must not call 8.25% t
 assert(engineSource.includes("employerTotal - employerEPS") || engineSource.includes("employerTotal − employerEPS"), "Engine must derive employer EPF as a residual");
 assert(!/contributionWage \* 0\.0367/.test(engineSource), "Engine must not independently calculate contributionWage × 3.67%");
 assert(engineSource.includes("monthly running-balance approximation") || rulesSource.includes("monthly running-balance approximation"), "Engine/rules must label the projection as a running-balance approximation");
-assert(rulesSource.includes("S.O. 2702(E)"), "Rules must document S.O. 2702(E)");
+assert(rulesSource.includes("S.O. 5109(E)"), "Rules must document S.O. 5109(E)");
+assert(rulesSource.includes("superseded"), "Rules must record that S.O. 2702(E) was superseded");
 assert(rulesSource.includes("G.S.R. 525(E)"), "Rules comments may document Scheme 2026 existence without quoting unread clauses");
 assert(!rulesSource.includes("12% is the freshly notified rate under EPF Scheme 2026"), "Rules must not claim a fresh Scheme 2026 12% notification");
 
 assert(insightsSource.includes("Monthly PF wages"), "Insights must use Monthly PF wages");
 assert(insightsSource.includes("employerTotal − employerEPS") || insightsSource.includes("employerTotal - employerEPS"), "Insights must show employer EPF as a residual");
 assert(insightsSource.includes("8.33%"), "Insights must show EPS diversion");
-assert(insightsSource.includes("₹15,000"), "Insights must disclose the ₹15,000 ceiling");
+assert(insightsSource.includes("₹25,000"), "Insights must disclose the ₹25,000 ceiling");
+assert(insightsSource.includes("S.O. 5109(E), 17 September 2026"), "Insights must cite S.O. 5109(E)");
 assert(insightsSource.includes("FY 2024-25"), "Insights must identify FY 2024-25");
 assert(insightsSource.includes("10%"), "Insights must keep 10% establishments outside scope");
 assert(!insightsSource.includes("Monthly EPF = Basic × (12% + 3.67%)"), "Insights must not keep the old 12% + 3.67% formula");
@@ -305,7 +316,7 @@ assert(!/employer contribution = 3\.67%/i.test(insightsSource), "Insights must n
 assert(epfExplainSource.startsWith('"/epf-calculator"'), "EPF explanation entry must be checked on its own");
 assert(epfExplainSource.includes("Monthly PF wages"), "EPF explanation must use Monthly PF wages");
 assert(epfExplainSource.includes("FY 2024-25"), "EPF explanation must identify FY 2024-25");
-assert(epfExplainSource.includes("₹15,000"), "EPF explanation must disclose the ₹15,000 ceiling");
+assert(epfExplainSource.includes("₹25,000"), "EPF explanation must disclose the ₹25,000 ceiling");
 assert(epfExplainSource.includes("not an EPS member"), "EPF explanation must keep the new joiner / no-EPS case outside scope");
 assert(!epfExplainSource.includes("Monthly basic salary"), "EPF explanation must not treat Basic salary as the wage input");
 assert(
@@ -313,9 +324,14 @@ assert(
   "HRA explanation must keep its basic-salary description",
 );
 
-const statutoryOnly = calculateStatutoryContributions(15000);
-assert(statutoryOnly.employeeEPF === 1800, "Dedicated contribution helper must match the engine at ₹15,000");
-assert(statutoryOnly.employerEPF === 550, "Dedicated contribution helper must use residual employer EPF");
+const belowCeiling = calculateStatutoryContributions(15000);
+assert(belowCeiling.contributionWage === 15000, "₹15,000 remains a below-ceiling wage after the ceiling increase");
+assert(belowCeiling.employeeEPF === 1800, "Dedicated contribution helper must keep 12% of ₹15,000");
+assert(belowCeiling.employerEPF === 550, "Dedicated contribution helper must use residual employer EPF below the ceiling");
+const statutoryOnly = calculateStatutoryContributions(25000);
+assert(statutoryOnly.employeeEPF === 3000, "Dedicated contribution helper must match the engine at ₹25,000");
+assert(statutoryOnly.employerEPS === 2083, "Dedicated contribution helper must divert rounded 8.33% at the ceiling");
+assert(statutoryOnly.employerEPF === 917, "Dedicated contribution helper must use residual employer EPF at the ceiling");
 
 if (failures.length) {
   console.error(`EPF validation failed: ${failures.length} of ${checks} checks`);
@@ -327,7 +343,7 @@ console.log(`EPF validation passed: ${checks} checks.`);
 console.log(`Framework: ${EPF_LEGAL_FRAMEWORK}`);
 console.log(`Ceiling: ₹${EPF_WAGE_CEILING.toLocaleString("en-IN")} (${EPF_WAGE_CEILING_NOTIFICATION})`);
 console.log(`₹10,000 → wage ${tenThousand.contributionWage}, employee ${tenThousand.employeeEPF}, employer ${tenThousand.employerTotal}, EPS ${tenThousand.employerEPS}, employer EPF ${tenThousand.employerEPF}`);
-console.log(`₹15,000 → wage ${ceilingWages.contributionWage}, employee ${ceilingWages.employeeEPF}, employer ${ceilingWages.employerTotal}, EPS ${ceilingWages.employerEPS}, employer EPF ${ceilingWages.employerEPF}`);
-console.log(`₹30,000 → contribution wage ${aboveCeiling.contributionWage}, same contributions as ₹15,000`);
+console.log(`₹25,000 → wage ${ceilingWages.contributionWage}, employee ${ceilingWages.employeeEPF}, employer ${ceilingWages.employerTotal}, EPS ${ceilingWages.employerEPS}, employer EPF ${ceilingWages.employerEPF}`);
+console.log(`₹30,000 → contribution wage ${aboveCeiling.contributionWage}, same contributions as ₹25,000`);
 console.log(`Default illustrative rate: ${EPF_ILLUSTRATIVE_INTEREST_RATE}% (${EPF_ILLUSTRATIVE_INTEREST_YEAR})`);
-console.log(`₹15,000, balance ₹2,00,000, 20y @ 8.25% → projected ₹${Math.round(projected.projectedBalance)}`);
+console.log(`₹30,000 entered, balance ₹2,00,000, 20y @ 8.25% → contribution wage ₹${projected.contributionWage}, projected ₹${Math.round(projected.projectedBalance)}`);

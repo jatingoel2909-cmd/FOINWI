@@ -226,7 +226,7 @@ export const JOURNEY_EDUCATION = {
     ],
     limitations: [
       "A constant inflation rate and a constant return are teaching assumptions. Lived results can be higher or lower.",
-      "The EPF result is not a passbook. In that starting illustration the contribution wage used is ₹15,000, which is lower than the ₹30,000 entered.",
+      "The EPF result is not a passbook. In that starting illustration the contribution wage used is ₹25,000, which is lower than the ₹30,000 entered.",
       "An NPS exit and a systematic withdrawal follow different rules. The lessons linked below keep them separate.",
       "The illustration does not know how long someone will live. The 25 years are an input.",
     ],
@@ -238,7 +238,7 @@ export const JOURNEY_EDUCATION = {
     ],
     scenario: [
       "Illustrative scenario from the Retirement Calculator's starting inputs. Monthly expense at retirement ₹2,87,175. Illustrative retirement corpus ₹6,79,30,310. Projected value of current retirement savings ₹87,24,701. Illustrative funding gap ₹5,92,05,609. Illustrative monthly contribution ₹25,975. The 25× simple comparison on that page is ₹8,61,52,368 and is not the primary corpus estimate.",
-      "Separately, the EPF Calculator's starting illustration shows a contribution wage of ₹15,000, combined monthly EPF entering the projected corpus of ₹2,350, and a projected EPF balance of ₹24,73,352.",
+      "Separately, the EPF Calculator's starting illustration shows a contribution wage of ₹25,000, combined monthly EPF entering the projected corpus of ₹3,917, and a projected EPF balance of ₹34,32,102.",
     ],
     nextLesson: {
       path: "/learn/retirement-planning/retirement-corpus-basics",

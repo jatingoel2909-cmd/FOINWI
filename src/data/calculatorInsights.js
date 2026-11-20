@@ -421,7 +421,7 @@ export const CALCULATOR_INSIGHTS = {
     howCalculated: {
       formulaLabel: "Simplified calculation expression",
       formula:
-        "contributionWage = min(Monthly PF wages, ₹15,000). employeeEPF and employerTotal = rounded contributionWage × 12%. employerEPS = rounded contributionWage × 8.33%. employerEPF = employerTotal − employerEPS. Projected balance uses a monthly running-balance approximation on employeeEPF + employerEPF only.",
+        "contributionWage = min(Monthly PF wages, ₹25,000). employeeEPF and employerTotal = rounded contributionWage × 12%. employerEPS = rounded contributionWage × 8.33%. employerEPF = employerTotal − employerEPS. Projected balance uses a monthly running-balance approximation on employeeEPF + employerEPF only.",
       variables: [
         {
           symbol: "Monthly PF wages",
@@ -429,7 +429,7 @@ export const CALCULATOR_INSIGHTS = {
         },
         {
           symbol: "contributionWage",
-          meaning: "Lower of Monthly PF wages and the ₹15,000 statutory wage ceiling used in this estimate (S.O. 2702(E), 29 May 2026)",
+          meaning: "Lower of Monthly PF wages and the ₹25,000 statutory wage ceiling used in this estimate (S.O. 5109(E), 17 September 2026)",
         },
         {
           symbol: "12%",
@@ -449,7 +449,7 @@ export const CALCULATOR_INSIGHTS = {
         },
       ],
       estimateNote:
-        "Educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member under the Code on Social Security, 2020. The Employees' Provident Fund Scheme, 2026 has been issued under the current framework. This simplified calculator uses the standard contribution assumptions described here and does not model every membership or payroll case. 8.25% is the last Government-approved/notified rate verified for FY 2024-25 and is used only as an illustrative interest assumption. Specified 10% establishments, higher-wage contribution, voluntary provident-fund top-ups, and a new joiner above ₹15,000 who is not an EPS member are outside this default estimate.",
+        "Educational EPF accumulation estimate for a standard already-enrolled EPF/EPS member under the Code on Social Security, 2020. The Employees' Provident Fund Scheme, 2026 has been issued under the current framework. This simplified calculator uses the standard contribution assumptions described here and does not model every membership or payroll case. 8.25% is the last Government-approved/notified rate verified for FY 2024-25 and is used only as an illustrative interest assumption. Specified 10% establishments, higher-wage contribution, voluntary provident-fund top-ups, and a new joiner above ₹25,000 who is not an EPS member are outside this default estimate.",
       summary:
         "This calculator uses a simplified projection using a monthly running-balance approximation and a constant illustrative annual interest assumption. EPS is not added to the projected EPF corpus.",
       inputs: [

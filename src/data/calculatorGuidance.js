@@ -178,7 +178,7 @@ export const CALCULATOR_GUIDANCE = {
       "Years remaining: 20",
     ],
     outcome:
-      "Contribution wage used in this estimate ₹15,000. Combined monthly EPF entering the projected corpus ₹2,350. Projected EPF balance ₹24,73,352.",
+      "Contribution wage used in this estimate ₹25,000. Combined monthly EPF entering the projected corpus ₹3,917. Projected EPF balance ₹34,32,102.",
     lesson: {
       path: "/learn/retirement-planning/epf-and-employer-benefits",
       title: "EPF and Employer Benefits",
