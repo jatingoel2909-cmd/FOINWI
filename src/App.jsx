@@ -37,6 +37,7 @@ import FinancialHealthScorePage from "./pages/FinancialHealthScorePage";
 import GuideTrialPage from "./guide-trial/GuideTrialPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ExchangeRatesPage from "./pages/ExchangeRatesPage";
+import AnalyticsConsentProvider from "./components/AnalyticsConsent";
 
 export function AppShell() {
   return (
@@ -88,7 +89,9 @@ export function AppShell() {
 function App() {
   return (
     <BrowserRouter>
-      <AppShell />
+      <AnalyticsConsentProvider>
+        <AppShell />
+      </AnalyticsConsentProvider>
     </BrowserRouter>
   );
 }

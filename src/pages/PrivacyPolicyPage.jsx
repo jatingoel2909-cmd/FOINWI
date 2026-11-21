@@ -52,7 +52,39 @@ function PrivacyPolicyPage() {
           <p>
             Advertising on FOINWI is not currently enabled. foinwi.com does not
             load Google ad scripts, and FOINWI does not currently show
-            advertisements. FOINWI also does not use Google Analytics.
+            advertisements.
+          </p>
+          <p className="shrix-info-card__follow">
+            FOINWI can use Google Analytics 4 to count visits to public pages.
+            Google is the recipient of that analytics data when collection is on.
+            Collection stays off until you choose Accept. If you have not chosen,
+            or you opt out by choosing Reject, FOINWI does not load Google
+            Analytics scripts, does not send analytics requests, and does not keep
+            analytics cookies for this purpose.
+          </p>
+          <p className="shrix-info-card__follow">
+            When you accept on the production website, your browser may load
+            Google Analytics 4 and store analytics cookies, including cookies
+            whose names start with _ga. FOINWI sends the path of a public page.
+            It does not send query strings, URL fragments, calculator values,
+            income, Financial Health Score answers, search text, or Guide Trial
+            content through this integration.
+          </p>
+          <p className="shrix-info-card__follow">
+            You can change or withdraw that choice at any time through Privacy
+            settings. Choosing Reject withdraws an earlier acceptance. Withdrawal
+            stops further collection in this browser and clears analytics cookies
+            that this site can remove. Withdrawal does not erase data Google may
+            already have received.
+          </p>
+          <p className="shrix-info-card__follow">
+            Google retention of analytics data depends on the retention settings
+            in the Google Analytics property. This website cannot enforce or
+            confirm that period. The tag is configured with automatic page views
+            off and with advertising personalization signals off. Enhanced
+            measurement is controlled in the Google Analytics property, not by
+            this page, and it needs to stay off there so the tag does not collect
+            extra interactions.
           </p>
           <p className="shrix-info-card__follow">
             Some educational features may store your own selections locally in
@@ -100,8 +132,9 @@ function PrivacyPolicyPage() {
             FOINWI.
           </p>
           <p className="shrix-info-card__follow">
-            A cookie-consent tool is not currently enabled on foinwi.com. FOINWI
-            does not show a consent banner. This Privacy Policy does not collect
+            FOINWI shows an analytics choice for optional Google Analytics 4,
+            described above. That choice is not advertising consent. Advertising
+            is not currently enabled, and this Privacy Policy does not collect
             advertising consent. Before ads are enabled for visitors in the
             European Economic Area, the United Kingdom, or Switzerland, FOINWI
             must add any consent mechanism required by applicable law and by
