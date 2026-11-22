@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { readStoredConsent, writeStoredConsent, CONSENT_DENIED, CONSENT_GRANTED, CONSENT_UNKNOWN, CONSENT_STORAGE_KEY } from "../analytics/consentStore.js";
 import { shouldLoadGa4, shouldSendPageView } from "../analytics/collectionPolicy.js";
 import { createAnalyticsController } from "../analytics/ga4Loader.js";
-import { toAnalyticsPageView } from "../analytics/pageView.js";
+import { isAnalyticsDocumentEligible, toAnalyticsPageView } from "../analytics/pageView.js";
 import { isApprovedProductionEnvironment, readMeasurementId } from "../analytics/productionGate.js";
 import { AnalyticsConsentContext } from "./analyticsConsentContext.js";
 import "./AnalyticsConsent.css";
@@ -95,7 +95,13 @@ function AnalyticsConsentProvider({ children }) {
   }), [consent, openSettings]);
 
   useLayoutEffect(() => {
-    const page = toAnalyticsPageView(location.pathname, window.location.origin);
+    const documentEligible = isAnalyticsDocumentEligible({
+      href: window.location.href,
+      referrer: document.referrer,
+    });
+    const page = documentEligible
+      ? toAnalyticsPageView(location.pathname, window.location.origin)
+      : null;
     const load = shouldLoadGa4({ consent, production });
     try {
       analytics.controller.sync({
@@ -107,7 +113,7 @@ function AnalyticsConsentProvider({ children }) {
       return undefined;
     }
     return undefined;
-  }, [analytics, consent, location.pathname, production]);
+  }, [analytics, consent, location.hash, location.pathname, location.search, production]);
 
   useEffect(() => {
     const onStorage = (event) => {

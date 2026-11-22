@@ -24,7 +24,7 @@ import {
   createAnalyticsController,
   gtagScriptUrl,
 } from "../src/analytics/ga4Loader.js";
-import { toAnalyticsPageView } from "../src/analytics/pageView.js";
+import { isAnalyticsDocumentEligible, toAnalyticsPageView } from "../src/analytics/pageView.js";
 import {
   isApprovedProductionEnvironment,
   isValidMeasurementId,
@@ -183,6 +183,10 @@ assert(toAnalyticsPageView("/Calculators", "https://foinwi.com") === null, "Non-
 assert(toAnalyticsPageView("/calculators", "http://localhost:5173") === null, "Local origins are not tracked");
 assert(toAnalyticsPageView("/calculators", "https://foinwi.com.evil.test") === null, "Lookalike origins are not tracked");
 assert(toAnalyticsPageView("/calculators", "https://www.foinwi.com").page_location === "https://www.foinwi.com/calculators", "www origin stays on www");
+assert(isAnalyticsDocumentEligible({ href: "https://foinwi.com/calculators", referrer: "" }), "A clean document can be eligible");
+assert(!isAnalyticsDocumentEligible({ href: "https://foinwi.com/emi-calculator?income=2500000", referrer: "" }), "A query string makes the document ineligible");
+assert(!isAnalyticsDocumentEligible({ href: "https://foinwi.com/calculators#answers", referrer: "" }), "A fragment makes the document ineligible");
+assert(!isAnalyticsDocumentEligible({ href: "https://foinwi.com/calculators", referrer: "https://foinwi.com/emi-calculator?income=2500000#answers" }), "A decorated referrer makes the document ineligible");
 
 listPublicSitemapPaths().forEach((publicPath) => {
   const page = toAnalyticsPageView(publicPath, "https://foinwi.com");
@@ -320,8 +324,11 @@ assert(app.includes("<AnalyticsConsentProvider>"), "App mounts the consent provi
 assert(app.indexOf("<AnalyticsConsentProvider>") > app.indexOf("<BrowserRouter>"), "Consent provider is inside the router");
 assert(app.includes('path="/guide-trial"'), "Guide Trial route remains");
 assert(!/gtag|googletagmanager|google-analytics|G-[A-Z0-9]{6,}/u.test(shell), "Shell files do not add Google Analytics");
-assert(!consentUi.includes("location.search"), "Consent UI does not read query strings");
-assert(!consentUi.includes("location.hash"), "Consent UI does not read hashes");
+assert(!consentUi.includes("toAnalyticsPageView(location.search"), "Consent UI does not send the query string as a page path");
+assert(!consentUi.includes("toAnalyticsPageView(location.hash"), "Consent UI does not send the fragment as a page path");
+assert(consentUi.includes("location.search"), "Consent UI rechecks eligibility when the query changes");
+assert(consentUi.includes("location.hash"), "Consent UI rechecks eligibility when the fragment changes");
+assert(consentUi.includes("isAnalyticsDocumentEligible"), "Consent UI checks the live URL and referrer");
 assert(!consentUi.includes("useSearchParams"), "Consent UI does not read search params");
 assert(consentUi.includes("shouldLoadGa4"), "Consent UI uses the production consent gate");
 assert(consentUi.includes("shouldSendPageView"), "Consent UI uses the page-view gate");
@@ -332,6 +339,8 @@ assert(consentUi.includes("Reject"), "Reject is an explicit choice");
 assert(!/analytics-consent__(accept|reject)/u.test(`${consentUi}\n${consentCss}`), "Accept and Reject do not get unequal modifiers");
 assert(read("src/components/Footer.jsx").includes("Privacy settings"), "Footer exposes persistent privacy settings");
 assert(loader.includes("send_page_view: false"), "Loader disables automatic page views");
+assert(loader.includes("isAnalyticsDocumentEligible"), "Loader blocks decorated documents before loading the tag");
+assert(loader.includes("navigationIsIneligible"), "Loader stops authoring before a decorated history change");
 assert(!loader.includes("analytics_storage"), "Loader does not start consent mode");
 assert(!loader.includes("collectGuard"), "Loader does not use a transport guard");
 assert(!/\bfetch\s*=/u.test(loader), "Loader does not replace fetch");
@@ -426,23 +435,34 @@ function createRouteHarness() {
       protocol: "https:",
       origin: "https://foinwi.com",
       pathname: "/calculators",
+      search: "",
+      hash: "",
+      href: "https://foinwi.com/calculators",
     },
     fetch: nativeFetch,
     navigator: { sendBeacon: nativeBeacon },
     history: {
       pushState(_state, _title, url) {
-        win.location.pathname = new URL(String(url), win.location.origin).pathname;
+        assignLocation(url);
       },
       replaceState(_state, _title, url) {
-        win.location.pathname = new URL(String(url), win.location.origin).pathname;
+        assignLocation(url);
       },
     },
     addEventListener(type, listener, capture) {
       listeners.push({ type, listener, capture });
     },
   };
+  function assignLocation(url) {
+    const parsed = new URL(String(url), win.location.origin);
+    win.location.pathname = parsed.pathname;
+    win.location.search = parsed.search;
+    win.location.hash = parsed.hash;
+    win.location.href = parsed.href;
+  }
   const doc = {
     cookie: "_ga=1; theme=light",
+    referrer: "",
     head: { appendChild(node) { elements.push(node); } },
     getElementById(id) {
       return elements.find((node) => node.id === id && !node.removed) ?? null;
@@ -457,7 +477,7 @@ function createRouteHarness() {
     measurementId,
     writeCookie: (line) => cookies.push(line),
   });
-  return { win, elements, cookies, listeners, controller, nativeFetch, nativeBeacon };
+  return { win, doc, elements, cookies, listeners, controller, nativeFetch, nativeBeacon };
 }
 
 const route = createRouteHarness();
@@ -468,13 +488,13 @@ assert(route.elements.length === 1, "An accepted public page still loads the tag
 assert(route.win[`ga-disable-${measurementId}`] === false, "An allowlisted page enables app authoring");
 const beforeSensitiveNavigation = JSON.stringify(queuedCommands(route.win));
 route.win.history.pushState({}, "", "/income-tax-calculator?income=2500000&search=aadhaar#answers");
-assert(JSON.stringify(queuedCommands(route.win)) === beforeSensitiveNavigation, "A query-only history update does not author a hit");
-assert(route.win[`ga-disable-${measurementId}`] === false, "An allowlisted path with a query stays eligible");
+assert(JSON.stringify(queuedCommands(route.win)) === beforeSensitiveNavigation, "A decorated history update does not author a hit");
+assert(route.win[`ga-disable-${measurementId}`] === true, "A decorated public URL disables app authoring before the URL changes");
+assert(route.elements.some((element) => element.id === GA4_SCRIPT_ID && !element.removed), "A later query does not claim the loaded Google script was unloaded");
 const sensitivePage = toAnalyticsPageView("/income-tax-calculator?income=2500000&search=aadhaar#answers", "https://foinwi.com");
 route.controller.sync({ collect: true, page: sensitivePage });
-const sensitiveView = pageViews(route.win).at(-1);
-assert(sensitiveView[2].page_path === "/income-tax-calculator", "The manual page view keeps the allowlisted path");
-assert(sensitiveView[2].page_location === "https://foinwi.com/income-tax-calculator", "The manual page view drops the query and hash");
+assert(JSON.stringify(queuedCommands(route.win)) === beforeSensitiveNavigation, "A decorated document does not queue a sanitized page view");
+assert(route.win[`ga-disable-${measurementId}`] === true, "A decorated document does not reactivate analytics");
 ["2500000", "aadhaar", "answers", "income=", "search=", "#"].forEach((secret) => {
   assert(!JSON.stringify(queuedCommands(route.win)).includes(secret), `Queued commands must not contain ${secret}`);
 });
@@ -522,6 +542,51 @@ assert(route.cookies.every((line) => !line.startsWith("theme=")), "Withdrawal do
 route.win.history.pushState({}, "", "/calculators");
 assert(route.win[`ga-disable-${measurementId}`] === true, "Navigation after withdrawal does not reopen tracking");
 assert(!route.win.gtag, "Navigation after withdrawal does not restore the stub");
+
+function loadDecorated(href, referrer = "") {
+  const harness = createRouteHarness();
+  const parsed = new URL(href);
+  harness.win.location.href = parsed.href;
+  harness.win.location.pathname = parsed.pathname;
+  harness.win.location.search = parsed.search;
+  harness.win.location.hash = parsed.hash;
+  harness.doc.referrer = referrer;
+  harness.controller.sync({ collect: true, page: calculators });
+  return harness;
+}
+
+const queryLoad = loadDecorated("https://foinwi.com/emi-calculator?income=2500000&search=aadhaar");
+assert(queryLoad.elements.length === 0, "A query-string URL does not load GA4");
+assert(pageViews(queryLoad.win).length === 0, "A query-string URL does not queue a page view");
+assert(queryLoad.win[`ga-disable-${measurementId}`] === true, "A query-string URL keeps collection disabled");
+
+const fragmentLoad = loadDecorated("https://foinwi.com/calculators#answers");
+assert(fragmentLoad.elements.length === 0, "A fragment URL does not load GA4");
+assert(pageViews(fragmentLoad.win).length === 0, "A fragment URL does not queue a page view");
+
+const referrerLoad = loadDecorated("https://foinwi.com/calculators", "https://foinwi.com/emi-calculator?income=2500000#answers");
+assert(referrerLoad.elements.length === 0, "A decorated referrer does not load GA4");
+assert(pageViews(referrerLoad.win).length === 0, "A decorated referrer does not queue a page view");
+assert(!JSON.stringify(queuedCommands(referrerLoad.win)).includes("2500000"), "A decorated referrer is not copied into the queue");
+
+const reactivation = createRouteHarness();
+reactivation.controller.sync({ collect: true, page: calculators });
+const viewsBeforeDecoration = pageViews(reactivation.win).length;
+reactivation.win.history.pushState({}, "", "/calculators?income=2500000#answers");
+assert(reactivation.win[`ga-disable-${measurementId}`] === true, "Clean-to-decorated navigation disables authoring");
+assert(pageViews(reactivation.win).length === viewsBeforeDecoration, "Clean-to-decorated navigation adds no page view");
+reactivation.win.gtag("event", "page_view", {
+  page_path: "/calculators",
+  page_location: "https://foinwi.com/calculators",
+});
+assert(pageViews(reactivation.win).length === viewsBeforeDecoration, "The app stub authors nothing while the URL is decorated");
+reactivation.win.history.pushState({}, "", "/");
+assert(reactivation.win[`ga-disable-${measurementId}`] === true, "A clean URL does not reactivate analytics by itself");
+reactivation.controller.sync({ collect: true, page: home });
+assert(reactivation.win[`ga-disable-${measurementId}`] === false, "A later clean document can author again");
+assert(pageViews(reactivation.win).at(-1)[2].page_location === "https://foinwi.com/", "Reactivation sends only the clean page");
+assert(!JSON.stringify(queuedCommands(reactivation.win)).includes("2500000"), "Reactivation does not retain the query value");
+assert(!JSON.stringify(queuedCommands(reactivation.win)).includes("aadhaar"), "Reactivation does not retain search text");
 
 if (failures.length) {
   console.error(`Analytics validation failed: ${failures.length} of ${checks} checks`);

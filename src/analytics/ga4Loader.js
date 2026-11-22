@@ -1,4 +1,4 @@
-import { cleanPageView, toAnalyticsPageView } from "./pageView.js";
+import { cleanPageView, hasAnalyticsUrlDecoration, isAnalyticsDocumentEligible, toAnalyticsPageView } from "./pageView.js";
 import {
   analyticsCookieNames,
   expiredCookieDirectives,
@@ -109,20 +109,33 @@ export function createAnalyticsController({
     rememberPath("");
   }
 
+  function documentEligible() {
+    return isAnalyticsDocumentEligible({
+      href: typeof win?.location?.href === "string" ? win.location.href : "",
+      referrer: typeof doc?.referrer === "string" ? doc.referrer : "",
+    });
+  }
+
+  function navigationIsIneligible(url) {
+    if (hasAnalyticsUrlDecoration(doc?.referrer)) return true;
+    if (hasAnalyticsUrlDecoration(url == null ? win?.location?.href : String(url))) return true;
+    const target = url == null ? win?.location?.pathname : url;
+    return !pageForNavigation(target, win?.location?.origin);
+  }
+
   function installNavigationClose() {
     try {
       const history = win?.history;
       if (!history || history.__foinwiNavClose || typeof history.pushState !== "function") return;
       history.__foinwiNavClose = true;
       const wrap = (original) => function wrappedNavigation(...args) {
-        const url = args[2];
-        if (url != null && !pageForNavigation(url, win.location?.origin)) stopAuthoring();
+        if (navigationIsIneligible(args[2])) stopAuthoring();
         return original.apply(this, args);
       };
       history.pushState = wrap(history.pushState);
       if (typeof history.replaceState === "function") history.replaceState = wrap(history.replaceState);
       win.addEventListener?.("popstate", () => {
-        if (!pageForNavigation(win.location?.pathname, win.location?.origin)) stopAuthoring();
+        if (navigationIsIneligible(null)) stopAuthoring();
       }, true);
     } catch {
       // A sealed history object cannot be wrapped. The route effect still stops authoring.
@@ -208,7 +221,7 @@ export function createAnalyticsController({
       }
 
       const clean = cleanPageView(page);
-      if (!clean || !isValidMeasurementId(measurementId) || !win || !doc) {
+      if (!clean || !documentEligible() || !isValidMeasurementId(measurementId) || !win || !doc) {
         stopAuthoring();
         return;
       }

@@ -31,6 +31,14 @@ export function sanitizeAnalyticsPath(value, allowlist = publicAnalyticsAllowlis
   return normalized;
 }
 
+export function hasAnalyticsUrlDecoration(value) {
+  return typeof value === "string" && /[?#]/u.test(value);
+}
+
+export function isAnalyticsDocumentEligible({ href = "", referrer = "" } = {}) {
+  return !hasAnalyticsUrlDecoration(href) && !hasAnalyticsUrlDecoration(referrer);
+}
+
 export function toAnalyticsPageView(pathname, origin, allowlist = publicAnalyticsAllowlist()) {
   if (!APPROVED_ORIGINS.has(origin)) return null;
   const pagePath = sanitizeAnalyticsPath(pathname, allowlist);
