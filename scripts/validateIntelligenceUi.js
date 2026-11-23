@@ -83,10 +83,19 @@ assert(!/future health-score insights/iu.test(page), "M: Must not describe Healt
 assert(!/Financial Health Score (is |itself is )?(coming soon|unavailable|not available)/iu.test(page), "M: Must not claim Health Score itself is unavailable");
 assert(/The Financial Health Score tool itself is available today/u.test(page), "M: Health Score must remain described as available today");
 
-assert(/Advanced AI assistance is in development/u.test(page), "N: Advanced AI assistance must be described as in development");
-assert(/Not available today/u.test(page), "N: Phase 2 interactive assistant must be marked as not available today");
-assert(/Future guardrailed interactive assistant/u.test(page), "N: Phase 2 must remain a future guardrailed assistant");
-assert(/Educational discovery \+ static guided preview/u.test(page), "N: Phase 1 must describe current educational discovery and static preview");
+assert(/FOINWI does not provide a live AI assistant/u.test(page), "N: Intelligence must state there is no live AI assistant");
+assert(/Open a tool for this question/u.test(page), "N: Assistance heading must open a tool available today");
+assert(/What you select stays in this browser/u.test(page), "N: Selection disclosure must stay browser-local");
+assert(/It is not sent to an AI model/u.test(page), "N: Selection disclosure must state it is not sent to an AI model");
+assert(/FOINWI Intelligence helps you find live educational tools/u.test(page), "N: Trust copy must describe live educational tools");
+assert(/Educational guidance only/u.test(page), "N: Educational guidance disclosure must remain");
+assert(/Returns are not assured/u.test(page), "N: Returns disclosure must remain");
+assert(/No personalized financial, legal, tax, or investment advice/u.test(page), "N: Non-advisory disclosure must remain");
+assert(/No live AI assistant/u.test(page), "N: Trust list must state there is no live AI assistant");
+assert(!/Coming Soon/u.test(page), "N: Public Intelligence page must not show Coming Soon");
+assert(!/FOINWI Intelligence Roadmap/u.test(page), "N: Public Intelligence page must not show a future roadmap");
+assert(!/Advanced AI assistance is in development/u.test(page), "N: Public Intelligence page must not describe assistance as unfinished");
+assert(!/Future guardrailed interactive assistant/u.test(page), "N: Public Intelligence page must not advertise a future assistant");
 
 assert(/from ["']\.\.\/assets\/guide\/fg-money-tree\.png["']/u.test(page), "O: FOINWI Guide asset must use fg-money-tree.png");
 assert(fs.existsSync(mascotPath), "O: src/assets/guide/fg-money-tree.png must exist");

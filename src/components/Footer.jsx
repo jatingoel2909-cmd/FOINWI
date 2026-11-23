@@ -24,11 +24,13 @@ function Footer() {
         <Link to="/disclaimer">Disclaimer</Link>
         <Link to="/#contact">Contact</Link>
       </nav>
-      <p className="shrix-footer__contact" id="contact">
-        For general queries, feedback, calculator issues, partnership requests, or
-        collaboration, contact us at{" "}
-        <a href="mailto:support@foinwi.com">support@foinwi.com</a>.
-      </p>
+      <p
+        className="shrix-footer__contact"
+        id="contact"
+        dangerouslySetInnerHTML={{
+          __html: "For general queries, feedback, calculator issues, partnership requests, or collaboration, contact us at <!--email_off--><a href=\"mailto:support@foinwi.com\">support@foinwi.com</a><!--/email_off-->.",
+        }}
+      />
       <small>
         FOINWI provides educational financial tools only. We do not provide
         personalized investment, tax, loan, legal, or financial advice.

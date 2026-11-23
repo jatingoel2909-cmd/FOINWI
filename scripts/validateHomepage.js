@@ -64,9 +64,15 @@ assert(!/\b(openai|anthropic|groq|gemini|claude)\b/iu.test(preview), "H: Intelli
 assert(!/\b(apiKey|OPENAI|ANTHROPIC|VITE_OPENAI)\b/u.test(preview), "H: Intelligence preview must not include frontend API keys");
 assert(!/\bfetch\s*\(/u.test(preview), "H: Intelligence preview must not call a backend");
 
-assert(/Static concept preview/u.test(preview), "I: Preview must be labeled a static concept preview");
-assert(/not a live assistant|static concept preview/iu.test(preview), "I: Preview must remain explicitly non-live");
-assert(/Advanced AI assistance is in development/u.test(preview), "J: Advanced AI assistance must be described as in development");
+assert(/Study a money question with live tools/u.test(preview), "I: Preview heading must point to live tools");
+assert(/fixed educational map/u.test(preview), "I: Preview must describe a fixed educational map");
+assert(/does not provide a live AI assistant/u.test(preview), "I: Preview must state there is no live AI assistant");
+assert(/does not chat/u.test(preview), "I: Preview must state the Intelligence page does not chat");
+assert(/does not send a question to an AI model/u.test(preview), "I: Preview must state a question is not sent to an AI model");
+assert(!/Coming Soon/u.test(preview), "J: Preview must not use Coming Soon");
+assert(!/shrix-ai-chat-bubble/u.test(preview), "J: Preview must not use a chat presentation");
+assert(!/AI SIP Explainer|AI EMI Guide|AI Tax Helper|AI Retirement Planner/u.test(preview), "J: Preview must not list unavailable AI tool cards");
+assert(!/Advanced AI assistance is in development/u.test(preview), "J: Preview must not describe the product as unfinished AI");
 assert(!/View AI Roadmap/u.test(preview), "F: CTA must not still say View AI Roadmap");
 
 assert(!/AI-powered financial clarity/iu.test(homepageSource), 'K: Must not claim "AI-powered financial clarity"');

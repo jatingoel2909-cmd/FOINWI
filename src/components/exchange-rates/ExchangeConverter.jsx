@@ -227,6 +227,17 @@ function ExchangeConverter() {
         exchange-counter, broker, or transaction rates. Fees, spreads, taxes, and
         provider-specific charges are not included.
       </p>
+
+      <section className="er-reading" aria-labelledby="exchange-reading-title">
+        <h2 id="exchange-reading-title">How to read a reference rate</h2>
+        <ol>
+          <li>A reference rate is an educational indication. It is not a transaction price.</li>
+          <li>When the currencies differ, the converted amount appears only after a rate is successfully retrieved.</li>
+          <li>Refresh requests an updated retrieval from the same source.</li>
+          <li>Same-currency conversion does not require an external rate.</li>
+          <li>Fees, spreads, taxes and provider charges can change the amount received.</li>
+        </ol>
+      </section>
     </section>
   );
 }

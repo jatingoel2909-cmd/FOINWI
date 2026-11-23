@@ -102,6 +102,18 @@ validation("route, separation, trust copy, and failure states exist", () => {
   ["navigator.onLine", "timed out", "provider-unavailable", "invalid-response", "unsupported-currency", "stale", "Refresh"].forEach((term) => {
     assert(converter.includes(term) || clientHas(term), `Required failure state is missing: ${term}`);
   });
+  [
+    "How to read a reference rate",
+    "A reference rate is an educational indication. It is not a transaction price.",
+    "When the currencies differ, the converted amount appears only after a rate is successfully retrieved.",
+    "Refresh requests an updated retrieval from the same source.",
+    "Same-currency conversion does not require an external rate.",
+    "Fees, spreads, taxes and provider charges can change the amount received.",
+  ].forEach((copy) => {
+    assert(converter.includes(copy), `Exchange reading copy is missing: ${copy}`);
+  });
+  assert(!/sourcePublishedAt\s*=\s*["']\d{4}/u.test(converter), "Converter must not hardcode a source timestamp");
+  assert(!/\b1\s+[A-Z]{3}\s*=\s*\d/u.test(converter), "Converter must not hardcode a live exchange rate");
 });
 
 function clientHas(term) {

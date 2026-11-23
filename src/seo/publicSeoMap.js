@@ -53,7 +53,7 @@ const STATIC_PAGES = {
   ),
   "/ai-tools": entry(
     "FOINWI Intelligence | Educational Guidance",
-    "Explore FOINWI Intelligence through educational calculators, learning, and journeys. Advanced AI assistance is in development.",
+    "Choose a calculator, lesson, journey, or the Financial Health Score. FOINWI does not provide a live AI assistant.",
   ),
   "/exchange-rates": entry(
     "Exchange Rates | FOINWI",

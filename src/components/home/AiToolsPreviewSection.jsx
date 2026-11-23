@@ -1,39 +1,5 @@
 import { Link } from "react-router-dom";
 
-const chatPreview = [
-  {
-    user: "How much SIP do I need for ₹1 crore?",
-    ai: "Preview: When available, a guardrailed assistant may explain estimated monthly SIP needs and calculator results step by step.",
-  },
-  {
-    user: "Can I afford this EMI?",
-    ai: "Preview: When available, a guardrailed assistant may help compare EMI, income, tenure, and affordability in simple language.",
-  },
-  {
-    user: "How should I plan retirement?",
-    ai: "Preview: When available, a guardrailed assistant may explain inflation, savings gaps, and planning concepts — not personalised advice.",
-  },
-];
-
-const aiTools = [
-  {
-    title: "AI SIP Explainer",
-    text: "Understand SIP results, long-term wealth growth, investment gaps, and goal-based monthly contribution needs.",
-  },
-  {
-    title: "AI EMI Guide",
-    text: "Understand EMI, tenure, interest cost, repayment choices, and loan affordability in simple language.",
-  },
-  {
-    title: "AI Tax Helper",
-    text: "Learn salary, tax regime, deductions, HRA, and basic tax planning concepts for Indian users.",
-  },
-  {
-    title: "AI Retirement Planner",
-    text: "Estimate future retirement needs, inflation impact, monthly savings gap, and long-term planning direction.",
-  },
-];
-
 function AiToolsPreviewSection() {
   return (
     <section
@@ -44,45 +10,18 @@ function AiToolsPreviewSection() {
 
       <article className="shrix-ai-assistant-preview">
         <div className="shrix-ai-assistant-preview__header">
-          <h2>Future assistant preview</h2>
-          <span className="shrix-ai-assistant-preview__badge">Coming Soon</span>
+          <h2>Study a money question with live tools</h2>
         </div>
 
         <p className="shrix-ai-assistant-preview__subtitle">
-          Advanced AI assistance is in development. Today, FOINWI Intelligence
-          helps you discover live FOINWI tools through structured educational
-          guidance, including a static Guided Preview.
+          Calculators, lessons, journeys, and the Financial Health Score are available today.
+          FOINWI does not provide a live AI assistant.
         </p>
-
-        <div className="shrix-ai-assistant-preview__chat">
-          {chatPreview.map((exchange) => (
-            <div className="shrix-ai-assistant-preview__exchange" key={exchange.user}>
-              <div className="shrix-ai-chat-bubble shrix-ai-chat-bubble--user">
-                <span className="shrix-ai-chat-bubble__label">Preview question</span>
-                <p>{exchange.user}</p>
-              </div>
-              <div className="shrix-ai-chat-bubble shrix-ai-chat-bubble--ai">
-                <span className="shrix-ai-chat-bubble__label">Coming Soon</span>
-                <p>{exchange.ai}</p>
-              </div>
-            </div>
-          ))}
-        </div>
 
         <p className="shrix-ai-assistant-preview__disclaimer">
-          Static concept preview. Advanced AI assistance is in development.
+          The Intelligence page is a fixed educational map. It does not chat, and it does not send a question to an AI model.
         </p>
       </article>
-
-      <div className="shrix-home-grid shrix-home-grid--4 shrix-ai-preview-grid">
-        {aiTools.map((tool) => (
-          <article className="shrix-home-card shrix-ai-preview-card" key={tool.title}>
-            <h3>{tool.title}</h3>
-            <p>{tool.text}</p>
-            <span className="shrix-home-badge shrix-ai-preview-badge">Coming Soon</span>
-          </article>
-        ))}
-      </div>
 
       <div className="shrix-home-section__action">
         <Link to="/ai-tools" className="shrix-view-all-btn">

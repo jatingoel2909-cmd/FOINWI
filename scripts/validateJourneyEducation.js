@@ -213,7 +213,8 @@ assert(!schedule.includes("Download CSV"), "Amortization page must not offer CSV
 assert(schedule.includes("emi-amort-tab-monthly") && schedule.includes("emi-amort-tab-yearly"), "Monthly and yearly schedules must remain");
 
 const aiTools = readFileSync(join(sourceRoot, "src/pages/AiToolsPage.jsx"), "utf8");
-assert(aiTools.includes("not a chatbot and not live AI assistance"), "AI Tools must say the assistant is not live");
+assert(aiTools.includes("does not chat"), "AI Tools must say it does not chat");
+assert(aiTools.includes("does not provide a live AI assistant"), "AI Tools must say there is no live AI assistant");
 assert(aiTools.includes("The Financial Health Score tool itself is available today"), "Financial Health Score must stay described as available");
 assert(!/<textarea\b/iu.test(aiTools), "AI Tools must not gain a chat box");
 

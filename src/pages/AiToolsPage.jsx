@@ -13,41 +13,6 @@ const INTELLIGENCE_LAYERS = [
   { icon: "♥", title: "Financial Health Score", description: "An educational snapshot of planning habits you can use today.", to: "/financial-health-score", ariaLabel: "Open Financial Health Score" },
 ];
 
-const MODULES = [
-  {
-    icon: "🏠", title: "EMI Intelligence",
-    description: "Understand EMI, tenure, interest burden, prepayment impact, and loan trade-offs.",
-  },
-  {
-    icon: "📈", title: "Investment Intelligence",
-    description: "Understand SIP, compounding, inflation, goal planning, and long-term wealth-building concepts.",
-  },
-  {
-    icon: "🧾", title: "Tax Intelligence",
-    description: "Understand tax calculator results, taxable income, deductions, and regime comparison in simple language.",
-  },
-  {
-    icon: "🎯", title: "Goal Intelligence",
-    description: "Break large financial goals into smaller monthly planning steps.",
-  },
-  {
-    icon: "📚", title: "Learning Intelligence",
-    description: "Convert finance terms into simple explanations for beginners.",
-  },
-  {
-    icon: "♥", title: "Financial Health Intelligence",
-    description: "Deeper guided explanation of Health Score results — planned. The Financial Health Score tool itself is available today.",
-  },
-];
-
-const ROADMAP = [
-  { phase: "Phase 1", title: "Educational discovery + static guided preview", copy: "This page, live FOINWI tools, and the static topic-to-resource preview.", status: "Current" },
-  { phase: "Phase 2", title: "Future guardrailed interactive assistant", copy: "A later interactive assistant with safety boundaries. Not available today.", status: "Planned" },
-  { phase: "Phase 3", title: "Controlled AI Chat Beta", copy: "Limited educational AI conversations with guardrails, if introduced later.", status: "Future" },
-  { phase: "Phase 4", title: "Dashboard Intelligence", copy: "Connect goals, calculators, and learning journeys in a later educational layer.", status: "Future" },
-  { phase: "Phase 5", title: "Verified Partner Pathways", copy: "Explore verified provider discovery only after trust processes are ready.", status: "Future" },
-];
-
 const GUIDED_FLOWS = [
   {
     id: "loan",
@@ -136,19 +101,13 @@ function AiToolsPage() {
         <section className="fi-ai__hero" aria-labelledby="fi-ai-title">
           <div className="fi-ai__hero-inner">
             <div className="fi-ai__hero-copy">
-              <p className="shrix-section-label">Advanced AI assistance in development</p>
+              <p className="shrix-section-label">Educational tools</p>
               <h1 id="fi-ai-title">FOINWI Intelligence</h1>
               <p className="fi-ai__lead">
-                Educational financial intelligence, built for clearer decisions.
+                Choose a calculator, lesson, journey, or the Financial Health Score. FOINWI does not provide a live AI assistant.
               </p>
               <p className="fi-ai__intro">
-                Advanced AI assistance is in development. Today, FOINWI Intelligence helps you
-                discover and understand existing FOINWI tools through structured educational
-                guidance.
-              </p>
-              <p className="fi-ai__live">
-                Live today: Financial Calculators, Learn, Journeys, Financial Health Score,
-                structured discovery, and a static Guided Preview. These are not AI-powered.
+                What you select stays in this browser. It is not sent to an AI model, and it is not personalised advice.
               </p>
               <div className="fi-ai__actions">
                 <Link to="/calculators" className="fi-ai__button fi-ai__button--primary">
@@ -179,7 +138,7 @@ function AiToolsPage() {
           <div className="fi-ai__section-head">
             <p className="shrix-section-label">Explore FOINWI</p>
             <h2 id="fi-ai-layer-title">FOINWI Knowledge &amp; Planning Surfaces</h2>
-            <p>These are live FOINWI areas you can use today. Future intelligence may help coordinate across them. They are not AI-powered on their own.</p>
+            <p>These are live FOINWI areas you can use today. The Financial Health Score tool itself is available today. They are educational tools, not a live assistant.</p>
           </div>
           <div className="fi-ai__layer-grid">
             {INTELLIGENCE_LAYERS.map((layer) => (
@@ -194,10 +153,10 @@ function AiToolsPage() {
 
         <section className="fi-ai__section fi-ai__assist" aria-labelledby="fi-ai-assist-title">
           <div className="fi-ai__section-head">
-            <p className="shrix-section-label">Planned Assistance</p>
-            <h2 id="fi-ai-assist-title">How FOINWI Intelligence Will Assist</h2>
-            <p>FOINWI Intelligence is planned to explain financial concepts, calculator results, and next steps in a calm, educational way.</p>
-            <p>That assistant is not available today. The links in this section open calculators, lessons, and journeys you can use now. They are not a chatbot and not live AI assistance.</p>
+            <p className="shrix-section-label">Available tools</p>
+            <h2 id="fi-ai-assist-title">Open a tool for this question</h2>
+            <p>Open a calculator, lesson, or journey for the question in front of you.</p>
+            <p>These links stay on FOINWI. This section does not chat, and it does not send a question to an AI model.</p>
           </div>
           <div className="fi-ai__assist-grid">
             <article className="fi-ai__assist-card">
@@ -296,22 +255,10 @@ function AiToolsPage() {
               </div>
             ) : null}
             <p className="fi-ai__guided-safety">
-              This is a fixed educational topic-to-resource map. It is not a live AI assistant,
-              not personalized, not stored, and not sent to a backend. Educational guidance only —
-              not financial, investment, tax, legal, or loan advice.
+              This is a fixed educational topic-to-resource map. It is not a live assistant,
+              not a live AI assistant, not personalized, not stored, and not sent to a backend.
+              Educational guidance only — not financial, investment, tax, legal, or loan advice.
             </p>
-          </div>
-        </section>
-
-        <section className="fi-ai__section" aria-labelledby="fi-ai-modules-title">
-          <div className="fi-ai__section-head"><p className="shrix-section-label">Coming Soon</p><h2 id="fi-ai-modules-title">What FOINWI Intelligence Will Power</h2></div>
-          <div className="fi-ai__capability-grid">
-            {MODULES.map((module) => (
-              <article key={module.title} className="fi-ai__capability">
-                <div className="fi-ai__capability-top"><span className="fi-ai__capability-icon" aria-hidden="true">{module.icon}</span><span className="fi-ai__badge">Coming Soon</span></div>
-                <h3>{module.title}</h3><p>{module.description}</p>
-              </article>
-            ))}
           </div>
         </section>
 
@@ -319,42 +266,22 @@ function AiToolsPage() {
           <div className="fi-ai__section-head">
             <p className="shrix-section-label">Trust &amp; Safety</p>
             <h2 id="fi-ai-trust-title">Built With Financial Trust Boundaries</h2>
-            <p>FOINWI Intelligence currently helps you find live educational tools. It does not replace qualified professionals or make decisions for you. Advanced AI assistance remains planned.</p>
+            <p>FOINWI Intelligence helps you find live educational tools. It does not replace qualified professionals or make decisions for you.</p>
           </div>
           <ul className="fi-ai__trust-list">
             <li>Educational guidance only</li>
-            <li>Live tools are separate from planned AI assistance</li>
+            <li>No live AI assistant</li>
             <li>Returns are not assured</li>
             <li>No loan-approval claims</li>
             <li>No personalized financial, legal, tax, or investment advice</li>
             <li>This preview does not collect sensitive financial data</li>
           </ul>
         </section>
-
-        <section className="fi-ai__section fi-ai__roadmap" aria-labelledby="fi-ai-roadmap-title">
-          <div className="fi-ai__section-head">
-            <p className="shrix-section-label">Roadmap</p>
-            <h2 id="fi-ai-roadmap-title">FOINWI Intelligence Roadmap</h2>
-          </div>
-          <ol className="fi-ai__roadmap-list">
-            {ROADMAP.map((item, index) => (
-              <li key={item.phase} className={index === 0 ? "is-current" : ""}>
-                <span className="fi-ai__roadmap-number">{index + 1}</span>
-                <div>
-                  <p>{item.phase}</p>
-                  <h3>{item.title}</h3>
-                  <span className="fi-ai__roadmap-copy">{item.copy}</span>
-                </div>
-                <span className="fi-ai__roadmap-status">{item.status}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
         <section className="fi-ai__final" aria-labelledby="fi-ai-final-title">
           <div>
             <p className="shrix-section-label">Start Here</p>
             <h2 id="fi-ai-final-title">Start With Clarity Today</h2>
-            <p>You can use calculators, Learn, Journeys, and the Financial Health Score today. Advanced AI assistance is still in development.</p>
+            <p>You can use calculators, Learn, Journeys, and the Financial Health Score today. FOINWI does not provide a live AI assistant.</p>
           </div>
           <div className="fi-ai__actions">
             <Link to="/calculators" className="fi-ai__button fi-ai__button--primary">Explore Calculators</Link>

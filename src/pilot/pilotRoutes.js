@@ -78,12 +78,12 @@ export const STATIC_HTML_ROUTES = [
 ];
 
 const STATIC_HTML_MARKERS = {
-  "/": ["Grow Beyond", "Welcome to FOINWI", "Start with Useful Calculators"],
+  "/": ["Grow Beyond", "Welcome to FOINWI", "Start with Useful Calculators", "Study a money question with live tools"],
   "/about": ["Financial Clarity for Every Indian", "Who We Are"],
-  "/ai-tools": ["FOINWI Intelligence", "Advanced AI assistance in development"],
+  "/ai-tools": ["FOINWI Intelligence", "FOINWI does not provide a live AI assistant"],
   "/calculators": ["All Financial Calculators", "Exchange Rates"],
   "/disclaimer": ["Disclaimer", "Important information about how to use FOINWI responsibly."],
-  "/exchange-rates": ["FOINWI Exchange Rates", "Loading the latest available reference rate"],
+  "/exchange-rates": ["FOINWI Exchange Rates", "Loading the latest available reference rate", "How to read a reference rate"],
   "/financial-health-score": ["Understand Your Financial Wellness", "Start Assessment"],
   "/learn": ["Learn Finance Step by Step", "FOINWI Learn Academy"],
   "/privacy-policy": ["Privacy Policy", "Information We Collect"],
