@@ -336,8 +336,71 @@ if (await exists(builtHomePath)) {
   assert(!(await exists(path.join(distDir, "api.html"))), "API paths must not receive route HTML");
   assert(!(await exists(path.join(distDir, "api", "index.html"))), "API paths must not receive a directory index");
 
+  const notFoundPath = path.resolve(distDir, "404.html");
+  assert(await exists(notFoundPath), "Built 404.html is missing");
+  if (await exists(notFoundPath)) {
+    const notFound = await readFile(notFoundPath, "utf8");
+    assert(titleText(notFound, "Built 404") === "Page not found | FOINWI", "Built 404 title must identify the missing page");
+    const notFoundHeadings = [...notFound.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((match) =>
+      decodeHtml(match[1]).replace(/\s+/g, " ").trim(),
+    );
+    assert(
+      notFoundHeadings.length === 1 && notFoundHeadings[0] === "We could not find that page",
+      "Built 404 must contain one not-found heading",
+    );
+    assert(
+      metaContent(notFound, "name", "robots", "Built 404 robots") === "noindex, nofollow",
+      "Built 404 must be noindex, nofollow",
+    );
+    assert(!/<link\b[^>]*\brel\s*=\s*"canonical"/i.test(notFound), "Built 404 must not declare a canonical URL");
+    assert(!notFound.includes("data-foinwi-hydrate"), "Built 404 must not include a hydration marker");
+    assert(!/<script\b/i.test(notFound), "Built 404 must not load a script");
+    assert(!notFound.includes("/assets/"), "Built 404 must not reference a hashed build asset");
+    for (const href of ["/", "/calculators", "/learn", "/financial-health-score"]) {
+      assert(notFound.includes(`href="${href}"`), `Built 404 must link to ${href}`);
+    }
+  }
+
+  const projectDir = path.resolve(distDir, "..");
+  const publicRedirectsPath = path.join(projectDir, "public", "_redirects");
+  const builtRedirectsPath = path.join(distDir, "_redirects");
+  assert(!(await exists(publicRedirectsPath)), "public/_redirects must stay absent");
+  assert(!(await exists(builtRedirectsPath)), "dist/_redirects must stay absent");
+
+  const guideFunctionPath = path.join(projectDir, "functions", "guide-trial.js");
+  assert(await exists(guideFunctionPath), "Guide Trial Function is missing");
+  assert(!(await exists(path.join(projectDir, "functions", "_middleware.js"))), "Pages middleware must stay absent");
+  assert(!(await exists(path.join(projectDir, "functions", "[[path]].js"))), "A catch-all Pages Function must stay absent");
+  assert(!(await exists(path.join(projectDir, "functions", "guide-trial"))), "Guide Trial must not use a nested Function route");
+  if (await exists(guideFunctionPath)) {
+    const guideFunction = await readFile(guideFunctionPath, "utf8");
+    assert(/export\s+async\s+function\s+onRequestGet\b/.test(guideFunction), "Guide Trial Function must export onRequestGet");
+    assert(!/export\s+(?:async\s+)?function\s+onRequest\b/.test(guideFunction), "Guide Trial Function must not export onRequest");
+    assert(!/^\s*import\s/m.test(guideFunction), "Guide Trial Function must stay dependency-free");
+    assert(guideFunction.includes("context.env.ASSETS.fetch"), "Guide Trial Function must fetch the asset binding");
+    assert(guideFunction.includes('pathname = "/"'), "Guide Trial Function must fetch the root path");
+    assert(!guideFunction.includes("/index.html"), "Guide Trial Function must not fetch /index.html");
+    assert(guideFunction.includes('"/guide-trial"'), "Guide Trial Function must match /guide-trial");
+    assert(guideFunction.includes('"/guide-trial/"'), "Guide Trial Function must match /guide-trial/");
+    assert(!guideFunction.includes("/guide-trial/notes"), "Guide Trial Function must not special-case deeper paths");
+    assert(!guideFunction.includes("[[path]]"), "Guide Trial Function must not declare a splat route");
+    assert(/x-robots-tag/i.test(guideFunction), "Guide Trial Function must set X-Robots-Tag");
+    assert(guideFunction.includes("noindex, nofollow"), "Guide Trial Function must send noindex, nofollow");
+    for (const headerName of [
+      "content-security-policy",
+      "x-content-type-options",
+      "referrer-policy",
+      "permissions-policy",
+      "x-frame-options",
+      "cross-origin-opener-policy",
+    ]) {
+      assert(guideFunction.includes(`"${headerName}"`), `Guide Trial Function must preserve ${headerName}`);
+    }
+  }
+
   const expectedFiles = new Set([
     path.resolve(builtHomePath),
+    notFoundPath,
     ...publicPaths
       .filter((item) => item !== "/")
       .map((item) => path.resolve(routeHtmlPath(distDir, item))),
